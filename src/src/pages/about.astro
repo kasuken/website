@@ -1,0 +1,149 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import ContactCTA from "../components/ContactCTA.astro";
+import Hero from "../components/Hero.astro";
+---
+
+<BaseLayout
+  title="About | Emanuele Bartolesi"
+  description="About Emanuele Bartolesi"
+>
+  <div class="stack gap-20">
+    <main class="wrapper about">
+      <Hero
+        title="About"
+        tagline="Thanks for stopping by. Read below to learn more about myself and my background."
+      >
+        <img
+          width="1553"
+          height="873"
+          src="/assets/1500x500.jpg"
+          alt="Emanuele Bartolesi"
+        />
+      </Hero>
+
+      <section>
+        <h2 class="section-title">Background</h2>
+        <div class="content">
+          <p>
+            Hi, I'm Emanuele Bartolesi, a Microsoft 365 and Azure Architect. I
+            have over 15 years of experience in the IT industry, working as a
+            developer, consultant, trainer, and speaker. I'm passionate about
+            frontend technologies and everything related to the cloud,
+            especially Microsoft Azure. I have designed and implemented
+            solutions for various domains, such as e-commerce, banking,
+            insurance, and healthcare.
+          </p>
+          <p>
+            I currently live in Zurich and actively participate in local and
+            international community activities and events. I’m a co-organizer of
+            the .NET User Group Zurich and a regular speaker at conferences and
+            meetups. I share my love for technology through my blog
+            dev.to/kasuken and my live coding sessions on Twitch.
+          </p>
+          <p>
+            I’m also a Microsoft MVP since 2014, a GitHub Star ⭐ since 2 years,
+            and a technical author and instructor. I wrote a book about Minimal
+            APIs in ASP.NET Core and a course on Learning GitHub for LinkedIn
+            Learning. I enjoy teaching and mentoring others, and I’m always
+            eager to learn new things and explore new possibilities. When I’m
+            not coding or writing, you can find me swimming, biking, or running.
+            I’m an Ironman finisher and I’m training for the next Ironman race
+            2024. I love challenging myself and pushing my limits, both
+            physically and mentally.
+          </p>
+          <p>
+            I’m also a desperate housewife, a Basset Hound lover, and a fan of
+            Ethel Merman. I have a great sense of humor and I like to make
+            people laugh. If you want to know more about me and my projects, you
+            can visit my website www.emanuelebartolesi.com or follow me on
+            Twitter, LinkedIn, and GitHub. I’m always open to new challenges and
+            collaborations, so feel free to reach out to me anytime.
+          </p>
+        </div>
+      </section>
+      <section>
+        <h2 class="section-title">Awards</h2>
+        <div class="content">
+          <p>Microsoft MVP Since 2014.</p>
+          <p>GitHub Star ⭐ since 2021.</p>
+          <p>Auth0 Ambassador.</p>
+          <p>Codemotion Ambassador.</p>
+        </div>
+      </section>
+      <section>
+        <h2 class="section-title">Skills</h2>
+        <div class="content">
+          <p>.NET</p>
+          <p>ASP.NET Core</p>
+          <p>Blazor</p>
+          <p>Microsoft Azure</p>
+          <p>Microsoft 365</p>
+          <p>JavaScript</p>
+          <p>TypeScript</p>
+        </div>
+      </section>
+    </main>
+
+    <ContactCTA />
+  </div>
+</BaseLayout>
+
+<style>
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  img {
+    margin-top: 1.5rem;
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--gray-200);
+  }
+
+  .section-title {
+    grid-column-start: 1;
+    font-size: var(--text-xl);
+    color: var(--gray-0);
+  }
+
+  .content {
+    grid-column: 2 / 4;
+  }
+
+  .content :global(a) {
+    text-decoration: 1px solid underline transparent;
+    text-underline-offset: 0.25em;
+    transition: text-decoration-color var(--theme-transition);
+  }
+
+  .content :global(a:hover),
+  .content :global(a:focus) {
+    text-decoration-color: currentColor;
+  }
+
+  @media (min-width: 50em) {
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 60% 1fr;
+    }
+
+    .about > :global(:first-child) {
+      grid-column-start: 2;
+    }
+
+    section {
+      display: contents;
+      font-size: var(--text-lg);
+    }
+  }
+</style>

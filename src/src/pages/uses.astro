@@ -1,0 +1,131 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import ContactCTA from "../components/ContactCTA.astro";
+import Hero from "../components/Hero.astro";
+---
+
+<BaseLayout
+  title="Uses | Emanuele Bartolesi"
+  description="What I use daily basis for work and personal projects."
+>
+  <div class="stack gap-20">
+    <main class="wrapper about">
+      <Hero
+        title="Uses"
+        tagline="What I use daily basis for work and personal projects on my machines."
+      >
+        <img
+          width="1553"
+          height="873"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/VS_Code_1.36.0-insider.png/1200px-VS_Code_1.36.0-insider.png"
+          alt="VS Code"
+        />
+      </Hero>
+
+      <section>
+        <h2 class="section-title">IDEs</h2>
+        <div class="content">
+          <p>
+            I use <a href="https://code.visualstudio.com/">VS Code</a> for
+            almost everything. I also use <a href="https://www.visualstudio.com/">Visual Studio 2022</a> for
+            some specific tasks.
+          </p>
+          <p>
+            I use <a href="https://www.jetbrains.com/rider/">Rider</a> for
+            .NET development.
+          </p>
+        </div>
+      </section>
+      <section>
+        <h2 class="section-title">Useful Apps</h2>
+        <div class="content">
+          
+          <!-- Notion, NordPass, Microsoft PowerToys -->
+
+          <p>
+            <a href="https://www.notion.so/">Notion</a> for Second Brain System, notes and
+            documentation.
+          </p>
+          <p>
+            <a href="https://nordpass.com/">NordPass</a> for password
+            management.
+          </p>
+
+        </div>
+      </section>
+      <section>
+        <h2 class="section-title">Skills</h2>
+        <div class="content">
+          <p>.NET</p>
+          <p>ASP.NET Core</p>
+          <p>Blazor</p>
+          <p>Microsoft Azure</p>
+          <p>Microsoft 365</p>
+          <p>JavaScript</p>
+          <p>TypeScript</p>
+        </div>
+      </section>
+    </main>
+
+    <ContactCTA />
+  </div>
+</BaseLayout>
+
+<style>
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  img {
+    margin-top: 1.5rem;
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--gray-200);
+  }
+
+  .section-title {
+    grid-column-start: 1;
+    font-size: var(--text-xl);
+    color: var(--gray-0);
+  }
+
+  .content {
+    grid-column: 2 / 4;
+  }
+
+  .content :global(a) {
+    text-decoration: 1px solid underline transparent;
+    text-underline-offset: 0.25em;
+    transition: text-decoration-color var(--theme-transition);
+  }
+
+  .content :global(a:hover),
+  .content :global(a:focus) {
+    text-decoration-color: currentColor;
+  }
+
+  @media (min-width: 50em) {
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 60% 1fr;
+    }
+
+    .about > :global(:first-child) {
+      grid-column-start: 2;
+    }
+
+    section {
+      display: contents;
+      font-size: var(--text-lg);
+    }
+  }
+</style>
