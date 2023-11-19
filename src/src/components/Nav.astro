@@ -4,22 +4,22 @@ import ThemeToggle from './ThemeToggle.astro';
 import type { iconPaths } from './IconPaths';
 
 /** Main menu items */
-const textLinks: { label: string; href: string }[] = [
-	{ label: 'Home', href: '/' },
-	{ label: 'Blog', href: 'https://dev.to/kasuken' },
-	{ label: 'Work', href: '/work/' },
-	{ label: 'Uses', href: '/uses/' },
-	{ label: 'About', href: '/about/' },
+const textLinks: { label: string; href: string; newWindow: boolean }[] = [
+	{ label: 'Home', href: '/', newWindow: false },
+	{ label: 'Blog', href: 'https://dev.to/kasuken', newWindow: true },
+	{ label: 'Work', href: '/work/', newWindow: false },
+	{ label: 'Uses', href: '/uses/', newWindow: false },
+	{ label: 'About', href: '/about/', newWindow: false }
 ];
 
 /** Icon links to social media — edit these with links to your profiles! */
 const iconLinks: { label: string; href: string; icon: keyof typeof iconPaths }[] = [
-	{ label: 'Twitter', href: 'https://twitter.com/me', icon: 'twitter-logo' },
-	{ label: 'Twitch', href: 'https://twitch.tv/me', icon: 'twitch-logo' },
-	{ label: 'GitHub', href: 'https://github.com/me', icon: 'github-logo' },
-	{ label: 'CodePen', href: 'https://codepen.io/me', icon: 'codepen-logo' },
-	{ label: 'dribbble', href: 'https://dribbble.com/me', icon: 'dribbble-logo' },
-	{ label: 'YouTube', href: 'https://www.youtube.com/@me/', icon: 'youtube-logo' },
+	{ label: 'Twitter', href: 'https://twitter.com/kasuken', icon: 'twitter-logo' },
+	{ label: 'Twitch', href: 'https://twitch.tv/kasuken', icon: 'twitch-logo' },
+	{ label: 'GitHub', href: 'https://github.com/kasuken', icon: 'github-logo' },
+	{ label: 'LinkedIn', href: 'https://www.linkedin.com/in/emanuelebartolesi/', icon: 'linkedin-logo' },
+	{ label: 'Instagram', href: 'https://www.instagram.com/kasuken/', icon: 'instagram-logo' },
+	{ label: 'Discord', href: 'https://discord.com/users/423067401140174851', icon: 'discord-logo' },
 ];
 ---
 
@@ -41,7 +41,7 @@ const iconLinks: { label: string; href: string; icon: keyof typeof iconPaths }[]
 	<noscript>
 		<ul class="nav-items">
 			{
-				textLinks.map(({ label, href }) => (
+				textLinks.map(({ label, href, newWindow }) => (
 					<li>
 						<a
 							aria-current={Astro.url.pathname === href}
@@ -53,7 +53,7 @@ const iconLinks: { label: string; href: string; icon: keyof typeof iconPaths }[]
 										(href !== '/' && Astro.url.pathname.startsWith(href)),
 								},
 							]}
-							href={href}
+							href={href} target={newWindow ? '_blank' : undefined}
 						>
 							{label}
 						</a>
