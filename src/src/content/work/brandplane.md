@@ -1,15 +1,22 @@
 ---
 title: Brandplane
 publishDate: 2023-11-18 00:00:00
-img: /assets/stock-2.jpg
-img_alt: A bright pink sheet of paper used to wrap flowers curves in front of rich blue background
+img: /assets/brandplanemock.png
+img_alt: Brandplane mockup
 description: |
-  We paired with a cutting-edge music API and a team of horticulturalists
-  to build AI-generated playlists that maximize houseplant health.
+  Brandplane is a SaaS platform that uses AI to generate strategies for brand identity. We worked with the Brandplane team to develop a brand identity and website that would appeal to their target audience of marketing professionals.
 tags:
-  - Dev
-  - Branding
-  - Backend
+  - Startup
+  - Marketing
+  - AI
 ---
 
 Brandplane is a SaaS platform that uses AI to generate strategies for brand identity. We worked with the Brandplane team to develop a brand identity and website that would appeal to their target audience of marketing professionals.
+
+In this project I work as CTO and lead developer. I am responsible for the technical direction of the project, as well as the implementation of the frontend and backend.
+
+## The Tech Stack
+Brandplane is built with Blazor, a C#-based web framework that compiles to WebAssembly. This allows us to write the entire application in C#, including the frontend, and have it run in the browser. The backend is built with ASP.NET Core, a C#-based web framework that runs on the server. The database is built with SQL Server, a relational database management system.
+Everything is hosted on Azure, Microsoft's cloud computing platform.
+
+More info on the tech stack can be found [here](https://docs.brandplane.co/).
