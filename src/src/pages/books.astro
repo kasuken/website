@@ -10,11 +10,8 @@ import Hero from "../components/Hero.astro";
   description="Books written by Emanuele Bartolesi"
 >
   <div class="stack gap-20">
-    <main class="wrapper about">
-      <Hero
-        title="Books"
-        tagline="The books I wrote and the books I'm writing"
-      >
+    <main class="wrapper stack gap-8">
+      <Hero title="Books" tagline="The books I wrote and the books I'm writing">
         <img
           width="1553"
           height="873"
@@ -24,35 +21,60 @@ import Hero from "../components/Hero.astro";
       </Hero>
 
       <section>
-        <h2 class="section-title">Minimal APIs with .NET (first edition)</h2>
         <div class="content">
+          <h2 class="section-title">
+              Mastering Minimal APIs in ASP.NET Core (First Edition)
+          </h2>
           <p>
-            <img src="/assets/minimal-apis-with-dotnet.jpg" alt="Minimal APIs with .NET" />
-            <a href="https://www.packtpub.com/product/minimal-apis-with-net/9781800565784">
-              Minimal APIs with .NET
-            </a>{" "}
-            is a book about the new Minimal APIs feature of ASP.NET Core 6.
+            The Minimal APIs feature, introduced in .NET 6, is the answer to
+            code complexity and rising dependencies in creating even the
+            simplest of APIs. Minimal APIs facilitate API development using
+            compact code syntax and help you develop web APIs quickly. This
+            practical guide explores Minimal APIs end-to-end and helps you take
+            advantage of its features and benefits for your ASP.NET Core
+            projects. The chapters in this book will help you speed up your
+            development process by writing less code and maintaining fewer files
+            using Minimal APIs. You’ll also learn how to enable Swagger for API
+            documentation along with CORS and handle application errors. The
+            book even promotes ideas to structure your code in a better way
+            using the dependency injection library in .NET. Finally, you'll
+            learn about performance and benchmarking improvements for your apps.
+            By the end of this book, you’ll be able to fully leverage new
+            features in .NET 6 for API development and explore how Minimal APIs
+            are an evolution over classical web API development in ASP.NET Core.
+            <br />
+            <a href="https://www.packtpub.com/product/mastering-minimal-apis-in-aspnet-core/9781803237824" target="_blank">
+              Buy on Packt
+            </a>
           </p>
 
+          <p style="text-align: center">
+            <img
+              src="https://sanet.pics/storage-8/1022/JnaxnZqPPsSpLCrWq1fDWD3I3Wvdorvj.jpg"
+              alt="Minimal APIs with .NET"
+              width="400"
+            />
+          </p>
+
+          <hr />
         </div>
       </section>
       <section>
-        <h2 class="section-title">Tech Talk made easy</h2>
         <div class="content">
-          <p>
-            <img src="/assets/tech-talk-made-easy.jpg" alt="Tech Talk made easy" />
-            <a href="https://www.packtpub.com/product/tech-talk-made-easy/9781800565784">
-              Tech Talk made easy
-            </a>{" "}
-            is a book about public speaking for developers.
+          <h2 class="section-title">Tech Talk made easy</h2>
+          <p style="text-align: center">
+            <img
+              src="https://sanet.pics/storage-8/1022/JnaxnZqPPsSpLCrWq1fDWD3I3Wvdorvj.jpg"
+              alt="Minimal APIs with .NET"
+              width="400"
+            />
           </p>
         </div>
       </section>
-
     </main>
-
-    <ContactCTA />
   </div>
+
+  <ContactCTA />
 </BaseLayout>
 
 <style>

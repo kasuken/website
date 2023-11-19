@@ -10,7 +10,7 @@ import Hero from "../components/Hero.astro";
   description="Courses I published and courses I'm working on"
 >
   <div class="stack gap-20">
-    <main class="wrapper about">
+    <main class="wrapper stack gap-8">
       <Hero
         title="Courses"
         tagline="The courses I published and the courses I'm working on"
@@ -24,31 +24,45 @@ import Hero from "../components/Hero.astro";
       </Hero>
 
       <section>
-        <h2 class="section-title">Learning GitHub</h2>
         <div class="content">
+          <h2 class="section-title">Learning GitHub</h2>
           <p>
-            <img src="/assets/minimal-apis-with-dotnet.jpg" alt="Minimal APIs with .NET" />
-            <a href="https://www.packtpub.com/product/minimal-apis-with-net/9781800565784">
-              Minimal APIs with .NET
-            </a>{" "}
-            is a book about the new Minimal APIs feature of ASP.NET Core 6.
+            <img src="/assets/learningithub.jpg" alt="Learning GitHub" />
           </p>
-
+          <p>
+            GitHub is the industry-standard tool for collaborating on and
+            sharing code. It's popular among software developers, project
+            managers, designers, and students for its flexibility and control.
+            This course introduces GitHub and Git, the version control system
+            that GitHub is built upon. Instructor Emanuele Bartolesi shows how
+            GitHub can create collaborative workflows for you and your team.
+            Explore how version control enables you and your team to track the
+            changes in your files, maintain a history of them, and get some
+            advice to work better with open-source projects. Emanuele gives you
+            the knowledge you need to be able to select appropriate projects to
+            be pushed to GitHub, successfully initialize Git on an existing
+            project, navigate the GitHub UI to perform common tasks like
+            branching, commits, and pull requests, and more.
+          </p>
         </div>
       </section>
       <section>
-        <h2 class="section-title">Git and GitFlow</h2>
         <div class="content">
+          <h2 class="section-title">Git and GitFlow</h2>
           <p>
-            <img src="/assets/tech-talk-made-easy.jpg" alt="Tech Talk made easy" />
-            <a href="https://www.packtpub.com/product/tech-talk-made-easy/9781800565784">
+            <img
+              src="/assets/tech-talk-made-easy.jpg"
+              alt="Tech Talk made easy"
+            />
+            <a
+              href="https://www.packtpub.com/product/tech-talk-made-easy/9781800565784"
+            >
               Tech Talk made easy
             </a>{" "}
             is a book about public speaking for developers.
           </p>
         </div>
       </section>
-
     </main>
 
     <ContactCTA />
