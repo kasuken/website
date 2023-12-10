@@ -1,0 +1,151 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import ContactCTA from "../components/ContactCTA.astro";
+import Hero from "../components/Hero.astro";
+---
+
+<BaseLayout
+  title="Newsletter | Emanuele Bartolesi"
+  description="Newsletter"
+>
+  <div class="stack gap-20">
+    <main class="wrapper stack gap-8">
+      <Hero title="Newsletter" tagline="My newsletter for developers">
+        <img
+          width="1553"
+          height="873"
+          src="/assets/devdispatch.png"
+          alt="Emanuele Bartolesi"
+        />
+      </Hero>
+
+      <section>
+        <div class="content">
+          <h2 class="section-title">
+              Dev Dispatch
+          </h2>
+          <p>
+            I send out a newsletter every <b>two weeks</b> or so with things I've been working on, things I've been reading, and <b>interesting things</b> I've found on the internet.
+            <br />
+            Content is usually about software development, design, and product management. Sometimes I write about other things like music, or life in general.
+
+            <br />
+            <br />
+
+            I won't spam though, I promise. <b>You can unsubscribe at any time</b>. I also won't share your email with anyone else.
+            <br />
+            If you're interested in any of that, sign up with the link below!
+
+            <br />
+            <br />
+
+            <a href="https://buttondown.email/kasuken" target="_blank" rel="noopener noreferrer">Subscribe to Dev Dispatch</a><br />
+            <a href="https://buttondown.email/kasuken/archive" target="_blank">View previous issues</a> - <a href="https://buttondown.email/kasuken/rss" target="_blank">Subscribe via rss</a>
+
+            <br />
+            <br />
+
+            I'm currently looking for sponsors for my newsletter. If you're interested in sponsoring, please <a href="mailto:bartolesiemanuele@hotmail.com?subject=sponsorship for newsletter">send me an email</a>!
+
+            <br />
+            <br />
+
+            The format of the sponsorship is very easy and straightforward. You'll get a short paragraph at the top of the newsletter, with a link to your website. I'll also include a short description of your product or service, and a link to your website at the bottom of the newsletter.
+                      
+            <br />
+            <br />
+
+            The newsletters will be included in the archive, so you'll get a permanent link to your website from the archive page as well.
+
+            <br />
+            <br />
+
+            If everything sounds good, please <a href="mailto:bartolesiemanuele@hotmail.com?subject=sponsorship for newsletter">send me an email</a> and we can discuss the details!
+
+            At the moment I have <b>1000+ subscribers</b>, and the newsletter is growing every week. I'm also getting a very high open rate, so you'll get a lot of exposure for your product or service.
+            <br />
+            Email open rates are around 65%, and click rates are around 24%.
+
+            <br />
+            <br />
+
+            Thanks for your interest!
+
+            <br />
+            <br />
+
+          </p>
+
+          <!-- <p style="text-align: center">
+            <img
+              src="https://sanet.pics/storage-8/1022/JnaxnZqPPsSpLCrWq1fDWD3I3Wvdorvj.jpg"
+              alt="Minimal APIs with .NET"
+              width="400"
+            />
+          </p> -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <ContactCTA />
+</BaseLayout>
+
+<style>
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  img {
+    margin-top: 1.5rem;
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--gray-200);
+  }
+
+  .section-title {
+    grid-column-start: 1;
+    font-size: var(--text-xl);
+    color: var(--gray-0);
+  }
+
+  .content {
+    grid-column: 2 / 4;
+  }
+
+  .content :global(a) {
+    text-decoration: 1px solid underline transparent;
+    text-underline-offset: 0.25em;
+    transition: text-decoration-color var(--theme-transition);
+  }
+
+  .content :global(a:hover),
+  .content :global(a:focus) {
+    text-decoration-color: currentColor;
+  }
+
+  @media (min-width: 50em) {
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 60% 1fr;
+    }
+
+    .about > :global(:first-child) {
+      grid-column-start: 2;
+    }
+
+    section {
+      display: contents;
+      font-size: var(--text-lg);
+    }
+  }
+</style>

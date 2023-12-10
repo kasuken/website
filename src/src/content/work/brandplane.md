@@ -1,7 +1,7 @@
 ---
 title: Brandplane
 publishDate: 2023-11-18 00:00:00
-img: /assets/brandplanemock.png
+img: /assets/brandplane.png
 img_alt: Brandplane mockup
 description: |
   Brandplane is a SaaS platform that uses AI to generate strategies for brand identity. We worked with the Brandplane team to develop a brand identity and website that would appeal to their target audience of marketing professionals.

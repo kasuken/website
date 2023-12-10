@@ -1,8 +1,8 @@
 ---
 title: Guest Storm
 publishDate: 2020-03-02 00:00:00
-img: /assets/stock-1.jpg
-img_alt: 
+img: /assets/gueststorm.jpg
+img_alt: sdsdsd
 description: |
   a multi tenant SaaS application that allows users to manage Guest Users in a Microsoft 365 tenant.
 tags:
@@ -20,3 +20,14 @@ Some features:
 - Automatically remove Guest Users after a certain amount of time
 - Automatically remove Guest User Invitations after a certain amount of time
 - Automatically remove Guest User Policies after a certain amount of time
+
+Tech Stack:
+- Blazor
+- ASP.NET Core
+- Microsoft Graph API
+- Azure AD
+- Azure Functions
+- Azure Storage
+- Azure Key Vault
+- Azure App Service
+- GitHub Actions

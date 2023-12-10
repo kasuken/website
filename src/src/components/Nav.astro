@@ -10,6 +10,7 @@ const textLinks: { label: string; href: string; newWindow: boolean }[] = [
 	{ label: 'Work', href: '/work/', newWindow: false },
 	{ label: 'Books', href: '/books/', newWindow: false },
 	{ label: 'Courses', href: '/courses/', newWindow: false },
+	{ label: 'Newsletter', href: '/newsletter/', newWindow: false },
 	{ label: 'Uses', href: '/uses/', newWindow: false },
 	{ label: 'About', href: '/about/', newWindow: false }
 ];
@@ -81,7 +82,7 @@ const iconLinks: { label: string; href: string; icon: keyof typeof iconPaths }[]
 	<div id="menu-content" hidden>
 		<ul class="nav-items">
 			{
-				textLinks.map(({ label, href }) => (
+				textLinks.map(({ label, href, newWindow }) => (
 					<li>
 						<a
 							aria-current={Astro.url.pathname === href}
@@ -93,7 +94,7 @@ const iconLinks: { label: string; href: string; icon: keyof typeof iconPaths }[]
 										(href !== '/' && Astro.url.pathname.startsWith(href)),
 								},
 							]}
-							href={href}
+							href={href} target={newWindow ? '_blank' : undefined}
 						>
 							{label}
 						</a>
