@@ -1,0 +1,836 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION } from '../consts';
+import { 
+  uses, 
+  getFeaturedUses, 
+  useCategories, 
+  getUsesStats,
+  getHighestRatedUses,
+  getRecentlyAddedUses
+} from '../data/uses';
+
+const featuredUses = getFeaturedUses();
+const allUses = uses.filter(item => item.stillUsing);
+const topRatedUses = getHighestRatedUses();
+const recentUses = getRecentlyAddedUses();
+const stats = getUsesStats();
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Uses - My Setup & Tools" description="Apps, hardware, and tools I use daily for development, design, and productivity. My complete tech setup and recommendations." />
+		<style>
+			main {
+				width: 960px;
+				max-width: calc(100% - 2rem);
+				margin: auto;
+				padding: 3rem 1rem;
+			}
+			
+			.uses-header {
+				text-align: center;
+				margin-bottom: 2rem;
+			}
+			
+			.uses-header h1 {
+				margin: 0 0 0.5rem 0;
+				color: rgb(var(--black));
+				font-weight: 700;
+				letter-spacing: -0.02em;
+			}
+			
+			.uses-header p {
+				margin: 0;
+				color: rgb(var(--gray));
+				font-size: 0.9rem;
+			}
+			
+			.last-updated {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+				margin-top: 1rem;
+				padding: 0.5rem 1rem;
+				background: rgb(var(--gray-light));
+				border-radius: 2rem;
+				font-size: 0.9rem;
+				color: rgb(var(--gray-dark));
+			}
+			
+			.stats-section {
+				background: rgb(var(--gray-light));
+				padding: 2rem;
+				border-radius: 12px;
+				margin-bottom: 3rem;
+			}
+			
+			.stats-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+				gap: 1.5rem;
+			}
+			
+			.stat-item {
+				text-align: center;
+			}
+			
+			.stat-number {
+				font-size: 2.5rem;
+				font-weight: 700;
+				color: rgb(var(--accent));
+				margin: 0;
+			}
+			
+			.stat-label {
+				margin: 0.5rem 0 0 0;
+				color: rgb(var(--gray-dark));
+				font-weight: 500;
+			}
+			
+			.section {
+				margin-bottom: 4rem;
+			}
+			
+			.section-title {
+				font-size: 2rem;
+				margin: 0 0 1rem 0;
+				color: rgb(var(--black));
+				text-align: center;
+			}
+			
+			.section-subtitle {
+				text-align: center;
+				color: rgb(var(--gray));
+				margin-bottom: 2rem;
+				font-size: 1rem;
+			}
+			
+			.filter-buttons {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				gap: 0.5rem;
+				margin-bottom: 2rem;
+			}
+			
+			.filter-btn {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				background: rgb(var(--gray-light));
+				border: 1px solid rgb(var(--gray));
+				color: rgb(var(--black));
+				padding: 0.75rem 1.25rem;
+				border-radius: 2rem;
+				cursor: pointer;
+				transition: all 0.2s ease;
+				font-size: 0.9rem;
+				font-weight: 500;
+			}
+			
+			.filter-btn:hover,
+			.filter-btn.active {
+				background: rgb(var(--accent));
+				color: white;
+				border-color: rgb(var(--accent));
+				transform: translateY(-2px);
+			}
+			
+			.uses-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+				gap: 2rem;
+				margin-top: 2rem;
+			}
+			
+			.featured-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+				gap: 2rem;
+				margin-top: 2rem;
+			}
+			
+			.recent-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				gap: 1.5rem;
+				margin-top: 2rem;
+			}
+			
+			.use-card {
+				background: white;
+				border-radius: 16px;
+				overflow: hidden;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+				transition: all 0.3s ease;
+				border: 1px solid rgb(var(--gray-light));
+				position: relative;
+			}
+			
+			.use-card:hover {
+				transform: translateY(-6px);
+				box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+			}
+			
+			.use-card.featured {
+				border: 2px solid rgb(var(--accent));
+				background: linear-gradient(135deg, rgba(var(--accent), 0.02), rgba(var(--accent), 0.05));
+			}
+			
+			.use-card.recent {
+				border-left: 4px solid rgb(var(--accent));
+			}
+			
+			.use-header {
+				padding: 2rem 2rem 1rem 2rem;
+				position: relative;
+			}
+			
+			.featured-badge {
+				position: absolute;
+				top: 1rem;
+				right: 1rem;
+				background: rgb(var(--accent));
+				color: white;
+				padding: 0.25rem 0.75rem;
+				border-radius: 1rem;
+				font-size: 0.8rem;
+				font-weight: 600;
+			}
+			
+			.use-title-section {
+				display: flex;
+				align-items: flex-start;
+				gap: 1rem;
+				margin-bottom: 1rem;
+			}
+			
+			.use-icon {
+				width: 60px;
+				height: 60px;
+				border-radius: 12px;
+				background: linear-gradient(135deg, rgb(var(--accent-light, var(--accent))), rgb(var(--accent)));
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 1.5rem;
+				flex-shrink: 0;
+			}
+			
+			.use-icon.has-image {
+				background: none;
+				overflow: hidden;
+			}
+			
+			.use-icon img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+			
+			.use-title-info {
+				flex: 1;
+			}
+			
+			.use-title {
+				font-size: 1.3rem;
+				font-weight: 700;
+				margin: 0 0 0.25rem 0;
+				color: rgb(var(--black));
+				line-height: 1.3;
+			}
+			
+			.use-brand {
+				font-size: 0.9rem;
+				color: rgb(var(--gray));
+				margin: 0;
+			}
+			
+			.use-meta {
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+				margin-bottom: 1rem;
+				color: rgb(var(--gray-dark));
+				font-size: 0.9rem;
+			}
+			
+			.use-category {
+				display: flex;
+				align-items: center;
+				gap: 0.25rem;
+				background: rgb(var(--gray-light));
+				padding: 0.25rem 0.75rem;
+				border-radius: 1rem;
+				font-size: 0.8rem;
+				font-weight: 500;
+			}
+			
+			.use-rating {
+				display: flex;
+				align-items: center;
+				gap: 0.25rem;
+			}
+			
+			.stars {
+				color: rgb(var(--accent));
+			}
+			
+			.use-price {
+				font-weight: 600;
+				color: rgb(var(--black));
+			}
+			
+			.price-free {
+				color: rgb(34, 197, 94);
+			}
+			
+			.use-content {
+				padding: 0 2rem 2rem 2rem;
+			}
+			
+			.use-description {
+				color: rgb(var(--gray-dark));
+				line-height: 1.6;
+				margin-bottom: 1.5rem;
+			}
+			
+			.use-reason {
+				background: rgb(var(--gray-light));
+				padding: 1rem;
+				border-radius: 0.75rem;
+				margin-bottom: 1.5rem;
+				border-left: 3px solid rgb(var(--accent));
+			}
+			
+			.reason-title {
+				font-size: 0.9rem;
+				font-weight: 600;
+				color: rgb(var(--black));
+				margin: 0 0 0.5rem 0;
+			}
+			
+			.reason-text {
+				font-size: 0.9rem;
+				color: rgb(var(--gray-dark));
+				margin: 0;
+				line-height: 1.5;
+			}
+			
+			.use-tags {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5rem;
+				margin-bottom: 1.5rem;
+			}
+			
+			.tag {
+				background: rgb(var(--gray-light));
+				color: rgb(var(--gray-dark));
+				padding: 0.25rem 0.75rem;
+				border-radius: 1rem;
+				font-size: 0.8rem;
+				font-weight: 500;
+			}
+			
+			.use-specs {
+				margin-bottom: 1.5rem;
+			}
+			
+			.specs-title {
+				font-size: 0.9rem;
+				font-weight: 600;
+				color: rgb(var(--black));
+				margin: 0 0 0.5rem 0;
+			}
+			
+			.specs-list {
+				display: grid;
+				gap: 0.25rem;
+			}
+			
+			.spec-item {
+				display: grid;
+				grid-template-columns: 1fr 2fr;
+				gap: 0.5rem;
+				font-size: 0.85rem;
+				color: rgb(var(--gray-dark));
+			}
+			
+			.spec-key {
+				font-weight: 500;
+				color: rgb(var(--black));
+			}
+			
+			.use-footer {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				gap: 1rem;
+				padding-top: 1rem;
+				border-top: 1px solid rgb(var(--gray-light));
+			}
+			
+			.use-year {
+				font-size: 0.9rem;
+				color: rgb(var(--gray));
+			}
+			
+			.use-links {
+				display: flex;
+				gap: 0.5rem;
+			}
+			
+			.btn {
+				padding: 0.5rem 1rem;
+				border-radius: 0.5rem;
+				text-decoration: none;
+				font-weight: 500;
+				font-size: 0.9rem;
+				transition: all 0.2s ease;
+				text-align: center;
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+			}
+			
+			.btn-primary {
+				background: rgb(var(--accent));
+				color: white;
+			}
+			
+			.btn-primary:hover {
+				opacity: 0.9;
+				transform: translateY(-1px);
+			}
+			
+			.btn-secondary {
+				background: rgb(var(--gray-light));
+				color: rgb(var(--gray-dark));
+				border: 1px solid rgb(var(--gray));
+			}
+			
+			.btn-secondary:hover {
+				background: rgb(var(--gray));
+				color: white;
+			}
+			
+			.alternatives {
+				margin-top: 1rem;
+				padding-top: 1rem;
+				border-top: 1px solid rgb(var(--gray-light));
+			}
+			
+			.alternatives-title {
+				font-size: 0.9rem;
+				font-weight: 600;
+				color: rgb(var(--black));
+				margin: 0 0 0.5rem 0;
+			}
+			
+			.alternatives-list {
+				font-size: 0.85rem;
+				color: rgb(var(--gray-dark));
+				margin: 0;
+			}
+			
+			@media (max-width: 768px) {
+				main {
+					padding: 2rem 1rem;
+				}
+				
+				.uses-header h1 {
+					font-size: 2rem;
+				}
+				
+				.uses-grid,
+				.featured-grid {
+					grid-template-columns: 1fr;
+				}
+				
+				.filter-buttons {
+					flex-direction: column;
+					align-items: center;
+				}
+				
+				.use-footer {
+					flex-direction: column;
+					align-items: stretch;
+				}
+				
+				.use-links {
+					justify-content: center;
+				}
+				
+				.stats-grid {
+					grid-template-columns: repeat(2, 1fr);
+				}
+				
+				.spec-item {
+					grid-template-columns: 1fr;
+					gap: 0.25rem;
+				}
+			}
+			
+			/* Animation classes for filtering */
+			.use-card.hidden {
+				display: none;
+			}
+			
+			.use-card.fade-in {
+				animation: fadeIn 0.3s ease-in-out;
+			}
+			
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+					transform: translateY(20px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="uses-header">
+				<h1>Uses</h1>
+				<p class="item-count">
+					{stats.totalItems} items across {Object.keys(stats.categoryDistribution).length} categories
+				</p>
+			</div>
+
+			<!-- Statistics Section -->
+			<div class="stats-section">
+				<div class="stats-grid">
+					<div class="stat-item">
+						<h3 class="stat-number">{stats.totalItems}</h3>
+						<p class="stat-label">Total Items</p>
+					</div>
+					<div class="stat-item">
+						<h3 class="stat-number">{stats.featuredItems}</h3>
+						<p class="stat-label">Featured</p>
+					</div>
+					<div class="stat-item">
+						<h3 class="stat-number">{stats.freeItems}</h3>
+						<p class="stat-label">Free Tools</p>
+					</div>
+					<div class="stat-item">
+						<h3 class="stat-number">{stats.averageRating}/5</h3>
+						<p class="stat-label">Avg Rating</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Recently Added -->
+			{recentUses.length > 0 && (
+				<section class="section">
+					<h2 class="section-title">🆕 Recently Added</h2>
+					<p class="section-subtitle">Latest additions to my setup</p>
+					<div class="recent-grid">
+						{recentUses.slice(0, 3).map((item) => (
+							<div class="use-card recent">
+								<div class="use-header">
+									<div class="use-title-section">
+										<div class="use-icon">
+											{item.imageUrl ? (
+												<img src={item.imageUrl} alt={item.name} />
+											) : (
+												<span>📦</span>
+											)}
+										</div>
+										<div class="use-title-info">
+											<h3 class="use-title">{item.name}</h3>
+											{item.brand && <p class="use-brand">{item.brand}</p>}
+										</div>
+									</div>
+									<div class="use-meta">
+										<span class="use-category">
+											{useCategories.find(cat => cat.key === item.category)?.icon} {item.category}
+										</span>
+										{item.rating && (
+											<div class="use-rating">
+												<span class="stars">{'★'.repeat(item.rating)}{'☆'.repeat(5 - item.rating)}</span>
+												<span>{item.rating}/5</span>
+											</div>
+										)}
+									</div>
+								</div>
+								<div class="use-content">
+									<p class="use-description">{item.description}</p>
+									{item.url && (
+										<a href={item.url} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+											Learn More
+											<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+												<path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"/>
+											</svg>
+										</a>
+									)}
+								</div>
+							</div>
+						))}
+					</div>
+				</section>
+			)}
+
+			<!-- Featured Uses -->
+			{featuredUses.length > 0 && (
+				<section class="section">
+					<h2 class="section-title">⭐ Featured Items</h2>
+					<p class="section-subtitle">My most essential and highly recommended tools</p>
+					<div class="featured-grid">
+						{featuredUses.map((item) => (
+							<div class="use-card featured">
+								<div class="use-header">
+									<div class="featured-badge">Featured</div>
+									<div class="use-title-section">
+										<div class="use-icon">
+											{item.imageUrl ? (
+												<img src={item.imageUrl} alt={item.name} />
+											) : (
+												<span>⭐</span>
+											)}
+										</div>
+										<div class="use-title-info">
+											<h3 class="use-title">{item.name}</h3>
+											{item.brand && <p class="use-brand">{item.brand} {item.model && `• ${item.model}`}</p>}
+										</div>
+									</div>
+									<div class="use-meta">
+										<span class="use-category">
+											{useCategories.find(cat => cat.key === item.category)?.icon} {item.subcategory || item.category}
+										</span>
+										{item.rating && (
+											<div class="use-rating">
+												<span class="stars">{'★'.repeat(item.rating)}{'☆'.repeat(5 - item.rating)}</span>
+												<span>{item.rating}/5</span>
+											</div>
+										)}
+										{item.price && (
+											<span class={`use-price ${item.price.amount === 0 ? 'price-free' : ''}`}>
+												{item.price.amount === 0 ? 'Free' : `$${item.price.amount.toLocaleString()}`}
+											</span>
+										)}
+									</div>
+								</div>
+								<div class="use-content">
+									<p class="use-description">{item.description}</p>
+									
+									<div class="use-reason">
+										<h4 class="reason-title">Why I use it:</h4>
+										<p class="reason-text">{item.reason}</p>
+									</div>
+
+									{item.tags && item.tags.length > 0 && (
+										<div class="use-tags">
+											{item.tags.map((tag) => (
+												<span class="tag">{tag}</span>
+											))}
+										</div>
+									)}
+
+									{item.specs && Object.keys(item.specs).length > 0 && (
+										<div class="use-specs">
+											<h4 class="specs-title">Specifications:</h4>
+											<div class="specs-list">
+												{Object.entries(item.specs).map(([key, value]) => (
+													<div class="spec-item">
+														<span class="spec-key">{key}:</span>
+														<span>{value}</span>
+													</div>
+												))}
+											</div>
+										</div>
+									)}
+
+									<div class="use-footer">
+										{item.yearStarted && (
+											<span class="use-year">Using since {item.yearStarted}</span>
+										)}
+										<div class="use-links">
+											{item.url && (
+												<a href={item.url} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+													Visit Site
+												</a>
+											)}
+											{item.affiliateUrl && (
+												<a href={item.affiliateUrl} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+													Buy
+												</a>
+											)}
+										</div>
+									</div>
+
+									{item.alternatives && item.alternatives.length > 0 && (
+										<div class="alternatives">
+											<h4 class="alternatives-title">Alternatives:</h4>
+											<p class="alternatives-list">{item.alternatives.join(', ')}</p>
+										</div>
+									)}
+								</div>
+							</div>
+						))}
+					</div>
+				</section>
+			)}
+
+			<!-- All Uses -->
+			<section class="section">
+				<h2 class="section-title">Complete Setup</h2>
+				<p class="section-subtitle">Browse all items by category</p>
+				
+				<!-- Filter Buttons -->
+				<div class="filter-buttons">
+					{useCategories.map((category) => (
+						<button 
+							class={`filter-btn ${category.key === 'all' ? 'active' : ''}`} 
+							data-filter={category.key}
+						>
+							<span>{category.icon}</span>
+							{category.label}
+						</button>
+					))}
+				</div>
+
+				<!-- Uses Grid -->
+				<div class="uses-grid" id="uses-grid">
+					{allUses.map((item) => (
+						<div class="use-card" data-category={item.category}>
+							<div class="use-header">
+								<div class="use-title-section">
+									<div class="use-icon">
+										{item.imageUrl ? (
+											<img src={item.imageUrl} alt={item.name} />
+										) : (
+											<span>🔧</span>
+										)}
+									</div>
+									<div class="use-title-info">
+										<h3 class="use-title">{item.name}</h3>
+										{item.brand && <p class="use-brand">{item.brand}</p>}
+									</div>
+								</div>
+								<div class="use-meta">
+									<span class="use-category">
+										{useCategories.find(cat => cat.key === item.category)?.icon} {item.subcategory || item.category}
+									</span>
+									{item.rating && (
+										<div class="use-rating">
+											<span class="stars">{'★'.repeat(item.rating)}{'☆'.repeat(5 - item.rating)}</span>
+										</div>
+									)}
+									{item.price && (
+										<span class={`use-price ${item.price.amount === 0 ? 'price-free' : ''}`}>
+											{item.price.amount === 0 ? 'Free' : `$${item.price.amount.toLocaleString()}`}
+										</span>
+									)}
+								</div>
+							</div>
+							<div class="use-content">
+								<p class="use-description">{item.description}</p>
+								
+								<div class="use-reason">
+									<h4 class="reason-title">Why I use it:</h4>
+									<p class="reason-text">{item.reason}</p>
+								</div>
+
+								{item.tags && item.tags.length > 0 && (
+									<div class="use-tags">
+										{item.tags.slice(0, 4).map((tag) => (
+											<span class="tag">{tag}</span>
+										))}
+										{item.tags.length > 4 && (
+											<span class="tag">+{item.tags.length - 4}</span>
+										)}
+									</div>
+								)}
+
+								<div class="use-footer">
+									{item.yearStarted && (
+										<span class="use-year">Since {item.yearStarted}</span>
+									)}
+									<div class="use-links">
+										{item.url && (
+											<a href={item.url} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+												Visit
+											</a>
+										)}
+									</div>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</section>
+		</main>
+		<Footer />
+
+		<script>
+			// Uses filtering functionality
+			class UsesFilter {
+				constructor() {
+					this.filterButtons = document.querySelectorAll('.filter-btn');
+					this.useCards = document.querySelectorAll('.use-card[data-category]');
+					this.init();
+				}
+
+				init() {
+					this.filterButtons.forEach(button => {
+						button.addEventListener('click', (e) => {
+							const filter = e.target.closest('.filter-btn').getAttribute('data-filter');
+							this.filterUses(filter);
+							this.updateActiveButton(e.target.closest('.filter-btn'));
+						});
+					});
+				}
+
+				filterUses(filter) {
+					this.useCards.forEach(card => {
+						const category = card.getAttribute('data-category');
+						
+						if (filter === 'all' || category === filter) {
+							card.classList.remove('hidden');
+							card.classList.add('fade-in');
+						} else {
+							card.classList.add('hidden');
+							card.classList.remove('fade-in');
+						}
+					});
+				}
+
+				updateActiveButton(activeButton) {
+					this.filterButtons.forEach(button => {
+						button.classList.remove('active');
+					});
+					activeButton.classList.add('active');
+				}
+			}
+
+			// Initialize uses filter when DOM is ready
+			document.addEventListener('DOMContentLoaded', () => {
+				new UsesFilter();
+
+				// Add smooth scrolling for internal links
+				document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+					anchor.addEventListener('click', function (e) {
+						e.preventDefault();
+						const target = document.querySelector(this.getAttribute('href'));
+						if (target) {
+							target.scrollIntoView({
+								behavior: 'smooth',
+								block: 'start'
+							});
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+</html>

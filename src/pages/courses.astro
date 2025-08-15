@@ -1,0 +1,734 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION } from '../consts';
+import { 
+  courses, 
+  getFeaturedCourses, 
+  courseCategories, 
+  getCourseStats
+} from '../data/courses';
+
+const featuredCourses = getFeaturedCourses();
+const allCourses = courses.filter(course => course.available);
+const stats = getCourseStats();
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Courses - Professional Training" description="Professional development courses and training programs. Learn modern web development, AI integration, and cloud deployment." />
+		<style>
+			main {
+				width: 960px;
+				max-width: calc(100% - 2rem);
+				margin: auto;
+				padding: 3rem 1rem;
+			}
+			
+			.courses-header {
+				text-align: center;
+				margin-bottom: 2rem;
+			}
+			
+			.courses-header h1 {
+				margin: 0 0 0.5rem 0;
+				color: rgb(var(--black));
+				font-weight: 700;
+				letter-spacing: -0.02em;
+			}
+			
+			.courses-header p {
+				margin: 0;
+				color: rgb(var(--gray));
+				font-size: 0.9rem;
+			}
+			
+			.stats-section {
+				background: rgb(var(--gray-light));
+				padding: 2rem;
+				border-radius: 12px;
+				margin-bottom: 3rem;
+			}
+			
+			.stats-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+				gap: 1.5rem;
+			}
+			
+			.stat-item {
+				text-align: center;
+			}
+			
+			.stat-number {
+				font-size: 2.5rem;
+				font-weight: 700;
+				color: rgb(var(--accent));
+				margin: 0;
+			}
+			
+			.stat-label {
+				margin: 0.5rem 0 0 0;
+				color: rgb(var(--gray-dark));
+				font-weight: 500;
+			}
+			
+			.section {
+				margin-bottom: 4rem;
+			}
+			
+			.section-title {
+				font-size: 2rem;
+				margin: 0 0 2rem 0;
+				color: rgb(var(--black));
+				text-align: center;
+			}
+			
+			.filter-buttons {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				gap: 0.5rem;
+				margin-bottom: 2rem;
+			}
+			
+			.filter-btn {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				background: rgb(var(--gray-light));
+				border: 1px solid rgb(var(--gray));
+				color: rgb(var(--black));
+				padding: 0.75rem 1.25rem;
+				border-radius: 2rem;
+				cursor: pointer;
+				transition: all 0.2s ease;
+				font-size: 0.9rem;
+				font-weight: 500;
+			}
+			
+			.filter-btn:hover,
+			.filter-btn.active {
+				background: rgb(var(--accent));
+				color: white;
+				border-color: rgb(var(--accent));
+				transform: translateY(-2px);
+			}
+			
+			.courses-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+				gap: 2rem;
+				margin-top: 2rem;
+			}
+			
+			.featured-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+				gap: 2rem;
+				margin-top: 2rem;
+			}
+			
+			.upcoming-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				gap: 1.5rem;
+				margin-top: 2rem;
+			}
+			
+			.course-card {
+				background: white;
+				border-radius: 16px;
+				overflow: hidden;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+				transition: all 0.3s ease;
+				border: 1px solid rgb(var(--gray-light));
+				position: relative;
+			}
+			
+			.course-card:hover {
+				transform: translateY(-6px);
+				box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+			}
+			
+			.course-card.featured {
+				border: 2px solid rgb(var(--accent));
+				background: linear-gradient(135deg, rgba(var(--accent), 0.02), rgba(var(--accent), 0.05));
+			}
+			
+			.course-card.upcoming {
+				border-left: 4px solid rgb(var(--accent));
+			}
+			
+			.course-image {
+				width: 100%;
+				height: 180px;
+				background: linear-gradient(135deg, rgb(var(--accent-light, var(--accent))), rgb(var(--accent)));
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: white;
+				font-size: 3rem;
+				position: relative;
+			}
+			
+			.course-image.has-image {
+				background: none;
+			}
+			
+			.course-image img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+			
+			.featured-badge {
+				position: absolute;
+				top: 1rem;
+				right: 1rem;
+				background: rgba(255, 255, 255, 0.95);
+				color: rgb(var(--accent));
+				padding: 0.5rem 1rem;
+				border-radius: 1.5rem;
+				font-size: 0.8rem;
+				font-weight: 600;
+				backdrop-filter: blur(10px);
+			}
+			
+			.level-badge {
+				position: absolute;
+				top: 1rem;
+				left: 1rem;
+				padding: 0.25rem 0.75rem;
+				border-radius: 1rem;
+				font-size: 0.8rem;
+				font-weight: 600;
+				text-transform: capitalize;
+			}
+			
+			.level-beginner {
+				background: rgba(34, 197, 94, 0.9);
+				color: white;
+			}
+			
+			.level-intermediate {
+				background: rgba(251, 191, 36, 0.9);
+				color: white;
+			}
+			
+			.level-advanced {
+				background: rgba(239, 68, 68, 0.9);
+				color: white;
+			}
+			
+			.course-content {
+				padding: 2rem;
+			}
+			
+			.course-header {
+				margin-bottom: 1rem;
+			}
+			
+			.course-title {
+				font-size: 1.4rem;
+				font-weight: 700;
+				margin: 0 0 0.5rem 0;
+				color: rgb(var(--black));
+				line-height: 1.3;
+			}
+			
+			.course-meta {
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+				margin-bottom: 1rem;
+				color: rgb(var(--gray-dark));
+				font-size: 0.9rem;
+			}
+			
+			.course-duration,
+			.course-format {
+				display: flex;
+				align-items: center;
+				gap: 0.25rem;
+			}
+			
+			.course-description {
+				color: rgb(var(--gray-dark));
+				line-height: 1.6;
+				margin-bottom: 1.5rem;
+			}
+			
+			.course-tech {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5rem;
+				margin-bottom: 1.5rem;
+			}
+			
+			.tech-tag {
+				background: rgb(var(--gray-light));
+				color: rgb(var(--gray-dark));
+				padding: 0.25rem 0.75rem;
+				border-radius: 1rem;
+				font-size: 0.8rem;
+				font-weight: 500;
+			}
+			
+			.course-outcomes {
+				margin-bottom: 1.5rem;
+			}
+			
+			.outcomes-title {
+				font-size: 0.9rem;
+				font-weight: 600;
+				color: rgb(var(--black));
+				margin: 0 0 0.5rem 0;
+			}
+			
+			.outcomes-list {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+			
+			.outcomes-list li {
+				display: flex;
+				align-items: flex-start;
+				gap: 0.5rem;
+				font-size: 0.85rem;
+				color: rgb(var(--gray-dark));
+				margin-bottom: 0.25rem;
+			}
+			
+			.outcomes-list li::before {
+				content: '✓';
+				color: rgb(var(--accent));
+				font-weight: 600;
+				flex-shrink: 0;
+			}
+			
+			.course-footer {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				gap: 1rem;
+				padding-top: 1rem;
+				border-top: 1px solid rgb(var(--gray-light));
+			}
+			
+			.course-price {
+				font-size: 1.2rem;
+				font-weight: 700;
+				color: rgb(var(--accent));
+			}
+			
+			.price-from {
+				font-size: 0.8rem;
+				font-weight: 400;
+				color: rgb(var(--gray));
+			}
+			
+			.course-cta {
+				display: flex;
+				gap: 0.5rem;
+			}
+			
+			.btn {
+				padding: 0.75rem 1.5rem;
+				border-radius: 0.75rem;
+				text-decoration: none;
+				font-weight: 600;
+				font-size: 0.9rem;
+				transition: all 0.2s ease;
+				text-align: center;
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+			}
+			
+			.btn-primary {
+				background: rgb(var(--accent));
+				color: white;
+			}
+			
+			.btn-primary:hover {
+				opacity: 0.9;
+				transform: translateY(-1px);
+			}
+			
+			.btn-secondary {
+				background: rgb(var(--gray-light));
+				color: rgb(var(--gray-dark));
+				border: 1px solid rgb(var(--gray));
+			}
+			
+			.btn-secondary:hover {
+				background: rgb(var(--gray));
+				color: white;
+			}
+			
+			.upcoming-date {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				color: rgb(var(--accent));
+				font-weight: 600;
+				font-size: 0.9rem;
+				margin-bottom: 1rem;
+			}
+			
+			.testimonial {
+				background: rgb(var(--gray-light));
+				padding: 1rem;
+				border-radius: 0.75rem;
+				margin-top: 1rem;
+			}
+			
+			.testimonial-quote {
+				font-style: italic;
+				color: rgb(var(--gray-dark));
+				margin-bottom: 0.5rem;
+				font-size: 0.9rem;
+				line-height: 1.5;
+			}
+			
+			.testimonial-author {
+				font-size: 0.8rem;
+				color: rgb(var(--gray));
+			}
+			
+			.testimonial-rating {
+				color: rgb(var(--accent));
+				margin-left: 0.5rem;
+			}
+			
+			@media (max-width: 768px) {
+				main {
+					padding: 2rem 1rem;
+				}
+				
+				.courses-header h1 {
+					font-size: 2rem;
+				}
+				
+				.courses-grid,
+				.featured-grid {
+					grid-template-columns: 1fr;
+				}
+				
+				.filter-buttons {
+					flex-direction: column;
+					align-items: center;
+				}
+				
+				.course-footer {
+					flex-direction: column;
+					align-items: stretch;
+				}
+				
+				.course-cta {
+					justify-content: center;
+				}
+				
+				.stats-grid {
+					grid-template-columns: repeat(2, 1fr);
+				}
+			}
+			
+			/* Animation classes for filtering */
+			.course-card.hidden {
+				display: none;
+			}
+			
+			.course-card.fade-in {
+				animation: fadeIn 0.3s ease-in-out;
+			}
+			
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+					transform: translateY(20px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="courses-header">
+				<h1>Courses</h1>
+				<p class="course-count">
+					{stats.availableCourses} courses available • {stats.featuredCourses} featured programs
+				</p>
+			</div>
+
+			<!-- Statistics Section -->
+			<div class="stats-section">
+				<div class="stats-grid">
+					<div class="stat-item">
+						<h3 class="stat-number">{stats.availableCourses}</h3>
+						<p class="stat-label">Available Courses</p>
+					</div>
+					<div class="stat-item">
+						<h3 class="stat-number">{stats.featuredCourses}</h3>
+						<p class="stat-label">Featured Programs</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Featured Courses -->
+			{featuredCourses.length > 0 && (
+				<section class="section">
+					<h2 class="section-title">⭐ Featured Courses</h2>
+					<div class="featured-grid">
+						{featuredCourses.map((course) => (
+							<div class="course-card featured">
+								<div class="course-image">
+									{course.imageUrl ? (
+										<img src={course.imageUrl} alt={course.title} />
+									) : (
+										<span>🎓</span>
+									)}
+									<div class="featured-badge">Featured</div>
+									<div class={`level-badge level-${course.level}`}>
+										{course.level}
+									</div>
+								</div>
+								<div class="course-content">
+									<div class="course-header">
+										<h3 class="course-title">{course.title}</h3>
+										<div class="course-meta">
+											<span class="course-duration">
+												<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+													<path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z" />
+												</svg>
+												{course.duration}
+											</span>
+											<span class="course-format">
+												<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+													<path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M17,13H11V7H12.5V11.5H17V13Z" />
+												</svg>
+												{course.format}
+											</span>
+										</div>
+									</div>
+									<p class="course-description">
+										{course.longDescription || course.description}
+									</p>
+									<div class="course-tech">
+										{course.technologies.slice(0, 4).map((tech) => (
+											<span class="tech-tag">{tech}</span>
+										))}
+										{course.technologies.length > 4 && (
+											<span class="tech-tag">+{course.technologies.length - 4} more</span>
+										)}
+									</div>
+									{course.learningOutcomes && (
+										<div class="course-outcomes">
+											<h4 class="outcomes-title">What you'll learn:</h4>
+											<ul class="outcomes-list">
+												{course.learningOutcomes.slice(0, 3).map((outcome) => (
+													<li>{outcome}</li>
+												))}
+											</ul>
+										</div>
+									)}
+									<div class="course-footer">
+										{course.price && (
+											<div class="course-price">
+												<span class="price-from">from </span>
+												${course.price.individual?.toLocaleString()} {course.price.currency}
+											</div>
+										)}
+										<div class="course-cta">
+											{course.bookingUrl && (
+												<a href={course.bookingUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+													Enroll Now
+												</a>
+											)}
+											{course.brochureUrl && (
+												<a href={course.brochureUrl} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+													Brochure
+												</a>
+											)}
+										</div>
+									</div>
+									{course.testimonials && course.testimonials[0] && (
+										<div class="testimonial">
+											<p class="testimonial-quote">"{course.testimonials[0].quote}"</p>
+											<p class="testimonial-author">
+												— {course.testimonials[0].name}, {course.testimonials[0].role} at {course.testimonials[0].company}
+												<span class="testimonial-rating">⭐⭐⭐⭐⭐</span>
+											</p>
+										</div>
+									)}
+								</div>
+							</div>
+						))}
+					</div>
+				</section>
+			)}
+
+			<!-- All Courses -->
+			<section class="section">
+				<h2 class="section-title">All Available Courses</h2>
+				
+				<!-- Filter Buttons -->
+				<div class="filter-buttons">
+					{courseCategories.map((category) => (
+						<button 
+							class={`filter-btn ${category.key === 'all' ? 'active' : ''}`} 
+							data-filter={category.key}
+						>
+							<span>{category.icon}</span>
+							{category.label}
+						</button>
+					))}
+				</div>
+
+				<!-- Courses Grid -->
+				<div class="courses-grid" id="courses-grid">
+					{allCourses.map((course) => (
+						<div class="course-card" data-category={course.category}>
+							<div class="course-image">
+								{course.imageUrl ? (
+									<img src={course.imageUrl} alt={course.title} />
+								) : (
+									<span>📚</span>
+								)}
+								<div class={`level-badge level-${course.level}`}>
+									{course.level}
+								</div>
+							</div>
+							<div class="course-content">
+								<div class="course-header">
+									<h3 class="course-title">{course.title}</h3>
+									<div class="course-meta">
+										<span class="course-duration">
+											<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+												<path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z" />
+											</svg>
+											{course.duration}
+										</span>
+										<span class="course-format">
+											<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+												<path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M17,13H11V7H12.5V11.5H17V13Z" />
+											</svg>
+											{course.format}
+										</span>
+									</div>
+								</div>
+								<p class="course-description">{course.description}</p>
+								<div class="course-tech">
+									{course.technologies.slice(0, 3).map((tech) => (
+										<span class="tech-tag">{tech}</span>
+									))}
+									{course.technologies.length > 3 && (
+										<span class="tech-tag">+{course.technologies.length - 3}</span>
+									)}
+								</div>
+								{course.learningOutcomes && (
+									<div class="course-outcomes">
+										<h4 class="outcomes-title">Key outcomes:</h4>
+										<ul class="outcomes-list">
+											{course.learningOutcomes.slice(0, 2).map((outcome) => (
+												<li>{outcome}</li>
+											))}
+										</ul>
+									</div>
+								)}
+								<div class="course-footer">
+									{course.price && (
+										<div class="course-price">
+											<span class="price-from">from </span>
+											${course.price.individual?.toLocaleString()} {course.price.currency}
+										</div>
+									)}
+									<div class="course-cta">
+										{course.bookingUrl && (
+											<a href={course.bookingUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+												Book Course
+												<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+													<path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"/>
+												</svg>
+											</a>
+										)}
+									</div>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
+			</section>
+		</main>
+		<Footer />
+
+		<script>
+			// Course filtering functionality
+			class CourseFilter {
+				constructor() {
+					this.filterButtons = document.querySelectorAll('.filter-btn');
+					this.courseCards = document.querySelectorAll('.course-card[data-category]');
+					this.init();
+				}
+
+				init() {
+					this.filterButtons.forEach(button => {
+						button.addEventListener('click', (e) => {
+							const filter = e.target.closest('.filter-btn').getAttribute('data-filter');
+							this.filterCourses(filter);
+							this.updateActiveButton(e.target.closest('.filter-btn'));
+						});
+					});
+				}
+
+				filterCourses(filter) {
+					this.courseCards.forEach(card => {
+						const category = card.getAttribute('data-category');
+						
+						if (filter === 'all' || category === filter) {
+							card.classList.remove('hidden');
+							card.classList.add('fade-in');
+						} else {
+							card.classList.add('hidden');
+							card.classList.remove('fade-in');
+						}
+					});
+				}
+
+				updateActiveButton(activeButton) {
+					this.filterButtons.forEach(button => {
+						button.classList.remove('active');
+					});
+					activeButton.classList.add('active');
+				}
+			}
+
+			// Initialize course filter when DOM is ready
+			document.addEventListener('DOMContentLoaded', () => {
+				new CourseFilter();
+
+				// Add smooth scrolling for internal links
+				document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+					anchor.addEventListener('click', function (e) {
+						e.preventDefault();
+						const target = document.querySelector(this.getAttribute('href'));
+						if (target) {
+							target.scrollIntoView({
+								behavior: 'smooth',
+								block: 'start'
+							});
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+</html>

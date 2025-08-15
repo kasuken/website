@@ -1,0 +1,309 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Professional Mentoring Services" description="Expert mentoring in web development, cloud technologies, and career growth. Book 1:1 sessions with Microsoft MVP Emanuele Bartolesi." />
+		<style>
+			main {
+				width: 960px;
+				max-width: calc(100% - 2rem);
+				margin: auto;
+				padding: 3rem 1rem;
+			}
+			
+			.mentor-header {
+				text-align: center;
+				margin-bottom: 2rem;
+			}
+			
+			.mentor-header h1 {
+				margin: 0 0 0.5rem 0;
+				color: rgb(var(--black));
+				font-weight: 700;
+				letter-spacing: -0.02em;
+			}
+			
+			.mentor-header p {
+				margin: 0 0 1.5rem 0;
+				color: rgb(var(--gray));
+				font-size: 0.9rem;
+			}
+			
+			.mentor-cta {
+				margin-top: 1rem;
+			}
+			
+			.cta-button {
+				display: inline-block;
+				background: #2337ff;
+				color: white;
+				padding: 1rem 2rem;
+				border-radius: 8px;
+				text-decoration: none;
+				font-weight: 600;
+				font-size: 1.1rem;
+				transition: all 0.3s ease;
+				border: 2px solid #2337ff;
+				box-shadow: 0 4px 12px rgba(35, 55, 255, 0.3);
+			}
+			
+			.cta-button:hover {
+				background: #1a2acc;
+				border-color: #1a2acc;
+				transform: translateY(-2px);
+				box-shadow: 0 6px 16px rgba(35, 55, 255, 0.4);
+			}
+			
+			.stats {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+				gap: 2rem;
+				margin: 4rem 0;
+			}
+			
+			.stat {
+				text-align: center;
+				padding: 2rem;
+				background: white;
+				border-radius: 12px;
+				box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+			}
+			
+			.stat-number {
+				font-size: 2rem;
+				font-weight: bold;
+				color: #2337ff;
+				margin: 0 0 0.5rem 0;
+			}
+			
+			.stat-label {
+				color: rgb(var(--gray-dark));
+				margin: 0;
+			}
+			
+			.specialties {
+				margin: 4rem 0;
+			}
+			
+			.section-title {
+				font-size: 2.5rem;
+				text-align: center;
+				margin: 0 0 3rem 0;
+				color: rgb(var(--black));
+			}
+			
+			.specialty-grid {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 2rem;
+			}
+			
+			.specialty-card {
+				background: white;
+				padding: 2rem;
+				border-radius: 12px;
+				box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+			}
+			
+			.specialty-icon {
+				font-size: 2.5rem;
+				margin-bottom: 1rem;
+			}
+			
+			.specialty-title {
+				font-size: 1.5rem;
+				font-weight: 600;
+				margin: 0 0 1rem 0;
+				color: rgb(var(--black));
+			}
+			
+			.specialty-description {
+				color: rgb(var(--gray-dark));
+				margin: 0 0 1rem 0;
+				line-height: 1.6;
+			}
+			
+			.tags {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5rem;
+			}
+			
+			.tag {
+				background: rgba(35, 55, 255, 0.1);
+				color: #2337ff;
+				padding: 0.25rem 0.75rem;
+				border-radius: 20px;
+				font-size: 0.9rem;
+				border: 1px solid rgba(35, 55, 255, 0.2);
+			}
+			
+			.final-cta {
+				text-align: center;
+				margin: 4rem 0;
+				padding: 3rem;
+				background: #2337ff;
+				color: white;
+				border-radius: 20px;
+				box-shadow: 0 8px 24px rgba(35, 55, 255, 0.2);
+			}
+			
+			.final-cta h2 {
+				font-size: 2rem;
+				margin: 0 0 1rem 0;
+				color: white;
+			}
+			
+			.final-cta p {
+				font-size: 1.1rem;
+				margin: 0 0 2rem 0;
+				opacity: 0.9;
+				color: white;
+			}
+			
+			.final-cta .cta-button {
+				background: white;
+				color: #2337ff;
+				border: 2px solid white;
+			}
+			
+			.final-cta .cta-button:hover {
+				background: rgba(255, 255, 255, 0.9);
+				color: #1a2acc;
+				border-color: rgba(255, 255, 255, 0.9);
+			}
+			
+			@media (max-width: 768px) {
+				.mentor-header h1 {
+					font-size: 2rem;
+				}
+				
+				.section-title {
+					font-size: 2rem;
+				}
+				
+				.stats {
+					grid-template-columns: repeat(2, 1fr);
+				}
+				
+				.specialty-grid {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<!-- Header Section -->
+			<section class="mentor-header">
+				<h1>Professional Mentoring</h1>
+				<p>
+					Accelerate your career in web development, cloud technologies, and AI/ML. 
+					Get personalized guidance from a person with 20+ years of experience.
+				</p>
+				<div class="mentor-cta">
+					<a href="https://mentors.to/emanuelebartolesi" target="_blank" rel="noopener" class="cta-button">
+						Book a Session →
+					</a>
+				</div>
+			</section>
+
+			<!-- Statistics -->
+			<section class="stats">
+				<div class="stat">
+					<div class="stat-number">100+</div>
+					<div class="stat-label">Mentoring Sessions</div>
+				</div>
+				<div class="stat">
+					<div class="stat-number">55+</div>
+					<div class="stat-label">Happy Mentees</div>
+				</div>
+				<div class="stat">
+					<div class="stat-number">20+</div>
+					<div class="stat-label">Years Experience</div>
+				</div>
+				<div class="stat">
+					<div class="stat-number">4.9</div>
+					<div class="stat-label">Average Rating</div>
+				</div>
+			</section>
+
+			<!-- Specialties -->
+			<section class="specialties">
+				<h2 class="section-title">Areas of Expertise</h2>
+				<div class="specialty-grid">
+					<div class="specialty-card">
+						<div class="specialty-icon">🌐</div>
+						<h3 class="specialty-title">Web Development</h3>
+						<p class="specialty-description">
+							Modern .NET applications, React frontends, and TypeScript development
+						</p>
+						<div class="tags">
+							<span class="tag">.NET</span>
+							<span class="tag">React</span>
+							<span class="tag">TypeScript</span>
+							<span class="tag">C#</span>
+						</div>
+					</div>
+					<div class="specialty-card">
+						<div class="specialty-icon">☁️</div>
+						<h3 class="specialty-title">Cloud & DevOps</h3>
+						<p class="specialty-description">
+							Azure cloud services, containerization with Docker, and GitHub workflows
+						</p>
+						<div class="tags">
+							<span class="tag">Azure</span>
+							<span class="tag">Docker</span>
+							<span class="tag">GitHub</span>
+							<span class="tag">CI/CD</span>
+						</div>
+					</div>
+					<div class="specialty-card">
+						<div class="specialty-icon">🤖</div>
+						<h3 class="specialty-title">AI & Machine Learning</h3>
+						<p class="specialty-description">
+							Large Language Models integration, AI-powered applications, and ML solutions
+						</p>
+						<div class="tags">
+							<span class="tag">LLM</span>
+							<span class="tag">OpenAI</span>
+							<span class="tag">Azure AI</span>
+							<span class="tag">ML.NET</span>
+						</div>
+					</div>
+					<div class="specialty-card">
+						<div class="specialty-icon">🚀</div>
+						<h3 class="specialty-title">Career Growth</h3>
+						<p class="specialty-description">
+							Leadership, technical interviews, and career advancement strategies
+						</p>
+						<div class="tags">
+							<span class="tag">Leadership</span>
+							<span class="tag">Interviews</span>
+							<span class="tag">Strategy</span>
+							<span class="tag">Growth</span>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Final CTA -->
+			<section class="final-cta">
+				<h2>Ready to Accelerate Your Career?</h2>
+				<p>
+					Join hundreds of developers who've advanced their careers through personalized mentoring.
+				</p>
+				<a href="https://mentors.to/emanuelebartolesi" target="_blank" rel="noopener" class="cta-button">
+					Schedule Your First Session
+				</a>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

@@ -1,0 +1,299 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Dev Dispatch Newsletter" description="Subscribe to Dev Dispatch newsletter for insights on software development, design, product management, and more. Bi-weekly updates with curated content and interesting finds." />
+		<style>
+			main {
+				width: 960px;
+				max-width: calc(100% - 2rem);
+				margin: auto;
+				padding: 3rem 1rem;
+			}
+			
+			.newsletter-header {
+				text-align: center;
+				margin-bottom: 3rem;
+			}
+			
+			.newsletter-header h1 {
+				margin: 0 0 0.5rem 0;
+				color: rgb(var(--black));
+				font-weight: 700;
+				letter-spacing: -0.02em;
+			}
+			
+			.newsletter-header p {
+				margin: 0 0 2rem 0;
+				color: rgb(var(--gray));
+				font-size: 0.9rem;
+			}
+			
+			.newsletter-cta {
+				margin: 2rem 0;
+			}
+			
+			.cta-button {
+				display: inline-block;
+				background: #2337ff;
+				color: white;
+				padding: 1rem 2rem;
+				border-radius: 8px;
+				text-decoration: none;
+				font-weight: 600;
+				font-size: 1.1rem;
+				transition: all 0.3s ease;
+				border: 2px solid #2337ff;
+				box-shadow: 0 4px 12px rgba(35, 55, 255, 0.3);
+			}
+			
+			.cta-button:hover {
+				background: #1a2acc;
+				border-color: #1a2acc;
+				transform: translateY(-2px);
+				box-shadow: 0 6px 16px rgba(35, 55, 255, 0.4);
+			}
+			
+			.newsletter-content {
+				max-width: 700px;
+				margin: 0 auto;
+			}
+			
+			.content-section {
+				background: white;
+				padding: 2.5rem;
+				border-radius: 16px;
+				box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+				margin-bottom: 2rem;
+				border: 1px solid rgb(var(--gray-light));
+			}
+			
+			.content-section h2 {
+				color: rgb(var(--black));
+				margin: 0 0 1.5rem 0;
+				font-size: 1.8rem;
+				font-weight: 600;
+			}
+			
+			.content-section p {
+				color: rgb(var(--gray-dark));
+				line-height: 1.7;
+				margin-bottom: 1.2rem;
+			}
+			
+			.content-section p:last-child {
+				margin-bottom: 0;
+			}
+			
+			.stats-section {
+				background: linear-gradient(135deg, 
+					rgba(35, 55, 255, 0.15) 0%, 
+					rgba(35, 55, 255, 0.08) 50%,
+					rgba(35, 55, 255, 0.05) 100%);
+				border: 1px solid rgba(35, 55, 255, 0.2);
+			}
+			
+			.stats-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+				gap: 2rem;
+				margin-top: 1.5rem;
+			}
+			
+			.stat-item {
+				text-align: center;
+				padding: 1.5rem;
+				background: rgba(255, 255, 255, 0.8);
+				border-radius: 12px;
+				border: 1px solid rgba(35, 55, 255, 0.1);
+			}
+			
+			.stat-number {
+				font-size: 2rem;
+				font-weight: 700;
+				color: #2337ff;
+				margin: 0 0 0.5rem 0;
+			}
+			
+			.stat-label {
+				color: rgb(var(--gray-dark));
+				font-size: 0.9rem;
+				font-weight: 500;
+				margin: 0;
+			}
+			
+			.sponsor-section {
+				background: linear-gradient(135deg, 
+					rgba(255, 193, 7, 0.15) 0%, 
+					rgba(255, 193, 7, 0.08) 50%,
+					rgba(255, 193, 7, 0.05) 100%);
+				border: 1px solid rgba(255, 193, 7, 0.3);
+			}
+			
+			.sponsor-benefits {
+				background: rgba(255, 255, 255, 0.8);
+				padding: 1.5rem;
+				border-radius: 12px;
+				margin: 1.5rem 0;
+				border: 1px solid rgba(255, 193, 7, 0.2);
+			}
+			
+			.sponsor-benefits h3 {
+				color: rgb(var(--black));
+				margin: 0 0 1rem 0;
+				font-size: 1.2rem;
+			}
+			
+			.sponsor-benefits ul {
+				margin: 0;
+				padding-left: 1.5rem;
+				color: rgb(var(--gray-dark));
+			}
+			
+			.sponsor-benefits li {
+				margin-bottom: 0.5rem;
+				line-height: 1.6;
+			}
+			
+			.email-link {
+				color: #2337ff;
+				text-decoration: none;
+				font-weight: 600;
+			}
+			
+			.email-link:hover {
+				text-decoration: underline;
+			}
+			
+			.newsletter-icon {
+				font-size: 3rem;
+				margin-bottom: 1rem;
+			}
+			
+			@media (max-width: 768px) {
+				.newsletter-header h1 {
+					font-size: 2rem;
+				}
+				
+				.content-section {
+					padding: 2rem;
+				}
+				
+				.stats-grid {
+					grid-template-columns: repeat(2, 1fr);
+					gap: 1rem;
+				}
+				
+				.stat-item {
+					padding: 1rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<!-- Header Section -->
+			<section class="newsletter-header">
+				<h1>Dev Dispatch</h1>
+                <div class="newsletter-icon">📧</div>
+				<p>
+					Bi-weekly newsletter about software development, design, product management, and interesting finds from the internet.
+				</p>
+				<div class="newsletter-cta">
+					<a href="https://buttondown.email/kasuken" target="_blank" rel="noopener" class="cta-button">
+						Subscribe to Dev Dispatch →
+					</a>
+				</div>
+			</section>
+
+			<div class="newsletter-content">
+				<!-- About the Newsletter -->
+				<section class="content-section">
+					<h2>About the Newsletter</h2>
+					<p>
+						I send out a newsletter every two weeks or so with things I've been working on, things I've been reading, and interesting things I've found on the internet.
+					</p>
+					<p>
+						Content is usually about software development, design, and product management. Sometimes I write about other things like music, or life in general.
+					</p>
+					<p>
+						I won't spam though, I promise. You can unsubscribe at any time. I also won't share your email with anyone else.
+					</p>
+				</section>
+
+				<!-- Newsletter Statistics -->
+				<section class="content-section stats-section">
+					<h2>Newsletter Statistics</h2>
+					<p>
+						Dev Dispatch has grown to over 1,000 subscribers with excellent engagement rates that continue to grow every week.
+					</p>
+					<div class="stats-grid">
+						<div class="stat-item">
+							<div class="stat-number">1000+</div>
+							<div class="stat-label">Subscribers</div>
+						</div>
+						<div class="stat-item">
+							<div class="stat-number">65%</div>
+							<div class="stat-label">Open Rate</div>
+						</div>
+						<div class="stat-item">
+							<div class="stat-number">24%</div>
+							<div class="stat-label">Click Rate</div>
+						</div>
+						<div class="stat-item">
+							<div class="stat-number">Bi-weekly</div>
+							<div class="stat-label">Frequency</div>
+						</div>
+					</div>
+				</section>
+
+				<!-- Sponsorship Information -->
+				<section class="content-section sponsor-section">
+					<h2>Sponsorship Opportunities</h2>
+					<p>
+						I'm currently looking for sponsors for my newsletter. If you're interested in sponsoring, please send me an email!
+					</p>
+					
+					<div class="sponsor-benefits">
+						<h3>What You Get:</h3>
+						<ul>
+							<li>Short paragraph at the top of the newsletter with a link to your website</li>
+							<li>Description of your product or service with a link at the bottom</li>
+							<li>Permanent link from the newsletter archive page</li>
+							<li>Exposure to 1000+ engaged subscribers</li>
+							<li>High visibility with 65% open rate and 24% click rate</li>
+						</ul>
+					</div>
+					
+					<p>
+						The format of the sponsorship is very easy and straightforward. The newsletters will be included in the archive, so you'll get a permanent link to your website from the archive page as well.
+					</p>
+					
+					<p>
+						If everything sounds good, please <a href="mailto:emanuele@bartolesi.com" class="email-link">send me an email</a> and we can discuss the details!
+					</p>
+				</section>
+
+				<!-- Final CTA -->
+				<section class="content-section">
+					<h2>Ready to Join?</h2>
+					<p>
+						If you're interested in software development insights, curated content, and occasional thoughts on music and life, Dev Dispatch is for you!
+					</p>
+					<div class="newsletter-cta">
+						<a href="https://buttondown.email/kasuken" target="_blank" rel="noopener" class="cta-button">
+							Subscribe Now
+						</a>
+					</div>
+				</section>
+			</div>
+		</main>
+		<Footer />
+	</body>
+</html>

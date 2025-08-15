@@ -1,0 +1,546 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import GitHubActivityCalendar from '../components/GitHubActivityCalendar.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+// Get latest blog posts
+const allPosts = (await getCollection('blog'))
+	.filter(post => post.id !== 'devto-stats')
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 6); // Get latest 6 posts
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			main {
+				width: 960px;
+				max-width: calc(100% - 2rem);
+				margin: auto;
+				padding: 0 1rem;
+			}
+
+			/* Hero Section */
+			.hero {
+				text-align: center;
+				padding: 3rem 0 1rem 0;
+				margin: 0 0 0 0;
+				color: rgb(var(--black));
+			}
+
+			.hero-content {
+				max-width: 800px;
+				margin: 0 auto;
+				padding: 0 2rem;
+			}
+
+			.hero h1 {
+				font-size: 3rem;
+				margin: 0 0 1rem 0;
+				font-weight: 700;
+			}
+
+			.hero .subtitle {
+				font-size: 1.5rem;
+				margin: 0 0 2rem 0;
+				opacity: 0.9;
+				font-weight: 300;
+			}
+
+			.hero-image {
+				width: 200px;
+				height: 200px;
+				border-radius: 50%;
+				margin: 0 auto 2rem auto;
+				background: rgb(var(--gray-light));
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 4rem;
+				border: 4px solid rgb(var(--gray));
+				box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+			}
+
+			.hero-cta {
+				display: flex;
+				gap: 1rem;
+				justify-content: center;
+				flex-wrap: wrap;
+			}
+
+			.cta-button {
+				display: inline-block;
+				padding: 1rem 2rem;
+				background: var(--accent);
+				color: white;
+				text-decoration: none;
+				border-radius: 8px;
+				font-weight: 600;
+				transition: all 0.3s ease;
+				border: 2px solid var(--accent);
+			}
+
+			.cta-button:hover {
+				background: var(--accent-dark);
+				border-color: var(--accent-dark);
+				transform: translateY(-2px);
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+			}
+
+			.cta-button.primary {
+				background: var(--accent);
+				color: white;
+				border-color: var(--accent);
+			}
+
+			.cta-button.primary:hover {
+				background: var(--accent-dark);
+				border-color: var(--accent-dark);
+			}
+
+			/* Visitor Badge */
+			.visitor-badge {
+				margin-top: 2rem;
+				display: flex;
+				justify-content: center;
+			}
+
+			.visitor-badge img {
+				border-radius: 6px;
+				transition: all 0.3s ease;
+				opacity: 0.8;
+			}
+
+			.visitor-badge a:hover img {
+				opacity: 1;
+				transform: translateY(-2px);
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+			}
+
+			/* Stats Section */
+			.stats-section {
+				background: rgb(var(--gray-light));
+				padding: 3rem 2rem;
+				margin: 0 -1rem 4rem -1rem;
+				border-radius: 12px;
+			}
+
+			.stats-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+				gap: 2rem;
+				max-width: 800px;
+				margin: 0 auto;
+			}
+
+			.stat-item {
+				text-align: center;
+				padding: 1.5rem;
+				background: white;
+				border-radius: 12px;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+			}
+
+			.stat-emoji {
+				font-size: 2rem;
+				display: block;
+				margin-bottom: 0.5rem;
+			}
+
+			.stat-number {
+				font-size: 2.5rem;
+				font-weight: 700;
+				color: var(--accent);
+				display: block;
+				margin-bottom: 0.25rem;
+			}
+
+			.stat-label {
+				color: rgb(var(--gray-dark));
+				font-size: 0.9rem;
+				text-transform: uppercase;
+				letter-spacing: 0.5px;
+			}
+
+			/* Sections */
+			.section {
+				margin: 4rem 0;
+			}
+
+			.section-header {
+				text-align: center;
+				margin-bottom: 3rem;
+			}
+
+			.section-title {
+				font-size: 2.5rem;
+				margin: 0 0 1rem 0;
+				color: rgb(var(--black));
+			}
+
+			.section-subtitle {
+				font-size: 1.2rem;
+				color: rgb(var(--gray-dark));
+				margin: 0;
+			}
+
+			/* Featured Posts Grid */
+			.posts-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				gap: 2rem;
+			}
+
+			.post-card {
+				background: white;
+				border-radius: 12px;
+				overflow: hidden;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+				transition: all 0.3s ease;
+				text-decoration: none;
+				color: inherit;
+			}
+
+			.post-card:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+			}
+
+			.post-image {
+				width: 100%;
+				height: 200px;
+				object-fit: cover;
+				background: rgb(var(--gray-light));
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 3rem;
+				color: rgb(var(--gray));
+			}
+
+			.post-content {
+				padding: 1.5rem;
+			}
+
+			.post-title {
+				font-size: 1.2rem;
+				font-weight: 600;
+				margin: 0 0 0.75rem 0;
+				color: rgb(var(--black));
+				line-height: 1.4;
+			}
+
+			.post-date {
+				color: rgb(var(--gray));
+				font-size: 0.9rem;
+				margin: 0 0 1rem 0;
+			}
+
+			.post-metadata {
+				display: flex;
+				gap: 1rem;
+				font-size: 0.8rem;
+				color: rgb(var(--gray));
+			}
+
+			.metadata-item {
+				display: flex;
+				align-items: center;
+				gap: 0.25rem;
+			}
+
+			/* Services Section */
+			.services-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+				gap: 2rem;
+			}
+
+			.service-card {
+				background: white;
+				padding: 2rem;
+				border-radius: 12px;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+				text-align: center;
+				transition: all 0.3s ease;
+			}
+
+			.service-card:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+			}
+
+			.service-icon {
+				font-size: 3rem;
+				margin-bottom: 1rem;
+			}
+
+			.service-title {
+				font-size: 1.5rem;
+				font-weight: 600;
+				margin: 0 0 1rem 0;
+				color: rgb(var(--black));
+			}
+
+			.service-description {
+				color: rgb(var(--gray-dark));
+				margin: 0 0 1.5rem 0;
+				line-height: 1.6;
+			}
+
+			.service-cta {
+				display: inline-block;
+				padding: 0.75rem 1.5rem;
+				background: var(--accent);
+				color: white;
+				text-decoration: none;
+				border-radius: 6px;
+				font-weight: 600;
+				transition: all 0.3s ease;
+			}
+
+			.service-cta:hover {
+				background: var(--accent-dark);
+				transform: translateY(-2px);
+			}
+
+			/* About Section */
+			.about-section {
+				background: rgb(var(--gray-light));
+				padding: 4rem 2rem;
+				margin: 4rem -1rem;
+				border-radius: 12px;
+				text-align: center;
+			}
+
+			.about-content {
+				max-width: 700px;
+				margin: 0 auto;
+			}
+
+			.about-title {
+				font-size: 2.5rem;
+				margin: 0 0 1.5rem 0;
+				color: rgb(var(--black));
+			}
+
+			.about-text {
+				font-size: 1.1rem;
+				line-height: 1.7;
+				color: rgb(var(--gray-dark));
+				margin: 0 0 2rem 0;
+			}
+
+			.achievements {
+				display: flex;
+				justify-content: center;
+				gap: 2rem;
+				flex-wrap: wrap;
+				margin-top: 2rem;
+			}
+
+			.achievement {
+				background: white;
+				padding: 1rem 1.5rem;
+				border-radius: 8px;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+				font-weight: 600;
+				color: var(--accent);
+			}
+
+			/* Newsletter CTA */
+			.newsletter-cta {
+				background: var(--accent);
+				color: white;
+				padding: 3rem 2rem;
+				margin: 4rem -1rem;
+				border-radius: 12px;
+				text-align: center;
+			}
+
+			.newsletter-title {
+				font-size: 2rem;
+				margin: 0 0 1rem 0;
+			}
+
+			.newsletter-description {
+				font-size: 1.1rem;
+				margin: 0 0 2rem 0;
+				opacity: 0.9;
+			}
+
+			.newsletter-button {
+				display: inline-block;
+				padding: 1rem 2rem;
+				background: white;
+				color: var(--accent);
+				text-decoration: none;
+				border-radius: 8px;
+				font-weight: 600;
+				transition: all 0.3s ease;
+			}
+
+			.newsletter-button:hover {
+				background: rgba(255, 255, 255, 0.9);
+				transform: translateY(-2px);
+			}
+
+			/* Responsive Design */
+			@media (max-width: 768px) {
+				.hero h1 {
+					font-size: 2.5rem;
+				}
+
+				.hero .subtitle {
+					font-size: 1.2rem;
+				}
+
+				.hero-cta {
+					flex-direction: column;
+					align-items: center;
+				}
+
+				.stats-grid {
+					grid-template-columns: repeat(2, 1fr);
+				}
+
+				.section-title {
+					font-size: 2rem;
+				}
+
+				.services-grid {
+					grid-template-columns: 1fr;
+				}
+
+				.achievements {
+					flex-direction: column;
+					align-items: center;
+				}
+
+				.github-contributions {
+					padding: 1rem;
+				}
+
+				.contributions-chart {
+					overflow-x: auto;
+				}
+
+				.contributions-stats {
+					grid-template-columns: repeat(2, 1fr);
+					gap: 1rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<!-- Hero Section -->
+			<section class="hero">
+				<div class="hero-content">
+					<!-- <div class="hero-image">
+						👨‍💻
+					</div> -->
+					<h1>Emanuele Bartolesi</h1>
+					<p class="subtitle">Senior Cloud Engineer, Technical Writer & Mentor</p>
+					<div class="hero-cta">
+						<a href="/blog" class="cta-button primary">Read My Blog</a>
+						<a href="/mentor" class="cta-button">Book Mentoring</a>
+						<a href="/newsletter" class="cta-button">Join Newsletter</a>
+					</div>
+					
+					<!-- Visitor Badge -->
+					<div class="visitor-badge">
+						<a href="https://visitorbadge.io/status?path=https%3A%2F%2Fwww.emanuelebartolesi.com">
+							<img src="https://api.visitorbadge.io/api/combined?path=https%3A%2F%2Fwww.emanuelebartolesi.com&label=Visitors&countColor=%23263759&style=flat" alt="Visitor Badge" />
+						</a>
+					</div>
+				</div>
+			</section>
+
+			<!-- GitHub Contributions Section -->
+			<GitHubActivityCalendar username="kasuken" />
+
+			<!-- Featured Blog Posts -->
+			<section class="section">
+				<div class="section-header">
+					<h2 class="section-title">Latest Blog Posts</h2>
+					<p class="section-subtitle">Thoughts on web development, cloud computing, and technology</p>
+				</div>
+				<div class="posts-grid">
+					{allPosts.map((post) => (
+						<a href={`/blog/${post.id}`} class="post-card">
+							{post.data.heroImage ? (
+								<img src={post.data.heroImage} alt={post.data.title} class="post-image" />
+							) : (
+								<div class="post-image">📄</div>
+							)}
+							<div class="post-content">
+								<h3 class="post-title">{post.data.title}</h3>
+								<p class="post-date">
+									<FormattedDate date={post.data.pubDate} />
+								</p>
+								<div class="post-metadata">
+									{post.data.readingTimeMinutes && (
+										<span class="metadata-item">
+											<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+												<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+												<path d="M7.5 3a.5.5 0 0 1 .5.5V9l2.5 1.5a.5.5 0 0 1-.5.866l-3-1.8A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
+											</svg>
+											{post.data.readingTimeMinutes} min
+										</span>
+									)}
+									{post.data.publicReactionsCount && (
+										<span class="metadata-item">
+											<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+												<path d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+											</svg>
+											{post.data.publicReactionsCount}
+										</span>
+									)}
+								</div>
+							</div>
+						</a>
+					))}
+				</div>
+			</section>
+
+			<!-- About Section -->
+			<section class="about-section">
+				<div class="about-content">
+					<h2 class="about-title">About Me</h2>
+					<p class="about-text">
+						I'm a passionate full-stack developer with over 20 years of experience building web applications 
+						and cloud solutions. As a Microsoft MVP and technical writer, I love sharing knowledge and helping 
+						other developers grow in their careers.
+					</p>
+					<p class="about-text">
+						When I'm not coding, you'll find me training for Ironman competitions or spending time with my 
+						beloved Basset Hounds. I believe in continuous learning, community building, and making technology 
+						accessible to everyone.
+					</p>
+					<div class="achievements">
+						<div class="achievement">🏆 Microsoft MVP (12x)</div>
+						<div class="achievement">⭐ GitHub Star (4x)</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Newsletter CTA -->
+			<section class="newsletter-cta">
+				<h2 class="newsletter-title">Stay Updated</h2>
+				<p class="newsletter-description">
+					Get weekly insights on web development, developer tools, and career advice delivered to your inbox.
+				</p>
+				<a href="/newsletter" class="newsletter-button">Subscribe to Dev Dispatch</a>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

@@ -1,0 +1,385 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Header from '../../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+
+const allPosts = (await getCollection('blog'))
+	.filter(post => post.id !== 'devto-stats') // Exclude stats entry from posts
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Get Dev.to statistics
+const statsEntry = (await getCollection('blog')).find(post => post.id === 'devto-stats');
+const stats = statsEntry?.data;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Blog - My Blog Posts" description="All my blog posts since many years" />
+		<style>
+			main {
+				width: 960px;
+			}
+			ul {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				gap: 2rem;
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+			ul li {
+				display: flex;
+				flex-direction: column;
+			}
+			ul li * {
+				text-decoration: none;
+				transition: 0.2s ease;
+			}
+			ul li:first-child {
+				grid-column: 1 / -1;
+				margin-bottom: 2rem;
+			}
+			ul li:first-child a {
+				display: flex;
+				flex-direction: row;
+				align-items: stretch;
+				gap: 0;
+				padding: 0;
+				background: rgb(var(--gray-light));
+				border-radius: 16px;
+				overflow: hidden;
+			}
+			ul li:first-child img {
+				width: 45%;
+				height: 280px;
+				object-fit: cover;
+				flex-shrink: 0;
+			}
+			ul li:first-child .content {
+				flex: 1;
+				padding: 2rem;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+			}
+			ul li:first-child .title {
+				font-size: 2rem;
+				margin-bottom: 1rem;
+				line-height: 1.2;
+			}
+			ul li:first-child .date {
+				font-size: 1rem;
+				margin-bottom: 1rem;
+			}
+			ul li:first-child .tags {
+				margin-top: 1rem;
+			}
+			ul li img {
+				margin-bottom: 0.5rem;
+				border-radius: 12px;
+				transition: transform 0.2s ease;
+				width: 100%;
+				height: 200px;
+				object-fit: cover;
+			}
+			ul li:first-child img {
+				height: 300px;
+			}
+			ul li a:hover img {
+				transform: scale(1.02);
+			}
+			ul li a {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+				text-decoration: none;
+				color: inherit;
+				border-radius: 12px;
+				overflow: hidden;
+				transition: transform 0.2s ease, box-shadow 0.2s ease;
+				background: white;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+			}
+			ul li a:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+			}
+			
+			/* Content area styling for regular posts */
+			ul li:not(:first-child) a > div {
+				padding: 1.5rem !important;
+			}
+			
+			.card-content {
+				flex: 1;
+				padding: 1.5rem;
+				display: flex;
+				flex-direction: column;
+			}
+			.title {
+				margin: 0 0 0.75rem 0;
+				color: rgb(var(--black));
+				line-height: 1.4;
+				font-size: 1.2rem;
+				font-weight: 600;
+			}
+			.date {
+				margin: 0 0 1rem 0;
+				color: rgb(var(--gray));
+				font-size: 0.9rem;
+			}
+			.metadata {
+				margin: 0 0 1rem 0;
+				display: flex;
+				gap: 1rem;
+				flex-wrap: wrap;
+				align-items: center;
+			}
+			.metadata-item {
+				display: flex;
+				align-items: center;
+				gap: 0.3rem;
+				color: rgb(var(--gray));
+				font-size: 0.85rem;
+				font-weight: 500;
+			}
+			.metadata-item svg {
+				opacity: 0.7;
+				flex-shrink: 0;
+			}
+			ul li a:hover h4,
+			ul li a:hover .date {
+				color: rgb(var(--accent));
+			}
+			ul a:hover img {
+				box-shadow: var(--box-shadow);
+			}
+			.tags {
+				margin-top: auto;
+				padding-top: 1rem;
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5rem;
+			}
+			.tag {
+				background: var(--accent);
+				color: white;
+				padding: 0.4rem 0.8rem;
+				border-radius: 1rem;
+				font-size: 0.8rem;
+				font-weight: 500;
+				border: 1px solid var(--accent);
+				display: inline-block;
+			}
+			.blog-header {
+				text-align: center;
+				margin-bottom: 2rem;
+			}
+			.blog-header h1 {
+				margin: 0 0 0.5rem 0;
+				color: rgb(var(--black));
+			}
+			.blog-stats {
+				display: flex;
+				justify-content: center;
+				gap: 2rem;
+				margin: 1.5rem 0;
+				padding: 2rem;
+				background: linear-gradient(135deg, 
+					rgba(var(--accent), 0.15) 0%, 
+					rgba(var(--accent), 0.08) 50%,
+					rgba(var(--accent), 0.05) 100%);
+				border-radius: 16px;
+				border: 1px solid rgba(var(--accent), 0.25);
+				box-shadow: 0 8px 32px rgba(var(--accent), 0.1);
+				backdrop-filter: blur(10px);
+			}
+			.stat-item {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 0.25rem;
+				padding: 1rem;
+				border-radius: 12px;
+				background: rgba(255, 255, 255, 0.7);
+				backdrop-filter: blur(5px);
+				border: 1px solid rgba(var(--accent), 0.1);
+				transition: all 0.3s ease;
+				min-width: 110px;
+				min-height: 90px;
+				flex: 1;
+			}
+			.stat-item:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 8px 25px rgba(var(--accent), 0.15);
+				background: rgba(255, 255, 255, 0.9);
+			}
+			.stat-emoji {
+				font-size: 1.5rem;
+				margin-bottom: 0.1rem;
+				filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+			}
+			.stat-number {
+				font-size: 1.8rem;
+				font-weight: 800;
+				color: rgb(var(--accent));
+				line-height: 1;
+				text-shadow: 0 2px 4px rgba(var(--accent), 0.1);
+			}
+			.stat-label {
+				font-size: 0.75rem;
+				color: rgb(var(--gray-dark));
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.5px;
+			}
+			.post-count {
+				margin: 0;
+				color: rgb(var(--gray));
+				font-size: 0.9rem;
+			}
+			@media (max-width: 720px) {
+				ul {
+					grid-template-columns: 1fr;
+					gap: 1rem;
+				}
+				ul li:first-child {
+					margin-bottom: 1rem;
+				}
+				ul li:first-child a {
+					flex-direction: column;
+					text-align: center;
+					gap: 0;
+					padding: 0;
+				}
+				ul li:first-child img {
+					width: 100%;
+					height: 200px;
+				}
+				ul li:first-child .content {
+					padding: 1.5rem;
+				}
+				ul li:first-child .title {
+					font-size: 1.5rem;
+				}
+				.blog-stats {
+					grid-template-columns: repeat(2, 1fr);
+					display: grid;
+					gap: 1rem;
+					padding: 1.5rem;
+				}
+				.stat-item {
+					padding: 0.75rem;
+				}
+				.stat-emoji {
+					font-size: 1.5rem;
+				}
+				.stat-number {
+					font-size: 1.8rem;
+				}
+				.stat-label {
+					font-size: 0.75rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section>
+				<div class="blog-header">
+					<h1>Blog Posts</h1>
+					{stats && (
+						<div class="blog-stats">
+							<div class="stat-item">
+								<span class="stat-emoji">📝</span>
+								<span class="stat-number">{stats.totalPosts}</span>
+								<span class="stat-label">Posts</span>
+							</div>
+							<div class="stat-item">
+								<span class="stat-emoji">❤️</span>
+								<span class="stat-number">{stats.totalReactions}</span>
+								<span class="stat-label">Reactions</span>
+							</div>
+							<div class="stat-item">
+								<span class="stat-emoji">💬</span>
+								<span class="stat-number">{stats.totalComments}</span>
+								<span class="stat-label">Comments</span>
+							</div>
+						</div>
+					)}
+					<p class="post-count">
+					</p>
+				</div>
+				
+				<ul id="blog-posts">
+					{
+						allPosts.map((post, index) => (
+							<li>
+								<a href={`/blog/${post.id}`} style="display: flex; flex-direction: column; height: 100%;">
+									{post.data.heroImage && (
+										<img 
+											src={post.data.heroImage} 
+											alt={post.data.title}
+											loading="lazy"
+											style="width: 100%; height: 200px; object-fit: cover; margin-bottom: 0.5rem; border-radius: 12px;"
+										/>
+									)}
+									<div class={index === 0 ? "content" : "card-content"}>
+										<h4 class="title">{post.data.title}</h4>
+										<p class="date">
+											<FormattedDate date={post.data.pubDate} />
+										</p>
+										
+										{/* Metadata row for reading time, reactions, comments */}
+										<div class="metadata">
+											{post.data.readingTimeMinutes && (
+												<span class="metadata-item">
+													<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+														<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+														<path d="M7.5 3a.5.5 0 0 1 .5.5V9l2.5 1.5a.5.5 0 0 1-.5.866l-3-1.8A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
+													</svg>
+													{post.data.readingTimeMinutes} min read
+												</span>
+											)}
+											{post.data.publicReactionsCount !== undefined && (
+												<span class="metadata-item">
+													<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+														<path d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+													</svg>
+													{post.data.publicReactionsCount}
+												</span>
+											)}
+											{post.data.commentsCount !== undefined && (
+												<span class="metadata-item">
+													<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+														<path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+													</svg>
+													{post.data.commentsCount}
+												</span>
+											)}
+										</div>
+										
+										{post.data.tags && post.data.tags.length > 0 && (
+											<div class="tags">
+												{post.data.tags.map((tag: string) => (
+													<span class="tag">#{tag}</span>
+												))}
+											</div>
+										)}
+									</div>
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
