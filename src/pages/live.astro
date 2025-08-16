@@ -1,0 +1,324 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Live Streaming - Emanuele Bartolesi" description="Join me on Twitch every Monday and Wednesday for live coding sessions, tech discussions, and programming tutorials." />
+		<style>
+			main {
+				width: 960px;
+				max-width: calc(100% - 2rem);
+				margin: auto;
+				padding: 3rem 1rem;
+			}
+			
+			.live-header {
+				text-align: center;
+				margin-bottom: 3rem;
+			}
+			
+			.live-header h1 {
+				margin: 0 0 0.5rem 0;
+				color: rgb(var(--black));
+				font-weight: 700;
+				letter-spacing: -0.02em;
+				background: linear-gradient(135deg, var(--accent) 0%, #9146ff 100%);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+			}
+			
+			.live-header p {
+				margin: 0 0 2rem 0;
+				color: rgb(var(--gray));
+				font-size: 1.1rem;
+			}
+			
+			.twitch-embed {
+				width: 100%;
+				max-width: 800px;
+				margin: 0 auto 3rem auto;
+				border-radius: 12px;
+				overflow: hidden;
+				box-shadow: var(--box-shadow);
+			}
+			
+			.schedule-section {
+				background: rgba(var(--gray-light), 0.3);
+				border-radius: 12px;
+				padding: 2rem;
+				margin: 3rem 0;
+				border: 1px solid rgba(var(--gray), 0.1);
+			}
+			
+			.schedule-section h2 {
+				text-align: center;
+				margin-bottom: 2rem;
+				color: rgb(var(--black));
+			}
+			
+			.schedule-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				gap: 2rem;
+				max-width: 700px;
+				margin: 0 auto;
+			}
+			
+			.schedule-day {
+				background: white;
+				border-radius: 8px;
+				padding: 1.5rem;
+				box-shadow: 0 2px 10px rgba(var(--gray), 15%);
+				border: 1px solid rgba(var(--gray), 0.1);
+				text-align: center;
+			}
+			
+			.schedule-day h3 {
+				color: var(--accent);
+				margin-bottom: 1rem;
+				font-size: 1.5rem;
+			}
+			
+			.schedule-time {
+				font-size: 1.2rem;
+				font-weight: 600;
+				color: rgb(var(--black));
+				margin-bottom: 0.5rem;
+			}
+			
+			.schedule-description {
+				color: rgb(var(--gray));
+				line-height: 1.6;
+				margin-bottom: 1rem;
+			}
+			
+			.live-indicator {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+				background: #ff4444;
+				color: white;
+				padding: 0.5rem 1rem;
+				border-radius: 20px;
+				font-size: 0.9rem;
+				font-weight: 600;
+				margin-top: 1rem;
+			}
+			
+			.live-dot {
+				width: 8px;
+				height: 8px;
+				background: white;
+				border-radius: 50%;
+				animation: pulse 2s infinite;
+			}
+			
+			@keyframes pulse {
+				0% { opacity: 1; }
+				50% { opacity: 0.5; }
+				100% { opacity: 1; }
+			}
+			
+			.twitch-link {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+				background: #9146ff;
+				color: white;
+				padding: 1rem 2rem;
+				border-radius: 8px;
+				text-decoration: none;
+				font-weight: 600;
+				transition: all 0.3s ease;
+				margin: 2rem auto;
+				display: block;
+				width: fit-content;
+			}
+			
+			.twitch-link:hover {
+				background: #7c3aed;
+				transform: translateY(-2px);
+				box-shadow: 0 4px 15px rgba(145, 70, 255, 0.3);
+			}
+			
+			.twitch-icon {
+				width: 20px;
+				height: 20px;
+				fill: currentColor;
+			}
+			
+			.content-section {
+				margin: 3rem 0;
+			}
+			
+			.content-section h2 {
+				color: rgb(var(--black));
+				margin-bottom: 1.5rem;
+			}
+			
+			.content-section p {
+				color: rgb(var(--gray-dark));
+				line-height: 1.7;
+				margin-bottom: 1.5rem;
+			}
+			
+			.topics-list {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5rem;
+				margin: 2rem 0;
+			}
+			
+			.topic-tag {
+				background: rgba(var(--accent), 0.1);
+				color: var(--accent);
+				padding: 0.5rem 1rem;
+				border-radius: 20px;
+				font-size: 0.9rem;
+				font-weight: 500;
+				border: 1px solid rgba(var(--accent), 0.2);
+			}
+			
+			@media (max-width: 768px) {
+				.schedule-grid {
+					grid-template-columns: 1fr;
+				}
+				
+				.live-header h1 {
+					font-size: 2.5rem;
+				}
+				
+				.schedule-section {
+					padding: 1.5rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="live-header">
+				<h1>🔴 Live Streaming</h1>
+				<p>Join me on Twitch for live coding sessions, tech discussions, and programming tutorials</p>
+			</div>
+
+			<div class="twitch-embed">
+				<iframe 
+					src="https://player.twitch.tv/?channel=kasuken&parent=localhost&parent=127.0.0.1&parent=kasuken.github.io&autoplay=false"
+					frameborder="0"
+					allowfullscreen="true"
+					scrolling="no"
+					height="400"
+					width="100%">
+				</iframe>
+			</div>
+
+			<div class="schedule-section">
+				<h2>📅 Streaming Schedule</h2>
+				<div class="schedule-grid">
+					<div class="schedule-day">
+						<h3>Monday</h3>
+						<div class="schedule-time">10:00 AM - 12:00 PM CET</div>
+						<div class="schedule-description">
+							Weekly coding sessions focusing on cloud technologies, .NET development, and DevOps practices.
+						</div>
+						<div class="live-indicator" style="display: none;" id="monday-live">
+							<div class="live-dot"></div>
+							LIVE NOW
+						</div>
+					</div>
+					<div class="schedule-day">
+						<h3>Wednesday</h3>
+						<div class="schedule-time">10:00 AM - 12:00 PM CET</div>
+						<div class="schedule-description">
+							Deep dives into Azure/AWS services, AI/ML projects, and answering community questions.
+						</div>
+						<div class="live-indicator" style="display: none;" id="wednesday-live">
+							<div class="live-dot"></div>
+							LIVE NOW
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<a href="https://twitch.tv/kasuken" target="_blank" class="twitch-link">
+				<svg class="twitch-icon" viewBox="0 0 24 24">
+					<path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/>
+				</svg>
+				Follow me on Twitch
+			</a>
+
+			<div class="content-section">
+				<h2>🎯 What to Expect</h2>
+				<p>
+					My live streams are interactive sessions where we explore modern software development together. 
+					Whether you're a beginner or an experienced developer, there's something for everyone!
+				</p>
+				
+				<div class="topics-list">
+					<span class="topic-tag">Azure Cloud</span>
+					<span class="topic-tag">.NET Development</span>
+					<span class="topic-tag">DevOps</span>
+					<span class="topic-tag">AI & Machine Learning</span>
+					<span class="topic-tag">Open Source</span>
+					<span class="topic-tag">Career Advice</span>
+					<span class="topic-tag">Code Reviews</span>
+					<span class="topic-tag">Q&A Sessions</span>
+				</div>
+
+				<p>
+					I encourage questions and discussions during the stream. Don't hesitate to ask about anything 
+					related to software development, cloud technologies, or career growth in tech!
+				</p>
+			</div>
+
+			<div class="content-section">
+				<h2>💬 Community Guidelines</h2>
+				<p>
+					My stream is a welcoming space for developers of all levels. Please be respectful, 
+					helpful, and inclusive. Let's learn and grow together as a community!
+				</p>
+			</div>
+		</main>
+		<Footer />
+
+		<script>
+			// Simple script to show live indicators based on current time
+			// This is a basic implementation - you might want to integrate with Twitch API for real status
+			function checkStreamStatus() {
+				const now = new Date();
+				const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+				const currentHour = now.getHours();
+				const currentMinute = now.getMinutes();
+				const currentTime = currentHour * 60 + currentMinute;
+				
+				// Monday = 1, Wednesday = 3
+				// Stream time: 10:00 - 12:00 CET (10 AM - 12 PM)
+				const streamStart = 10 * 60; // 10:00 in minutes
+				const streamEnd = 12 * 60;   // 12:00 in minutes
+				
+				const mondayLive = document.getElementById('monday-live');
+				const wednesdayLive = document.getElementById('wednesday-live');
+				
+				if (currentDay === 1 && currentTime >= streamStart && currentTime <= streamEnd) {
+					mondayLive.style.display = 'inline-flex';
+				}
+				
+				if (currentDay === 3 && currentTime >= streamStart && currentTime <= streamEnd) {
+					wednesdayLive.style.display = 'inline-flex';
+				}
+			}
+			
+			// Check status on page load
+			checkStreamStatus();
+			
+			// Check every minute
+			setInterval(checkStreamStatus, 60000);
+		</script>
+	</body>
+</html>
