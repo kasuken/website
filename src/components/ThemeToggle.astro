@@ -51,60 +51,63 @@
 		transform: scale(0.95);
 	}
 	
-	.sun-icon,
-	.moon-icon,
-	.retrowave-icon {
+	.theme-toggle .sun-icon,
+	.theme-toggle .moon-icon,
+	.theme-toggle .retrowave-icon {
 		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 20px;
+		height: 20px;
 		transition: all 0.3s ease;
-		transform-origin: center;
+		opacity: 0;
+		visibility: hidden;
+		transform: translate(-50%, -50%) scale(0.5);
 	}
 	
 	/* Light mode state - show sun, hide others */
-	.sun-icon {
+	.theme-toggle .sun-icon {
 		opacity: 1;
-		transform: rotate(0deg) scale(1);
-	}
-	
-	.moon-icon {
-		opacity: 0;
-		transform: rotate(90deg) scale(0.8);
-	}
-	
-	.retrowave-icon {
-		opacity: 0;
-		transform: rotate(-90deg) scale(0.8);
+		visibility: visible;
+		transform: translate(-50%, -50%) scale(1);
 	}
 	
 	/* Dark mode state - show moon, hide others */
-	[data-theme="dark"] .sun-icon {
+	html[data-theme="dark"] .theme-toggle .sun-icon {
 		opacity: 0;
-		transform: rotate(-90deg) scale(0.8);
+		visibility: hidden;
+		transform: translate(-50%, -50%) scale(0.5);
 	}
 	
-	[data-theme="dark"] .moon-icon {
+	html[data-theme="dark"] .theme-toggle .moon-icon {
 		opacity: 1;
-		transform: rotate(0deg) scale(1);
+		visibility: visible;
+		transform: translate(-50%, -50%) scale(1);
 	}
 	
-	[data-theme="dark"] .retrowave-icon {
+	html[data-theme="dark"] .theme-toggle .retrowave-icon {
 		opacity: 0;
-		transform: rotate(90deg) scale(0.8);
+		visibility: hidden;
+		transform: translate(-50%, -50%) scale(0.5);
 	}
 	
 	/* Retrowave mode state - show retrowave icon, hide others */
-	[data-theme="retrowave"] .sun-icon {
+	html[data-theme="retrowave"] .theme-toggle .sun-icon {
 		opacity: 0;
-		transform: rotate(180deg) scale(0.8);
+		visibility: hidden;
+		transform: translate(-50%, -50%) scale(0.5);
 	}
 	
-	[data-theme="retrowave"] .moon-icon {
+	html[data-theme="retrowave"] .theme-toggle .moon-icon {
 		opacity: 0;
-		transform: rotate(-90deg) scale(0.8);
+		visibility: hidden;
+		transform: translate(-50%, -50%) scale(0.5);
 	}
 	
-	[data-theme="retrowave"] .retrowave-icon {
+	html[data-theme="retrowave"] .theme-toggle .retrowave-icon {
 		opacity: 1;
-		transform: rotate(0deg) scale(1);
+		visibility: visible;
+		transform: translate(-50%, -50%) scale(1);
 		color: #ff00ff;
 		filter: drop-shadow(0 0 5px #ff00ff);
 	}
@@ -135,10 +138,14 @@
 		const THEMES = ['light', 'dark', 'retrowave'];
 		
 		function initThemeToggle() {
+			console.log('🔧 Theme toggle initializing...');
+			
 			// Get stored theme or default to system preference
 			const storedTheme = localStorage.getItem('theme');
 			const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 			const initialTheme = storedTheme || (systemPrefersDark ? 'dark' : 'light');
+			
+			console.log('📱 Initial theme detected:', initialTheme);
 			
 			// Apply initial theme
 			setTheme(initialTheme);
@@ -146,7 +153,13 @@
 			// Setup toggle button
 			const toggleButton = document.getElementById('theme-toggle');
 			if (toggleButton) {
-				toggleButton.addEventListener('click', toggleTheme);
+				console.log('🎯 Theme toggle button found, adding click listener');
+				toggleButton.addEventListener('click', function() {
+					console.log('🖱️ Theme toggle button clicked');
+					toggleTheme();
+				});
+			} else {
+				console.error('❌ Theme toggle button not found!');
 			}
 			
 			// Listen for system theme changes (only if no stored preference)
@@ -158,6 +171,8 @@
 		}
 		
 		function setTheme(theme) {
+			console.log('🎨 Setting theme to:', theme);
+			
 			// Validate theme
 			if (!THEMES.includes(theme)) {
 				theme = 'light';
@@ -171,6 +186,11 @@
 			
 			// Store preference
 			localStorage.setItem('theme', theme);
+			
+			// Debug logging
+			console.log('✅ Theme set to:', theme);
+			console.log('📄 data-theme attribute:', document.documentElement.getAttribute('data-theme'));
+			console.log('🏷️ Body classes:', document.body.className);
 		}
 		
 		function toggleTheme() {
@@ -179,6 +199,7 @@
 			const nextIndex = (currentIndex + 1) % THEMES.length;
 			const newTheme = THEMES[nextIndex];
 			
+			console.log('🔄 Toggling theme from', currentTheme, 'to', newTheme);
 			setTheme(newTheme);
 		}
 		
