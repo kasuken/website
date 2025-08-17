@@ -1,6 +1,7 @@
 ---
 import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
+import ThemeToggle from './ThemeToggle.astro';
 ---
 
 <header>
@@ -18,6 +19,7 @@ import HeaderLink from './HeaderLink.astro';
 			<HeaderLink href="/about">About</HeaderLink>
 		</div>
 		<div class="social-links">
+			<ThemeToggle />
 			<a href="https://m.webtoo.ls/@astro" target="_blank">
 				<span class="sr-only">Follow Astro on Mastodon</span>
 				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
@@ -50,40 +52,123 @@ import HeaderLink from './HeaderLink.astro';
 </header>
 <style>
 	header {
-		margin: 0;
-		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
+		background: var(--background);
+		border-bottom: 1px solid var(--border);
+		position: sticky;
+		top: 0;
+		z-index: 100;
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
 	}
+	
+	nav {
+		max-width: 1200px;
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 1rem;
+		min-height: 64px;
+	}
+	
 	h2 {
 		margin: 0;
-		font-size: 1em;
+		font-size: 1.25rem;
+		font-weight: 700;
 	}
 
 	h2 a,
 	h2 a.active {
 		text-decoration: none;
+		color: var(--text-primary);
+		transition: color 0.2s ease;
 	}
-	nav {
+	
+	h2 a:hover {
+		color: var(--accent);
+		text-decoration: none;
+	}
+	
+	.internal-links {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		gap: 0.5rem;
 	}
-	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
+	
+	.internal-links a {
+		padding: 0.5rem 1rem;
+		color: var(--text-secondary);
+		border-radius: var(--radius);
+		text-decoration: none;
+		font-weight: 500;
+		font-size: 0.875rem;
+		transition: all 0.2s ease;
+		position: relative;
+	}
+	
+	.internal-links a:hover {
+		color: var(--accent);
+		background: var(--background-secondary);
 		text-decoration: none;
 	}
-	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--accent);
+	
+	.internal-links a.active {
+		color: var(--accent);
+		background: rgba(0, 102, 204, 0.1);
 	}
-	.social-links,
+	
+	.social-links {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	
 	.social-links a {
 		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		color: var(--text-secondary);
+		border-radius: var(--radius);
+		transition: all 0.2s ease;
 	}
-	@media (max-width: 720px) {
+	
+	.social-links a:hover {
+		color: var(--accent);
+		background: var(--background-secondary);
+	}
+	
+	.social-links svg {
+		width: 20px;
+		height: 20px;
+	}
+	
+	@media (max-width: 768px) {
+		nav {
+			padding: 0 1rem;
+		}
+		
+		.internal-links {
+			display: none;
+		}
+		
+		.social-links {
+			gap: 0.25rem;
+		}
+		
+		.social-links a {
+			width: 36px;
+			height: 36px;
+		}
+		
+		.social-links svg {
+			width: 18px;
+			height: 18px;
+		}
+	}
+	
+	@media (max-width: 480px) {
 		.social-links {
 			display: none;
 		}

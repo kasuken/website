@@ -1,0 +1,201 @@
+---
+// Theme Toggle Component - Three State: Light → Dark → Retrowave
+---
+
+<button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle light/dark/retrowave mode">
+	<svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+		<circle cx="12" cy="12" r="5"></circle>
+		<line x1="12" y1="1" x2="12" y2="3"></line>
+		<line x1="12" y1="21" x2="12" y2="23"></line>
+		<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+		<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+		<line x1="1" y1="12" x2="3" y2="12"></line>
+		<line x1="21" y1="12" x2="23" y2="12"></line>
+		<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+		<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+	</svg>
+	<svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+		<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+	</svg>
+	<svg class="retrowave-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+		<path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+		<path d="M2 17l10 5 10-5"></path>
+		<path d="M2 12l10 5 10-5"></path>
+	</svg>
+</button>
+
+<style>
+	.theme-toggle {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border: none;
+		border-radius: var(--radius);
+		background: var(--background-secondary);
+		color: var(--text-secondary);
+		cursor: pointer;
+		transition: all 0.2s ease;
+		overflow: hidden;
+	}
+	
+	.theme-toggle:hover {
+		background: var(--background-tertiary);
+		color: var(--accent);
+		transform: scale(1.05);
+	}
+	
+	.theme-toggle:active {
+		transform: scale(0.95);
+	}
+	
+	.sun-icon,
+	.moon-icon,
+	.retrowave-icon {
+		position: absolute;
+		transition: all 0.3s ease;
+		transform-origin: center;
+	}
+	
+	/* Light mode state - show sun, hide others */
+	.sun-icon {
+		opacity: 1;
+		transform: rotate(0deg) scale(1);
+	}
+	
+	.moon-icon {
+		opacity: 0;
+		transform: rotate(90deg) scale(0.8);
+	}
+	
+	.retrowave-icon {
+		opacity: 0;
+		transform: rotate(-90deg) scale(0.8);
+	}
+	
+	/* Dark mode state - show moon, hide others */
+	[data-theme="dark"] .sun-icon {
+		opacity: 0;
+		transform: rotate(-90deg) scale(0.8);
+	}
+	
+	[data-theme="dark"] .moon-icon {
+		opacity: 1;
+		transform: rotate(0deg) scale(1);
+	}
+	
+	[data-theme="dark"] .retrowave-icon {
+		opacity: 0;
+		transform: rotate(90deg) scale(0.8);
+	}
+	
+	/* Retrowave mode state - show retrowave icon, hide others */
+	[data-theme="retrowave"] .sun-icon {
+		opacity: 0;
+		transform: rotate(180deg) scale(0.8);
+	}
+	
+	[data-theme="retrowave"] .moon-icon {
+		opacity: 0;
+		transform: rotate(-90deg) scale(0.8);
+	}
+	
+	[data-theme="retrowave"] .retrowave-icon {
+		opacity: 1;
+		transform: rotate(0deg) scale(1);
+		color: #ff00ff;
+		filter: drop-shadow(0 0 5px #ff00ff);
+	}
+	
+	/* Focus styles for accessibility */
+	.theme-toggle:focus {
+		outline: 2px solid var(--accent);
+		outline-offset: 2px;
+	}
+	
+	@media (max-width: 768px) {
+		.theme-toggle {
+			width: 36px;
+			height: 36px;
+		}
+		
+		.sun-icon,
+		.moon-icon,
+		.retrowave-icon {
+			width: 18px;
+			height: 18px;
+		}
+	}
+</style>
+
+<script is:inline>
+	(function() {
+		const THEMES = ['light', 'dark', 'retrowave'];
+		
+		function initThemeToggle() {
+			// Get stored theme or default to system preference
+			const storedTheme = localStorage.getItem('theme');
+			const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+			const initialTheme = storedTheme || (systemPrefersDark ? 'dark' : 'light');
+			
+			// Apply initial theme
+			setTheme(initialTheme);
+			
+			// Setup toggle button
+			const toggleButton = document.getElementById('theme-toggle');
+			if (toggleButton) {
+				toggleButton.addEventListener('click', toggleTheme);
+			}
+			
+			// Listen for system theme changes (only if no stored preference)
+			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+				if (!localStorage.getItem('theme')) {
+					setTheme(e.matches ? 'dark' : 'light');
+				}
+			});
+		}
+		
+		function setTheme(theme) {
+			// Validate theme
+			if (!THEMES.includes(theme)) {
+				theme = 'light';
+			}
+			
+			document.documentElement.setAttribute('data-theme', theme);
+			
+			// Also add class to body for better compatibility
+			document.body.className = document.body.className.replace(/\b(light|dark|retrowave)-theme\b/g, '');
+			document.body.classList.add(theme + '-theme');
+			
+			// Store preference
+			localStorage.setItem('theme', theme);
+		}
+		
+		function toggleTheme() {
+			const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+			const currentIndex = THEMES.indexOf(currentTheme);
+			const nextIndex = (currentIndex + 1) % THEMES.length;
+			const newTheme = THEMES[nextIndex];
+			
+			setTheme(newTheme);
+		}
+		
+		function getCurrentTheme() {
+			return document.documentElement.getAttribute('data-theme') || 'light';
+		}
+		
+		// Initialize when DOM is ready
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', initThemeToggle);
+		} else {
+			initThemeToggle();
+		}
+		
+		// Export functions for potential use in other scripts
+		window.setTheme = setTheme;
+		window.toggleTheme = toggleTheme;
+		window.getCurrentTheme = getCurrentTheme;
+	})();
+</script>

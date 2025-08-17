@@ -9,103 +9,109 @@ import Header from '../components/Header.astro';
 	<head>
 		<BaseHead title="Live Streaming - Emanuele Bartolesi" description="Join me on Twitch every Monday and Wednesday for live coding sessions, tech discussions, and programming tutorials." />
 		<style>
-			main {
-				width: 960px;
-				max-width: calc(100% - 2rem);
-				margin: auto;
-				padding: 3rem 1rem;
-			}
-			
 			.live-header {
 				text-align: center;
 				margin-bottom: 3rem;
 			}
 			
 			.live-header h1 {
-				margin: 0 0 0.5rem 0;
-				color: rgb(var(--black));
+				margin: 0 0 1rem 0;
+				color: var(--text-primary);
 				font-weight: 700;
 				letter-spacing: -0.02em;
 				background: linear-gradient(135deg, var(--accent) 0%, #9146ff 100%);
 				-webkit-background-clip: text;
 				-webkit-text-fill-color: transparent;
 				background-clip: text;
+				font-size: 3rem;
 			}
 			
 			.live-header p {
 				margin: 0 0 2rem 0;
-				color: rgb(var(--gray));
-				font-size: 1.1rem;
+				color: var(--text-secondary);
+				font-size: 1.125rem;
+				max-width: 600px;
+				margin-left: auto;
+				margin-right: auto;
 			}
 			
 			.twitch-embed {
 				width: 100%;
-				max-width: 800px;
+				max-width: 900px;
 				margin: 0 auto 3rem auto;
-				border-radius: 12px;
+				border-radius: var(--radius-md);
 				overflow: hidden;
-				box-shadow: var(--box-shadow);
+				box-shadow: var(--shadow-lg);
+				border: 1px solid var(--border);
 			}
 			
 			.schedule-section {
-				background: rgba(var(--gray-light), 0.3);
-				border-radius: 12px;
-				padding: 2rem;
+				background: var(--background-secondary);
+				border-radius: var(--radius-md);
+				padding: 2.5rem;
 				margin: 3rem 0;
-				border: 1px solid rgba(var(--gray), 0.1);
+				border: 1px solid var(--border);
 			}
 			
 			.schedule-section h2 {
 				text-align: center;
 				margin-bottom: 2rem;
-				color: rgb(var(--black));
+				color: var(--text-primary);
+				font-size: 2rem;
 			}
 			
 			.schedule-grid {
 				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 				gap: 2rem;
-				max-width: 700px;
+				max-width: 800px;
 				margin: 0 auto;
 			}
 			
 			.schedule-day {
-				background: white;
-				border-radius: 8px;
-				padding: 1.5rem;
-				box-shadow: 0 2px 10px rgba(var(--gray), 15%);
-				border: 1px solid rgba(var(--gray), 0.1);
+				background: var(--background);
+				border-radius: var(--radius);
+				padding: 2rem;
+				box-shadow: var(--shadow);
+				border: 1px solid var(--border);
 				text-align: center;
+				transition: all 0.2s ease;
+			}
+			
+			.schedule-day:hover {
+				box-shadow: var(--shadow-md);
+				transform: translateY(-2px);
 			}
 			
 			.schedule-day h3 {
 				color: var(--accent);
 				margin-bottom: 1rem;
 				font-size: 1.5rem;
+				font-weight: 600;
 			}
 			
 			.schedule-time {
-				font-size: 1.2rem;
+				font-size: 1.125rem;
 				font-weight: 600;
-				color: rgb(var(--black));
-				margin-bottom: 0.5rem;
+				color: var(--text-primary);
+				margin-bottom: 1rem;
 			}
 			
 			.schedule-description {
-				color: rgb(var(--gray));
+				color: var(--text-secondary);
 				line-height: 1.6;
-				margin-bottom: 1rem;
+				margin-bottom: 1.5rem;
 			}
 			
 			.live-indicator {
 				display: inline-flex;
 				align-items: center;
 				gap: 0.5rem;
-				background: #ff4444;
+				background: #ef4444;
 				color: white;
 				padding: 0.5rem 1rem;
 				border-radius: 20px;
-				font-size: 0.9rem;
+				font-size: 0.875rem;
 				font-weight: 600;
 				margin-top: 1rem;
 			}
@@ -127,23 +133,26 @@ import Header from '../components/Header.astro';
 			.twitch-link {
 				display: inline-flex;
 				align-items: center;
-				gap: 0.5rem;
+				gap: 0.75rem;
 				background: #9146ff;
 				color: white;
 				padding: 1rem 2rem;
-				border-radius: 8px;
+				border-radius: var(--radius);
 				text-decoration: none;
 				font-weight: 600;
+				font-size: 1rem;
 				transition: all 0.3s ease;
 				margin: 2rem auto;
 				display: block;
 				width: fit-content;
+				box-shadow: var(--shadow);
 			}
 			
 			.twitch-link:hover {
 				background: #7c3aed;
 				transform: translateY(-2px);
-				box-shadow: 0 4px 15px rgba(145, 70, 255, 0.3);
+				box-shadow: var(--shadow-lg);
+				text-decoration: none;
 			}
 			
 			.twitch-icon {
@@ -154,15 +163,19 @@ import Header from '../components/Header.astro';
 			
 			.content-section {
 				margin: 3rem 0;
+				max-width: 800px;
+				margin-left: auto;
+				margin-right: auto;
 			}
 			
 			.content-section h2 {
-				color: rgb(var(--black));
+				color: var(--text-primary);
 				margin-bottom: 1.5rem;
+				font-size: 1.75rem;
 			}
 			
 			.content-section p {
-				color: rgb(var(--gray-dark));
+				color: var(--text-secondary);
 				line-height: 1.7;
 				margin-bottom: 1.5rem;
 			}
@@ -170,18 +183,24 @@ import Header from '../components/Header.astro';
 			.topics-list {
 				display: flex;
 				flex-wrap: wrap;
-				gap: 0.5rem;
+				gap: 0.75rem;
 				margin: 2rem 0;
 			}
 			
 			.topic-tag {
-				background: rgba(var(--accent), 0.1);
+				background: rgba(0, 102, 204, 0.1);
 				color: var(--accent);
 				padding: 0.5rem 1rem;
 				border-radius: 20px;
-				font-size: 0.9rem;
+				font-size: 0.875rem;
 				font-weight: 500;
-				border: 1px solid rgba(var(--accent), 0.2);
+				border: 1px solid rgba(0, 102, 204, 0.2);
+				transition: all 0.2s ease;
+			}
+			
+			.topic-tag:hover {
+				background: rgba(0, 102, 204, 0.15);
+				transform: translateY(-1px);
 			}
 			
 			@media (max-width: 768px) {
@@ -196,6 +215,70 @@ import Header from '../components/Header.astro';
 				.schedule-section {
 					padding: 1.5rem;
 				}
+				
+				.schedule-day {
+					padding: 1.5rem;
+				}
+				
+				.twitch-link {
+					padding: 0.875rem 1.5rem;
+					font-size: 0.875rem;
+				}
+			}
+			
+			/* Retrowave theme special effects for live page */
+			[data-theme="retrowave"] .live-header h1 {
+				background: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+				text-shadow: 0 0 20px #ff00ff;
+				animation: glow 2s ease-in-out infinite alternate;
+			}
+			
+			@keyframes glow {
+				from { text-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff; }
+				to { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff; }
+			}
+			
+			[data-theme="retrowave"] .twitch-embed {
+				border: 2px solid #ff00ff;
+				box-shadow: 0 0 30px rgba(255, 0, 255, 0.5), inset 0 0 30px rgba(0, 255, 255, 0.1);
+			}
+			
+			[data-theme="retrowave"] .schedule-day {
+				background: rgba(26, 0, 51, 0.8);
+				border: 1px solid #ff00ff;
+				box-shadow: 0 0 20px rgba(255, 0, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.1);
+			}
+			
+			[data-theme="retrowave"] .schedule-day h3 {
+				color: #00ffff;
+				text-shadow: 0 0 10px currentColor;
+			}
+			
+			[data-theme="retrowave"] .twitch-link {
+				background: linear-gradient(45deg, #ff00ff, #00ffff);
+				border: 1px solid #ff00ff;
+				box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+				text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+			}
+			
+			[data-theme="retrowave"] .twitch-link:hover {
+				box-shadow: 0 0 30px rgba(255, 0, 255, 0.8), 0 0 30px rgba(0, 255, 255, 0.3);
+			}
+			
+			[data-theme="retrowave"] .topic-tag {
+				background: rgba(255, 0, 255, 0.2);
+				color: #00ffff;
+				border: 1px solid #ff00ff;
+				text-shadow: 0 0 5px currentColor;
+			}
+			
+			[data-theme="retrowave"] .topic-tag:hover {
+				background: rgba(0, 255, 255, 0.2);
+				color: #ff00ff;
+				box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
 			}
 		</style>
 	</head>
@@ -305,11 +388,11 @@ import Header from '../components/Header.astro';
 				const mondayLive = document.getElementById('monday-live');
 				const wednesdayLive = document.getElementById('wednesday-live');
 				
-				if (currentDay === 1 && currentTime >= streamStart && currentTime <= streamEnd) {
+				if (currentDay === 1 && currentTime >= streamStart && currentTime <= streamEnd && mondayLive) {
 					mondayLive.style.display = 'inline-flex';
 				}
 				
-				if (currentDay === 3 && currentTime >= streamStart && currentTime <= streamEnd) {
+				if (currentDay === 3 && currentTime >= streamStart && currentTime <= streamEnd && wednesdayLive) {
 					wednesdayLive.style.display = 'inline-flex';
 				}
 			}

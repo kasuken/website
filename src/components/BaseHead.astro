@@ -30,6 +30,26 @@ const { title, description, image = FallbackImage } = Astro.props;
 />
 <meta name="generator" content={Astro.generator} />
 
+<!-- Prevent flash of unstyled content (FOUC) -->
+<script is:inline>
+	// This script runs before the page renders to prevent theme flash
+	(function() {
+		const THEMES = ['light', 'dark', 'retrowave'];
+		
+		const getInitialTheme = () => {
+			const storedTheme = typeof Storage !== 'undefined' ? localStorage.getItem('theme') : null;
+			if (storedTheme && THEMES.includes(storedTheme)) {
+				return storedTheme;
+			}
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+		};
+		
+		const theme = getInitialTheme();
+		document.documentElement.setAttribute('data-theme', theme);
+		document.documentElement.classList.add(theme + '-theme');
+	})();
+</script>
+
 <!-- Font preloads -->
 <link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin />
 <link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin />
