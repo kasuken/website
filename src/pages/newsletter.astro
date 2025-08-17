@@ -23,15 +23,15 @@ import Header from '../components/Header.astro';
 			
 			.newsletter-header h1 {
 				margin: 0 0 0.5rem 0;
-				color: rgb(var(--black));
-				font-weight: 700;
-				letter-spacing: -0.02em;
+				color: var(--text-primary);
+				font-weight: var(--font-weight-bold);
+				letter-spacing: var(--tracking-tight);
 			}
 			
 			.newsletter-header p {
 				margin: 0 0 2rem 0;
-				color: rgb(var(--gray));
-				font-size: 0.9rem;
+				color: var(--text-secondary);
+				font-size: var(--text-sm);
 			}
 			
 			.newsletter-cta {
@@ -40,23 +40,23 @@ import Header from '../components/Header.astro';
 			
 			.cta-button {
 				display: inline-block;
-				background: #2337ff;
+				background: var(--accent);
 				color: white;
 				padding: 1rem 2rem;
-				border-radius: 8px;
+				border-radius: var(--radius);
 				text-decoration: none;
-				font-weight: 600;
-				font-size: 1.1rem;
-				transition: all 0.3s ease;
-				border: 2px solid #2337ff;
-				box-shadow: 0 4px 12px rgba(35, 55, 255, 0.3);
+				font-weight: var(--font-weight-medium);
+				font-size: var(--text-lg);
+				transition: all var(--default-transition-duration) var(--default-transition-timing-function);
+				border: 2px solid var(--accent);
+				box-shadow: var(--shadow-md);
 			}
 			
 			.cta-button:hover {
-				background: #1a2acc;
-				border-color: #1a2acc;
+				background: var(--accent-dark);
+				border-color: var(--accent-dark);
 				transform: translateY(-2px);
-				box-shadow: 0 6px 16px rgba(35, 55, 255, 0.4);
+				box-shadow: var(--shadow-lg);
 			}
 			
 			.newsletter-content {
@@ -65,24 +65,24 @@ import Header from '../components/Header.astro';
 			}
 			
 			.content-section {
-				background: white;
+				background: var(--background);
 				padding: 2.5rem;
-				border-radius: 16px;
-				box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+				border-radius: var(--radius-lg);
+				box-shadow: var(--shadow-md);
 				margin-bottom: 2rem;
-				border: 1px solid rgb(var(--gray-light));
+				border: 1px solid var(--border);
 			}
 			
 			.content-section h2 {
-				color: rgb(var(--black));
+				color: var(--text-primary);
 				margin: 0 0 1.5rem 0;
-				font-size: 1.8rem;
-				font-weight: 600;
+				font-size: var(--text-2xl);
+				font-weight: var(--font-weight-medium);
 			}
 			
 			.content-section p {
-				color: rgb(var(--gray-dark));
-				line-height: 1.7;
+				color: var(--text-secondary);
+				line-height: var(--text-base--line-height);
 				margin-bottom: 1.2rem;
 			}
 			
@@ -92,10 +92,10 @@ import Header from '../components/Header.astro';
 			
 			.stats-section {
 				background: linear-gradient(135deg, 
-					rgba(35, 55, 255, 0.15) 0%, 
-					rgba(35, 55, 255, 0.08) 50%,
-					rgba(35, 55, 255, 0.05) 100%);
-				border: 1px solid rgba(35, 55, 255, 0.2);
+					oklch(from var(--accent) l c h / 0.15) 0%, 
+					oklch(from var(--accent) l c h / 0.08) 50%,
+					oklch(from var(--accent) l c h / 0.05) 100%);
+				border: 1px solid oklch(from var(--accent) l c h / 0.2);
 			}
 			
 			.stats-grid {
@@ -108,62 +108,62 @@ import Header from '../components/Header.astro';
 			.stat-item {
 				text-align: center;
 				padding: 1.5rem;
-				background: rgba(255, 255, 255, 0.8);
-				border-radius: 12px;
-				border: 1px solid rgba(35, 55, 255, 0.1);
+				background: oklch(from var(--background) l c h / 0.8);
+				border-radius: var(--radius-md);
+				border: 1px solid oklch(from var(--accent) l c h / 0.1);
 			}
 			
 			.stat-number {
-				font-size: 2rem;
-				font-weight: 700;
-				color: #2337ff;
+				font-size: var(--text-3xl);
+				font-weight: var(--font-weight-bold);
+				color: var(--accent);
 				margin: 0 0 0.5rem 0;
 			}
 			
 			.stat-label {
-				color: rgb(var(--gray-dark));
-				font-size: 0.9rem;
-				font-weight: 500;
+				color: var(--text-secondary);
+				font-size: var(--text-sm);
+				font-weight: var(--font-weight-medium);
 				margin: 0;
 			}
 			
 			.sponsor-section {
 				background: linear-gradient(135deg, 
-					rgba(255, 193, 7, 0.15) 0%, 
-					rgba(255, 193, 7, 0.08) 50%,
-					rgba(255, 193, 7, 0.05) 100%);
-				border: 1px solid rgba(255, 193, 7, 0.3);
+					var(--color-amber-200) 0%, 
+					oklch(from var(--color-amber-200) l c h / 0.5) 50%,
+					oklch(from var(--color-amber-200) l c h / 0.2) 100%);
+				border: 1px solid var(--color-amber-400);
 			}
 			
 			.sponsor-benefits {
-				background: rgba(255, 255, 255, 0.8);
+				background: oklch(from var(--background) l c h / 0.8);
 				padding: 1.5rem;
-				border-radius: 12px;
+				border-radius: var(--radius-md);
 				margin: 1.5rem 0;
-				border: 1px solid rgba(255, 193, 7, 0.2);
+				border: 1px solid var(--color-amber-400);
 			}
 			
 			.sponsor-benefits h3 {
-				color: rgb(var(--black));
+				color: var(--text-primary);
 				margin: 0 0 1rem 0;
-				font-size: 1.2rem;
+				font-size: var(--text-xl);
 			}
 			
 			.sponsor-benefits ul {
 				margin: 0;
 				padding-left: 1.5rem;
-				color: rgb(var(--gray-dark));
+				color: var(--text-secondary);
 			}
 			
 			.sponsor-benefits li {
 				margin-bottom: 0.5rem;
-				line-height: 1.6;
+				line-height: var(--text-base--line-height);
 			}
 			
 			.email-link {
-				color: #2337ff;
+				color: var(--accent);
 				text-decoration: none;
-				font-weight: 600;
+				font-weight: var(--font-weight-medium);
 			}
 			
 			.email-link:hover {
@@ -171,13 +171,13 @@ import Header from '../components/Header.astro';
 			}
 			
 			.newsletter-icon {
-				font-size: 3rem;
+				font-size: var(--text-5xl);
 				margin-bottom: 1rem;
 			}
 			
 			@media (max-width: 768px) {
 				.newsletter-header h1 {
-					font-size: 2rem;
+					font-size: var(--text-3xl);
 				}
 				
 				.content-section {

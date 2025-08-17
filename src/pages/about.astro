@@ -39,14 +39,14 @@ import Header from '../components/Header.astro';
 				height: 300px;
 				margin: 0 auto 3rem auto;
 				background: linear-gradient(135deg, 
-					rgba(35, 55, 255, 0.1) 0%, 
-					rgba(35, 55, 255, 0.05) 100%);
-				border: 2px dashed rgba(35, 55, 255, 0.3);
+					var(--color-blue-100) 0%, 
+					var(--color-blue-50) 100%);
+				border: 2px dashed var(--color-blue-300);
 				border-radius: 50%;
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				color: rgba(35, 55, 255, 0.6);
+				color: var(--color-blue-600);
 				font-size: 1rem;
 				font-weight: 500;
 				text-align: center;
@@ -60,12 +60,12 @@ import Header from '../components/Header.astro';
 			}
 			
 			.content-section {
-				background: white;
+				background: var(--color-bg-primary);
 				padding: 2.5rem;
 				border-radius: 16px;
-				box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+				box-shadow: var(--shadow-md);
 				margin-bottom: 2rem;
-				border: 1px solid rgb(var(--gray-light));
+				border: 1px solid var(--color-border-secondary);
 			}
 			
 			.content-section p {
@@ -81,10 +81,10 @@ import Header from '../components/Header.astro';
 			
 			.achievements {
 				background: linear-gradient(135deg, 
-					rgba(35, 55, 255, 0.15) 0%, 
-					rgba(35, 55, 255, 0.08) 50%,
-					rgba(35, 55, 255, 0.05) 100%);
-				border: 1px solid rgba(35, 55, 255, 0.2);
+					var(--color-blue-100) 0%, 
+					var(--color-blue-75) 50%,
+					var(--color-blue-50) 100%);
+				border: 1px solid var(--color-blue-200);
 			}
 			
 			.achievements h2 {
@@ -102,11 +102,11 @@ import Header from '../components/Header.astro';
 			}
 			
 			.achievement-item {
-				background: rgba(255, 255, 255, 0.8);
+				background: var(--color-bg-secondary);
 				padding: 1.5rem;
 				border-radius: 12px;
 				text-align: center;
-				border: 1px solid rgba(35, 55, 255, 0.1);
+				border: 1px solid var(--color-blue-100);
 			}
 			
 			.achievement-icon {
@@ -129,10 +129,10 @@ import Header from '../components/Header.astro';
 			
 			.personal-section {
 				background: linear-gradient(135deg, 
-					rgba(255, 193, 7, 0.15) 0%, 
-					rgba(255, 193, 7, 0.08) 50%,
-					rgba(255, 193, 7, 0.05) 100%);
-				border: 1px solid rgba(255, 193, 7, 0.3);
+					var(--color-amber-100) 0%, 
+					var(--color-amber-75) 50%,
+					var(--color-amber-50) 100%);
+				border: 1px solid var(--color-amber-300);
 			}
 			
 			.personal-section h2 {
@@ -192,7 +192,7 @@ import Header from '../components/Header.astro';
 						Hi, I'm <strong>Emanuele Bartolesi</strong>, Senior Cloud Engineer and Entrepreneur. I have over 20 years of experience in the IT industry, working as a developer, consultant, trainer, and speaker. I'm passionate about frontend technologies and everything related to the cloud, especially Microsoft Azure and AI. I have designed and implemented solutions for various domains, such as e-commerce, banking, insurance, and healthcare.
 					</p>
 					<p>
-						I currently live in Zurich and actively participate in local and international community activities and events. I'm a regular speaker at conferences and meetups. I share my love for technology through my blog <a href="https://dev.to/kasuken" target="_blank" rel="noopener" style="color: #2337ff; text-decoration: none; font-weight: 600;">dev.to/kasuken</a> and my live coding sessions on Twitch.
+						I currently live in Zurich and actively participate in local and international community activities and events. I'm a regular speaker at conferences and meetups. I share my love for technology through my blog <a href="https://dev.to/kasuken" target="_blank" rel="noopener" style="color: var(--color-accent); text-decoration: none; font-weight: 600;">dev.to/kasuken</a> and my live coding sessions on Twitch.
 					</p>
 				</section>
 
