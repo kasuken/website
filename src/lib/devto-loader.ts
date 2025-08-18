@@ -46,7 +46,7 @@ export function devToLoader(): Loader {
         // Fetch ALL articles from dev.to API for user 'kasuken' using pagination
         let allArticles: DevToArticle[] = [];
         let page = 1;
-        const perPage = 1000; // Maximum allowed by dev.to API
+        const perPage = 100; // Maximum allowed by dev.to API
         
         while (true) {
           logger.info(`Fetching page ${page} of articles...`);
