@@ -1,62 +1,92 @@
-# Astro Starter Kit: Blog
+
+# Portfolio Website (Astro)
+
+A fast, modern, SEO-friendly portfolio and blog built with [Astro](https://astro.build/).
+
+## ✨ Features
+
+- Minimal, customizable styling
+- 100/100 Lighthouse performance
+- SEO: canonical URLs, OpenGraph, sitemap, RSS
+- Markdown & MDX support
+- Dynamic blog refresh script
+- Responsive, accessible design
+- Theme toggle (light/dark/retrowave)
+- Dev.to integration for blog posts
+
+## 🗂️ Project Structure
+
+```
+public/           # Static assets (favicon, fonts, images)
+src/
+	assets/         # Images for blog and about
+	components/     # Reusable UI components
+	data/           # Data files (courses, projects, uses)
+	layouts/        # Page layouts
+	lib/            # Utility scripts (devto-loader)
+	pages/          # Site pages (about, blog, courses, etc.)
+	styles/         # Global CSS
+scripts/          # Utility scripts (refresh-blog.mjs)
+astro.config.mjs  # Astro configuration
+package.json      # Project metadata and scripts
+tsconfig.json     # TypeScript config
+```
+
+## 🚀 Getting Started
+
+Install dependencies:
 
 ```sh
-npm create astro@latest -- --template blog
+npm install
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Start the local dev server:
 
-Features:
-
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+```sh
+npm run dev
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Build for production:
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```sh
+npm run build
+```
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+Preview the production build:
 
-Any static assets, like images, can be placed in the `public/` directory.
+```sh
+npm run preview
+```
 
-## 🧞 Commands
+Refresh blog content from Dev.to:
 
-All commands are run from the root of the project, from a terminal:
+```sh
+npm run refresh-blog
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## 🧩 Integrations
 
-## 👀 Want to learn more?
+- [@astrojs/mdx](https://docs.astro.build/en/guides/integrations-guide/mdx/)
+- [@astrojs/rss](https://docs.astro.build/en/guides/rss/)
+- [@astrojs/sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/)
+- [date-fns](https://date-fns.org/)
+- [dotenv](https://www.npmjs.com/package/dotenv)
+- [marked](https://www.npmjs.com/package/marked)
+- [node-fetch](https://www.npmjs.com/package/node-fetch)
+- [sharp](https://www.npmjs.com/package/sharp)
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## 📄 Pages
 
-## Credit
+- `/` Home
+- `/blog` Blog (with Dev.to integration)
+- `/portfolio` Portfolio
+- `/courses` Courses
+- `/about` About
+- `/mentor` Mentor
+- `/newsletter` Newsletter
+- `/uses` Uses
+- `/live` Live
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+## 📝 Credit
+
+Theme inspired by [Elio Struyf](https://www.eliostruyf.com/).
