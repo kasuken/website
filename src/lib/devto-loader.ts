@@ -124,9 +124,9 @@ export function devToLoader(): Loader {
           const id = article.slug;
           
           // Add a small delay between requests to avoid rate limiting
-          if (i > 0 && i % 10 === 0) {
+          if (i > 0 && i % 20 === 0) {
             logger.info(`Processed ${i} articles, adding delay to avoid rate limiting...`);
-            await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay every 10 articles
+            await new Promise(resolve => setTimeout(resolve, 2000)); // 2 second delay every 20 articles
           }
           
           // Fetch full article content using the article ID

@@ -1,0 +1,266 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+// Types for Sessionize API response
+interface SessionizeSpeaker {
+  firstName: string;
+  lastName: string;
+  tagline: string;
+  bio: string;
+  speakerProfileUrl: string;
+  photoUrl: string;
+  photoLargeUrl: string;
+}
+
+interface SessionizeSession {
+  id: number;
+  title: string;
+  description: string;
+  sessionUrl: string;
+  languageCode: string;
+  language: string;
+}
+
+interface SessionizeEvent {
+  id: number;
+  name: string;
+  eventStartDate: string; // ISO
+  eventEndDate: string;   // ISO
+  location: string | null;
+  website: string | null;
+}
+
+interface SessionizeApiResponse {
+  speaker: SessionizeSpeaker;
+  sessions: SessionizeSession[];
+  events: SessionizeEvent[];
+}
+
+const endpoint = 'https://sessionize.com/api/speaker/json/h69iuxpcmg';
+
+let data: SessionizeApiResponse | null = null;
+let fetchError: string | null = null;
+
+try {
+  const res = await fetch(endpoint, {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (compatible; SiteBuildBot/1.0; +https://example.com)'
+    }
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+  data = await res.json();
+} catch (err) {
+  fetchError = err instanceof Error ? err.message : 'Unknown error';
+}
+
+// Helpers
+const toDate = (s: string) => new Date(s);
+const fmtDate = (s: string) => new Date(s).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
+
+const sessionsByLanguage = data?.sessions?.reduce((acc, s) => {
+  const key = s.language || 'Other';
+  (acc[key] ||= []).push(s);
+  return acc;
+}, {} as Record<string, SessionizeSession[]>) ?? {};
+
+const today = new Date();
+const eventsSorted = (data?.events ?? []).slice().sort((a, b) => toDate(a.eventStartDate).getTime() - toDate(b.eventStartDate).getTime());
+const upcomingEvents = eventsSorted.filter(e => toDate(e.eventEndDate) >= today);
+const pastEvents = eventsSorted.filter(e => toDate(e.eventEndDate) < today).reverse();
+
+// Extract simple technology tags from titles/descriptions
+const techRegex = /\b(Azure|Microsoft 365|Blazor|GitHub|Codespaces|Visual Studio|\.NET|C#|JavaScript|TypeScript|React|Angular|Vue|Docker|Kubernetes|PowerShell|SQL|NoSQL|API|GraphQL|DevOps|CI\/CD|Git|HTML|CSS|Node\.js|Python|Java|Redis|AWS|GCP|Terraform|Ansible|Semantic Kernel|AI|Machine Learning|Serverless|Functions|App Service|Authentication|OAuth|SAML|B2C|Active Directory|Teams|SharePoint|Power Platform|Power BI|Office 365|OpenAI|ChatGPT)\b/gi;
+const techSet = new Set<string>();
+for (const s of (data?.sessions ?? [])) {
+  for (const text of [s.title, s.description]) {
+    const matches = text?.match?.(techRegex) ?? [];
+    for (const m of matches) techSet.add(m);
+  }
+}
+const technologies = Array.from(techSet).sort((a, b) => a.localeCompare(b));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Speaking - ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+    <style>
+      :root {
+        --card-bg: #ffffff;
+        --card-border: #e7eaf0;
+        --text-muted: #6b7280;
+      }
+      [data-theme="dark"] {
+        --card-bg: #161616;
+        --card-border: #2a2a2a;
+        --text-muted: #a3a3a3;
+      }
+
+      main { max-width: 1200px; margin: 0 auto; padding: 0 1rem 4rem; }
+      .hero {
+        margin: 0 0 2rem; padding: 3.5rem 1rem; border-radius: 20px;
+        background: linear-gradient(135deg, rgb(var(--accent)), rgb(var(--accent-light)));
+        color: #fff; position: relative; overflow: hidden;
+      }
+      .hero-inner { display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: center; }
+      .avatar { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid rgba(255,255,255,0.35); box-shadow: 0 10px 25px rgba(0,0,0,0.25); }
+      .title { margin: 0; font-size: 2.25rem; line-height: 1.2; font-weight: 800; }
+      .tagline { margin: 0.25rem 0 0.75rem; font-size: 1.1rem; opacity: 0.95; }
+      .bio { margin: 0.75rem 0 0; line-height: 1.6; opacity: 0.95; max-width: 60ch; }
+      .profile-link { display: inline-block; margin-top: 1rem; background: rgba(255,255,255,0.2); color: #fff; padding: 0.6rem 1rem; border-radius: 10px; text-decoration: none; border: 1px solid rgba(255,255,255,0.35); font-weight: 600; }
+      .stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 0.75rem; margin-top: 1.25rem; }
+      .stat { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.35); border-radius: 12px; padding: 0.9rem; text-align: center; backdrop-filter: blur(8px); }
+      .stat .num { display: block; font-weight: 800; font-size: 1.5rem; }
+      .stat .lab { display: block; font-size: 0.9rem; opacity: 0.9; }
+
+      section { margin-top: 3rem; }
+      .section-title { font-size: 1.8rem; margin: 0 0 1rem; font-weight: 800; }
+      .section-sub { color: var(--text-muted); margin: 0 0 1.5rem; }
+
+      .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+      .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 1.25rem; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+      .card:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(0,0,0,0.08); }
+      .card h3 { margin: 0 0 0.5rem; font-size: 1.15rem; color: rgb(var(--accent)); }
+      .muted { color: var(--text-muted); font-size: 0.95rem; }
+      .desc { margin: 0.5rem 0 0.75rem; line-height: 1.6; }
+      .btn { display: inline-block; background: rgb(var(--accent)); color: #fff; text-decoration: none; padding: 0.5rem 0.8rem; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+
+      .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+      .chip { background: #f2f4f8; color: #374151; border: 1px solid #e7eaf0; padding: 0.35rem 0.65rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600; }
+      [data-theme="dark"] .chip { background: #202020; color: #e5e7eb; border-color: #2a2a2a; }
+
+      .events { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+      .event h4 { margin: 0 0 0.35rem; font-size: 1.05rem; }
+      .event .meta { color: var(--text-muted); font-size: 0.95rem; }
+      .event a { color: rgb(var(--accent)); text-decoration: none; }
+
+      @media (max-width: 940px) {
+        .hero-inner { grid-template-columns: 1fr; text-align: center; }
+        .bio { margin-left: auto; margin-right: auto; }
+        .stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+        .grid { grid-template-columns: 1fr; }
+        .events { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      {fetchError ? (
+        <section>
+          <div class="card">
+            <h2 class="section-title">Unable to load speaking data</h2>
+            <p class="section-sub">Error: {fetchError}</p>
+            <p class="muted">Please try again later.</p>
+          </div>
+        </section>
+      ) : !data ? (
+        <section>
+          <div class="card">
+            <h2 class="section-title">Loading…</h2>
+            <p class="muted">Fetching the latest information from Sessionize.</p>
+          </div>
+        </section>
+      ) : (
+        <>
+          <section class="hero">
+            <div class="hero-inner">
+              <img class="avatar" src={data.speaker.photoLargeUrl} alt={`${data.speaker.firstName} ${data.speaker.lastName}`} />
+              <div>
+                <h1 class="title">🎤 Speaking</h1>
+                <p class="tagline">{data.speaker.firstName} {data.speaker.lastName} — {data.speaker.tagline}</p>
+                {data.speaker.bio && <p class="bio">{data.speaker.bio}</p>}
+                <a class="profile-link" href={data.speaker.speakerProfileUrl} target="_blank" rel="noopener noreferrer">View profile on Sessionize →</a>
+                <div class="stats">
+                  <div class="stat"><span class="num">{data.sessions.length}</span><span class="lab">Sessions</span></div>
+                  <div class="stat"><span class="num">{technologies.length}</span><span class="lab">Technologies</span></div>
+                  <div class="stat"><span class="num">{Object.keys(sessionsByLanguage).length}</span><span class="lab">Languages</span></div>
+                  <div class="stat"><span class="num">{data.events.length}</span><span class="lab">Events</span></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {technologies.length > 0 && (
+            <section>
+              <h2 class="section-title">Technologies & Topics</h2>
+              <p class="section-sub">Keywords extracted from session titles and descriptions</p>
+              <div class="chips">
+                {technologies.map(t => <span class="chip">{t}</span>)}
+              </div>
+            </section>
+          )}
+
+          <section>
+            <h2 class="section-title">Available Sessions</h2>
+            <p class="section-sub">Talks ready for conferences, meetups, and corporate events</p>
+            <div class="grid">
+              {data.sessions.map((s) => (
+                <article class="card">
+                  <h3>{s.title}</h3>
+                  <p class="muted">🌐 {s.language}</p>
+                  {s.description && <p class="desc">{s.description}</p>}
+                  <a class="btn" href={s.sessionUrl} target="_blank" rel="noopener noreferrer">View details</a>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          {Object.keys(sessionsByLanguage).length > 1 && (
+            <section>
+              <h2 class="section-title">Sessions by Language</h2>
+              <div class="grid">
+                {Object.entries(sessionsByLanguage).map(([lang, list]) => (
+                  <div class="card">
+                    <h3>{lang}</h3>
+                    <p class="muted">{list.length} session{list.length === 1 ? '' : 's'}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <section>
+            <h2 class="section-title">Upcoming Events</h2>
+            <p class="section-sub">Where you can catch me next</p>
+            {upcomingEvents.length === 0 ? (
+              <p class="muted">No upcoming events listed right now.</p>
+            ) : (
+              <div class="events">
+                {upcomingEvents.map(e => (
+                  <div class="card event">
+                    <h4>{e.name}</h4>
+                    <p class="meta">{fmtDate(e.eventStartDate)} – {fmtDate(e.eventEndDate)}{e.location ? ` • ${e.location}` : ''}</p>
+                    {e.website && <p><a href={e.website} target="_blank" rel="noopener noreferrer">Website</a></p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+
+          <section>
+            <h2 class="section-title">Past Events</h2>
+            <p class="section-sub">A selection of previous conferences and meetups</p>
+            {pastEvents.length === 0 ? (
+              <p class="muted">No past events listed.</p>
+            ) : (
+              <div class="events">
+                {pastEvents.slice(0, 12).map(e => (
+                  <div class="card event">
+                    <h4>{e.name}</h4>
+                    <p class="meta">{fmtDate(e.eventStartDate)} – {fmtDate(e.eventEndDate)}{e.location ? ` • ${e.location}` : ''}</p>
+                    {e.website && <p><a href={e.website} target="_blank" rel="noopener noreferrer">Website</a></p>}
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        </>
+      )}
+    </main>
+    <Footer />
+  </body>
+  </html>
