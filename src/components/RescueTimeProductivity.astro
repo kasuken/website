@@ -91,6 +91,7 @@ function formatDayName(dateStr: string): string {
       <div class="productivity-pulse">
         <div class="pulse-header">
           <h3 class="pulse-title">🎯 Productivity Pulse</h3>
+          <p class="pulse-description">A real-time measure of my focus and productivity</p>
         </div>
         <div class="pulse-display">
           <div class="pulse-score">
@@ -108,30 +109,56 @@ function formatDayName(dateStr: string): string {
           </div>
         </div>
         <div class="pulse-breakdown">
-          <div class="breakdown-item">
-            <span class="breakdown-color" style="background-color: #22c55e"></span>
-            <span class="breakdown-label">Very Productive</span>
-            <span class="breakdown-value">{Math.round(productivityPulse.breakdown.veryProductive)}%</span>
-          </div>
-          <div class="breakdown-item">
-            <span class="breakdown-color" style="background-color: #84cc16"></span>
-            <span class="breakdown-label">Productive</span>
-            <span class="breakdown-value">{Math.round(productivityPulse.breakdown.productive)}%</span>
-          </div>
-          <div class="breakdown-item">
-            <span class="breakdown-color" style="background-color: #eab308"></span>
-            <span class="breakdown-label">Neutral</span>
-            <span class="breakdown-value">{Math.round(productivityPulse.breakdown.neutral)}%</span>
-          </div>
-          <div class="breakdown-item">
-            <span class="breakdown-color" style="background-color: #f97316"></span>
-            <span class="breakdown-label">Distracting</span>
-            <span class="breakdown-value">{Math.round(productivityPulse.breakdown.distracting)}%</span>
-          </div>
-          <div class="breakdown-item">
-            <span class="breakdown-color" style="background-color: #ef4444"></span>
-            <span class="breakdown-label">Very Distracting</span>
-            <span class="breakdown-value">{Math.round(productivityPulse.breakdown.veryDistracting)}%</span>
+          <div class="chart-container">
+            <svg class="productivity-chart-circle" viewBox="0 0 200 200" width="240" height="240">
+              <circle 
+                cx="100" 
+                cy="100" 
+                r="70" 
+                fill="none" 
+                stroke="#f1f5f9" 
+                stroke-width="40"
+              />
+              {(() => {
+                let offset = 0;
+                const radius = 70;
+                const circumference = 2 * Math.PI * radius;
+                const segments = [
+                  { value: productivityPulse.breakdown.veryProductive, color: '#22c55e', label: 'Very Productive' },
+                  { value: productivityPulse.breakdown.productive, color: '#84cc16', label: 'Productive' },
+                  { value: productivityPulse.breakdown.neutral, color: '#eab308', label: 'Neutral' },
+                  { value: productivityPulse.breakdown.distracting, color: '#f97316', label: 'Distracting' },
+                  { value: productivityPulse.breakdown.veryDistracting, color: '#ef4444', label: 'Very Distracting' }
+                ];
+                
+                return segments.map((segment, index) => {
+                  const strokeDasharray = `${(segment.value / 100) * circumference} ${circumference}`;
+                  const strokeDashoffset = -offset * circumference / 100;
+                  offset += segment.value;
+                  
+                  return (
+                    <circle
+                      cx="100"
+                      cy="100"
+                      r={radius}
+                      fill="none"
+                      stroke={segment.color}
+                      stroke-width="40"
+                      stroke-dasharray={strokeDasharray}
+                      stroke-dashoffset={strokeDashoffset}
+                      transform="rotate(-90 100 100)"
+                      class="chart-segment"
+                      data-label={segment.label}
+                      data-value={Math.round(segment.value)}
+                    />
+                  );
+                });
+              })()}
+              <text x="100" y="100" text-anchor="middle" dominant-baseline="central" class="chart-pulse-value">
+                {productivityPulse.pulse}
+              </text>
+            </svg>
+            <div class="chart-tooltip" id="chart-tooltip"></div>
           </div>
         </div>
       </div>
@@ -307,37 +334,81 @@ function formatDayName(dateStr: string): string {
   }
 
   .pulse-breakdown {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: white;
     padding: 1rem;
     border-radius: 8px;
     border: 1px solid rgba(0, 0, 0, 0.05);
   }
 
-  .breakdown-item {
+  .chart-container {
+    position: relative;
     display: flex;
+    justify-content: center;
     align-items: center;
-    /* gap: 0.5rem; */
-    font-size: 0.75rem;
   }
 
-  .breakdown-color {
-    width: 12px;
-    height: 12px;
-    border-radius: 2px;
-    flex-shrink: 0;
+  .productivity-chart-circle {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    cursor: pointer;
   }
 
-  .breakdown-label {
-    flex: 1;
-    color: rgb(var(--gray-dark));
+  .chart-segment {
+    transition: stroke-width 0.3s ease, opacity 0.2s ease;
+    cursor: pointer;
   }
 
-  .breakdown-value {
-    font-weight: 600;
-    color: rgb(var(--black));
+  .chart-segment:hover {
+    stroke-width: 44;
+    opacity: 0.9;
+  }
+
+  .chart-tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, -100%);
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+    z-index: 10;
+    top: -10px;
+    left: 50%;
+  }
+
+  .chart-tooltip.visible {
+    opacity: 1;
+  }
+
+  .chart-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.9);
+  }
+
+  .chart-pulse-value {
+    font-size: 36px;
+    font-weight: 700;
+    fill: rgb(var(--black));
+    font-family: inherit;
+  }
+
+  .chart-pulse-label {
+    font-size: 14px;
+    font-weight: 500;
+    fill: rgb(var(--gray-dark));
+    font-family: inherit;
   }
 
   .productivity-summary {
@@ -489,8 +560,12 @@ function formatDayName(dateStr: string): string {
     }
 
     .pulse-breakdown {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.5rem;
+      padding: 1.5rem;
+    }
+
+    .chart-container svg {
+      width: 200px;
+      height: 200px;
     }
 
     .productivity-summary {
@@ -532,3 +607,46 @@ function formatDayName(dateStr: string): string {
     }
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const chartSegments = document.querySelectorAll('.chart-segment');
+    const tooltip = document.getElementById('chart-tooltip');
+    
+    chartSegments.forEach(segment => {
+      segment.addEventListener('mouseenter', function(e) {
+        const target = e.target as SVGElement;
+        const label = target.getAttribute('data-label');
+        const value = target.getAttribute('data-value');
+        
+        if (tooltip && label && value) {
+          tooltip.textContent = `${label}: ${value}%`;
+          tooltip.classList.add('visible');
+        }
+      });
+      
+      segment.addEventListener('mouseleave', function() {
+        if (tooltip) {
+          tooltip.classList.remove('visible');
+        }
+      });
+      
+      segment.addEventListener('mousemove', function(e) {
+        const mouseEvent = e as MouseEvent;
+        const target = e.target as SVGElement;
+        
+        if (tooltip && target) {
+          const container = target.closest('.chart-container') as HTMLElement;
+          if (container) {
+            const rect = container.getBoundingClientRect();
+            const x = mouseEvent.clientX - rect.left;
+            const y = mouseEvent.clientY - rect.top;
+            
+            tooltip.style.left = x + 'px';
+            tooltip.style.top = (y - 10) + 'px';
+          }
+        }
+      });
+    });
+  });
+</script>
