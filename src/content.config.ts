@@ -28,7 +28,7 @@ const blog = defineCollection({
 const productivity = defineCollection({
 	loader: async () => {
 		const data = await loadRescueTimeData();
-		return data.map((day, index) => ({
+		return data.dailyData.map((day, index) => ({
 			id: `day-${index}`,
 			...day
 		}));
@@ -41,4 +41,28 @@ const productivity = defineCollection({
 	}),
 });
 
-export const collections = { blog, productivity };
+const productivityPulse = defineCollection({
+	loader: async () => {
+		const data = await loadRescueTimeData();
+		if (data.productivityPulse) {
+			return [{
+				id: 'current-pulse',
+				...data.productivityPulse
+			}];
+		}
+		return [];
+	},
+	schema: z.object({
+		pulse: z.number(),
+		date: z.string(),
+		breakdown: z.object({
+			veryProductive: z.number(),
+			productive: z.number(),
+			neutral: z.number(),
+			distracting: z.number(),
+			veryDistracting: z.number(),
+		}),
+	}),
+});
+
+export const collections = { blog, productivity, productivityPulse };

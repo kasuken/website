@@ -2,11 +2,41 @@ interface RescueTimeApiResponse {
   rows: Array<Array<string | number>>
 }
 
+interface RescueTimePulseResponse {
+  id: string
+  date: string
+  productivity_pulse: number
+  very_productive_percentage: number
+  productive_percentage: number
+  neutral_percentage: number
+  distracting_percentage: number
+  very_distracting_percentage: number
+  all_productive_percentage: number
+  all_distracting_percentage: number
+}
+
 interface ProductivityDay {
   date: string
   seconds: number
   hours: number
   productivity: number
+}
+
+interface ProductivityPulse {
+  pulse: number
+  date: string
+  breakdown: {
+    veryProductive: number
+    productive: number
+    neutral: number
+    distracting: number
+    veryDistracting: number
+  }
+}
+
+interface RescueTimeData {
+  dailyData: ProductivityDay[]
+  productivityPulse: ProductivityPulse | null
 }
 
 const RESCUE_TIME_API_KEY = process.env.RESCUETIME_API_KEY || ""
@@ -15,7 +45,59 @@ function formatDate(date: Date): string {
   return date.toISOString().split('T')[0]
 }
 
-export async function loadRescueTimeData(): Promise<ProductivityDay[]> {
+export async function loadProductivityPulse(): Promise<ProductivityPulse | null> {
+  if (!RESCUE_TIME_API_KEY) {
+    console.warn('[rescuetime-loader] RESCUETIME_API_KEY not found for Productivity Pulse')
+    return null
+  }
+
+  try {
+    const today = new Date()
+    const yesterday = new Date(today.getTime() - (24 * 60 * 60 * 1000))
+    const dateStr = formatDate(yesterday) // Use yesterday since today might not be complete
+    
+    const url = `https://www.rescuetime.com/anapi/daily_summary_feed?key=${RESCUE_TIME_API_KEY}&format=json`
+    
+    console.log('[rescuetime-loader] Fetching Productivity Pulse...')
+    
+    const response = await fetch(url)
+    
+    if (!response.ok) {
+      console.error(`[rescuetime-loader] Productivity Pulse API error: ${response.status} ${response.statusText}`)
+      return null
+    }
+    
+    const data: RescueTimePulseResponse[] = await response.json()
+    console.log('[rescuetime-loader] Productivity Pulse response entries:', data.length)
+    
+    if (!data || data.length === 0) {
+      console.warn('[rescuetime-loader] No Productivity Pulse data available')
+      return null
+    }
+    
+    // Get the most recent entry
+    const latestEntry = data[0]
+    console.log('[rescuetime-loader] Latest Productivity Pulse:', latestEntry.productivity_pulse, 'for date:', latestEntry.date)
+    
+    return {
+      pulse: latestEntry.productivity_pulse,
+      date: latestEntry.date,
+      breakdown: {
+        veryProductive: latestEntry.very_productive_percentage,
+        productive: latestEntry.productive_percentage,
+        neutral: latestEntry.neutral_percentage,
+        distracting: latestEntry.distracting_percentage,
+        veryDistracting: latestEntry.very_distracting_percentage
+      }
+    }
+    
+  } catch (error) {
+    console.error('[rescuetime-loader] Error fetching Productivity Pulse:', error)
+    return null
+  }
+}
+
+export async function loadRescueTimeData(): Promise<RescueTimeData> {
   const today = new Date()
   const sevenDaysAgo = new Date(today.getTime() - (7 * 24 * 60 * 60 * 1000))
   
@@ -27,10 +109,35 @@ export async function loadRescueTimeData(): Promise<ProductivityDay[]> {
   // Check if API key is available
   if (!RESCUE_TIME_API_KEY) {
     console.warn('[rescuetime-loader] RESCUETIME_API_KEY not found in environment variables, using test data')
-    return generateTestData(today)
+    return {
+      dailyData: generateTestData(today),
+      productivityPulse: null
+    }
   }
   
   try {
+    // Fetch both daily data and productivity pulse in parallel
+    const [dailyData, productivityPulse] = await Promise.all([
+      fetchDailyProductivityData(startDate, endDate, today),
+      loadProductivityPulse()
+    ])
+    
+    return {
+      dailyData,
+      productivityPulse
+    }
+    
+  } catch (error) {
+    console.error('[rescuetime-loader] Error fetching RescueTime data:', error)
+    console.log('[rescuetime-loader] Falling back to test data')
+    return {
+      dailyData: generateTestData(today),
+      productivityPulse: null
+    }
+  }
+}
+
+async function fetchDailyProductivityData(startDate: string, endDate: string, today: Date): Promise<ProductivityDay[]> {
     const url = `https://www.rescuetime.com/anapi/data?key=${RESCUE_TIME_API_KEY}&perspective=interval&restrict_kind=productivity&interval=day&restrict_begin=${startDate}&restrict_end=${endDate}&format=json`
     
     console.log('[rescuetime-loader] Making API request to RescueTime...')
@@ -134,12 +241,6 @@ export async function loadRescueTimeData(): Promise<ProductivityDay[]> {
     )
     
     return completeData
-    
-  } catch (error) {
-    console.error('[rescuetime-loader] Error fetching RescueTime data:', error)
-    console.log('[rescuetime-loader] Falling back to test data')
-    return generateTestData(today)
-  }
 }
 
 function generateTestData(today: Date): ProductivityDay[] {
