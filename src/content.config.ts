@@ -1,5 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { devToLoader } from './lib/devto-loader';
+import { loadRescueTimeData } from './lib/rescuetime-loader';
 
 const blog = defineCollection({
 	// Load articles from dev.to API
@@ -24,4 +25,20 @@ const blog = defineCollection({
 	}),
 });
 
-export const collections = { blog };
+const productivity = defineCollection({
+	loader: async () => {
+		const data = await loadRescueTimeData();
+		return data.map((day, index) => ({
+			id: `day-${index}`,
+			...day
+		}));
+	},
+	schema: z.object({
+		date: z.string(),
+		seconds: z.number(),
+		hours: z.number(),
+		productivity: z.number(),
+	}),
+});
+
+export const collections = { blog, productivity };

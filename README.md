@@ -13,6 +13,7 @@ A fast, modern, SEO-friendly portfolio and blog built with [Astro](https://astro
 - Responsive, accessible design
 - Theme toggle (light/dark/retrowave)
 - Dev.to integration for blog posts
+- RescueTime integration for productivity tracking
 
 ## 🗂️ Project Structure
 
@@ -39,6 +40,16 @@ Install dependencies:
 ```sh
 npm install
 ```
+
+Set up environment variables:
+
+```sh
+cp .env.example .env
+```
+
+Edit `.env` and add your API keys:
+- `DEVTO_API_KEY`: Your Dev.to API key for blog post integration
+- `RESCUETIME_API_KEY`: Your RescueTime API key for productivity tracking
 
 Start the local dev server:
 
