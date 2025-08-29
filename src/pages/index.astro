@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import GitHubActivityCalendar from '../components/GitHubActivityCalendar.astro';
+import GitHubStats from '../components/GitHubStats.astro';
 import RescueTimeProductivity from '../components/RescueTimeProductivity.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
@@ -467,6 +468,9 @@ const allPosts = (await getCollection('blog'))
 
 			<!-- GitHub Contributions Section -->
 			<GitHubActivityCalendar username="kasuken" />
+
+			<!-- GitHub Statistics Section -->
+			<GitHubStats username="kasuken" />
 
 			<!-- RescueTime Productivity Section -->
 			<RescueTimeProductivity />
