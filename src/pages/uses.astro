@@ -543,7 +543,7 @@ const stats = getUsesStats();
 											{item.imageUrl ? (
 												<img src={item.imageUrl} alt={item.name} />
 											) : (
-												<span>📦</span>
+												<span>{item.icon || '📦'}</span>
 											)}
 										</div>
 										<div class="use-title-info">
@@ -595,7 +595,7 @@ const stats = getUsesStats();
 											{item.imageUrl ? (
 												<img src={item.imageUrl} alt={item.name} />
 											) : (
-												<span>⭐</span>
+												<span>{item.icon || '⭐'}</span>
 											)}
 										</div>
 										<div class="use-title-info">
@@ -709,7 +709,7 @@ const stats = getUsesStats();
 										{item.imageUrl ? (
 											<img src={item.imageUrl} alt={item.name} />
 										) : (
-											<span>🔧</span>
+											<span>{item.icon || '🔧'}</span>
 										)}
 									</div>
 									<div class="use-title-info">
