@@ -91,103 +91,426 @@ export const useCategories: UseCategory[] = [
 export const uses: UseItem[] = [
   // Hardware
   {
-    id: 'macbook-pro-m3',
-    name: 'MacBook Pro 16" M3 Max',
-    description: 'My primary development machine. The M3 Max chip handles everything I throw at it with incredible performance and battery life.',
+    id: 'surface-book-3',
+    name: 'Surface Book 3',
+    description: 'Personal laptop for projects, travel, and events. Versatile and reliable for everyday use.',
+    category: 'hardware',
+    subcategory: 'Computer',
+    brand: 'Microsoft',
+    model: 'Surface Book 3',
+    url: 'https://www.microsoft.com/en-us/d/surface-book-3/8xbw9g3z71f1',
+    price: {
+      amount: 2000,
+      currency: 'USD',
+      approximate: true
+    },
+    rating: 4,
+    yearStarted: 2021,
+    tags: ['laptop', 'personal', 'travel', 'windows', 'surface'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Great for personal projects and travel. Detachable screen is handy for events.',
+    alternatives: ['Surface Laptop', 'MacBook Pro'],
+    specs: {
+      'Processor': 'Intel Core i7',
+      'RAM': '32GB',
+      'Storage': '1TB SSD',
+      'Display': '15" PixelSense',
+      'GPU': 'NVIDIA GeForce GTX 1660 Ti'
+    }
+  },
+  {
+    id: 'surface-laptop-4',
+    name: 'Surface Laptop 4',
+    description: 'Old company laptop, now used for studying and experimenting with Parrot OS.',
+    category: 'hardware',
+    subcategory: 'Computer',
+    brand: 'Microsoft',
+    model: 'Surface Laptop 4',
+    url: 'https://www.microsoft.com/en-us/d/surface-laptop-4/946627fb12t1',
+    price: {
+      amount: 1300,
+      currency: 'USD',
+      approximate: true
+    },
+    rating: 3,
+    yearStarted: 2022,
+    tags: ['laptop', 'study', 'linux', 'parrot-os', 'surface'],
+    featured: false,
+    stillUsing: true,
+    reason: 'Good for experiments and learning with Parrot OS.',
+    alternatives: ['Dell XPS 13', 'ThinkPad'],
+    specs: {
+      'Processor': 'Intel Core i5',
+      'RAM': '16GB',
+      'Storage': '512GB SSD',
+      'Display': '13.5" PixelSense'
+    }
+  },
+  {
+    id: 'surface-laptop-6',
+    name: 'Surface Laptop 6',
+    description: 'Work laptop. Reliable, though I wish it had more power.',
+    category: 'hardware',
+    subcategory: 'Computer',
+    brand: 'Microsoft',
+    model: 'Surface Laptop 6',
+    url: 'https://www.microsoft.com/en-us/d/surface-laptop-6/8v9n8j2c7h2b',
+    price: {
+      amount: 1600,
+      currency: 'USD',
+      approximate: true
+    },
+    rating: 4,
+    yearStarted: 2024,
+    tags: ['laptop', 'work', 'surface', 'windows'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Solid work laptop, but could use more performance for heavy tasks.',
+    alternatives: ['MacBook Pro', 'Dell Latitude'],
+    specs: {
+      'Processor': 'Intel Core Ultra 7',
+      'RAM': '32GB',
+      'Storage': '1TB SSD',
+      'Display': '15" PixelSense'
+    }
+  },
+  {
+    id: 'macbook-air-2022',
+    name: 'MacBook Air (2022)',
+    description: 'Personal laptop for non-development tasks.',
     category: 'hardware',
     subcategory: 'Computer',
     brand: 'Apple',
-    model: 'MacBook Pro 16" (2023)',
-    url: 'https://www.apple.com/macbook-pro/',
+    model: 'MacBook Air (2022)',
+    url: 'https://www.apple.com/macbook-air/',
     price: {
-      amount: 3499,
+      amount: 1200,
+      currency: 'USD',
+      approximate: true
+    },
+    rating: 4,
+    yearStarted: 2022,
+    tags: ['laptop', 'personal', 'apple', 'macos'],
+    featured: false,
+    stillUsing: true,
+    reason: 'Lightweight and portable for personal use, not used for development.',
+    alternatives: ['Surface Laptop Go', 'iPad Pro'],
+    specs: {
+      'Processor': 'Apple M2',
+      'RAM': '8GB',
+      'Storage': '512GB SSD',
+      'Display': '13.6" Retina'
+    }
+  },
+  {
+    id: 'asus-rog-49',
+    name: 'Asus ROG 49"',
+    description: 'Main monitor on my desk. Huge screen real estate for multitasking.',
+    category: 'hardware',
+    subcategory: 'Monitor',
+    brand: 'Asus',
+    model: 'ROG Strix XG49VQ',
+    url: 'https://rog.asus.com/monitors/curved/rog-strix-xg49vq-model/',
+    price: {
+      amount: 900,
       currency: 'USD',
       approximate: true
     },
     rating: 5,
-    yearStarted: 2024,
-    tags: ['laptop', 'apple', 'm3', 'development', 'portable'],
+    yearStarted: 2023,
+    tags: ['monitor', 'asus', 'gaming', 'ultrawide', 'desk'],
     featured: true,
     stillUsing: true,
-    reason: 'Unmatched performance for development, great battery life, excellent display, and seamless integration with the Apple ecosystem.',
-    alternatives: ['Dell XPS 15', 'ThinkPad X1 Extreme'],
+    reason: 'Massive ultrawide display, perfect for multitasking and immersive experiences.',
+    alternatives: ['Samsung Odyssey G9', 'LG UltraWide'],
     specs: {
-      'Processor': 'Apple M3 Max',
-      'RAM': '64GB Unified Memory',
-      'Storage': '2TB SSD',
-      'Display': '16.2" Liquid Retina XDR',
-      'Ports': '3x Thunderbolt 4, HDMI, SDXC, MagSafe 3'
+      'Resolution': '3840 x 1080',
+      'Size': '49 inches',
+      'Refresh Rate': '144Hz',
+      'Panel': 'VA Curved',
+      'Connectivity': 'HDMI, DisplayPort, USB'
     }
   },
   {
-    id: 'studio-display',
-    name: 'Apple Studio Display',
-    description: 'Perfect companion to the MacBook Pro. 5K resolution and excellent color accuracy for both development and design work.',
+    id: 'mx-master-3s',
+    name: 'Logitech MX Master 3S',
+    description: 'Best mouse ever. Ergonomic, precise, and packed with features for productivity.',
     category: 'hardware',
-    subcategory: 'Monitor',
-    brand: 'Apple',
-    model: 'Studio Display 27"',
-    url: 'https://www.apple.com/studio-display/',
+    subcategory: 'Input Devices',
+    brand: 'Logitech',
+    model: 'MX Master 3S',
+    url: 'https://www.logitech.com/en-us/products/mice/mx-master-3s.910-006556.html',
     price: {
-      amount: 1599,
+      amount: 99,
+      currency: 'USD'
+    },
+    rating: 5,
+    yearStarted: 2023,
+    tags: ['mouse', 'logitech', 'ergonomic', 'wireless', 'productivity'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Unmatched comfort and productivity features. Customizable buttons and smooth scroll.',
+    alternatives: ['MX Master 2S', 'Apple Magic Mouse'],
+    specs: {
+      'Connectivity': 'Bluetooth/USB',
+      'Battery': 'Rechargeable',
+      'Buttons': '7'
+    }
+  },
+  {
+    id: 'mx-master-2s',
+    name: 'Logitech MX Master 2S',
+    description: 'Travel mouse. Reliable and comfortable for use on the go.',
+    category: 'hardware',
+    subcategory: 'Input Devices',
+    brand: 'Logitech',
+    model: 'MX Master 2S',
+    url: 'https://www.logitech.com/en-us/products/mice/mx-master-2s.910-005131.html',
+    price: {
+      amount: 79,
       currency: 'USD'
     },
     rating: 4,
-    yearStarted: 2024,
-    tags: ['monitor', '5k', 'retina', 'usb-c', 'apple'],
-    featured: true,
+    yearStarted: 2020,
+    tags: ['mouse', 'travel', 'logitech', 'wireless'],
+    featured: false,
     stillUsing: true,
-    reason: 'Crystal clear 5K display, great for code and design. Built-in camera and speakers are convenient for calls.',
-    alternatives: ['LG UltraFine 5K', 'Dell UltraSharp U2720Q'],
+    reason: 'Great for traveling. Comfortable and reliable.',
+    alternatives: ['MX Anywhere 2', 'Apple Magic Mouse'],
     specs: {
-      'Resolution': '5120 x 2880 (5K)',
-      'Size': '27 inches',
-      'Brightness': '600 nits',
-      'Color Gamut': 'P3 wide color',
-      'Connectivity': 'Thunderbolt 3'
+      'Connectivity': 'Bluetooth/USB',
+      'Battery': 'Rechargeable'
     }
   },
   {
-    id: 'airpods-pro',
-    name: 'AirPods Pro (2nd Gen)',
-    description: 'Daily driver for calls, music, and focus sessions. The noise cancellation is incredible for deep work.',
+    id: 'stream-deck-16',
+    name: 'Elgato Stream Deck (16 buttons)',
+    description: 'Used for streaming and daily automation tasks.',
+    category: 'hardware',
+    subcategory: 'Input Devices',
+    brand: 'Elgato',
+    model: 'Stream Deck MK.2',
+    url: 'https://www.elgato.com/en/stream-deck',
+    price: {
+      amount: 149,
+      currency: 'USD'
+    },
+    rating: 5,
+    yearStarted: 2022,
+    tags: ['streaming', 'automation', 'input', 'elgato'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Essential for streaming and automating daily workflows.',
+    alternatives: ['Loupedeck Live', 'Touch Portal'],
+    specs: {
+      'Buttons': '16',
+      'Connectivity': 'USB'
+    }
+  },
+  {
+    id: 'mx-mechanical',
+    name: 'Logitech MX Mechanical',
+    description: 'Best keyboard ever. Tactile, quiet, and wireless.',
+    category: 'hardware',
+    subcategory: 'Input Devices',
+    brand: 'Logitech',
+    model: 'MX Mechanical',
+    url: 'https://www.logitech.com/en-us/products/keyboards/mx-mechanical.920-010797.html',
+    price: {
+      amount: 169,
+      currency: 'USD'
+    },
+    rating: 5,
+    yearStarted: 2023,
+    tags: ['keyboard', 'mechanical', 'logitech', 'wireless', 'tactile'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Best typing experience, wireless, and great battery life.',
+    alternatives: ['Keychron K3', 'Microsoft Surface Keyboard'],
+    specs: {
+      'Switches': 'Tactile Quiet',
+      'Connectivity': 'Bluetooth/USB',
+      'Battery': 'Rechargeable'
+    }
+  },
+  {
+    id: 'ms-keyboard-65',
+    name: 'Microsoft Keyboard 65%',
+    description: 'Compact keyboard for traveling.',
+    category: 'hardware',
+    subcategory: 'Input Devices',
+    brand: 'Microsoft',
+    model: 'Designer Compact Keyboard',
+    url: 'https://www.microsoft.com/en-us/d/designer-compact-keyboard/8r2c8n6z5g7b',
+    price: {
+      amount: 69,
+      currency: 'USD'
+    },
+    rating: 4,
+    yearStarted: 2022,
+    tags: ['keyboard', 'compact', 'travel', 'microsoft'],
+    featured: false,
+    stillUsing: true,
+    reason: 'Small form factor, easy to carry for travel.',
+    alternatives: ['Logitech MX Keys Mini', 'Keychron K6'],
+    specs: {
+      'Layout': '65%',
+      'Connectivity': 'Bluetooth'
+    }
+  },
+  {
+    id: 'kindle-paperwhite',
+    name: 'Kindle Paperwhite',
+    description: 'E-reader for books and articles.',
+    category: 'hardware',
+    subcategory: 'Mobile',
+    brand: 'Amazon',
+    model: 'Kindle Paperwhite',
+    url: 'https://www.amazon.com/kindle-paperwhite/',
+    price: {
+      amount: 139,
+      currency: 'USD'
+    },
+    rating: 5,
+    yearStarted: 2021,
+    tags: ['ereader', 'kindle', 'amazon', 'reading'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Perfect for reading books and articles anywhere.',
+    alternatives: ['Kobo Clara', 'Kindle Oasis'],
+    specs: {
+      'Display': '6.8" Paperwhite',
+      'Storage': '8GB',
+      'Battery': 'Weeks'
+    }
+  },
+  {
+    id: 'gaming-pc',
+    name: 'Gaming PC',
+    description: 'Main desktop for personal projects. Powerful specs for development and gaming.',
+    category: 'hardware',
+    subcategory: 'Computer',
+    brand: 'Custom Build',
+    model: 'Gaming PC',
+    price: {
+      amount: 2000,
+      currency: 'USD',
+      approximate: true
+    },
+    rating: 5,
+    yearStarted: 2019,
+    tags: ['desktop', 'gaming', 'development', 'windows', 'custom'],
+    featured: true,
+    stillUsing: true,
+    reason: 'High performance for personal projects and gaming.',
+    alternatives: ['Alienware Aurora', 'Corsair One'],
+    specs: {
+      'Processor': 'Intel Core i9',
+      'RAM': '64GB',
+      'Storage': '4TB SSD/HDD',
+      'GPU': 'NVIDIA RTX 1070'
+    }
+  },
+  {
+    id: 'apple-max-headphones',
+    name: 'Apple AirPods Max',
+    description: 'High-end headphones for music and focus.',
     category: 'audio',
     subcategory: 'Headphones',
     brand: 'Apple',
-    model: 'AirPods Pro (2nd Generation)',
+    model: 'AirPods Max',
+    url: 'https://www.apple.com/airpods-max/',
+    price: {
+      amount: 549,
+      currency: 'USD'
+    },
+    rating: 5,
+    yearStarted: 2023,
+    tags: ['headphones', 'apple', 'wireless', 'music', 'focus'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Amazing sound quality and noise cancellation.',
+    alternatives: ['Sony WH-1000XM5', 'Bose 700'],
+    specs: {
+      'Connectivity': 'Bluetooth',
+      'Battery': '20 hours'
+    }
+  },
+  {
+    id: 'apple-pro-headphones',
+    name: 'Apple AirPods Pro',
+    description: 'Wireless earbuds for calls and music.',
+    category: 'audio',
+    subcategory: 'Headphones',
+    brand: 'Apple',
+    model: 'AirPods Pro',
     url: 'https://www.apple.com/airpods-pro/',
     price: {
       amount: 249,
       currency: 'USD'
     },
-    rating: 5,
-    yearStarted: 2023,
-    tags: ['wireless', 'noise-cancellation', 'apple', 'calls', 'music'],
-    featured: true,
+    rating: 4,
+    yearStarted: 2022,
+    tags: ['earbuds', 'apple', 'wireless', 'calls', 'music'],
+    featured: false,
     stillUsing: true,
-    reason: 'Seamless integration with Apple devices, excellent noise cancellation, great for calls and music. Perfect for focus sessions.',
-    alternatives: ['Sony WF-1000XM4', 'Bose QuietComfort Earbuds']
+    reason: 'Great for calls and music, portable and comfortable.',
+    alternatives: ['Sony WF-1000XM4', 'Bose QuietComfort Earbuds'],
+    specs: {
+      'Connectivity': 'Bluetooth',
+      'Battery': '6 hours'
+    }
   },
   {
-    id: 'magic-keyboard',
-    name: 'Apple Magic Keyboard',
-    description: 'Clean, minimalist keyboard that matches the aesthetic. Great tactile feel for long coding sessions.',
-    category: 'hardware',
-    subcategory: 'Input Devices',
-    brand: 'Apple',
-    model: 'Magic Keyboard with Touch ID',
-    url: 'https://www.apple.com/shop/product/MK293LL/A/magic-keyboard-with-touch-id-for-mac-models-with-apple-silicon-us-english',
+    id: 'logitech-g432',
+    name: 'Logitech G432 Headphones',
+    description: 'Used for recording videos and gaming.',
+    category: 'audio',
+    subcategory: 'Headphones',
+    brand: 'Logitech',
+    model: 'G432',
+    url: 'https://www.logitechg.com/en-us/products/gaming-audio/g432-7-1-surround-sound-gaming-headset.981-000769.html',
     price: {
-      amount: 179,
+      amount: 49,
       currency: 'USD'
     },
     rating: 4,
-    yearStarted: 2024,
-    tags: ['keyboard', 'wireless', 'touch-id', 'apple'],
+    yearStarted: 2021,
+    tags: ['headphones', 'logitech', 'gaming', 'recording'],
     featured: false,
     stillUsing: true,
-    reason: 'Touch ID integration, clean design, reliable wireless connection. Comfortable for extended typing sessions.',
-    alternatives: ['Keychron K3', 'Logitech MX Keys']
+    reason: 'Good sound and mic quality for recording and gaming.',
+    alternatives: ['HyperX Cloud II', 'SteelSeries Arctis 5'],
+    specs: {
+      'Connectivity': 'Wired',
+      'Microphone': 'Yes'
+    }
+  },
+  {
+    id: 'dji-osmo-3',
+    name: 'DJI Osmo Mobile 3',
+    description: 'Gimbal for vlogging and stable video recording.',
+    category: 'hardware',
+    subcategory: 'Mobile',
+    brand: 'DJI',
+    model: 'Osmo Mobile 3',
+    url: 'https://www.dji.com/osmo-mobile-3',
+    price: {
+      amount: 99,
+      currency: 'USD'
+    },
+    rating: 4,
+    yearStarted: 2022,
+    tags: ['gimbal', 'vlogging', 'video', 'dji'],
+    featured: false,
+    stillUsing: true,
+    reason: 'Great for vlogging and capturing stable videos.',
+    alternatives: ['Zhiyun Smooth 4', 'DJI OM 5'],
+    specs: {
+      'Battery': '15 hours',
+      'Weight': '405g'
+    }
   },
 
   // Development Tools
@@ -212,23 +535,24 @@ export const uses: UseItem[] = [
     alternatives: ['WebStorm', 'Sublime Text', 'Neovim']
   },
   {
-    id: 'iterm2',
-    name: 'iTerm2',
-    description: 'Terminal replacement for macOS with better features, split panes, and customization options.',
+    id: 'windows-terminal',
+    name: 'Windows Terminal',
+    description: 'Modern terminal for Windows with tabs, split panes, and customization.',
     category: 'development',
     subcategory: 'Terminal',
-    url: 'https://iterm2.com/',
+    brand: 'Microsoft',
+    url: 'https://aka.ms/terminal',
     price: {
       amount: 0,
       currency: 'USD'
     },
     rating: 5,
-    yearStarted: 2019,
-    tags: ['terminal', 'macos', 'split-panes', 'customization', 'free'],
+    yearStarted: 2022,
+    tags: ['terminal', 'windows', 'customization', 'free'],
     featured: true,
     stillUsing: true,
-    reason: 'Split panes, better search, customizable themes, and excellent performance. Much better than the default Terminal app.',
-    alternatives: ['Hyper', 'Alacritty', 'Default Terminal']
+    reason: 'Tabs, split panes, and great customization. My daily driver for command line work.',
+    alternatives: ['ConEmu', 'Alacritty', 'Default Terminal']
   },
   {
     id: 'github-desktop',
@@ -269,26 +593,107 @@ export const uses: UseItem[] = [
     reason: 'Comprehensive API testing platform with collections, environments, and automation. Essential for backend development.',
     alternatives: ['Insomnia', 'Thunder Client', 'curl']
   },
+  {
+    id: 'oh-my-posh',
+    name: 'Oh My Posh',
+    description: 'Prompt theme engine for any shell. I live in the terminal with this!',
+    category: 'development',
+    subcategory: 'Utilities',
+    brand: 'Jan De Dobbeleer',
+    url: 'https://ohmyposh.dev/',
+    price: {
+      amount: 0,
+      currency: 'USD'
+    },
+    rating: 5,
+    yearStarted: 2023,
+    tags: ['terminal', 'prompt', 'customization', 'shell', 'free'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Makes my terminal beautiful and productive. Works with PowerShell, Bash, and more.',
+    alternatives: ['Starship', 'Powerlevel10k']
+  },
+  {
+    id: 'github',
+    name: 'GitHub',
+    description: 'All my code for work and side projects is hosted here.',
+    category: 'development',
+    subcategory: 'Version Control',
+    brand: 'GitHub',
+    url: 'https://github.com/',
+    price: {
+      amount: 0,
+      currency: 'USD'
+    },
+    rating: 5,
+    yearStarted: 2015,
+    tags: ['git', 'hosting', 'version-control', 'github', 'collaboration', 'free'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Central place for all my code, collaboration, and open source.',
+    alternatives: ['GitLab', 'Bitbucket']
+  },
+  {
+    id: 'github-copilot',
+    name: 'GitHub Copilot',
+    description: 'I cannot work anymore without it. AI pair programmer for code completion and suggestions.',
+    category: 'development',
+    subcategory: 'Utilities',
+    brand: 'GitHub',
+    url: 'https://github.com/features/copilot',
+    price: {
+      amount: 10,
+      currency: 'USD'
+    },
+    rating: 5,
+    yearStarted: 2022,
+    tags: ['ai', 'copilot', 'code-completion', 'productivity', 'github'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Essential for productivity and code quality. Speeds up development.',
+    alternatives: ['Amazon CodeWhisperer', 'Tabnine']
+  },
+  {
+    id: 'chatgpt',
+    name: 'ChatGPT',
+    description: 'Nothing to add here. Everyone uses it. I use it for everything: work and personal things.',
+    category: 'development',
+    subcategory: 'Utilities',
+    brand: 'OpenAI',
+    url: 'https://chat.openai.com/',
+    price: {
+      amount: 20,
+      currency: 'USD'
+    },
+    rating: 5,
+    yearStarted: 2022,
+    tags: ['ai', 'chatgpt', 'assistant', 'openai', 'productivity'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Universal AI assistant for work, coding, and personal tasks.',
+    alternatives: ['Gemini', 'Claude', 'Copilot Chat']
+  },
 
   // Design Tools
   {
-    id: 'figma',
-    name: 'Figma',
-    description: 'Primary design tool for UI/UX work. Collaborative features and component systems make design scalable.',
+    id: 'canva',
+    name: 'Canva',
+    description: 'My main tool for quick design, social media graphics, and presentations.',
     category: 'design',
-    subcategory: 'UI/UX',
-    url: 'https://www.figma.com/',
+    subcategory: 'Graphics',
+    brand: 'Canva',
+    url: 'https://www.canva.com/',
     price: {
       amount: 0,
       currency: 'USD'
     },
     rating: 5,
     yearStarted: 2020,
-    tags: ['design', 'ui', 'ux', 'collaborative', 'components', 'free'],
+    tags: ['design', 'graphics', 'social-media', 'presentations', 'free'],
     featured: true,
     stillUsing: true,
-    reason: 'Best collaborative design tool, excellent component system, works in browser, great for handoff to developers.',
-    alternatives: ['Sketch', 'Adobe XD', 'Framer']
+    reason: 'Fast, easy, and collaborative for all kinds of design work.',
+    alternatives: ['Adobe Express', 'Crello']
   },
 
   // Productivity
@@ -311,66 +716,254 @@ export const uses: UseItem[] = [
     reason: 'Ultimate flexibility for organizing information. Great for documentation, project planning, and knowledge management.',
     alternatives: ['Obsidian', 'Roam Research', 'Apple Notes']
   },
+
+  // Software
   {
-    id: 'raycast',
-    name: 'Raycast',
-    description: 'Spotlight replacement with extensions, clipboard history, and productivity features. Makes macOS much more efficient.',
-    category: 'productivity',
-    subcategory: 'Utilities',
-    url: 'https://www.raycast.com/',
+    id: 'ms-edge',
+    name: 'Microsoft Edge',
+    description: 'My main browser for daily work and personal browsing.',
+    category: 'software',
+    subcategory: 'Browser',
+    brand: 'Microsoft',
+    url: 'https://www.microsoft.com/edge',
     price: {
       amount: 0,
       currency: 'USD'
     },
     rating: 5,
-    yearStarted: 2023,
-    tags: ['launcher', 'productivity', 'macos', 'extensions', 'free'],
+    yearStarted: 2022,
+    tags: ['browser', 'edge', 'microsoft', 'web', 'free'],
     featured: true,
     stillUsing: true,
-    reason: 'Much better than Spotlight with extensions, clipboard history, and quick actions. Essential productivity booster for macOS.',
-    alternatives: ['Alfred', 'Spotlight', 'LaunchBar']
+    reason: 'Fast, secure, and integrates well with my workflow.',
+    alternatives: ['Chrome', 'Firefox', 'Arc Browser']
   },
-
-  // Software
   {
-    id: 'arc-browser',
-    name: 'Arc Browser',
-    description: 'Modern browser with innovative features like spaces, split view, and excellent tab management.',
+    id: 'mozilla-firefox',
+    name: 'Mozilla Firefox',
+    description: 'Secondary browser for privacy and testing.',
     category: 'software',
     subcategory: 'Browser',
-    brand: 'The Browser Company',
-    url: 'https://arc.net/',
+    brand: 'Mozilla',
+    url: 'https://www.mozilla.org/firefox/',
+    price: {
+      amount: 0,
+      currency: 'USD'
+    },
+    rating: 4,
+    yearStarted: 2018,
+    tags: ['browser', 'firefox', 'mozilla', 'privacy', 'free'],
+    featured: false,
+    stillUsing: true,
+    reason: 'Great privacy features and developer tools.',
+    alternatives: ['Chrome', 'Edge', 'Safari']
+  },
+  {
+    id: 'mozilla-developer-edition',
+    name: 'Mozilla Firefox Developer Edition',
+    description: 'Advanced debugging and web development browser.',
+    category: 'software',
+    subcategory: 'Browser',
+    brand: 'Mozilla',
+    url: 'https://www.mozilla.org/firefox/developer/',
+    price: {
+      amount: 0,
+      currency: 'USD'
+    },
+    rating: 5,
+    yearStarted: 2020,
+    tags: ['browser', 'developer', 'debugging', 'mozilla', 'free'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Best for advanced web debugging and dev tools.',
+    alternatives: ['Chrome DevTools', 'Edge DevTools']
+  },
+  {
+    id: 'chrome',
+    name: 'Google Chrome',
+    description: 'Used for compatibility testing and some web apps.',
+    category: 'software',
+    subcategory: 'Browser',
+    brand: 'Google',
+    url: 'https://www.google.com/chrome/',
+    price: {
+      amount: 0,
+      currency: 'USD'
+    },
+    rating: 4,
+    yearStarted: 2015,
+    tags: ['browser', 'chrome', 'google', 'testing', 'free'],
+    featured: false,
+    stillUsing: true,
+    reason: 'Industry standard for web compatibility.',
+    alternatives: ['Edge', 'Firefox', 'Safari']
+  },
+
+  // Productivity & Communication
+  {
+    id: 'discord',
+    name: 'Discord',
+    description: 'My main platform for community and work-related communication.',
+    category: 'productivity',
+    subcategory: 'Communication',
+    brand: 'Discord',
+    url: 'https://discord.com/',
+    price: {
+      amount: 0,
+      currency: 'USD'
+    },
+    rating: 5,
+    yearStarted: 2017,
+    tags: ['community', 'chat', 'voice', 'discord', 'free'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Central hub for my communities and work groups.',
+    alternatives: ['Slack', 'Teams', 'Telegram']
+  },
+  {
+    id: 'slack',
+    name: 'Slack',
+    description: 'Used for work and professional communities.',
+    category: 'productivity',
+    subcategory: 'Communication',
+    brand: 'Slack',
+    url: 'https://slack.com/',
+    price: {
+      amount: 0,
+      currency: 'USD'
+    },
+    rating: 4,
+    yearStarted: 2018,
+    tags: ['chat', 'work', 'slack', 'communication', 'free'],
+    featured: false,
+    stillUsing: true,
+    reason: 'Great for work and professional networking.',
+    alternatives: ['Discord', 'Teams']
+  },
+  {
+    id: 'ms-teams',
+    name: 'Microsoft Teams',
+    description: 'Main communication tool for work. Spend much time on it.',
+    category: 'productivity',
+    subcategory: 'Communication',
+    brand: 'Microsoft',
+    url: 'https://www.microsoft.com/en/microsoft-teams/group-chat-software',
+    price: {
+      amount: 0,
+      currency: 'USD'
+    },
+    rating: 4,
+    yearStarted: 2020,
+    tags: ['chat', 'work', 'teams', 'microsoft', 'video', 'free'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Essential for work meetings and collaboration.',
+    alternatives: ['Slack', 'Zoom', 'Discord']
+  },
+
+  // Development Tools
+  {
+    id: 'jetbrains-rider',
+    name: 'JetBrains Rider',
+    description: 'My first choice for C# and .NET related projects.',
+    category: 'development',
+    subcategory: 'Editor',
+    brand: 'JetBrains',
+    url: 'https://www.jetbrains.com/rider/',
+    price: {
+      amount: 149,
+      currency: 'USD'
+    },
+    rating: 5,
+    yearStarted: 2021,
+    tags: ['editor', 'csharp', '.net', 'jetbrains', 'paid'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Best IDE for C# and .NET development.',
+    alternatives: ['Visual Studio', 'VS Code']
+  },
+  {
+    id: 'gitkraken',
+    name: 'GitKraken',
+    description: 'My favorite software for Git version control.',
+    category: 'development',
+    subcategory: 'Version Control',
+    brand: 'GitKraken',
+    url: 'https://www.gitkraken.com/',
+    price: {
+      amount: 0,
+      currency: 'USD'
+    },
+    rating: 5,
+    yearStarted: 2022,
+    tags: ['git', 'version-control', 'gui', 'gitkraken', 'free'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Intuitive interface and powerful Git features.',
+    alternatives: ['GitHub Desktop', 'SourceTree', 'Command Line Git']
+  },
+  // Postman already exists in the list
+  {
+    id: 'lm-studio',
+    name: 'LM Studio',
+    description: 'Local LLM runner for experimenting with AI models.',
+    category: 'development',
+    subcategory: 'Utilities',
+    brand: 'LM Studio',
+    url: 'https://lmstudio.ai/',
     price: {
       amount: 0,
       currency: 'USD'
     },
     rating: 4,
     yearStarted: 2024,
-    tags: ['browser', 'modern', 'spaces', 'productivity', 'free'],
-    featured: true,
-    stillUsing: true,
-    reason: 'Revolutionary approach to browsing with spaces and split view. Great for organizing different projects and contexts.',
-    alternatives: ['Chrome', 'Safari', 'Firefox']
-  },
-  {
-    id: 'cleanmymac',
-    name: 'CleanMyMac X',
-    description: 'Keeps my Mac running smoothly by cleaning system junk, optimizing performance, and managing storage.',
-    category: 'software',
-    subcategory: 'Utilities',
-    brand: 'MacPaw',
-    url: 'https://cleanmymac.com/',
-    price: {
-      amount: 89,
-      currency: 'USD'
-    },
-    rating: 4,
-    yearStarted: 2023,
-    tags: ['cleanup', 'optimization', 'storage', 'maintenance'],
+    tags: ['ai', 'llm', 'local', 'utilities', 'free'],
     featured: false,
     stillUsing: true,
-    reason: 'Excellent for keeping Mac clean and optimized. User-friendly interface and effective cleaning algorithms.',
-    alternatives: ['DaisyDisk', 'AppCleaner', 'Manual cleanup']
+    reason: 'Easy way to run and test local LLMs.',
+    alternatives: ['Ollama', 'GPT4All']
+  },
+
+  // Audio & Focus
+  {
+    id: 'spotify',
+    name: 'Spotify',
+    description: 'Cannot live without music. My daily soundtrack.',
+    category: 'audio',
+    subcategory: 'Software',
+    brand: 'Spotify',
+    url: 'https://www.spotify.com/',
+    price: {
+      amount: 10,
+      currency: 'USD'
+    },
+    rating: 5,
+    yearStarted: 2015,
+    tags: ['music', 'audio', 'spotify', 'streaming'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Music for every moment, everywhere.',
+    alternatives: ['Apple Music', 'YouTube Music']
+  },
+  {
+    id: 'endel',
+    name: 'Endel',
+    description: 'Focus and relaxation app for work and personal use.',
+    category: 'audio',
+    subcategory: 'Software',
+    brand: 'Endel',
+    url: 'https://endel.io/',
+    price: {
+      amount: 7,
+      currency: 'USD'
+    },
+    rating: 5,
+    yearStarted: 2023,
+    tags: ['focus', 'relaxation', 'audio', 'endel', 'personal'],
+    featured: true,
+    stillUsing: true,
+    reason: 'Helps me focus and relax during the day.',
+    alternatives: ['Noisli', 'Brain.fm']
   }
 ];
 
