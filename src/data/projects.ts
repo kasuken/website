@@ -11,7 +11,7 @@ export interface Project {
   liveUrl?: string;
   imageUrl?: string;
   featured: boolean;
-  category: 'web' | 'mobile' | 'desktop' | 'library' | 'tool' | 'other';
+  category: 'web' | 'api' | 'extension' | 'vscode' | 'mobile' | 'desktop' | 'library' | 'tool' | 'other';
   status: 'completed' | 'in-progress' | 'archived';
   startDate: string;
   endDate?: string;
@@ -19,83 +19,81 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: 'project-1',
-    title: 'DevTo Portfolio Integration',
-    description: 'Astro-based portfolio website with automatic dev.to blog integration and infinite scroll.',
-    longDescription: 'A modern portfolio website built with Astro that automatically fetches and displays blog posts from dev.to using their API. Features include infinite scroll, responsive grid layout, and optimized performance.',
-    technologies: ['Astro', 'TypeScript', 'CSS Grid', 'REST API', 'dev.to API'],
-    githubUrl: 'https://github.com/kasuken/portfolio',
-    liveUrl: 'https://your-portfolio.com',
-    imageUrl: '/assets/portfolio-preview.jpg',
-    featured: true,
-    category: 'web',
-    status: 'completed',
-    startDate: '2025-08',
-    endDate: '2025-08'
-  },
-  {
-    id: 'project-2',
-    title: 'PowerShell Utility Scripts',
-    description: 'Collection of PowerShell scripts for Windows administration and automation.',
-    longDescription: 'A comprehensive collection of PowerShell scripts designed to automate common Windows administration tasks, system maintenance, and development workflows.',
-    technologies: ['PowerShell', 'Windows', 'Automation', 'System Administration'],
-    githubUrl: 'https://github.com/kasuken/powershell-utils',
-    featured: true,
-    category: 'tool',
+    id: 'blocky',
+    title: 'Blocky',
+    description: 'A powerful and lightweight ad blocker browser extension for Chrome and Edge that blocks ads using multiple filter sources.',
+    longDescription: `Features
+✅ Multi-Source Filtering: Uses EasyList and uBlock Origin filter lists
+🚀 High Performance: Built with Manifest V3 and declarative net request
+🎯 Smart Blocking: Combines network-level and DOM-based blocking
+📊 Statistics: Track blocked ads and protected sites
+⚙️ Customizable: Whitelist sites, custom rules, and blocking levels
+🔒 Privacy-Focused: No data collection, all processing happens locally`,
+    technologies: ['TypeScript', 'Manifest V3', 'Chrome Extension', 'Edge Extension', 'EasyList', 'uBlock Origin'],
+    githubUrl: 'https://github.com/kasuken/Blocky',
+    featured: false,
+    category: 'extension',
     status: 'in-progress',
-    startDate: '2024-01'
+    startDate: '2024-06'
   },
   {
-    id: 'project-3',
-    title: 'Azure Functions Templates',
-    description: 'Ready-to-use Azure Functions templates for common scenarios.',
-    longDescription: 'A collection of Azure Functions templates covering HTTP triggers, timer functions, blob storage processing, and more. Includes best practices and deployment guides.',
-    technologies: ['Azure Functions', 'C#', '.NET', 'Azure', 'Serverless'],
-    githubUrl: 'https://github.com/kasuken/azure-functions-templates',
+    id: 'stone-css',
+    title: 'stone.css',
+    description: 'stone.css - a PoC with style in less than 30 seconds. CSS styles for HTML elements for your next Proof of Concept project.',
+    longDescription: 'A lightweight CSS framework providing instant, clean styles for HTML elements. Perfect for rapid prototyping and proof of concept projects.',
+    technologies: ['CSS'],
+    githubUrl: 'https://github.com/kasuken/stone.css',
     featured: false,
     category: 'library',
+    status: 'in-progress',
+    startDate: '2024-06'
+  },
+  {
+    id: 'green-software-indicator',
+    title: 'Green Software Indicator',
+    description: 'A Chrome/Edge browser extension that evaluates websites for green software development practices and displays colored badges indicating their environmental sustainability.',
+    longDescription: `Features
+- Real-time Analysis: Automatically analyzes websites when you visit them
+- Visual Indicators: Color-coded badges (green = excellent, yellow = good, red = needs improvement)
+- Detailed Breakdown: Shows specific green software practices being followed
+- Performance Monitoring: Tracks website efficiency metrics`,
+    technologies: ['TypeScript', 'Chrome Extension', 'Edge Extension', 'Web Performance'],
+    githubUrl: 'https://github.com/kasuken/green-software-indicator',
+    featured: false,
+    category: 'extension',
     status: 'completed',
     startDate: '2024-06',
-    endDate: '2024-08'
+    imageUrl: 'https://private-user-images.githubusercontent.com/2757486/476085182-a50b619c-01d6-4903-a342-4036deb7105f.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTY1NjY0ODIsIm5iZiI6MTc1NjU2NjE4MiwicGF0aCI6Ii8yNzU3NDg2LzQ3NjA4NTE4Mi1hNTBiNjE5Yy0wMWQ2LTQ5MDMtYTM0Mi00MDM2ZGViNzEwNWYucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MDgzMCUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTA4MzBUMTUwMzAyWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9NTE2MjlkMDAwY2E4YzQyNjI4MDZjYThjN2NkMjJiMjYyZTc3MzRiNTMwZTExMmY3YzM4YjVhZjM0NTJiZTNjYiZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.33KLspBK6UlehX9pCWENgjgyrThUWZub9mj3QJRwPBA'
   },
   {
-    id: 'project-4',
-    title: 'VS Code Extension Pack',
-    description: 'Curated VS Code extension pack for .NET developers.',
-    longDescription: 'A carefully curated extension pack for Visual Studio Code that includes essential extensions for .NET development, productivity tools, and code quality enhancements.',
-    technologies: ['VS Code', 'Extensions', '.NET', 'Developer Tools'],
-    githubUrl: 'https://github.com/kasuken/vscode-dotnet-pack',
-    liveUrl: 'https://marketplace.visualstudio.com/items?itemName=kasuken.dotnet-pack',
+    id: 'chrome-edge-extension-typescript-template',
+    title: 'Chrome/Edge Extension TypeScript Template',
+    description: 'A modern, well-structured template for building Chrome and Edge browser extensions using TypeScript and Vite.',
+    longDescription: `Features
+🚀 Fast Development - Powered by Vite for instant hot reload
+📦 TypeScript - Full TypeScript support with strict typing
+🎯 Manifest V3 - Uses the latest extension manifest version
+🔧 Pre-configured - Ready-to-use setup with all necessary configurations
+🎨 Modern UI - Clean popup interface with dark/light theme support
+📱 Cross-browser - Compatible with both Chrome and Edge
+🛠️ Developer Tools - Comprehensive build scripts and development workflow`,
+    technologies: ['TypeScript', 'Vite', 'Manifest V3', 'Chrome Extension', 'Edge Extension'],
+    githubUrl: 'https://github.com/kasuken/chrome-edge-extension-typescript-template',
     featured: false,
-    category: 'tool',
-    status: 'completed',
-    startDate: '2023-12',
-    endDate: '2024-01'
-  },
-  {
-    id: 'project-5',
-    title: 'GitHub Actions Workflows',
-    description: 'Reusable GitHub Actions workflows for CI/CD pipelines.',
-    longDescription: 'A collection of reusable GitHub Actions workflows for various scenarios including .NET applications, Docker containers, Azure deployments, and automated testing.',
-    technologies: ['GitHub Actions', 'CI/CD', 'Docker', 'Azure', 'Automation'],
-    githubUrl: 'https://github.com/kasuken/github-workflows',
-    featured: false,
-    category: 'tool',
+    category: 'extension',
     status: 'in-progress',
-    startDate: '2024-03'
+    startDate: '2024-06'
   },
   {
-    id: 'project-6',
-    title: 'Blazor Component Library',
-    description: 'Reusable Blazor components for enterprise applications.',
-    longDescription: 'A comprehensive library of reusable Blazor components designed for enterprise applications. Includes data grids, charts, forms, and navigation components.',
-    technologies: ['Blazor', 'C#', '.NET', 'Component Library', 'Web Components'],
-    githubUrl: 'https://github.com/kasuken/blazor-components',
+    id: 'copilotinstructions',
+    title: 'Copilot Instructions',
+    description: 'Instructions and best practices for GitHub Copilot.',
+    technologies: [],
+    githubUrl: 'https://github.com/kasuken/copilotinstructions',
     featured: false,
-    category: 'library',
-    status: 'archived',
-    startDate: '2023-06',
-    endDate: '2023-12'
+    category: 'other',
+    status: 'in-progress',
+    startDate: '2024-06'
   }
 ];
 
@@ -119,6 +117,9 @@ export function getProjectById(id: string): Project | undefined {
 export const categories = [
   { key: 'all', label: 'All Projects' },
   { key: 'web', label: 'Web Applications' },
+  { key: 'api', label: 'APIs' },
+  { key: 'extension', label: 'Browser Extensions' },
+  { key: 'vscode', label: 'VS Code Extensions' },
   { key: 'mobile', label: 'Mobile Apps' },
   { key: 'desktop', label: 'Desktop Applications' },
   { key: 'library', label: 'Libraries & Packages' },
