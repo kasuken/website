@@ -132,12 +132,26 @@ const stats = getUsesStats();
 				font-weight: 500;
 			}
 			
-			.filter-btn:hover,
-			.filter-btn.active {
-				background: rgb(var(--accent));
+			.filter-btn:hover {
+				background: var(--accent);
 				color: white;
-				border-color: rgb(var(--accent));
+				border-color: var(--accent);
 				transform: translateY(-2px);
+				box-shadow: var(--shadow-md);
+			}
+			
+			.filter-btn:focus {
+				outline: none;
+				box-shadow: 0 0 0 3px oklch(from var(--accent) l c h / 0.3);
+			}
+			
+			.filter-btn.active {
+				background: var(--accent-dark);
+				color: white;
+				border-color: var(--accent-dark);
+				transform: translateY(-2px);
+				box-shadow: var(--shadow-md);
+				font-weight: 600;
 			}
 			
 			.uses-grid {
