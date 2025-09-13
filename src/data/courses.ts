@@ -25,7 +25,7 @@ export interface Course {
   featured: boolean;
   available: boolean;
   nextAvailableDate?: string;
-  bookingUrl?: string;
+  courseUrl?: string;
   brochureUrl?: string;
   imageUrl?: string;
   testimonials?: {
@@ -71,12 +71,14 @@ export const courses: Course[] = [
     category: 'web-development',
     technologies: ['GitHub', 'Git'],
     format: 'online',
+    maxParticipants: 500,
     imageUrl: '/img/1673552160107.jpeg',
     price: {
       individual: 0,
+      corporate: 199,
       currency: 'USD'
     },
-    prerequisites: [],
+    prerequisites: ['Basic computer knowledge', 'Web browser'],
     learningOutcomes: [
       'Understand GitHub fundamentals',
       'Create and manage repositories',
@@ -103,7 +105,7 @@ export const courses: Course[] = [
     ],
     featured: true,
     available: true,
-    bookingUrl: 'https://www.linkedin.com/learning/learning-github-18719601',
+    courseUrl: 'https://www.linkedin.com/learning/learning-github-18719601',
     createdAt: '2023-09-01',
     updatedAt: '2025-09-16'
   },
@@ -112,13 +114,22 @@ export const courses: Course[] = [
     title: 'PowerShell for Beginners',
     description: 'Learn the basics of PowerShell scripting and automation.',
     longDescription: 'This in-progress course introduces PowerShell fundamentals, including command-line basics, scripting, and automation for Windows environments.',
-    duration: 'TBD',
+    duration: '4 hours',
     level: 'beginner',
     category: 'backend',
     technologies: ['PowerShell'],
     format: 'online',
+    maxParticipants: 25,
+    price: {
+      individual: 149,
+      corporate: 299,
+      currency: 'USD'
+    },
+    prerequisites: ['Basic Windows knowledge'],
+    nextAvailableDate: '2025-10-15',
     available: true,
     featured: false,
+    courseUrl: '#', // Coming soon - placeholder link
     createdAt: '2025-09-16',
     updatedAt: '2025-09-16',
     learningOutcomes: [
@@ -157,13 +168,22 @@ export const courses: Course[] = [
     title: 'PowerShell Advanced',
     description: 'Advanced PowerShell scripting and automation techniques.',
     longDescription: 'This in-progress course covers advanced PowerShell topics such as modules, error handling, and integration with external systems.',
-    duration: 'TBD',
+    duration: '6 hours',
     level: 'advanced',
     category: 'backend',
     technologies: ['PowerShell'],
     format: 'online',
+    maxParticipants: 15,
+    price: {
+      individual: 299,
+      corporate: 499,
+      currency: 'USD'
+    },
+    prerequisites: ['PowerShell Basics', 'Windows Administration', 'Scripting Experience'],
+    nextAvailableDate: '2025-11-20',
     available: true,
     featured: false,
+    courseUrl: '#', // Coming soon - placeholder link
     createdAt: '2025-09-16',
     updatedAt: '2025-09-16',
     learningOutcomes: [
