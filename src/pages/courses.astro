@@ -786,7 +786,7 @@ const stats = getCourseStats();
 								<p class="course-description">{course.longDescription || course.description}</p>
 								
 								{/* Course Details */}
-								<div class="course-details">
+								{/* <div class="course-details">
 									{course.maxParticipants && (
 										<span class="detail-item">
 											<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -803,7 +803,7 @@ const stats = getCourseStats();
 											<span class="next-date">Next: {new Date(course.nextAvailableDate).toLocaleDateString()}</span>
 										</span>
 									)}
-								</div>
+								</div> */}
 								
 								<div class="course-tech">
 									{course.technologies.slice(0, 3).map((tech) => (
