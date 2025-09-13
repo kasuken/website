@@ -153,6 +153,224 @@ const stats = getUsesStats();
 				box-shadow: var(--shadow-md);
 				font-weight: 600;
 			}
+
+			/* Controls Section */
+			.controls-section {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 1.5rem;
+				margin-bottom: 2rem;
+			}
+
+			/* View Toggle */
+			.view-toggle {
+				display: flex;
+				background: rgb(var(--gray-light));
+				border-radius: 2rem;
+				border: 1px solid rgb(var(--gray));
+				overflow: hidden;
+			}
+
+			.view-btn {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				background: transparent;
+				border: none;
+				color: rgb(var(--black));
+				padding: 0.75rem 1.5rem;
+				cursor: pointer;
+				transition: all 0.2s ease;
+				font-size: 0.9rem;
+				font-weight: 500;
+				border-radius: 2rem;
+				margin: 2px;
+			}
+
+			.view-btn:hover {
+				background: var(--accent);
+				color: white;
+			}
+
+			.view-btn.active {
+				background: var(--accent-dark);
+				color: white;
+				font-weight: 600;
+				box-shadow: var(--shadow-sm);
+			}
+
+			.view-btn svg {
+				transition: all 0.2s ease;
+			}
+
+			/* Table Styles */
+			.uses-table-container {
+				margin-top: 2rem;
+				width: 100%;
+			}
+
+			.table-wrapper {
+				overflow-x: auto;
+				border-radius: 1rem;
+				border: 1px solid rgb(var(--gray));
+				box-shadow: var(--shadow-sm);
+			}
+
+			.uses-table {
+				width: 100%;
+				border-collapse: collapse;
+				background: white;
+				font-size: 0.9rem;
+			}
+
+			.uses-table th {
+				background: rgb(var(--gray-light));
+				color: rgb(var(--black));
+				padding: 1rem;
+				text-align: left;
+				border-bottom: 1px solid rgb(var(--gray));
+				font-weight: 600;
+				position: sticky;
+				top: 0;
+				z-index: 1;
+			}
+
+			.uses-table th.sortable {
+				cursor: pointer;
+				user-select: none;
+			}
+
+			.th-content {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+			}
+
+			.sort-icon {
+				opacity: 0.4;
+				transition: all 0.2s ease;
+			}
+
+			.uses-table th.sortable:hover .sort-icon {
+				opacity: 0.8;
+			}
+
+			.uses-table th.sorted .sort-icon {
+				opacity: 1;
+				color: var(--accent);
+			}
+
+			.uses-table td {
+				padding: 1rem;
+				border-bottom: 1px solid rgb(var(--gray-light));
+				vertical-align: middle;
+			}
+
+			.use-row:hover {
+				background: rgb(var(--gray-light));
+			}
+
+			.name-with-image {
+				display: flex;
+				align-items: center;
+				gap: 0.75rem;
+			}
+
+			.table-item-image {
+				width: 40px;
+				height: 40px;
+				object-fit: cover;
+				border-radius: 0.5rem;
+				border: 1px solid rgb(var(--gray-light));
+			}
+
+			.name-info {
+				flex: 1;
+				min-width: 0;
+			}
+
+			.item-name {
+				font-weight: 600;
+				color: rgb(var(--black));
+				margin-bottom: 0.25rem;
+			}
+
+			.item-description {
+				font-size: 0.8rem;
+				color: rgb(var(--gray-dark));
+				line-height: 1.4;
+				overflow: hidden;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+			}
+
+			.category-badge {
+				display: inline-block;
+				background: var(--accent);
+				color: white;
+				padding: 0.25rem 0.75rem;
+				border-radius: 1rem;
+				font-size: 0.8rem;
+				font-weight: 500;
+			}
+
+			.rating-display {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+			}
+
+			.stars {
+				display: flex;
+				gap: 0.1rem;
+			}
+
+			.star {
+				color: rgb(var(--gray));
+				font-size: 0.9rem;
+			}
+
+			.star.filled {
+				color: #f59e0b;
+			}
+
+			.rating-number {
+				font-size: 0.8rem;
+				color: rgb(var(--gray-dark));
+				font-weight: 500;
+			}
+
+			.price {
+				font-weight: 600;
+				color: var(--accent-dark);
+			}
+
+			.no-rating,
+			.no-price {
+				color: rgb(var(--gray));
+				font-style: italic;
+			}
+
+			.table-link-btn {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 32px;
+				height: 32px;
+				background: var(--accent);
+				color: white;
+				border-radius: 0.5rem;
+				text-decoration: none;
+				transition: all 0.2s ease;
+			}
+
+			.table-link-btn:hover {
+				background: var(--accent-dark);
+				transform: translateY(-2px);
+				box-shadow: var(--shadow-sm);
+			}
 			
 			.uses-grid {
 				display: grid;
@@ -244,6 +462,26 @@ const stats = getUsesStats();
 				width: 100%;
 				height: 100%;
 				object-fit: cover;
+			}
+			
+			.use-banner {
+				width: 100%;
+				height: 200px;
+				margin-bottom: 1.5rem;
+				border-radius: 12px;
+				overflow: hidden;
+				position: relative;
+			}
+			
+			.use-banner img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				transition: transform 0.3s ease;
+			}
+			
+			.use-card:hover .use-banner img {
+				transform: scale(1.05);
 			}
 			
 			.use-title-info {
@@ -488,6 +726,52 @@ const stats = getUsesStats();
 					grid-template-columns: 1fr;
 					gap: 0.25rem;
 				}
+
+				/* Table responsive styles */
+				.controls-section {
+					flex-direction: column;
+					align-items: stretch;
+					gap: 1rem;
+				}
+
+				.view-toggle {
+					align-self: center;
+				}
+
+				.uses-table {
+					font-size: 0.8rem;
+				}
+
+				.uses-table th,
+				.uses-table td {
+					padding: 0.75rem 0.5rem;
+				}
+
+				.name-with-image {
+					flex-direction: column;
+					align-items: flex-start;
+					gap: 0.5rem;
+				}
+
+				.table-item-image {
+					width: 32px;
+					height: 32px;
+				}
+
+				.item-description {
+					-webkit-line-clamp: 1;
+				}
+
+				/* Hide some columns on mobile */
+				.uses-table th:nth-child(3),
+				.uses-table td:nth-child(3) {
+					display: none;
+				}
+
+				.category-badge {
+					font-size: 0.7rem;
+					padding: 0.2rem 0.5rem;
+				}
 			}
 			
 			/* Animation classes for filtering */
@@ -604,6 +888,11 @@ const stats = getUsesStats();
 							<div class="use-card featured">
 								<div class="use-header">
 									<div class="featured-badge">Featured</div>
+									{item.bannerUrl && (
+										<div class="use-banner">
+											<img src={item.bannerUrl} alt={item.name} />
+										</div>
+									)}
 									<div class="use-title-section">
 										<div class="use-icon">
 											{item.imageUrl ? (
@@ -700,17 +989,34 @@ const stats = getUsesStats();
 				<h2 class="section-title">Complete Setup</h2>
 				<p class="section-subtitle">Browse all items by category</p>
 				
-				<!-- Filter Buttons -->
-				<div class="filter-buttons">
-					{useCategories.map((category) => (
-						<button 
-							class={`filter-btn ${category.key === 'all' ? 'active' : ''}`} 
-							data-filter={category.key}
-						>
-							<span>{category.icon}</span>
-							{category.label}
+				<!-- View Toggle and Filter Controls -->
+				<div class="controls-section">
+					<div class="view-toggle">
+						<button class="view-btn active" data-view="cards">
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+								<path d="M4 6h6V4H4c-1.1 0-2 .9-2 2v2zm0 5h6v-3H4v3zm0 5h6v-3H4v3zm7-10h9V4h-9v2zm0 5h9v-3h-9v3zm0 5h9v-3h-9v3z"/>
+							</svg>
+							Cards
 						</button>
-					))}
+						<button class="view-btn" data-view="table">
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+								<path d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM8 20H4v-3h4v3zm0-5H4v-3h4v3zm0-5H4V7h4v3zm6 10h-4v-3h4v3zm0-5h-4v-3h4v3zm0-5h-4V7h4v3zm6 10h-4v-3h4v3zm0-5h-4v-3h4v3zm0-5h-4V7h4v3z"/>
+							</svg>
+							Table
+						</button>
+					</div>
+
+					<div class="filter-buttons">
+						{useCategories.map((category) => (
+							<button 
+								class={`filter-btn ${category.key === 'all' ? 'active' : ''}`} 
+								data-filter={category.key}
+							>
+								<span>{category.icon}</span>
+								{category.label}
+							</button>
+						))}
+					</div>
 				</div>
 
 				<!-- Uses Grid -->
@@ -718,6 +1024,11 @@ const stats = getUsesStats();
 					{allUses.map((item) => (
 						<div class="use-card" data-category={item.category}>
 							<div class="use-header">
+								{item.bannerUrl && (
+									<div class="use-banner">
+										<img src={item.bannerUrl} alt={item.name} />
+									</div>
+								)}
 								<div class="use-title-section">
 									<div class="use-icon">
 										{item.imageUrl ? (
@@ -782,34 +1093,170 @@ const stats = getUsesStats();
 						</div>
 					))}
 				</div>
+
+				<!-- Uses Table -->
+				<div class="uses-table-container" id="uses-table-container" style="display: none;">
+					<div class="table-wrapper">
+						<table class="uses-table">
+							<thead>
+								<tr>
+									<th class="sortable" data-sort="name">
+										<div class="th-content">
+											<span>Name</span>
+											<svg class="sort-icon" width="12" height="12" viewBox="0 0 24 24">
+												<path d="M7 10l5 5 5-5z"/>
+											</svg>
+										</div>
+									</th>
+									<th class="sortable" data-sort="category">
+										<div class="th-content">
+											<span>Category</span>
+											<svg class="sort-icon" width="12" height="12" viewBox="0 0 24 24">
+												<path d="M7 10l5 5 5-5z"/>
+											</svg>
+										</div>
+									</th>
+									<th class="sortable" data-sort="brand">
+										<div class="th-content">
+											<span>Brand</span>
+											<svg class="sort-icon" width="12" height="12" viewBox="0 0 24 24">
+												<path d="M7 10l5 5 5-5z"/>
+											</svg>
+										</div>
+									</th>
+									<th class="sortable" data-sort="rating">
+										<div class="th-content">
+											<span>Rating</span>
+											<svg class="sort-icon" width="12" height="12" viewBox="0 0 24 24">
+												<path d="M7 10l5 5 5-5z"/>
+											</svg>
+										</div>
+									</th>
+									<th class="sortable" data-sort="price">
+										<div class="th-content">
+											<span>Price</span>
+											<svg class="sort-icon" width="12" height="12" viewBox="0 0 24 24">
+												<path d="M7 10l5 5 5-5z"/>
+											</svg>
+										</div>
+									</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								{allUses.map((item) => (
+									<tr class="use-row" data-category={item.category}>
+										<td class="use-name-cell">
+											<div class="name-with-image">
+												{item.bannerUrl && (
+													<img src={item.bannerUrl} alt={item.name} class="table-item-image" />
+												)}
+												<div class="name-info">
+													<div class="item-name">{item.name}</div>
+													{item.description && (
+														<div class="item-description">{item.description}</div>
+													)}
+												</div>
+											</div>
+										</td>
+										<td>
+											<span class="category-badge">{item.category}</span>
+										</td>
+										<td class="brand-cell">
+											{item.brand || '-'}
+										</td>
+										<td class="rating-cell">
+											{item.rating ? (
+												<div class="rating-display">
+													<div class="stars">
+														{Array.from({ length: 5 }, (_, i) => (
+															<span class={`star ${i < (item.rating || 0) ? 'filled' : ''}`}>★</span>
+														))}
+													</div>
+													<span class="rating-number">{item.rating}</span>
+												</div>
+											) : (
+												<span class="no-rating">-</span>
+											)}
+										</td>
+										<td class="price-cell">
+											{item.price ? (
+												<span class="price">{item.price}</span>
+											) : (
+												<span class="no-price">-</span>
+											)}
+										</td>
+										<td class="actions-cell">
+											{item.url && (
+												<a href={item.url} target="_blank" rel="noopener noreferrer" class="table-link-btn">
+													<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+														<path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+													</svg>
+												</a>
+											)}
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</section>
 		</main>
 		<Footer />
 
 		<script>
-			// Uses filtering functionality
-			class UsesFilter {
+			// Uses filtering and view switching functionality
+			class UsesController {
 				constructor() {
 					this.filterButtons = document.querySelectorAll('.filter-btn');
+					this.viewButtons = document.querySelectorAll('.view-btn');
 					this.useCards = document.querySelectorAll('.use-card[data-category]');
+					this.useRows = document.querySelectorAll('.use-row[data-category]');
+					this.usesGrid = document.getElementById('uses-grid');
+					this.usesTableContainer = document.getElementById('uses-table-container');
+					this.currentFilter = 'all';
+					this.currentView = 'cards';
 					this.init();
 				}
 
 				init() {
+					// Filter button functionality
 					this.filterButtons.forEach(button => {
 						button.addEventListener('click', (e) => {
 							const filter = e.target.closest('.filter-btn').getAttribute('data-filter');
-							this.filterUses(filter);
-							this.updateActiveButton(e.target.closest('.filter-btn'));
+							this.currentFilter = filter;
+							this.filterItems();
+							this.updateActiveFilterButton(e.target.closest('.filter-btn'));
 						});
 					});
+
+					// View toggle functionality
+					this.viewButtons.forEach(button => {
+						button.addEventListener('click', (e) => {
+							const view = e.target.closest('.view-btn').getAttribute('data-view');
+							this.switchView(view);
+							this.updateActiveViewButton(e.target.closest('.view-btn'));
+						});
+					});
+
+					// Table sorting functionality
+					this.initTableSorting();
 				}
 
-				filterUses(filter) {
+				filterItems() {
+					if (this.currentView === 'cards') {
+						this.filterCards();
+					} else {
+						this.filterRows();
+					}
+				}
+
+				filterCards() {
 					this.useCards.forEach(card => {
 						const category = card.getAttribute('data-category');
 						
-						if (filter === 'all' || category === filter) {
+						if (this.currentFilter === 'all' || category === this.currentFilter) {
 							card.classList.remove('hidden');
 							card.classList.add('fade-in');
 						} else {
@@ -819,17 +1266,118 @@ const stats = getUsesStats();
 					});
 				}
 
-				updateActiveButton(activeButton) {
+				filterRows() {
+					this.useRows.forEach(row => {
+						const category = row.getAttribute('data-category');
+						
+						if (this.currentFilter === 'all' || category === this.currentFilter) {
+							row.style.display = '';
+						} else {
+							row.style.display = 'none';
+						}
+					});
+				}
+
+				switchView(view) {
+					this.currentView = view;
+					
+					if (view === 'cards') {
+						this.usesGrid.style.display = 'grid';
+						this.usesTableContainer.style.display = 'none';
+						this.filterCards();
+					} else {
+						this.usesGrid.style.display = 'none';
+						this.usesTableContainer.style.display = 'block';
+						this.filterRows();
+					}
+				}
+
+				updateActiveFilterButton(activeButton) {
 					this.filterButtons.forEach(button => {
 						button.classList.remove('active');
 					});
 					activeButton.classList.add('active');
 				}
+
+				updateActiveViewButton(activeButton) {
+					this.viewButtons.forEach(button => {
+						button.classList.remove('active');
+					});
+					activeButton.classList.add('active');
+				}
+
+				initTableSorting() {
+					const sortableHeaders = document.querySelectorAll('.uses-table th.sortable');
+					
+					sortableHeaders.forEach(header => {
+						header.addEventListener('click', () => {
+							const sortBy = header.getAttribute('data-sort');
+							this.sortTable(sortBy, header);
+						});
+					});
+				}
+
+				sortTable(sortBy, header) {
+					const tbody = document.querySelector('.uses-table tbody');
+					const rows = Array.from(tbody.querySelectorAll('.use-row'));
+					const isCurrentlySorted = header.classList.contains('sorted');
+					const isAscending = !isCurrentlySorted || header.classList.contains('desc');
+
+					// Clear all sorted states
+					document.querySelectorAll('.uses-table th.sorted').forEach(th => {
+						th.classList.remove('sorted', 'asc', 'desc');
+					});
+
+					// Sort rows
+					rows.sort((a, b) => {
+						let aValue, bValue;
+
+						switch (sortBy) {
+							case 'name':
+								aValue = a.querySelector('.item-name').textContent.trim().toLowerCase();
+								bValue = b.querySelector('.item-name').textContent.trim().toLowerCase();
+								break;
+							case 'category':
+								aValue = a.querySelector('.category-badge').textContent.trim().toLowerCase();
+								bValue = b.querySelector('.category-badge').textContent.trim().toLowerCase();
+								break;
+							case 'brand':
+								aValue = a.querySelector('.brand-cell').textContent.trim().toLowerCase();
+								bValue = b.querySelector('.brand-cell').textContent.trim().toLowerCase();
+								break;
+							case 'rating':
+								aValue = parseFloat(a.querySelector('.rating-number')?.textContent || '0');
+								bValue = parseFloat(b.querySelector('.rating-number')?.textContent || '0');
+								break;
+							case 'price':
+								aValue = a.querySelector('.price')?.textContent || '';
+								bValue = b.querySelector('.price')?.textContent || '';
+								// Extract numeric value from price strings
+								aValue = parseFloat(aValue.replace(/[^0-9.-]+/g, '')) || 0;
+								bValue = parseFloat(bValue.replace(/[^0-9.-]+/g, '')) || 0;
+								break;
+							default:
+								return 0;
+						}
+
+						if (typeof aValue === 'string') {
+							return isAscending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+						} else {
+							return isAscending ? aValue - bValue : bValue - aValue;
+						}
+					});
+
+					// Update header classes
+					header.classList.add('sorted', isAscending ? 'asc' : 'desc');
+
+					// Reappend sorted rows
+					rows.forEach(row => tbody.appendChild(row));
+				}
 			}
 
-			// Initialize uses filter when DOM is ready
+			// Initialize functionality when DOM is ready
 			document.addEventListener('DOMContentLoaded', () => {
-				new UsesFilter();
+				new UsesController();
 
 				// Add smooth scrolling for internal links
 				document.querySelectorAll('a[href^="#"]').forEach(anchor => {
