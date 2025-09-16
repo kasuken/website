@@ -71,13 +71,7 @@ export const courses: Course[] = [
     category: 'web-development',
     technologies: ['GitHub', 'Git'],
     format: 'online',
-    maxParticipants: 500,
     imageUrl: '/img/1673552160107.jpeg',
-    price: {
-      individual: 0,
-      corporate: 199,
-      currency: 'USD'
-    },
     prerequisites: ['Basic computer knowledge', 'Web browser'],
     learningOutcomes: [
       'Understand GitHub fundamentals',
@@ -105,7 +99,7 @@ export const courses: Course[] = [
     ],
     featured: true,
     available: true,
-    courseUrl: 'https://www.linkedin.com/learning/learning-github-18719601',
+    courseUrl: 'https://www.linkedin.com/learning/learning-github-26923460',
     createdAt: '2023-09-01',
     updatedAt: '2025-09-16'
   },
@@ -121,8 +115,7 @@ export const courses: Course[] = [
     format: 'online',
     maxParticipants: 25,
     price: {
-      individual: 149,
-      corporate: 299,
+      individual: 14.99,
       currency: 'USD'
     },
     prerequisites: ['Basic Windows knowledge'],
@@ -175,8 +168,7 @@ export const courses: Course[] = [
     format: 'online',
     maxParticipants: 15,
     price: {
-      individual: 299,
-      corporate: 499,
+      individual: 29.99,
       currency: 'USD'
     },
     prerequisites: ['PowerShell Basics', 'Windows Administration', 'Scripting Experience'],
