@@ -111,7 +111,7 @@ Lead Maintainer: kasuken (hosted by Xebia)`,
     featured: true,
     category: 'tool',
     status: 'in-progress',
-    startDate: '2023-01',
+    startDate: '2025-08',
     imageUrl: 'https://github.com/xebia/octowatch/raw/main/screenshots/4.png'
   }
 ];
