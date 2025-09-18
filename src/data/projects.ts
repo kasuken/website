@@ -1,6 +1,3 @@
-// Portfolio data structure
-// You can modify this file to add your own projects
-
 export interface Project {
   id: string;
   title: string;
@@ -21,7 +18,7 @@ export const projects: Project[] = [
   {
     id: 'blocky',
     title: 'Blocky',
-    description: 'A powerful and lightweight ad blocker browser extension for Chrome and Edge that blocks ads using multiple filter sources.',
+    description: '🛡️🚫✨ A powerful and lightweight ad blocker browser extension for Chrome and Edge that blocks ads using multiple filter sources. 🖥️🌐',
     longDescription: `Features
 ✅ Multi-Source Filtering: Uses EasyList and uBlock Origin filter lists
 🚀 High Performance: Built with Manifest V3 and declarative net request
@@ -39,7 +36,7 @@ export const projects: Project[] = [
   {
     id: 'stone-css',
     title: 'stone.css',
-    description: 'stone.css - a PoC with style in less than 30 seconds. CSS styles for HTML elements for your next Proof of Concept project.',
+    description: '🎨🪨 stone.css - a PoC with style in less than 30 seconds. CSS styles for HTML elements for your next Proof of Concept project. ⚡️💡',
     longDescription: 'A lightweight CSS framework providing instant, clean styles for HTML elements. Perfect for rapid prototyping and proof of concept projects.',
     technologies: ['CSS'],
     githubUrl: 'https://github.com/kasuken/stone.css',
@@ -51,7 +48,7 @@ export const projects: Project[] = [
   {
     id: 'green-software-indicator',
     title: 'Green Software Indicator',
-    description: 'A Chrome/Edge browser extension that evaluates websites for green software development practices and displays colored badges indicating their environmental sustainability.',
+    description: '🌱💚🟢 A Chrome/Edge browser extension that evaluates websites for green software development practices and displays colored badges indicating their environmental sustainability. 🌍🔋',
     longDescription: `Features
 - Real-time Analysis: Automatically analyzes websites when you visit them
 - Visual Indicators: Color-coded badges (green = excellent, yellow = good, red = needs improvement)
@@ -68,7 +65,7 @@ export const projects: Project[] = [
   {
     id: 'chrome-edge-extension-typescript-template',
     title: 'Chrome/Edge Extension TypeScript Template',
-    description: 'A modern, well-structured template for building Chrome and Edge browser extensions using TypeScript and Vite.',
+    description: '🧩⚡️🛠️ A modern, well-structured template for building Chrome and Edge browser extensions using TypeScript and Vite. 🚀🖥️',
     longDescription: `Features
 🚀 Fast Development - Powered by Vite for instant hot reload
 📦 TypeScript - Full TypeScript support with strict typing
@@ -87,13 +84,35 @@ export const projects: Project[] = [
   {
     id: 'copilotinstructions',
     title: 'Copilot Instructions',
-    description: 'Instructions and best practices for GitHub Copilot.',
+    description: '🤖📋✨ Instructions and best practices for GitHub Copilot. 💡📝',
     technologies: [],
     githubUrl: 'https://github.com/kasuken/copilotinstructions',
     featured: false,
     category: 'other',
     status: 'in-progress',
     startDate: '2024-06'
+  },
+  {
+    id: 'octowatch',
+    title: 'OctoWatch',
+    description: '👁️‍🗨️🐙🔎 Open source governance tool for GitHub Enterprise. Provides insights, compliance, and automation for organizations. 🏢📊',
+    longDescription: `OctoWatch is an open source governance platform for GitHub Enterprise, designed to help organizations manage, monitor, and automate compliance and best practices across all their repositories and teams.
+
+Features:
+- Organization-wide insights and dashboards
+- Compliance and policy enforcement
+- Automated reporting and notifications
+- Integration with GitHub APIs and webhooks
+- Customizable rules and workflows
+
+Lead Maintainer: kasuken (hosted by Xebia)`,
+    technologies: ['TypeScript', 'Node.js', 'GitHub API', 'Governance', 'Automation'],
+    githubUrl: 'https://github.com/xebia/octowatch',
+    featured: true,
+    category: 'tool',
+    status: 'in-progress',
+    startDate: '2023-01',
+    imageUrl: 'https://github.com/xebia/octowatch/raw/main/screenshots/4.png'
   }
 ];
 
@@ -115,14 +134,14 @@ export function getProjectById(id: string): Project | undefined {
 }
 
 export const categories = [
-  { key: 'all', label: 'All Projects' },
-  { key: 'web', label: 'Web Applications' },
-  { key: 'api', label: 'APIs' },
-  { key: 'extension', label: 'Browser Extensions' },
-  { key: 'vscode', label: 'VS Code Extensions' },
-  { key: 'mobile', label: 'Mobile Apps' },
-  { key: 'desktop', label: 'Desktop Applications' },
-  { key: 'library', label: 'Libraries & Packages' },
-  { key: 'tool', label: 'Tools & Utilities' },
-  { key: 'other', label: 'Other' }
+  { key: 'all', label: '📋 All Projects' },
+  { key: 'web', label: '🌐 Web Applications' },
+  { key: 'api', label: '🔌 APIs' },
+  { key: 'extension', label: '🧩 Browser Extensions' },
+  { key: 'vscode', label: '💻 VS Code Extensions' },
+  { key: 'mobile', label: '📱 Mobile Apps' },
+  { key: 'desktop', label: '🖥️ Desktop Applications' },
+  { key: 'library', label: '📦 Libraries & Packages' },
+  { key: 'tool', label: '🛠️ Tools & Utilities' },
+  { key: 'other', label: '🎯 Other' }
 ] as const;
