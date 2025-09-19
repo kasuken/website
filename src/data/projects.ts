@@ -39,7 +39,23 @@ export const projects: Project[] = [
     id: 'stone-css',
     title: 'stone.css',
     description: '🎨🪨 stone.css - a PoC with style in less than 30 seconds. CSS styles for HTML elements for your next Proof of Concept project. ⚡️💡',
-    longDescription: 'A lightweight CSS framework providing instant, clean styles for HTML elements. Perfect for rapid prototyping and proof of concept projects.',
+    longDescription: `⚙️ Core Coverage
+- 📄 Typography scale + vertical rhythm
+- 🧾 Lists / tables / forms / buttons / code / blockquotes
+- 🌓 Auto light & dark (prefers-color-scheme)
+- ♿ Contrast targets aiming WCAG AA
+- 📐 Fluid readable line lengths
+- 🖨️ Print-friendly defaults
+
+🧭 Design Principles
+- Element-first: minimal custom classes 🧱
+- Zero config: drop in & go 🚀
+- Tasteful restraint: no utility explosion 🚫
+- Predictable spacing + scale rhythm 📊
+- Progressive enhancement friendly 🌿
+
+✅ Perfect For
+Spikes ⚡ · Hackathons 🧪 · Early product demos 🛠️ · Internal tools 🗂️ · Docs / README site placeholders 📘`,
     technologies: ['CSS'],
     githubUrl: 'https://github.com/kasuken/stone.css',
     featured: false,
@@ -89,6 +105,20 @@ export const projects: Project[] = [
     id: 'copilotinstructions',
     title: 'Copilot Instructions',
     description: '🤖📋✨ Instructions and best practices for GitHub Copilot. 💡📝',
+    longDescription: `🤖 Copilot Instructions — curated guidance for getting high‑quality, secure, and efficient output from GitHub Copilot.
+
+📌 Includes
+- 🧠 Prompt patterns (scaffolding, refactor, test gen, explain)
+- 🚫 Anti‑patterns (over-broad asks, vague intent, leaking secrets)
+- 🧪 Testing prompts (unit, property, edge cases)
+- 🛡️ Secure coding reminders (inputs, secrets, dependency scrutiny)
+- 🔄 Iteration workflow (spec → draft → refine → validate)
+- 🧩 Pairing styles (directive vs exploratory prompting)
+
+💡 Prompt Building Tips
+- State intent + constraints + style.
+- Provide examples (few-shot) when format matters.
+- Ask for diff-friendly output when patching code.`,
     technologies: [],
     githubUrl: 'https://github.com/kasuken/copilotinstructions',
     featured: false,
