@@ -620,7 +620,7 @@ export const uses: UseItem[] = [
     description: 'Essential for API development and testing. Collections, environments, and automated testing make API work much easier.',
     category: 'development',
     icon: '🚀',
-    bannerUrl: 'https://learn.microsoft.com/en-us/graph/images/postman-screenshot.png',
+    bannerUrl: 'https://www.krakend.io/images/documentation/postman-collections.png',
     subcategory: 'API Tools',
     url: 'https://www.postman.com/',
     price: {
@@ -641,7 +641,7 @@ export const uses: UseItem[] = [
     description: 'Prompt theme engine for any shell. I live in the terminal with this!',
     category: 'development',
     icon: '✨',
-    bannerUrl: 'https://learn.microsoft.com/it-it/windows/terminal/images/custom-prompt.png',
+    bannerUrl: 'https://images.hanselman.com/blog/Windows-Live-Writer/Creating-the-Ultimate-PowerShell-prompt_11CD9/image_9f793bcd-61f2-424b-845b-46b63b2f37eb.png',
     subcategory: 'Utilities',
     brand: 'Jan De Dobbeleer',
     url: 'https://ohmyposh.dev/',

@@ -31,7 +31,9 @@ export const projects: Project[] = [
     featured: false,
     category: 'extension',
     status: 'in-progress',
-    startDate: '2024-06'
+    startDate: '2024-06',
+    imageUrl: 'https://github.com/kasuken/Blocky/blob/main/assets/screenshots/02.png?raw=true'
+
   },
   {
     id: 'stone-css',
@@ -43,7 +45,8 @@ export const projects: Project[] = [
     featured: false,
     category: 'library',
     status: 'in-progress',
-    startDate: '2024-06'
+    startDate: '2024-06',
+    imageUrl: 'https://user-images.githubusercontent.com/2757486/156436683-2378256d-8943-426e-9546-fa83ad297009.png'
   },
   {
     id: 'green-software-indicator',
@@ -60,7 +63,7 @@ export const projects: Project[] = [
     category: 'extension',
     status: 'completed',
     startDate: '2024-06',
-    imageUrl: 'https://private-user-images.githubusercontent.com/2757486/476085182-a50b619c-01d6-4903-a342-4036deb7105f.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTY1NjY0ODIsIm5iZiI6MTc1NjU2NjE4MiwicGF0aCI6Ii8yNzU3NDg2LzQ3NjA4NTE4Mi1hNTBiNjE5Yy0wMWQ2LTQ5MDMtYTM0Mi00MDM2ZGViNzEwNWYucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MDgzMCUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTA4MzBUMTUwMzAyWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9NTE2MjlkMDAwY2E4YzQyNjI4MDZjYThjN2NkMjJiMjYyZTc3MzRiNTMwZTExMmY3YzM4YjVhZjM0NTJiZTNjYiZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.33KLspBK6UlehX9pCWENgjgyrThUWZub9mj3QJRwPBA'
+    imageUrl: 'https://private-user-images.githubusercontent.com/2757486/476085182-a50b619c-01d6-4903-a342-4036deb7105f.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTgyMjU2NjAsIm5iZiI6MTc1ODIyNTM2MCwicGF0aCI6Ii8yNzU3NDg2LzQ3NjA4NTE4Mi1hNTBiNjE5Yy0wMWQ2LTQ5MDMtYTM0Mi00MDM2ZGViNzEwNWYucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MDkxOCUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTA5MThUMTk1NjAwWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9MWIyM2NiZTE4MjlmMGMxOGI1MmM0NGIzOWNiMmUxNDBkMDZkNDlkZmE3YjY1ZmMxMGM5YzUzNmVkNTQ1ODFhNSZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.uUi85AnIqglk9Hy8KpDv9XaWI7HF15SkNKAGdxvhmtQ'
   },
   {
     id: 'chrome-edge-extension-typescript-template',
@@ -79,7 +82,8 @@ export const projects: Project[] = [
     featured: false,
     category: 'extension',
     status: 'in-progress',
-    startDate: '2024-06'
+    startDate: '2024-06',
+    imageUrl: 'https://i.imgur.com/2JydhiK.png'
   },
   {
     id: 'copilotinstructions',
@@ -90,7 +94,8 @@ export const projects: Project[] = [
     featured: false,
     category: 'other',
     status: 'in-progress',
-    startDate: '2024-06'
+    startDate: '2024-06',
+    imageUrl: 'https://i.imgur.com/IE8Ccwq.png'
   },
   {
     id: 'octowatch',
@@ -105,7 +110,7 @@ Features:
 - Integration with GitHub APIs and webhooks
 - Customizable rules and workflows
 
-Lead Maintainer: kasuken (hosted by Xebia)`,
+I am the lead mantainer (hosted by Xebia)`,
     technologies: ['TypeScript', 'Node.js', 'GitHub API', 'Governance', 'Automation'],
     githubUrl: 'https://github.com/xebia/octowatch',
     featured: true,
