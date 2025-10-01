@@ -68,7 +68,7 @@ const sessionsByLanguage = data?.sessions?.reduce((acc, s) => {
 
 const today = new Date();
 const eventsSorted = (data?.events ?? []).slice().sort((a, b) => toDate(a.eventStartDate).getTime() - toDate(b.eventStartDate).getTime());
-const upcomingEvents = eventsSorted.filter(e => toDate(e.eventEndDate) >= today);
+const upcomingEvents = eventsSorted.filter(e => toDate(e.eventEndDate) >= today && e.name !== "AI Dev Tools Today");
 const pastEvents = eventsSorted.filter(e => toDate(e.eventEndDate) < today).reverse();
 
 // Extract simple technology tags from titles/descriptions
