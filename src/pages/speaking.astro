@@ -229,31 +229,124 @@ const technologies = Array.from(techSet).sort((a, b) => a.localeCompare(b));
 
       .events {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        align-items: start;
+      }
+
+      .event {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: 200px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .event-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        margin-bottom: 1rem;
       }
 
       .event h4 {
-        margin: 0 0 0.5rem;
-        font-size: 1.1rem;
+        margin: 0 0 1rem;
+        font-size: 1.2rem;
         color: var(--accent);
         font-weight: var(--font-weight-bold);
+        line-height: 1.3;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        flex-shrink: 0;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
       }
 
       .event .meta {
         color: var(--text-secondary);
         font-size: var(--text-sm);
-        margin-bottom: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        flex: 1;
+        margin-bottom: 1.5rem;
+      }
+
+      .event .date-range {
+        font-weight: var(--font-weight-medium);
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        line-height: 1.4;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      .event .location {
+        color: var(--text-secondary);
+        font-size: var(--text-sm);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        line-height: 1.4;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      .event-actions {
+        margin-top: auto;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
       }
 
       .event a {
         color: var(--accent);
         text-decoration: none;
         font-weight: var(--font-weight-medium);
+        font-size: var(--text-sm);
+        padding: 0.75rem 1.25rem;
+        border: 1px solid var(--accent);
+        border-radius: var(--radius-lg);
+        display: block;
+        transition: all 0.2s ease;
+        text-align: center;
+        box-sizing: border-box;
       }
 
       .event a:hover {
-        text-decoration: underline;
+        background: var(--accent);
+        color: white;
+        text-decoration: none;
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .event-status {
+        font-size: var(--text-xs);
+        padding: 0.4rem 0.75rem;
+        border-radius: 999px;
+        font-weight: var(--font-weight-bold);
+        display: inline-block;
+        margin-bottom: 1rem;
+        flex-shrink: 0;
+        width: fit-content;
+      }
+
+      .event-status.upcoming {
+        background: #dcfce7;
+        color: #166534;
+        border: 1px solid #bbf7d0;
+      }
+
+      .event-status.past {
+        background: #f3f4f6;
+        color: #6b7280;
+        border: 1px solid #e5e7eb;
       }
 
       @media (max-width: 768px) {
@@ -262,6 +355,17 @@ const technologies = Array.from(techSet).sort((a, b) => a.localeCompare(b));
         }
         .events {
           grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+        .event {
+          min-height: 180px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .events {
+          grid-template-columns: 1fr;
+          gap: 1rem;
         }
       }
     </style>
@@ -272,7 +376,7 @@ const technologies = Array.from(techSet).sort((a, b) => a.localeCompare(b));
       {fetchError ? (
         <section>
           <div class="card">
-            <h2 class="section-title">Unable to load speaking data</h2>
+            <h2 class="section-title">❌ Unable to load speaking data</h2>
             <p class="section-sub">Error: {fetchError}</p>
             <p class="muted">Please try again later.</p>
           </div>
@@ -280,35 +384,54 @@ const technologies = Array.from(techSet).sort((a, b) => a.localeCompare(b));
       ) : !data ? (
         <section>
           <div class="card">
-            <h2 class="section-title">Loading…</h2>
+            <h2 class="section-title">⏳ Loading…</h2>
             <p class="muted">Fetching the latest information from Sessionize.</p>
           </div>
         </section>
       ) : (
         <>
           <div class="speaking-header">
-            <h1>Speaking</h1>
+            <h1>🎤 Speaking</h1>
           </div>
 
           <div class="intro-section">
-            <p>I regularly speak at conferences, meetups, and online events about Azure, Microsoft 365, DevOps, End-to-End Testing, GitHub, and other technical topics. On this page you can find a list of my past and upcoming speaking engagements.</p>
+            <p>🗣️ I regularly speak at conferences, meetups, and online events about Azure, Microsoft 365, DevOps, End-to-End Testing, GitHub, and other technical topics. On this page you can find a list of my past and upcoming speaking engagements.</p>
             
-            <h2>Want me to speak at your event?</h2>
-            <p>If you'd like me to speak at your event, please reach out via the contact page. You can also check out my <a href="https://sessionize.com/emanuelebartolesi/" target="_blank">speaking profile</a> and possible sessions on the sessions page.</p>
+            <h2>💬 Want me to speak at your event?</h2>
+            <p>📧 If you'd like me to speak at your event, please reach out via the contact page. You can also check out my <a href="https://sessionize.com/emanuelebartolesi/" target="_blank">🔗 speaking profile</a> and possible sessions on the sessions page.</p>
           </div>
 
           <section class="section">
-            <h2 class="section-title">Upcoming Events</h2>
+            <h2 class="section-title">🚀 Upcoming Events</h2>
             <p class="section-sub">Where you can catch me next</p>
             {upcomingEvents.length === 0 ? (
-              <p class="muted">No upcoming events listed right now.</p>
+              <p class="muted">📅 No upcoming events listed right now.</p>
             ) : (
               <div class="events">
                 {upcomingEvents.map(e => (
                   <div class="card event">
-                    <h4>{e.name}</h4>
-                    <p class="meta">{fmtDate(e.eventStartDate)} – {fmtDate(e.eventEndDate)}{e.location ? ` • ${e.location}` : ''}</p>
-                    {e.website && <p><a href={e.website} target="_blank" rel="noopener noreferrer">Website</a></p>}
+                    <div class="event-status upcoming">🔥 Upcoming</div>
+                    <div class="event-content">
+                      <h4>
+                        <span>🎯</span>
+                        <span>{e.name}</span>
+                      </h4>
+                      <div class="meta">
+                        <div class="date-range">
+                          <span>📅</span>
+                          <span>{fmtDate(e.eventStartDate)} – {fmtDate(e.eventEndDate)}</span>
+                        </div>
+                        {e.location && (
+                          <div class="location">
+                            <span>📍</span>
+                            <span>{e.location}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div class="event-actions">
+                      {e.website && <a href={e.website} target="_blank" rel="noopener noreferrer">🌐 Visit Website</a>}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -316,17 +439,36 @@ const technologies = Array.from(techSet).sort((a, b) => a.localeCompare(b));
           </section>
 
           <section class="section">
-            <h2 class="section-title">Past Events</h2>
+            <h2 class="section-title">📚 Past Events</h2>
             <p class="section-sub">A selection of previous conferences and meetups</p>
             {pastEvents.length === 0 ? (
-              <p class="muted">No past events listed.</p>
+              <p class="muted">📋 No past events listed.</p>
             ) : (
               <div class="events">
                 {pastEvents.slice(0, 12).map(e => (
                   <div class="card event">
-                    <h4>{e.name}</h4>
-                    <p class="meta">{fmtDate(e.eventStartDate)} – {fmtDate(e.eventEndDate)}{e.location ? ` • ${e.location}` : ''}</p>
-                    {e.website && <p><a href={e.website} target="_blank" rel="noopener noreferrer">Website</a></p>}
+                    <div class="event-status past">✅ Completed</div>
+                    <div class="event-content">
+                      <h4>
+                        <span>🏆</span>
+                        <span>{e.name}</span>
+                      </h4>
+                      <div class="meta">
+                        <div class="date-range">
+                          <span>📅</span>
+                          <span>{fmtDate(e.eventStartDate)} – {fmtDate(e.eventEndDate)}</span>
+                        </div>
+                        {e.location && (
+                          <div class="location">
+                            <span>📍</span>
+                            <span>{e.location}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div class="event-actions">
+                      {e.website && <a href={e.website} target="_blank" rel="noopener noreferrer">🌐 Visit Website</a>}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -335,24 +477,24 @@ const technologies = Array.from(techSet).sort((a, b) => a.localeCompare(b));
 
           {technologies.length > 0 && (
             <section class="section">
-              <h2 class="section-title">Technologies & Topics</h2>
+              <h2 class="section-title">🛠️ Technologies & Topics</h2>
               <p class="section-sub">Keywords extracted from session titles and descriptions</p>
               <div class="chips">
-                {technologies.map(t => <span class="chip">{t}</span>)}
+                {technologies.map(t => <span class="chip">💡 {t}</span>)}
               </div>
             </section>
           )}
 
           <section class="section">
-            <h2 class="section-title">Available Sessions</h2>
+            <h2 class="section-title">💼 Available Sessions</h2>
             <p class="section-sub">Talks ready for conferences, meetups, and corporate events</p>
             <div class="grid">
               {data.sessions.map((s) => (
                 <article class="card">
-                  <h3>{s.title}</h3>
+                  <h3>🎯 {s.title}</h3>
                   <p class="muted">🌐 {s.language}</p>
                   {s.description && <p class="desc">{s.description}</p>}
-                  <a class="btn" href={s.sessionUrl} target="_blank" rel="noopener noreferrer">View details</a>
+                  <a class="btn" href={s.sessionUrl} target="_blank" rel="noopener noreferrer">👁️ View details</a>
                 </article>
               ))}
             </div>
@@ -360,12 +502,12 @@ const technologies = Array.from(techSet).sort((a, b) => a.localeCompare(b));
 
           {Object.keys(sessionsByLanguage).length > 1 && (
             <section class="section">
-              <h2 class="section-title">Sessions by Language</h2>
+              <h2 class="section-title">🗣️ Sessions by Language</h2>
               <div class="grid">
                 {Object.entries(sessionsByLanguage).map(([lang, list]) => (
                   <div class="card">
-                    <h3>{lang}</h3>
-                    <p class="muted">{list.length} session{list.length === 1 ? '' : 's'}</p>
+                    <h3>🌍 {lang}</h3>
+                    <p class="muted">📊 {list.length} session{list.length === 1 ? '' : 's'}</p>
                   </div>
                 ))}
               </div>
