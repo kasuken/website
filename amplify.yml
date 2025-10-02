@@ -8,7 +8,6 @@ frontend:
     build:
       commands:
         - npm run build
-        - sed -i 's/"runtime":"nodejs18\.x"/"runtime":"nodejs22.x"/g' .amplify-hosting/deploy-manifest.json
   artifacts:
     baseDirectory: dist
     files:
