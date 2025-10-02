@@ -1,0 +1,19 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - env >> .env
+        - npm run build
+        - mv node_modules ./.amplify-hosting/compute/default
+        - mv .env ./.amplify-hosting/compute/default/.env
+  artifacts:
+    baseDirectory: .amplify-hosting
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*

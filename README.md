@@ -1,5 +1,5 @@
 
-# 🚀 Emanuele Bartolesi's Portfolio Website
+# 🚀 Emanuele Bartolesi's Website
 
 [![Built with Astro](https://img.shields.io/badge/Built%20with-Astro-FF5D01?style=flat-square&logo=astro&logoColor=white)](https://astro.build/)
 [![Lighthouse Performance](https://img.shields.io/badge/Lighthouse-100%2F100-success?style=flat-square&logo=lighthouse)](https://web.dev/measure/)
@@ -7,6 +7,8 @@
 [![Deployment](https://img.shields.io/badge/Deployed%20on-AWS%20Amplify-FF9900?style=flat-square&logo=aws-amplify&logoColor=white)](https://aws.amazon.com/amplify/)
 
 A blazing-fast, modern, and SEO-optimized portfolio website showcasing expertise in software development, technical writing, speaking, and education. Built with cutting-edge web technologies and optimized for performance and accessibility.
+
+<img width="1257" height="1370" alt="image" src="https://github.com/user-attachments/assets/aed60c4a-8195-4219-a263-9872109bc91f" />
 
 ## ✨ Key Features
 

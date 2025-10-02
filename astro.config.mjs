@@ -12,6 +12,6 @@ const isAWSDeployment = process.env.NODE_ENV === 'production' || process.env.AWS
 export default defineConfig({
   site: "https://example.com",
   integrations: [mdx(), sitemap()],
-  ...(isAWSDeployment && { adapter: awsAmplify() }),
+...(isAWSDeployment && { adapter: awsAmplify() }),
   output: isAWSDeployment ? "server" : "static",
 });
