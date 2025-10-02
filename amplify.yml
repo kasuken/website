@@ -14,5 +14,5 @@ frontend:
   cache:
     paths:
       - .npm/**/*
-settings:
-  nodeVersion: "20"
+  runtime-versions:
+    nodejs: 20
