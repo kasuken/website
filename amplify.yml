@@ -3,17 +3,17 @@ frontend:
   phases:
     preBuild:
       commands:
-        - node -v
-        - npm ci --cache .npm --prefer-offline
+        - npm ci
     build:
       commands:
+        - env >> .env
         - npm run build
+        - mv node_modules ./.amplify-hosting/compute/default
+        - mv .env ./.amplify-hosting/compute/default/.env
   artifacts:
-    baseDirectory: dist
+    baseDirectory: .amplify-hosting
     files:
       - '**/*'
   cache:
     paths:
-      - .npm/**/*
-  settings:
-    nodeVersion: 22
+      - node_modules/**/*
