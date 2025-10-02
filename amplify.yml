@@ -8,6 +8,12 @@ frontend:
     build:
       commands:
         - npm run build
+        - |
+          if [ -f ".amplify-hosting/deploy-manifest.json" ]; then
+            jq '.computeResources = (.computeResources | map(.runtime = "nodejs22.x"))' \
+              .amplify-hosting/deploy-manifest.json > .amplify-hosting/deploy-manifest.tmp &&
+            mv .amplify-hosting/deploy-manifest.tmp .amplify-hosting/deploy-manifest.json
+          fi
   artifacts:
     baseDirectory: dist
     files:
