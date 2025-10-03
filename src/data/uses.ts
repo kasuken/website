@@ -546,7 +546,68 @@ export const uses: UseItem[] = [
       'Weight': '405g'
     }
   },
-
+  {
+    id: 'logitech-brio-4k',
+    name: 'Logitech Brio 4K Stream',
+    description: '4K Ultra HD streaming webcam used for calls, recordings, and live content.',
+    category: 'hardware',
+    icon: '📷',
+    bannerUrl: 'https://resource.logitech.com/w_544,h_466,ar_7:6,c_pad,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/webcams/brio-stream-4k-hd-webcam/gallery/brio-stream-4k-ultra-hd-webcam-gallery-1.png',
+    subcategory: 'Camera',
+    brand: 'Logitech',
+    model: 'Brio 4K Stream',
+    url: 'https://www.logitech.com/it-ch/shop/p/brio-stream-4k-hd-webcam.960-001718',
+    price: {
+      amount: 199,
+      currency: 'USD',
+      approximate: true
+    },
+    rating: 5,
+    yearStarted: 2024,
+    tags: ['webcam', 'logitech', 'streaming', 'camera', '4k'],
+    featured: false,
+    stillUsing: true,
+    reason: 'High quality 4K sensor and flexible field of view for professional looking video.',
+    alternatives: ['Elgato Facecam', 'Razer Kiyo Pro'],
+    specs: {
+      'Resolution': '4K Ultra HD',
+      'Frame Rate': 'Up to 60fps (1080p)',
+      'Field of View': '65° / 78° / 90°',
+      'HDR': 'Yes',
+      'Connectivity': 'USB 3.0'
+    }
+  },
+  {
+    id: 'logitech-c920-hd',
+    name: 'Logitech C920 HD Pro',
+    description: '1080p HD webcam used as a reliable backup and for a secondary angle in calls/recordings.',
+    category: 'hardware',
+    icon: '📷',
+    bannerUrl: 'https://resource.logitech.com/w_544,h_466,ar_7:6,c_pad,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/webcams/c920/gallery/c920-gallery-1.png',
+    subcategory: 'Camera',
+    brand: 'Logitech',
+    model: 'C920 HD Pro',
+    url: 'https://www.logitech.com/it-ch/shop/p/c920-pro-hd-webcam.960-001055',
+    price: {
+      amount: 79,
+      currency: 'USD',
+      approximate: true
+    },
+    rating: 4,
+    yearStarted: 2024,
+    tags: ['webcam', 'logitech', 'camera', '1080p', 'hd'],
+    featured: false,
+    stillUsing: true,
+    reason: 'Dependable 1080p image quality and built-in dual mics make it a solid backup / secondary camera.',
+    alternatives: ['Logitech Brio 4K Stream', 'Razer Kiyo'],
+    specs: {
+      'Resolution': '1080p @30fps',
+      'Field of View': '78°',
+      'Autofocus': 'Yes',
+      'Microphones': 'Dual stereo',
+      'Connectivity': 'USB 2.0'
+    }
+  },
   // Development Tools
   {
     id: 'vscode',
