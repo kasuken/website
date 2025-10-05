@@ -1,0 +1,294 @@
+---
+import data from "../data/the-million-journey.json";
+
+const totalSlots = Math.floor(data.target / data.unit); // 1,000
+const categoryColors = data.categories || {} as Record<string, string>;
+
+interface Entry {
+  amount: number;
+  category: string;
+  date: string;
+  note: string;
+}
+
+function expandUnits(entries: Entry[], unit: number) {
+  const units: Array<{ category: string; date: string; note: string }> = [];
+  for (const e of entries) {
+    const count = Math.floor(e.amount / unit);
+    for (let i = 0; i < count; i++) {
+      units.push({ category: e.category, date: e.date, note: e.note });
+    }
+  }
+  return units;
+}
+
+const filledUnits = expandUnits(data.entries ?? [], data.unit).slice(0, totalSlots);
+const progress = filledUnits.length / totalSlots;
+
+const slots = Array.from({ length: totalSlots }, (_, i) => filledUnits[i] ?? null);
+---
+
+<div class="space-y-12">
+  <!-- Progress Overview -->
+  <section class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
+    <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Journey Progress</h2>
+    
+    <!-- Main Progress Bar -->
+    <div class="mb-8">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Overall Progress</span>
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{(progress * 100).toFixed(1)}%</span>
+      </div>
+      <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4">
+        <div 
+          class="bg-gradient-to-r from-blue-500 to-purple-600 h-4 rounded-full transition-all duration-500"
+          style={`width: ${(progress * 100)}%`}
+        ></div>
+      </div>
+      <div class="flex justify-between mt-2 text-sm text-gray-600 dark:text-gray-400">
+        <span>${(filledUnits.length * data.unit).toLocaleString()}</span>
+        <span>${data.target.toLocaleString()}</span>
+      </div>
+    </div>
+
+    <!-- Time Progress -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="text-center p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+        <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{Math.floor((new Date().getTime() - new Date("2024-01-01").getTime()) / (1000 * 60 * 60 * 24))}</div>
+        <div class="text-sm text-gray-600 dark:text-gray-400">Days Elapsed</div>
+      </div>
+      <div class="text-center p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+        <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">{Math.floor(((new Date("2025-12-31").getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)) - Math.floor((new Date().getTime() - new Date("2024-01-01").getTime()) / (1000 * 60 * 60 * 24)))}</div>
+        <div class="text-sm text-gray-600 dark:text-gray-400">Days Remaining</div>
+      </div>
+      <div class="text-center p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+        <div class="text-2xl font-bold text-green-600 dark:text-green-400">{((Math.floor((new Date().getTime() - new Date("2024-01-01").getTime()) / (1000 * 60 * 60 * 24)) / Math.floor((new Date("2025-12-31").getTime() - new Date("2024-01-01").getTime()) / (1000 * 60 * 60 * 24))) * 100).toFixed(0)}%</div>
+        <div class="text-sm text-gray-600 dark:text-gray-400">Time Elapsed</div>
+      </div>
+    </div>
+
+    <!-- Metrics Breakdown -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {Object.entries(data.metrics).map(([key, metric]) => (
+        <div class="p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
+          <h3 class="font-semibold text-gray-900 dark:text-white capitalize mb-2">{key}</h3>
+          <div class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+            {metric.unit}{metric.current.toLocaleString()}{key === 'impact' ? metric.unit : ''}
+          </div>
+          <div class="text-sm text-gray-500 dark:text-gray-400">
+            of {metric.unit}{metric.target.toLocaleString()}{key === 'impact' ? metric.unit : ''}
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-2">
+            <div 
+              class="bg-blue-500 h-2 rounded-full"
+              style={`width: ${(metric.current / metric.target) * 100}%`}
+            ></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Milestones -->
+  <section class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
+    <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Milestones</h2>
+    <div class="space-y-4">
+      {data.milestones.map((milestone) => (
+        <div class={`flex items-center p-4 rounded-lg border ${
+          milestone.achieved 
+            ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800' 
+            : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600'
+        }`}>
+          <div class={`w-8 h-8 rounded-full flex items-center justify-center mr-4 ${
+            milestone.achieved 
+              ? 'bg-green-500 text-white' 
+              : 'bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-300'
+          }`}>
+            {milestone.achieved ? '✓' : '○'}
+          </div>
+          <div class="flex-1">
+            <h3 class="font-semibold text-gray-900 dark:text-white">{milestone.title}</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              ${milestone.value.toLocaleString()} • Target: {milestone.date}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Recent Updates -->
+  <section class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
+    <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Recent Updates</h2>
+    <div class="space-y-6">
+      {data.recentUpdates.map((update) => (
+        <div class="border-l-4 border-blue-500 pl-6 py-2">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold text-gray-900 dark:text-white">{update.title}</h3>
+            <span class="text-sm text-gray-500 dark:text-gray-400">{update.date}</span>
+          </div>
+          <p class="text-gray-600 dark:text-gray-300 mb-2">{update.description}</p>
+          <span class="inline-block px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-sm rounded-full">
+            {update.impact}
+          </span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Visual Progress Grid -->
+  <section class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
+    <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Visual Progress</h2>
+    
+    <!-- Legend -->
+    <div class="legend mb-6">
+      {Object.entries(categoryColors).map(([category, color]) => (
+        <div class="legend-item">
+          <span class="swatch" style={`background-color: ${color}`}></span>
+          <span class="text-sm text-gray-700 dark:text-gray-300">{category}</span>
+        </div>
+      ))}
+      <div class="legend-item">
+        <span class="swatch" style="background-color: #f3f4f6"></span>
+        <span class="text-sm text-gray-700 dark:text-gray-300">Remaining</span>
+      </div>
+    </div>
+
+    <!-- Progress Grid -->
+    <div class="progress-wrap">
+      <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+        Debug: {filledUnits.length} units filled, {totalSlots} total slots, {slots.length} slots array length
+      </div>
+      <div class="progress-grid">
+        {slots.map((slot, i) => (
+          <div 
+            class={`progress-cell ${slot ? 'filled' : ''}`}
+            style={slot ? `background-color: ${(categoryColors as any)[slot.category] || '#6b7280'}` : ''}
+            title={slot ? `${slot.category}: ${slot.note} (${slot.date})` : `Empty slot ${i + 1}`}
+          />
+        ))}
+      </div>
+      <div class="foot text-center">
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+          Each square represents ${data.unit_label}${data.unit.toLocaleString()} • 
+          {filledUnits.length} of {totalSlots} squares filled ({(progress * 100).toFixed(1)}% complete)
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white text-center">
+    <h2 class="text-2xl font-bold mb-4">Follow the Journey</h2>
+    <p class="mb-6 opacity-90">
+      Want to stay updated on my progress? Subscribe to get monthly updates, insights, and lessons learned.
+    </p>
+    <button class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+      Subscribe for Updates
+    </button>
+  </section>
+</div>
+
+<style>
+  /* Custom animations */
+  @keyframes progressFill {
+    from { width: 0; }
+    to { width: var(--progress-width); }
+  }
+  
+  .progress-bar {
+    animation: progressFill 1s ease-out;
+  }
+
+  .progress-wrap { 
+    max-width: 1100px; 
+    margin: 2rem auto; 
+    padding: 0 1rem; 
+  }
+  
+  .legend { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: .75rem; 
+    margin: .75rem 0 1rem; 
+  }
+  
+  .legend-item { 
+    display: inline-flex; 
+    align-items: center; 
+    gap: .4rem; 
+    font-size: .95rem; 
+  }
+  
+  .swatch { 
+    width: 14px; 
+    height: 14px; 
+    border-radius: 3px; 
+    display: inline-block; 
+  }
+  
+  .progress-grid {
+    --cols: 50;
+    display: grid !important;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr)) !important;
+    gap: 3px;
+    border: 1px solid #e5e7eb;
+    padding: 8px;
+    background: #fff;
+    border-radius: 8px;
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  :global(.dark) .progress-grid {
+    border-color: #374151;
+    background: #1f2937;
+  }
+  
+  .progress-cell {
+    aspect-ratio: 1 / 1 !important;
+    background: #f3f4f6;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+    min-height: 8px;
+    min-width: 8px;
+  }
+  
+  :global(.dark) .progress-cell {
+    background: #374151;
+  }
+  
+  .progress-cell.filled { 
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); 
+  }
+  
+  :global(.dark) .progress-cell.filled {
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.1);
+  }
+  
+  .progress-cell:hover {
+    transform: scale(1.2);
+    z-index: 10;
+    position: relative;
+  }
+  
+  .foot { 
+    color: #6b7280; 
+    font-size: .9rem; 
+    margin-top: .75rem; 
+  }
+
+  /* Responsive: fewer columns on small screens */
+  @media (max-width: 900px) { 
+    .progress-grid { --cols: 40; } 
+  }
+  @media (max-width: 700px) { 
+    .progress-grid { --cols: 30; } 
+  }
+  @media (max-width: 520px) { 
+    .progress-grid { --cols: 25; } 
+  }
+  @media (max-width: 400px) { 
+    .progress-grid { --cols: 20; } 
+  }
+</style>

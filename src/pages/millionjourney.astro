@@ -1,0 +1,34 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import TheMillionJourney from "../components/TheMillionJourney.astro";
+
+const title = "The Million Journey";
+const description = "Follow my journey to reach one million in revenue, subscribers, or impact. Track progress, milestones, and lessons learned along the way.";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+	</head>
+	<body>
+		<Header />
+  <main class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+      <header class="text-center mb-12">
+        <h1 class="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+          The Million Journey
+        </h1>
+        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          {description}
+        </p>
+      </header>
+      
+      <TheMillionJourney />
+    </div>
+  </main>
+		<Footer />
+	</body>
+</html>
