@@ -76,7 +76,6 @@ const sortedCategories = Object.entries(revenueByCategory)
 </div>
 
 <div class="journey-sections">
-
   <!-- Progress Overview -->
   <section class="content-section">
     <h2>Journey Progress</h2>
@@ -99,6 +98,7 @@ const sortedCategories = Object.entries(revenueByCategory)
       </div>
     </div>
   </section>
+
 
   <!-- Revenue Breakdown by Category -->
   <section class="content-section">
@@ -437,7 +437,49 @@ const sortedCategories = Object.entries(revenueByCategory)
     .progress-grid { --cols: 20; } 
   }
   
-  @media (max-width: 768px) {
+    
+    .grid-progress-container {
+      flex-direction: column;
+      gap: 2rem;
+    }
+    
+    .grid-section {
+      max-width: 100%;
+    }
+    
+    .vertical-progress-section {
+      flex: none;
+      width: 100%;
+    }
+    
+    .vertical-progress-container {
+      flex-direction: row;
+      min-height: 60px;
+      align-items: center;
+    }
+    
+    .vertical-progress-track {
+      width: 100%;
+      height: 20px;
+    }
+    
+        .vertical-progress-fill {\n      height: 100% !important;\n      left: 0;\n      right: auto;\n    }
+    
+    .progress-markers {
+      flex-direction: row;
+      width: 100%;
+      height: auto;
+    }
+    
+    .marker {
+      position: relative;
+      transform: none;
+    }
+    
+    .progress-stats {
+      flex-direction: row;
+      justify-content: space-around;
+    }
     .revenue-header {
       flex-direction: column;
       align-items: flex-start;
