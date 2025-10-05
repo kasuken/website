@@ -11,77 +11,10 @@
     "Online Courses": "#e11d48",
     "Speaking & Events": "#3b82f6",
     "Content Creation": "#f97316",
+    "Stealth Courses": "#14b8a6",
     "Other": "#6b7280"
   },
   "entries": [
-    { "amount": 5200, "category": "SaaS", "date": "2025-09-28", "note": "Monthly MRR" },
-    { "amount": 3000, "category": "Online Courses", "date": "2025-09-15", "note": "Udemy + LinkedIn Learning" },
-    { "amount": 1500, "category": "Fractional CTO", "date": "2025-09-10", "note": "Advisory retainer" },
-    { "amount": 800,  "category": "Books & eBooks", "date": "2025-09-05", "note": "Gumroad sales" },
-    { "amount": 600,  "category": "Mentoring & Coaching", "date": "2025-09-03", "note": "MentorCruise sessions" },
-    { "amount": 500,  "category": "Content Creation", "date": "2025-09-01", "note": "Blog sponsorship" }
-  ],
-  "metrics": {
-    "revenue": {
-      "current": 11600,
-      "target": 1000000,
-      "unit": "$"
-    },
-    "subscribers": {
-      "current": 2500,
-      "target": 50000,
-      "unit": ""
-    },
-    "impact": {
-      "current": 150,
-      "target": 10000,
-      "unit": " people helped"
-    }
-  },
-  "milestones": [
-    {
-      "title": "First $10K Month",
-      "value": 10000,
-      "date": "Q4 2024",
-      "achieved": true
-    },
-    {
-      "title": "$50K Monthly Revenue",
-      "value": 50000,
-      "date": "Q2 2025",
-      "achieved": false
-    },
-    {
-      "title": "$100K Monthly Revenue",
-      "value": 100000,
-      "date": "Q4 2025",
-      "achieved": false
-    },
-    {
-      "title": "The Million Mark",
-      "value": 1000000,
-      "date": "End of 2025",
-      "achieved": false
-    }
-  ],
-  "recentUpdates": [
-    {
-      "title": "SaaS Revenue Growth",
-      "description": "Monthly recurring revenue reached $5.2K with steady growth from new customers and feature expansions.",
-      "date": "September 2024",
-      "impact": "+$1.2K MRR"
-    },
-    {
-      "title": "Course Sales Boost",
-      "description": "Strong performance on Udemy and LinkedIn Learning with new courses on Azure and cloud architecture.",
-      "date": "September 2024",
-      "impact": "+$3K revenue"
-    },
-    {
-      "title": "New Fractional CTO Client",
-      "description": "Secured a new advisory retainer with a growing fintech startup, providing architectural guidance.",
-      "date": "August 2024",
-      "impact": "+$1.5K MRR"
-    }
+    { "amount": 1000, "category": "Stealth Courses", "date": "2025-10-05", "note": "Monthly MRR" }
   ]
 }
