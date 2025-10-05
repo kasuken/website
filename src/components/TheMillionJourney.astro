@@ -48,7 +48,89 @@ const sortedCategories = Object.entries(revenueByCategory)
   }));
 ---
 
-<!-- The Million Dollar Grid (directly under page title) -->
+<!-- Journey Milestones -->
+<section class="content-section">
+  
+  <!-- Milestone Timeline -->
+  <div class="milestone-timeline">
+    <div class="timeline-track"></div>
+    
+    <!-- $10K Milestone -->
+    <div class={`milestone ${(filledUnits.length * data.unit) >= 10000 ? 'completed' : 'upcoming'}`} style="left: 1%">
+      <div class="milestone-marker">
+        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 10000 ? '✅' : '🎯'}</span>
+      </div>
+      <div class="milestone-info">
+        <div class="milestone-amount">$10K</div>
+        <div class="milestone-label">First Goal</div>
+      </div>
+    </div>
+    
+    <!-- $100K Milestone -->
+    <div class={`milestone ${(filledUnits.length * data.unit) >= 100000 ? 'completed' : 'upcoming'}`} style="left: 10%">
+      <div class="milestone-marker">
+        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 100000 ? '✅' : '🚀'}</span>
+      </div>
+      <div class="milestone-info">
+        <div class="milestone-amount">$100K</div>
+        <div class="milestone-label">Growth Phase</div>
+      </div>
+    </div>
+    
+    <!-- $250K Milestone -->
+    <div class={`milestone ${(filledUnits.length * data.unit) >= 250000 ? 'completed' : 'upcoming'}`} style="left: 25%">
+      <div class="milestone-marker">
+        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 250000 ? '✅' : '⭐'}</span>
+      </div>
+      <div class="milestone-info">
+        <div class="milestone-amount">$250K</div>
+        <div class="milestone-label">Quarter Million</div>
+      </div>
+    </div>
+    
+    <!-- $500K Milestone -->
+    <div class={`milestone ${(filledUnits.length * data.unit) >= 500000 ? 'completed' : 'upcoming'}`} style="left: 50%">
+      <div class="milestone-marker">
+        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 500000 ? '✅' : '💎'}</span>
+      </div>
+      <div class="milestone-info">
+        <div class="milestone-amount">$500K</div>
+        <div class="milestone-label">Half Million</div>
+      </div>
+    </div>
+    
+    <!-- $750K Milestone -->
+    <div class={`milestone ${(filledUnits.length * data.unit) >= 750000 ? 'completed' : 'upcoming'}`} style="left: 75%">
+      <div class="milestone-marker">
+        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 750000 ? '✅' : '🔥'}</span>
+      </div>
+      <div class="milestone-info">
+        <div class="milestone-amount">$750K</div>
+        <div class="milestone-label">Final Stretch</div>
+      </div>
+    </div>
+    
+    <!-- $1M Milestone -->
+    <div class={`milestone ${(filledUnits.length * data.unit) >= 1000000 ? 'completed' : 'upcoming'}`} style="left: 100%">
+      <div class="milestone-marker milestone-final">
+        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 1000000 ? '🎉' : '👑'}</span>
+      </div>
+      <div class="milestone-info">
+        <div class="milestone-amount">$1M</div>
+        <div class="milestone-label">The Goal!</div>
+      </div>
+    </div>
+    
+    <!-- Current Progress Indicator -->
+    <div class="current-progress" style={`left: ${(progress * 100)}%`}>
+      <div class="progress-pulse"></div>
+      <div class="current-amount">${(filledUnits.length * data.unit).toLocaleString()}</div>
+    </div>
+  </div>
+  
+</section>
+
+<!-- The Million Dollar Grid -->
 <div class="progress-wrap">
   <div class="progress-grid">
     {slots.map((slot, i) => (
@@ -76,32 +158,37 @@ const sortedCategories = Object.entries(revenueByCategory)
 </div>
 
 <div class="journey-sections">
-  <!-- Progress Overview -->
-  <section class="content-section">
-    <h2>Journey Progress</h2>
-    
-    <!-- Main Progress Bar -->
-    <div class="progress-section">
-      <div class="progress-header">
-        <span class="progress-label">Overall Progress</span>
-        <span class="progress-percent">{(progress * 100).toFixed(1)}%</span>
-      </div>
-      <div class="progress-bar-container">
-        <div 
-          class="progress-bar-fill"
-          style={`width: ${(progress * 100)}%`}
-        ></div>
-      </div>
-      <div class="progress-amounts">
-        <span>${(filledUnits.length * data.unit).toLocaleString()}</span>
-        <span>${data.target.toLocaleString()}</span>
+
+
+  <!-- Journey Stats Cards -->
+  <!-- <div class="journey-stats">
+    <div class="stat-card">
+      <div class="stat-icon">📈</div>
+      <div class="stat-content">
+        <div class="stat-number">{(progress * 100).toFixed(1)}%</div>
+        <div class="stat-label">Complete</div>
       </div>
     </div>
-  </section>
-
+    
+    <div class="stat-card">
+      <div class="stat-icon">💰</div>
+      <div class="stat-content">
+        <div class="stat-number">${(filledUnits.length * data.unit).toLocaleString()}</div>
+        <div class="stat-label">Earned</div>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon">🎯</div>
+      <div class="stat-content">
+        <div class="stat-number">${(data.target - (filledUnits.length * data.unit)).toLocaleString()}</div>
+        <div class="stat-label">To Go</div>
+      </div>
+    </div>
+  </div> -->
 
   <!-- Revenue Breakdown by Category -->
-  <section class="content-section">
+  <section class="content-section revenue-breakdown-section">
     <h2>Revenue Breakdown by Category</h2>
     <div class="revenue-breakdown">
       {sortedCategories.map((item) => (
@@ -128,26 +215,16 @@ const sortedCategories = Object.entries(revenueByCategory)
       ))}
     </div>
     
-    <!-- Total Revenue Summary -->
-    <div class="revenue-summary">
-      <div class="summary-item">
-        <span class="summary-label">Total Revenue</span>
-        <span class="summary-amount">${totalRevenue.toLocaleString()}</span>
-      </div>
-      <div class="summary-item">
-        <span class="summary-label">Revenue Categories</span>
-        <span class="summary-amount">{sortedCategories.length}</span>
-      </div>
-      <div class="summary-item">
-        <span class="summary-label">Average per Category</span>
-        <span class="summary-amount">${Math.round(totalRevenue / sortedCategories.length).toLocaleString()}</span>
-      </div>
-    </div>
   </section>
 
 </div>
 
 <style>
+
+  .revenue-breakdown-section {
+    margin-top: 4rem;
+  }
+
   .journey-sections {
     display: flex;
     flex-direction: column;
@@ -155,7 +232,7 @@ const sortedCategories = Object.entries(revenueByCategory)
   }
   
   .content-section {
-    padding: 2rem 0;
+    padding: 1rem 0;
   }
   
   .content-section h2 {
@@ -167,49 +244,186 @@ const sortedCategories = Object.entries(revenueByCategory)
   
   /* Grid is now directly under the page title */
   
-  .progress-section {
-    margin-bottom: 1.5rem;
+  /* Milestone Timeline Styles */
+  .milestone-timeline {
+    position: relative;
+    height: 120px;
+    margin: 2rem 0 3rem 0;
+    padding: 0 2rem;
   }
   
-  .progress-header {
+  .timeline-track {
+    position: absolute;
+    top: 50%;
+    left: 2rem;
+    right: 2rem;
+    height: 4px;
+    background: linear-gradient(90deg, #10b981 0%, #3b82f6 50%, #8b5cf6 100%);
+    border-radius: 2px;
+    transform: translateY(-50%);
+  }
+  
+  .milestone {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
   }
   
-  .progress-label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: rgb(var(--gray-dark));
+  .milestone:hover {
+    transform: translate(-50%, -60%);
   }
   
-  .progress-percent {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: rgb(var(--accent));
-  }
-  
-  .progress-bar-container {
-    width: 100%;
-    height: 12px;
-    background: rgb(var(--gray-light));
-    border-radius: 6px;
-    overflow: hidden;
-    margin-bottom: 0.5rem;
-  }
-  
-  .progress-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, rgb(var(--accent)), rgb(var(--accent-dark)));
-    transition: width 0.5s ease;
-  }
-  
-  .progress-amounts {
+  .milestone-marker {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+  }
+  
+  .milestone.completed .milestone-marker {
+    background: linear-gradient(135deg, #10b981, #059669);
+    animation: pulse-success 2s infinite;
+  }
+  
+  .milestone.upcoming .milestone-marker {
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+  }
+  
+  .milestone-final .milestone-marker {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+  }
+  
+  .milestone-icon {
+    font-size: 1.4rem;
+  }
+  
+  .milestone-info {
+    text-align: center;
+  }
+  
+  .milestone-amount {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: rgb(var(--black));
+    margin-bottom: 0.1rem;
+  }
+  
+  .milestone-label {
+    font-size: 0.7rem;
     color: rgb(var(--gray));
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .current-progress {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .progress-pulse {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ef4444;
+    animation: pulse-current 1.5s infinite;
+    margin-bottom: 0.5rem;
+  }
+  
+  .current-amount {
+    background: #ef4444;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  
+  /* Journey Stats Cards */
+  .journey-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  
+  .stat-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(var(--accent), 0.05), rgba(var(--accent), 0.1));
+    border-radius: 16px;
+    border: 1px solid rgba(var(--accent), 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(var(--accent), 0.15);
+  }
+  
+  .stat-icon {
+    font-size: 2rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(var(--accent), 0.1);
+    border-radius: 12px;
+  }
+  
+  .stat-content {
+    flex: 1;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: rgb(var(--black));
+    margin-bottom: 0.25rem;
+  }
+  
+  .stat-label {
+    font-size: 0.9rem;
+    color: rgb(var(--gray));
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Animations */
+  @keyframes pulse-success {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  
+  @keyframes pulse-current {
+    0%, 100% { 
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+    }
+    70% { 
+      transform: scale(1.1);
+      box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+    }
   }
 
   .progress-wrap { 
@@ -329,6 +543,7 @@ const sortedCategories = Object.entries(revenueByCategory)
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    margin-top: 2em;
   }
   
   .revenue-item {
@@ -480,6 +695,65 @@ const sortedCategories = Object.entries(revenueByCategory)
       flex-direction: row;
       justify-content: space-around;
     }
+      @media (max-width: 768px) {
+    .milestone-timeline {
+      padding: 0 1rem;
+      height: 100px;
+    }
+    
+    .timeline-track {
+      left: 1rem;
+      right: 1rem;
+    }
+    
+    .milestone-marker {
+      width: 30px;
+      height: 30px;
+    }
+    
+    .milestone-final .milestone-marker {
+      width: 35px;
+      height: 35px;
+    }
+    
+    .milestone-icon {
+      font-size: 1rem;
+    }
+    
+    .milestone-amount {
+      font-size: 0.8rem;
+    }
+    
+    .milestone-label {
+      font-size: 0.6rem;
+    }
+    
+    .current-amount {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+    }
+    
+    .journey-stats {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    
+    .stat-card {
+      padding: 1rem;
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .stat-icon {
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+    }
+    
+    .stat-number {
+      font-size: 1.2rem;
+    }
+    
     .revenue-header {
       flex-direction: column;
       align-items: flex-start;
@@ -501,5 +775,6 @@ const sortedCategories = Object.entries(revenueByCategory)
     .summary-amount {
       font-size: 1.2rem;
     }
+  }
   }
 </style>
