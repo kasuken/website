@@ -12,23 +12,72 @@ const description = "Follow my journey to reach one million in revenue, subscrib
 <html lang="en">
 	<head>
 		<BaseHead title={title} description={description} />
+		<style>
+			main {
+				width: 960px;
+				max-width: calc(100% - 2rem);
+				margin: auto;
+				padding: 3rem 1rem;
+			}
+			
+			.journey-header {
+				text-align: center;
+				margin-bottom: 3rem;
+			}
+			
+			.journey-header h1 {
+				margin: 0 0 0.5rem 0;
+				color: rgb(var(--black));
+				font-weight: 700;
+				letter-spacing: -0.02em;
+				font-size: 3rem;
+			}
+			
+			.journey-header p {
+				margin: 0 0 1rem 0;
+				color: rgb(var(--gray-dark));
+				font-size: 1.1rem;
+				max-width: 600px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+			.journey-header .subtitle {
+				color: rgb(var(--gray));
+				font-size: 0.9rem;
+				max-width: 500px;
+			}
+			
+			.progress-wrap {
+				margin-bottom: 3rem;
+			}
+			
+			@media (max-width: 768px) {
+				main {
+					padding: 2rem 1rem;
+				}
+				
+				.journey-header h1 {
+					font-size: 2rem;
+				}
+				
+				.journey-header p {
+					font-size: 1rem;
+				}
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
-  <main class="container mx-auto px-4 py-8">
-    <div class="max-w-4xl mx-auto">
-      <header class="text-center mb-12">
-        <h1 class="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
-          The Million Journey
-        </h1>
-        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          {description}
-        </p>
-      </header>
-      
-      <TheMillionJourney />
-    </div>
-  </main>
+		<main>
+			<div class="journey-header">
+				<h1>The Million Journey</h1>
+				<p>Each square represents $1,000 towards my million-dollar goal.</p>
+				<p class="subtitle">Track my journey to reach one million in revenue through SaaS, courses, consulting, and more.</p>
+			</div>
+			
+			<TheMillionJourney />
+		</main>
 		<Footer />
 	</body>
 </html>
