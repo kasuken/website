@@ -6,17 +6,17 @@ import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 
-export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: post,
-	}));
+// Dynamic SSR route (no getStaticPaths). This avoids build-time 404s when remote
+// content fails to load or changes after deploy. We'll look up the slug at request time.
+const { slug } = Astro.params;
+const all = await getCollection('blog');
+let post: CollectionEntry<'blog'> | undefined = all.find(p => p.id === slug);
+
+if (!post && slug) {
+  post = all.find(p => p.id.toLowerCase() === slug.toLowerCase());
 }
 
-type Props = CollectionEntry<'blog'>;
-
-const post = Astro.props;
+const notFound = !post;
 
 // Configure marked options
 marked.setOptions({
@@ -24,14 +24,26 @@ marked.setOptions({
 	breaks: true,
 });
 
-// Render markdown content to HTML
-const contentHtml = marked(post.body || '');
+let contentHtml = '';
+try {
+	if (post?.body) {
+		const rendered = marked(post.body);
+		contentHtml = typeof rendered === 'string' ? rendered : await rendered;
+	}
+} catch (err) {
+	contentHtml = '<p>⚠️ Unable to render markdown content.</p>';
+	console.error('[blog slug] markdown render error for', slug, err);
+}
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={post.data.title} description={post.data.description} />
+		{!notFound && post ? (
+			<BaseHead title={post.data.title} description={post.data.description} />
+		) : (
+			<BaseHead title="Post not found" description="The requested blog post could not be found." />
+		)}
 		<style>
 			main {
 				width: 960px;
@@ -244,6 +256,14 @@ const contentHtml = marked(post.body || '');
 	<body>
 		<Header />
 		<main>
+			{notFound || !post ? (
+				<section style="max-width:760px;margin:4rem auto;text-align:center;">
+					<h1>🛰️ Post Not Found</h1>
+					<p>The blog post you requested does not exist or failed to load during build.</p>
+					<p><a href="/blog" style="color:var(--accent);text-decoration:underline;">← Back to all posts</a></p>
+				</section>
+			) : (
+			<>
 			<a href="/blog" class="back-link">
 				<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
 					<path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
@@ -323,6 +343,8 @@ const contentHtml = marked(post.body || '');
 					</a>
 				</div>
 			</article>
+			</>
+			)}
 		</main>
 		<Footer />
 	</body>

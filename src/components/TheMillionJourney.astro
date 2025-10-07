@@ -1,0 +1,977 @@
+---
+import data from "../data/the-million-journey.json";
+
+const totalSlots = Math.floor(data.target / data.unit); // 1,000
+const categoryColors = data.categories || {} as Record<string, string>;
+
+interface Entry {
+  amount: number;
+  category: string;
+  date: string;
+  note: string;
+}
+
+function expandUnits(entries: Entry[], unit: number) {
+  const units: Array<{ category: string; date: string; note: string }> = [];
+  for (const e of entries) {
+    const count = Math.floor(e.amount / unit);
+    for (let i = 0; i < count; i++) {
+      units.push({ category: e.category, date: e.date, note: e.note });
+    }
+  }
+  return units;
+}
+
+const filledUnits = expandUnits(data.entries ?? [], data.unit).slice(0, totalSlots);
+const progress = filledUnits.length / totalSlots;
+
+const slots = Array.from({ length: totalSlots }, (_, i) => filledUnits[i] ?? null);
+
+// Calculate revenue breakdown by category
+const revenueByCategory = data.entries.reduce((acc, entry) => {
+  if (!acc[entry.category]) {
+    acc[entry.category] = 0;
+  }
+  acc[entry.category] += entry.amount;
+  return acc;
+}, {} as Record<string, number>);
+
+const totalRevenue = Object.values(revenueByCategory).reduce((sum, amount) => sum + amount, 0);
+
+// Sort categories by revenue (highest first)
+const sortedCategories = Object.entries(revenueByCategory)
+  .sort(([,a], [,b]) => b - a)
+  .map(([category, amount]) => ({
+    category,
+    amount,
+    percentage: (amount / totalRevenue) * 100
+  }));
+---
+
+<!-- Journey Milestones -->
+<section class="content-section">
+  
+  <!-- Milestone Timeline -->
+  <div class="milestone-timeline">
+    <div class="timeline-track"></div>
+    
+    <!-- $10K Milestone -->
+    <div class={`milestone ${(filledUnits.length * data.unit) >= 10000 ? 'completed' : 'upcoming'}`} style="left: 1%">
+      <div class="milestone-marker">
+        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 10000 ? '✅' : '🎯'}</span>
+      </div>
+      <div class="milestone-info">
+        <div class="milestone-amount">$10K</div>
+        <div class="milestone-label">First Goal</div>
+      </div>
+    </div>
+    
+    <!-- $100K Milestone -->
+    <div class={`milestone ${(filledUnits.length * data.unit) >= 100000 ? 'completed' : 'upcoming'}`} style="left: 10%">
+      <div class="milestone-marker">
+        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 100000 ? '✅' : '🚀'}</span>
+      </div>
+      <div class="milestone-info">
+        <div class="milestone-amount">$100K</div>
+        <div class="milestone-label">Growth Phase</div>
+      </div>
+    </div>
+    
+    <!-- $250K Milestone -->
+    <div class={`milestone ${(filledUnits.length * data.unit) >= 250000 ? 'completed' : 'upcoming'}`} style="left: 25%">
+      <div class="milestone-marker">
+        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 250000 ? '✅' : '⭐'}</span>
+      </div>
+      <div class="milestone-info">
+        <div class="milestone-amount">$250K</div>
+        <div class="milestone-label">Quarter Million</div>
+      </div>
+    </div>
+    
+    <!-- $500K Milestone -->
+    <div class={`milestone ${(filledUnits.length * data.unit) >= 500000 ? 'completed' : 'upcoming'}`} style="left: 50%">
+      <div class="milestone-marker">
+        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 500000 ? '✅' : '💎'}</span>
+      </div>
+      <div class="milestone-info">
+        <div class="milestone-amount">$500K</div>
+        <div class="milestone-label">Half Million</div>
+      </div>
+    </div>
+    
+    <!-- $750K Milestone -->
+    <div class={`milestone ${(filledUnits.length * data.unit) >= 750000 ? 'completed' : 'upcoming'}`} style="left: 75%">
+      <div class="milestone-marker">
+        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 750000 ? '✅' : '🔥'}</span>
+      </div>
+      <div class="milestone-info">
+        <div class="milestone-amount">$750K</div>
+        <div class="milestone-label">Final Stretch</div>
+      </div>
+    </div>
+    
+    <!-- $1M Milestone -->
+    <div class={`milestone ${(filledUnits.length * data.unit) >= 1000000 ? 'completed' : 'upcoming'}`} style="left: 100%">
+      <div class="milestone-marker milestone-final">
+        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 1000000 ? '🎉' : '👑'}</span>
+      </div>
+      <div class="milestone-info">
+        <div class="milestone-amount">$1M</div>
+        <div class="milestone-label">The Goal!</div>
+      </div>
+    </div>
+    
+    <!-- Current Progress Indicator -->
+    <div class="current-progress" style={`left: ${(progress * 100)}%`}>
+      <div class="progress-pulse"></div>
+      <div class="current-amount">${(filledUnits.length * data.unit).toLocaleString()}</div>
+    </div>
+  </div>
+  
+</section>
+
+<!-- The Million Dollar Grid -->
+<div class="progress-wrap">
+  <div class="progress-grid">
+    {slots.map((slot, i) => (
+      <div 
+        class={`progress-cell ${slot ? 'filled' : ''}`}
+        style={slot ? `background-color: ${(categoryColors as any)[slot.category] || '#3b82f6'}` : ''}
+        title={slot ? `${slot.category}: ${slot.note} (${slot.date})` : `Square ${i + 1} - $${((i + 1) * 1000).toLocaleString()}`}
+      />
+    ))}
+  </div>
+  
+  <!-- Legend -->
+  <div class="legend-grid">
+    {Object.entries(categoryColors).map(([category, color]) => (
+      <div class="legend-item">
+        <span class="legend-color" style={`background-color: ${color}`}></span>
+        <span class="legend-label">{category}</span>
+      </div>
+    ))}
+    <div class="legend-item">
+      <span class="legend-color legend-remaining"></span>
+      <span class="legend-label">Remaining</span>
+    </div>
+  </div>
+</div>
+
+<div class="journey-sections">
+
+
+  <!-- Journey Stats Cards -->
+  <!-- <div class="journey-stats">
+    <div class="stat-card">
+      <div class="stat-icon">📈</div>
+      <div class="stat-content">
+        <div class="stat-number">{(progress * 100).toFixed(1)}%</div>
+        <div class="stat-label">Complete</div>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon">💰</div>
+      <div class="stat-content">
+        <div class="stat-number">${(filledUnits.length * data.unit).toLocaleString()}</div>
+        <div class="stat-label">Earned</div>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-icon">🎯</div>
+      <div class="stat-content">
+        <div class="stat-number">${(data.target - (filledUnits.length * data.unit)).toLocaleString()}</div>
+        <div class="stat-label">To Go</div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Revenue Breakdown by Category -->
+  <section class="content-section revenue-breakdown-section">
+    <h2>Revenue Breakdown by Category</h2>
+    <div class="revenue-breakdown">
+      {sortedCategories.map((item) => (
+        <div class="revenue-item">
+          <div class="revenue-header">
+            <div class="category-info">
+              <span class="category-color" style={`background-color: ${(categoryColors as any)[item.category] || '#6b7280'}`}></span>
+              <span class="category-name">{item.category}</span>
+            </div>
+            <div class="revenue-amount">
+              ${item.amount.toLocaleString()}
+            </div>
+          </div>
+          <div class="revenue-bar-container">
+            <div 
+              class="revenue-bar"
+              style={`width: ${item.percentage}%; background-color: ${(categoryColors as any)[item.category] || '#6b7280'}`}
+            ></div>
+          </div>
+          <div class="revenue-percentage">
+            {item.percentage.toFixed(1)}% of total revenue
+          </div>
+        </div>
+      ))}
+    </div>
+    
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="content-section">
+    <h2>❓ Frequently Asked Questions</h2>
+    
+    <div class="faq-container">
+      <div class="faq-item">
+        <button class="faq-question" data-faq="1">
+          <span>What is The Million Journey challenge?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer" id="faq-1">
+          <p>The Million Journey is my personal challenge to reach $1,000,000 in total revenue through various income streams including SaaS products, online courses, consulting, books, and content creation. Each square in the grid above represents $1,000 earned towards this goal.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" data-faq="2">
+          <span>Who inspired you to start this journey?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer" id="faq-2">
+          <p>I was heavily inspired by <a href="https://www.florin-pop.com/one-million/" target="_blank" rel="noopener" class="faq-link">Florin Pop's Million Dollar Challenge</a>. Seeing his transparent approach to tracking revenue through a visual grid and sharing the journey publicly showed me the power of accountability and community support. His innovative way of visualizing progress made entrepreneurship feel more tangible and achievable.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" data-faq="3">
+          <span>When did the challenge start and when does it end?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer" id="faq-3">
+          <p>I started tracking this journey in October 2025 with the goal of reaching $1,000,000 by the end of September 2032. Exactly for my 50th birthday.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" data-faq="4">
+          <span>How is the revenue being tracked?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer" id="faq-4">
+          <p>I track all revenue streams meticulously, including SaaS monthly recurring revenue, course sales, consulting fees, book royalties, and speaking engagements. Each $1,000 earned fills one square in the grid. All numbers are gross revenue before taxes and expenses.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" data-faq="5">
+          <span>What revenue categories are included?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer" id="faq-5">
+          <p>The journey includes revenue from: SaaS products and tools, Online courses (Udemy, LinkedIn Learning and custom platforms), Fractional CTO consulting, Books and eBooks, Mentoring and coaching, Content creation and sponsorships, Speaking engagements, and other entrepreneurial ventures.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" data-faq="6">
+          <span>Why share this journey publicly?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer" id="faq-6">
+          <p>Transparency creates accountability and inspiration. By sharing my progress, challenges, and lessons learned, I hope to motivate other entrepreneurs and provide real insights into building multiple income streams. Plus, the community support keeps me motivated!</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" data-faq="7">
+          <span>What happens when you reach $1,000,000?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer" id="faq-7">
+          <p>Nothing special happens, but let's what is the situation at that time. I plan to continue growing these income sources and help others start their own journeys to financial independence.</p>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+</div>
+
+<style>
+
+  .revenue-breakdown-section {
+    margin-top: 4rem;
+  }
+
+  .journey-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .content-section {
+    padding: 1rem 0;
+  }
+  
+  .content-section h2 {
+    color: rgb(var(--black));
+    margin: 0 0 1.5rem 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+  
+  /* Grid is now directly under the page title */
+  
+  /* Milestone Timeline Styles */
+  .milestone-timeline {
+    position: relative;
+    height: 85px;
+    margin: 0 0 0 0;
+    padding: 0 2rem;
+  }
+  
+  .timeline-track {
+    position: absolute;
+    top: 50%;
+    left: 2rem;
+    right: 2rem;
+    height: 4px;
+    background: linear-gradient(90deg, #10b981 0%, #3b82f6 50%, #8b5cf6 100%);
+    border-radius: 2px;
+    transform: translateY(-50%);
+  }
+  
+  .milestone {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .milestone:hover {
+    transform: translate(-50%, -60%);
+  }
+  
+  .milestone-marker {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+  }
+  
+  .milestone.completed .milestone-marker {
+    background: linear-gradient(135deg, #10b981, #059669);
+    animation: pulse-success 2s infinite;
+  }
+  
+  .milestone.upcoming .milestone-marker {
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+  }
+  
+  .milestone-final .milestone-marker {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+  }
+  
+  .milestone-icon {
+    font-size: 1.4rem;
+  }
+  
+  .milestone-info {
+    text-align: center;
+  }
+  
+  .milestone-amount {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: rgb(var(--black));
+    margin-bottom: 0.1rem;
+  }
+  
+  .milestone-label {
+    font-size: 0.7rem;
+    color: rgb(var(--gray));
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .current-progress {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .progress-pulse {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ef4444;
+    animation: pulse-current 1.5s infinite;
+    margin-bottom: 0.5rem;
+  }
+  
+  .current-amount {
+    background: #ef4444;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  
+  /* Journey Stats Cards */
+  .journey-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  
+  .stat-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(var(--accent), 0.05), rgba(var(--accent), 0.1));
+    border-radius: 16px;
+    border: 1px solid rgba(var(--accent), 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(var(--accent), 0.15);
+  }
+  
+  .stat-icon {
+    font-size: 2rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(var(--accent), 0.1);
+    border-radius: 12px;
+  }
+  
+  .stat-content {
+    flex: 1;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: rgb(var(--black));
+    margin-bottom: 0.25rem;
+  }
+  
+  .stat-label {
+    font-size: 0.9rem;
+    color: rgb(var(--gray));
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Animations */
+  @keyframes pulse-success {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  
+  @keyframes pulse-current {
+    0%, 100% { 
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+    }
+    70% { 
+      transform: scale(1.1);
+      box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+    }
+  }
+  
+  /* FAQ Styles */
+  .faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .faq-item {
+    margin-bottom: 1rem;
+    border: 1px solid rgba(var(--gray), 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .faq-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .faq-question {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: rgb(var(--black));
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .faq-question:hover {
+    background: rgba(var(--accent), 0.05);
+  }
+  
+  .faq-icon {
+    font-size: 1.5rem;
+    color: rgb(var(--accent));
+    transition: transform 0.3s ease;
+    font-weight: 300;
+  }
+  
+  .faq-item.active .faq-icon {
+    transform: rotate(45deg);
+  }
+  
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background: rgba(var(--accent), 0.02);
+  }
+  
+  .faq-answer.active {
+    max-height: 200px;
+  }
+  
+  .faq-answer p {
+    padding: 0 1.5rem 1.5rem;
+    margin: 0;
+    color: rgb(var(--gray-dark));
+    line-height: 1.6;
+  }
+  
+  .faq-link {
+    color: rgb(var(--accent));
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+  
+  .faq-link:hover {
+    border-bottom-color: rgb(var(--accent));
+  }
+
+  .progress-wrap { 
+    max-width: 100%; 
+    margin: 0; 
+  }
+  
+  .legend { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: .75rem; 
+    margin: .75rem 0 1rem; 
+  }
+  
+  .legend-item { 
+    display: inline-flex; 
+    align-items: center; 
+    gap: .4rem; 
+    font-size: .95rem; 
+  }
+  
+  .swatch { 
+    width: 14px; 
+    height: 14px; 
+    border-radius: 3px; 
+    display: inline-block; 
+  }
+  
+  .progress-grid {
+    --cols: 50;
+    display: grid !important;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr)) !important;
+    gap: 2px;
+    padding: 1rem;
+    background: var(--color-bg-secondary);
+    border-radius: 12px;
+    max-width: 100%;
+    width: 100%;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--color-border-secondary);
+  }
+  
+  .progress-cell {
+    aspect-ratio: 1 / 1 !important;
+    background: #d1d5db;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+    min-height: 8px;
+    min-width: 8px;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .progress-cell.filled { 
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  
+  .progress-cell:hover {
+    transform: scale(1.1) translateY(-1px);
+    z-index: 10;
+    position: relative;
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .progress-cell.filled:hover {
+    transform: scale(1.1) translateY(-2px);
+  }
+  
+  .legend-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(var(--gray), 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+  }
+  
+  .legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  
+  .legend-remaining {
+    background: rgb(var(--gray-light));
+  }
+  
+  .legend-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgb(var(--gray-dark));
+  }
+  
+  .grid-stats {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+  
+  .grid-stats p {
+    color: rgb(var(--gray));
+    font-size: 0.9rem;
+    margin: 0;
+  }
+  
+  /* Revenue Breakdown Styles */
+  .revenue-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2em;
+  }
+  
+  .revenue-item {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--color-border-secondary);
+  }
+  
+  .revenue-item:last-child {
+    border-bottom: none;
+  }
+  
+  .revenue-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .category-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .category-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  
+  .category-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: rgb(var(--black));
+  }
+  
+  .revenue-amount {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: rgb(var(--accent));
+  }
+  
+  .revenue-bar-container {
+    width: 100%;
+    height: 8px;
+    background: rgb(var(--gray-light));
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+  
+  .revenue-bar {
+    height: 100%;
+    transition: width 0.8s ease;
+    border-radius: 4px;
+  }
+  
+  .revenue-percentage {
+    font-size: 0.85rem;
+    color: rgb(var(--gray));
+    text-align: right;
+  }
+  
+  .revenue-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+  }
+  
+  .summary-item {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(var(--accent), 0.05);
+    border-radius: 8px;
+  }
+  
+  .summary-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgb(var(--gray-dark));
+    margin-bottom: 0.5rem;
+  }
+  
+  .summary-amount {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: rgb(var(--black));
+  }
+
+  /* Responsive: fewer columns on small screens */
+  @media (max-width: 900px) { 
+    .progress-grid { --cols: 40; } 
+  }
+  @media (max-width: 700px) { 
+    .progress-grid { --cols: 30; } 
+  }
+  @media (max-width: 520px) { 
+    .progress-grid { --cols: 25; } 
+  }
+  @media (max-width: 400px) { 
+    .progress-grid { --cols: 20; } 
+  }
+  
+    
+    .grid-progress-container {
+      flex-direction: column;
+      gap: 2rem;
+    }
+    
+    .grid-section {
+      max-width: 100%;
+    }
+    
+    .vertical-progress-section {
+      flex: none;
+      width: 100%;
+    }
+    
+    .vertical-progress-container {
+      flex-direction: row;
+      min-height: 60px;
+      align-items: center;
+    }
+    
+    .vertical-progress-track {
+      width: 100%;
+      height: 20px;
+    }
+    
+        .vertical-progress-fill {\n      height: 100% !important;\n      left: 0;\n      right: auto;\n    }
+    
+    .progress-markers {
+      flex-direction: row;
+      width: 100%;
+      height: auto;
+    }
+    
+    .marker {
+      position: relative;
+      transform: none;
+    }
+    
+    .progress-stats {
+      flex-direction: row;
+      justify-content: space-around;
+    }
+      @media (max-width: 768px) {
+    .milestone-timeline {
+      padding: 0 1rem;
+      height: 100px;
+    }
+    
+    .timeline-track {
+      left: 1rem;
+      right: 1rem;
+    }
+    
+    .milestone-marker {
+      width: 30px;
+      height: 30px;
+    }
+    
+    .milestone-final .milestone-marker {
+      width: 35px;
+      height: 35px;
+    }
+    
+    .milestone-icon {
+      font-size: 1rem;
+    }
+    
+    .milestone-amount {
+      font-size: 0.8rem;
+    }
+    
+    .milestone-label {
+      font-size: 0.6rem;
+    }
+    
+    .current-amount {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+    }
+    
+    .journey-stats {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    
+    .stat-card {
+      padding: 1rem;
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .stat-icon {
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+    }
+    
+    .stat-number {
+      font-size: 1.2rem;
+    }
+    
+    .faq-question {
+      font-size: 1rem;
+      padding: 1.25rem;
+    }
+    
+    .faq-answer.active {
+      max-height: 300px;
+    }
+    
+    .revenue-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    
+    .revenue-amount {
+      font-size: 1.1rem;
+    }
+    
+    .revenue-summary {
+      grid-template-columns: 1fr;
+    }
+    
+    .summary-item {
+      padding: 0.75rem;
+    }
+    
+    .summary-amount {
+      font-size: 1.2rem;
+    }
+    }
+  }
+</style>
+
+<script>
+  // FAQ functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    
+    faqQuestions.forEach(question => {
+      question.addEventListener('click', function() {
+        const faqId = this.getAttribute('data-faq');
+        const answer = document.getElementById(`faq-${faqId}`);
+        const item = this.parentElement;
+        
+        // Close all other FAQs
+        faqQuestions.forEach(otherQuestion => {
+          if (otherQuestion !== this) {
+            const otherFaqId = otherQuestion.getAttribute('data-faq');
+            const otherAnswer = document.getElementById(`faq-${otherFaqId}`);
+            const otherItem = otherQuestion.parentElement;
+            
+            otherAnswer.classList.remove('active');
+            otherItem.classList.remove('active');
+          }
+        });
+        
+        // Toggle current FAQ
+        answer.classList.toggle('active');
+        item.classList.toggle('active');
+      });
+    });
+  });
+</script>

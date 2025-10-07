@@ -1,0 +1,20 @@
+{
+  "title": "The Million Journey",
+  "target": 1000000,
+  "unit": 1000,
+  "unit_label": "USD",
+  "categories": {
+    "SaaS": "#2563eb",
+    "Fractional CTO": "#9333ea",
+    "Mentoring & Coaching": "#10b981",
+    "Books & eBooks": "#f59e0b",
+    "Online Courses": "#e11d48",
+    "Speaking & Events": "#3b82f6",
+    "Content Creation": "#f97316",
+    "Stealth Courses": "#14b8a6",
+    "Other": "#6b7280"
+  },
+  "entries": [
+    { "amount": 1000, "category": "Stealth Courses", "date": "2025-10-05", "note": "Monthly MRR" }
+  ]
+}

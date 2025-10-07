@@ -1,0 +1,83 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import TheMillionJourney from "../components/TheMillionJourney.astro";
+
+const title = "The Million Journey";
+const description = "Follow my journey to reach one million in revenue, subscribers, or impact. Track progress, milestones, and lessons learned along the way.";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+		<style>
+			main {
+				width: 960px;
+				max-width: calc(100% - 2rem);
+				margin: auto;
+				padding: 3rem 1rem;
+			}
+			
+			.journey-header {
+				text-align: center;
+				/* margin-bottom: 3rem; */
+			}
+			
+			.journey-header h1 {
+				margin: 0 0 0.5rem 0;
+				color: rgb(var(--black));
+				font-weight: 700;
+				letter-spacing: -0.02em;
+				font-size: 3rem;
+			}
+			
+			.journey-header p {
+				margin: 0 0 1rem 0;
+				color: rgb(var(--gray-dark));
+				font-size: 1.1rem;
+				max-width: 600px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+			.journey-header .subtitle {
+				color: rgb(var(--gray));
+				font-size: 0.9rem;
+				max-width: 500px;
+			}
+			
+			.progress-wrap {
+				margin-bottom: 3rem;
+			}
+			
+			@media (max-width: 768px) {
+				main {
+					padding: 2rem 1rem;
+				}
+				
+				.journey-header h1 {
+					font-size: 2rem;
+				}
+				
+				.journey-header p {
+					font-size: 1rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<div class="journey-header">
+				<h1>The Million Journey</h1>
+				<p>Each square represents $1,000 towards my million-dollar goal.</p>
+				<p class="subtitle">Track my journey to reach one million in revenue through SaaS, courses, consulting, and more.</p>
+			</div>
+			
+			<TheMillionJourney />
+		</main>
+		<Footer />
+	</body>
+</html>
