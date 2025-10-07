@@ -5,15 +5,27 @@ import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
-export const prerender = true;
+// Removed prerender so that /blog is served as a server route (avoids static asset 404 on Amplify)
 
 const allPosts = (await getCollection('blog'))
 	.filter(post => post.id !== 'devto-stats') // Exclude stats entry from posts
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+console.log('[blog index] total posts after filtering:', allPosts.length);
+
 // Get Dev.to statistics
 const statsEntry = (await getCollection('blog')).find(post => post.id === 'devto-stats');
-const stats = statsEntry?.data;
+let stats: any = undefined;
+if (statsEntry) {
+	stats = statsEntry.data as any;
+	console.log('[blog index] stats entry found with totals:', {
+		posts: stats.totalPosts,
+		reactions: stats.totalReactions,
+		comments: stats.totalComments
+	});
+} else {
+	console.warn('[blog index] no stats entry found');
+}
 ---
 
 <!doctype html>
@@ -295,7 +307,7 @@ const stats = statsEntry?.data;
 			<section>
 				<div class="blog-header">
 					<h1>Blog Posts</h1>
-					{stats && (
+					{stats && stats.totalPosts !== undefined && (
 						<div class="blog-stats">
 							<div class="stat-item">
 								<span class="stat-emoji">📝</span>
