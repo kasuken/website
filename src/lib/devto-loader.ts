@@ -39,7 +39,40 @@ export function devToLoader(): Loader {
       const apiKey = process.env.DEVTO_API_KEY;
       
       if (!apiKey) {
-        throw new Error('DEVTO_API_KEY environment variable is required');
+        // Graceful fallback: do not throw so that production build succeeds even without the key.
+        logger.warn('[devto-loader] DEVTO_API_KEY not found. Skipping remote fetch and providing placeholder post.');
+        store.clear();
+        store.set({
+          id: 'devto-stats',
+          data: {
+            totalReactions: 0,
+            totalComments: 0,
+            totalPosts: 1,
+            lastUpdated: new Date().toISOString(),
+          },
+          body: '',
+        });
+        store.set({
+          id: 'dev-to-missing-key',
+          data: {
+            title: 'Blog posts unavailable',
+            description: 'The DEVTO_API_KEY is not configured on this deployment. Visit my dev.to profile to read articles.',
+            pubDate: new Date(),
+            heroImage: null,
+            tags: ['configuration'],
+            url: 'https://dev.to/kasuken',
+            canonicalUrl: 'https://dev.to/kasuken',
+            socialImage: '',
+            readablePublishDate: new Date().toLocaleDateString(),
+            devToId: 0,
+            readingTimeMinutes: 1,
+            publicReactionsCount: 0,
+            commentsCount: 0,
+            positiveReactionsCount: 0,
+          },
+          body: `# Blog posts unavailable\n\nThis deployment is missing the DEVTO_API_KEY environment variable.\n\nYou can still read my articles on [dev.to](https://dev.to/kasuken).`,
+        });
+        return; // Exit early.
       }
 
       try {
@@ -151,7 +184,7 @@ export function devToLoader(): Loader {
               fullBodyMarkdown = article.body_markdown || `# ${article.title}\n\n${article.description}\n\n[Read full article on dev.to](${article.url})`;
             }
           } catch (fetchError) {
-            logger.warn(`Error fetching full content for article ${article.id}:`, fetchError);
+            logger.warn(`Error fetching full content for article ${article.id}: ${fetchError instanceof Error ? fetchError.message : String(fetchError)}`);
             fullBodyMarkdown = article.body_markdown || `# ${article.title}\n\n${article.description}\n\n[Read full article on dev.to](${article.url})`;
           }
           
