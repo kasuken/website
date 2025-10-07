@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+export const prerender = true;
 
 const allPosts = (await getCollection('blog'))
 	.filter(post => post.id !== 'devto-stats') // Exclude stats entry from posts
