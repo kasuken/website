@@ -1,36 +1,19 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
 import { marked } from 'marked';
-export const prerender = true;
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 
-export async function getStaticPaths() {
-	// Defensive: filter out any unexpected entries (e.g. stats objects without required data fields)
-	const posts = await getCollection('blog');
-	return posts
-		.filter(p => !!p?.data?.title && !!p?.body) // keep only real articles
-		.map((post) => ({
-			params: { slug: post.id },
-			props: { postId: post.id },
-		}));
-}
-
-interface Props {
-	postId: string;
-}
-
-const { postId } = Astro.props as Props;
-
-// Re-fetch the specific post in the page context (more robust across adapters)
+// Dynamic SSR route (no getStaticPaths). This avoids build-time 404s when remote
+// content fails to load or changes after deploy. We'll look up the slug at request time.
+const { slug } = Astro.params;
 const all = await getCollection('blog');
-let post: CollectionEntry<'blog'> | undefined = all.find(p => p.id === postId);
+let post: CollectionEntry<'blog'> | undefined = all.find(p => p.id === slug);
 
-if (!post) {
-	// Fallback: attempt loose match (case-insensitive) or slug normalization
-	post = all.find(p => p.id.toLowerCase() === postId.toLowerCase());
+if (!post && slug) {
+  post = all.find(p => p.id.toLowerCase() === slug.toLowerCase());
 }
 
 const notFound = !post;
@@ -49,7 +32,7 @@ try {
 	}
 } catch (err) {
 	contentHtml = '<p>⚠️ Unable to render markdown content.</p>';
-	console.error('[blog slug] markdown render error for', postId, err);
+	console.error('[blog slug] markdown render error for', slug, err);
 }
 ---
 
