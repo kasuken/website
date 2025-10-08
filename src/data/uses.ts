@@ -300,8 +300,8 @@ export const uses: UseItem[] = [
     }
   },
   {
-    id: 'stream-deck-16',
-    name: 'Elgato Stream Deck (16 buttons)',
+    id: 'stream-deck-15',
+    name: 'Elgato Stream Deck (15 buttons)',
     description: 'Used for streaming and daily automation tasks.',
     category: 'hardware',
     icon: '🎯',
@@ -322,7 +322,7 @@ export const uses: UseItem[] = [
     reason: 'Essential for streaming and automating daily workflows.',
     alternatives: ['Loupedeck Live', 'Touch Portal'],
     specs: {
-      'Buttons': '16',
+      'Buttons': '15',
       'Connectivity': 'USB'
     }
   },
