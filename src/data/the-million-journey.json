@@ -4,7 +4,7 @@
   "unit": 1000,
   "unit_label": "USD",
   "categories": {
-    "SaaS": "#2563eb",
+    "DevRadio": "#2563eb",
     "Fractional CTO": "#9333ea",
     "Mentoring & Coaching": "#10b981",
     "Books & eBooks": "#f59e0b",
@@ -15,6 +15,7 @@
     "Other": "#6b7280"
   },
   "entries": [
-    { "amount": 1000, "category": "Stealth Courses", "date": "2025-10-05", "note": "Monthly MRR" }
+    { "amount": 1000, "category": "Stealth Courses", "date": "2025-10-05", "note": "Monthly MRR" },
+    { "amount": 1000, "category": "Fractional CTO", "date": "2025-10-31", "note": "Monthly Retainer" }
   ]
 }
