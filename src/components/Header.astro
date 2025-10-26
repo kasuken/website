@@ -7,6 +7,13 @@ import ThemeToggle from './ThemeToggle.astro';
 <header>
 	<nav>
 		<h2><a href="/">{SITE_TITLE}</a></h2>
+		<button class="mobile-menu-toggle" aria-label="Toggle menu">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<line x1="3" y1="12" x2="21" y2="12"></line>
+				<line x1="3" y1="6" x2="21" y2="6"></line>
+				<line x1="3" y1="18" x2="21" y2="18"></line>
+			</svg>
+		</button>
 		<div class="internal-links">
 			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
@@ -43,6 +50,14 @@ import ThemeToggle from './ThemeToggle.astro';
 		</div>
 	</nav>
 </header>
+<script>
+	const menuToggle = document.querySelector('.mobile-menu-toggle');
+	const nav = document.querySelector('nav');
+	
+	menuToggle?.addEventListener('click', () => {
+		nav?.classList.toggle('menu-open');
+	});
+</script>
 <style>
 	header {
 		background: var(--background);
@@ -137,13 +152,57 @@ import ThemeToggle from './ThemeToggle.astro';
 		height: 20px;
 	}
 	
+	.mobile-menu-toggle {
+		display: none;
+		background: none;
+		border: none;
+		color: var(--text-secondary);
+		cursor: pointer;
+		padding: 0.5rem;
+		border-radius: var(--radius);
+		transition: all 0.2s ease;
+	}
+	
+	.mobile-menu-toggle svg {
+		width: 24px;
+		height: 24px;
+	}
+	
+	.mobile-menu-toggle:hover {
+		color: var(--accent);
+		background: var(--background-secondary);
+	}
+	
 	@media (max-width: 768px) {
+		.mobile-menu-toggle {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		
 		nav {
 			padding: 0 1rem;
+			flex-wrap: wrap;
 		}
 		
 		.internal-links {
 			display: none;
+			width: 100%;
+			flex-direction: column;
+			gap: 0;
+			margin-top: 1rem;
+			padding-bottom: 1rem;
+		}
+		
+		nav.menu-open .internal-links {
+			display: flex;
+		}
+		
+		.internal-links a {
+			width: 100%;
+			text-align: left;
+			padding: 0.75rem 1rem;
+			border-radius: 0;
 		}
 		
 		.social-links {
@@ -162,8 +221,8 @@ import ThemeToggle from './ThemeToggle.astro';
 	}
 	
 	@media (max-width: 480px) {
-		.social-links {
-			display: none;
+		nav.menu-open .social-links {
+			display: flex;
 		}
 	}
 </style>
