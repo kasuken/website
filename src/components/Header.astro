@@ -54,8 +54,16 @@ import ThemeToggle from './ThemeToggle.astro';
 	const menuToggle = document.querySelector('.mobile-menu-toggle');
 	const nav = document.querySelector('nav');
 	
-	menuToggle?.addEventListener('click', () => {
+	const toggleMenu = () => {
 		nav?.classList.toggle('menu-open');
+	};
+	
+	menuToggle?.addEventListener('click', toggleMenu);
+	menuToggle?.addEventListener('keydown', (e) => {
+		if (e.key === 'Enter' || e.key === ' ') {
+			e.preventDefault();
+			toggleMenu();
+		}
 	});
 </script>
 <style>
@@ -217,12 +225,6 @@ import ThemeToggle from './ThemeToggle.astro';
 		.social-links svg {
 			width: 18px;
 			height: 18px;
-		}
-	}
-	
-	@media (max-width: 480px) {
-		nav.menu-open .social-links {
-			display: flex;
 		}
 	}
 </style>
