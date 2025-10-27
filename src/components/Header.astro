@@ -50,19 +50,23 @@ import ThemeToggle from './ThemeToggle.astro';
 		</div>
 	</nav>
 </header>
-<script>
-	const menuToggle = document.querySelector('.mobile-menu-toggle');
-	const nav = document.querySelector('nav');
-	
-	const toggleMenu = () => {
-		nav?.classList.toggle('menu-open');
-	};
-	
-	menuToggle?.addEventListener('click', toggleMenu);
-	menuToggle?.addEventListener('keydown', (e) => {
-		if (e.key === 'Enter' || e.key === ' ') {
-			e.preventDefault();
-			toggleMenu();
+<script is:inline>
+	document.addEventListener('DOMContentLoaded', function() {
+		const menuToggle = document.querySelector('.mobile-menu-toggle');
+		const nav = document.querySelector('nav');
+		
+		const toggleMenu = () => {
+			nav?.classList.toggle('menu-open');
+		};
+		
+		if (menuToggle) {
+			menuToggle.addEventListener('click', toggleMenu);
+			menuToggle.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					toggleMenu();
+				}
+			});
 		}
 	});
 </script>
