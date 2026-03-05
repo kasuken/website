@@ -11,545 +11,211 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 // Get latest blog posts
 const allPosts = (await getCollection('blog'))
-	.filter(post => post.id !== 'devto-stats')
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 6); // Get latest 6 posts
+  .filter(post => post.id !== 'devto-stats')
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 6); // Get latest 6 posts
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-				max-width: calc(100% - 2rem);
-				margin: auto;
-				padding: 0 1rem;
-			}
-
-			/* Hero Section */
-			.hero {
-				text-align: center;
-				padding: 3rem 0 1rem 0;
-				margin: 0 0 0 0;
-				color: rgb(var(--black));
-			}
-
-			.hero-content {
-				max-width: 800px;
-				margin: 0 auto;
-				padding: 0 2rem;
-			}
-
-			.hero h1 {
-				font-size: 3rem;
-				margin: 0 0 1rem 0;
-				font-weight: 700;
-			}
-
-			.hero .subtitle {
-				font-size: 1.5rem;
-				margin: 0 0 2rem 0;
-				opacity: 0.9;
-				font-weight: 300;
-			}
-
-			.hero-image {
-				width: 200px;
-				height: 200px;
-				border-radius: 50%;
-				margin: 0 auto 2rem auto;
-				background: rgb(var(--gray-light));
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				font-size: 4rem;
-				border: 4px solid rgb(var(--gray));
-				box-shadow: var(--shadow-lg);
-			}
-
-			.hero-cta {
-				display: flex;
-				gap: 1rem;
-				justify-content: center;
-				flex-wrap: wrap;
-			}
-
-			.cta-button {
-				display: inline-block;
-				padding: 1rem 2rem;
-				background: var(--accent);
-				color: white;
-				text-decoration: none;
-				border-radius: 8px;
-				font-weight: 600;
-				transition: all 0.3s ease;
-				border: 2px solid var(--accent);
-			}
-
-			.cta-button:hover {
-				background: var(--accent-dark);
-				border-color: var(--accent-dark);
-				transform: translateY(-2px);
-				box-shadow: var(--shadow-md);
-			}
-
-			.cta-button.primary {
-				background: var(--accent);
-				color: white;
-				border-color: var(--accent);
-			}
-
-			.cta-button.primary:hover {
-				background: var(--accent-dark);
-				border-color: var(--accent-dark);
-			}
-
-			/* Visitor Badge */
-			.visitor-badge {
-				margin-top: 2rem;
-				display: flex;
-				justify-content: center;
-			}
-
-			.visitor-badge img {
-				border-radius: 6px;
-				transition: all 0.3s ease;
-				opacity: 0.8;
-			}
-
-			.visitor-badge a:hover img {
-				opacity: 1;
-				transform: translateY(-2px);
-				box-shadow: var(--shadow-md);
-			}
-
-			/* Stats Section */
-			.stats-section {
-				background: rgb(var(--gray-light));
-				padding: 3rem 2rem;
-				margin: 0 -1rem 4rem -1rem;
-				border-radius: 12px;
-			}
-
-			.stats-grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-				gap: 2rem;
-				max-width: 800px;
-				margin: 0 auto;
-			}
-
-			.stat-item {
-				text-align: center;
-				padding: 1.5rem;
-				background: var(--color-bg-primary);
-				border-radius: 12px;
-				box-shadow: var(--shadow-md);
-			}
-
-			.stat-emoji {
-				font-size: 2rem;
-				display: block;
-				margin-bottom: 0.5rem;
-			}
-
-			.stat-number {
-				font-size: 2.5rem;
-				font-weight: 700;
-				color: var(--accent);
-				display: block;
-				margin-bottom: 0.25rem;
-			}
-
-			.stat-label {
-				color: rgb(var(--gray-dark));
-				font-size: 0.9rem;
-				text-transform: uppercase;
-				letter-spacing: 0.5px;
-			}
-
-			/* Sections */
-			.section {
-				margin: 4rem 0;
-			}
-
-			.section-header {
-				text-align: center;
-				margin-bottom: 3rem;
-			}
-
-			.section-title {
-				font-size: 2.5rem;
-				margin: 0 0 1rem 0;
-				color: rgb(var(--black));
-			}
-
-			.section-subtitle {
-				font-size: 1.2rem;
-				color: rgb(var(--gray-dark));
-				margin: 0;
-			}
-
-			/* Featured Posts Grid */
-			.posts-grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-				gap: 2rem;
-			}
-
-			.post-card {
-				background: var(--color-bg-primary);
-				border-radius: 12px;
-				overflow: hidden;
-				box-shadow: var(--shadow-md);
-				transition: all 0.3s ease;
-				text-decoration: none;
-				color: inherit;
-			}
-
-			.post-card:hover {
-				transform: translateY(-4px);
-				box-shadow: var(--shadow-xl);
-			}
-
-			.post-image {
-				width: 100%;
-				height: 200px;
-				object-fit: cover;
-				background: rgb(var(--gray-light));
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				font-size: 3rem;
-				color: rgb(var(--gray));
-			}
-
-			.post-content {
-				padding: 1.5rem;
-			}
-
-			.post-title {
-				font-size: 1.2rem;
-				font-weight: 600;
-				margin: 0 0 0.75rem 0;
-				color: rgb(var(--black));
-				line-height: 1.4;
-			}
-
-			.post-date {
-				color: rgb(var(--gray));
-				font-size: 0.9rem;
-				margin: 0 0 1rem 0;
-			}
-
-			.post-metadata {
-				display: flex;
-				gap: 1rem;
-				font-size: 0.8rem;
-				color: rgb(var(--gray));
-			}
-
-			.metadata-item {
-				display: flex;
-				align-items: center;
-				gap: 0.25rem;
-			}
-
-			/* Services Section */
-			.services-grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-				gap: 2rem;
-			}
-
-			.service-card {
-				background: var(--color-bg-primary);
-				padding: 2rem;
-				border-radius: 12px;
-				box-shadow: var(--shadow-md);
-				text-align: center;
-				transition: all 0.3s ease;
-			}
-
-			.service-card:hover {
-				transform: translateY(-4px);
-				box-shadow: var(--shadow-xl);
-			}
-
-			.service-icon {
-				font-size: 3rem;
-				margin-bottom: 1rem;
-			}
-
-			.service-title {
-				font-size: 1.5rem;
-				font-weight: 600;
-				margin: 0 0 1rem 0;
-				color: rgb(var(--black));
-			}
-
-			.service-description {
-				color: rgb(var(--gray-dark));
-				margin: 0 0 1.5rem 0;
-				line-height: 1.6;
-			}
-
-			.service-cta {
-				display: inline-block;
-				padding: 0.75rem 1.5rem;
-				background: var(--accent);
-				color: white;
-				text-decoration: none;
-				border-radius: 6px;
-				font-weight: 600;
-				transition: all 0.3s ease;
-			}
-
-			.service-cta:hover {
-				background: var(--accent-dark);
-				transform: translateY(-2px);
-			}
-
-			/* About Section */
-			.about-section {
-				background: rgb(var(--gray-light));
-				padding: 4rem 2rem;
-				margin: 4rem -1rem;
-				border-radius: 12px;
-				text-align: center;
-			}
-
-			.about-content {
-				max-width: 700px;
-				margin: 0 auto;
-			}
-
-			.about-title {
-				font-size: 2.5rem;
-				margin: 0 0 1.5rem 0;
-				color: rgb(var(--black));
-			}
-
-			.about-text {
-				font-size: 1.1rem;
-				line-height: 1.7;
-				color: rgb(var(--gray-dark));
-				margin: 0 0 2rem 0;
-			}
-
-			.achievements {
-				display: flex;
-				justify-content: center;
-				gap: 2rem;
-				flex-wrap: wrap;
-				margin-top: 2rem;
-			}
-
-			.achievement {
-				background: var(--color-bg-primary);
-				padding: 1rem 1.5rem;
-				border-radius: 8px;
-				box-shadow: var(--shadow-sm);
-				font-weight: 600;
-				color: var(--accent);
-			}
-
-			/* Newsletter CTA */
-			.newsletter-cta {
-				background: var(--accent);
-				color: white;
-				padding: 3rem 2rem;
-				margin: 4rem -1rem;
-				border-radius: 12px;
-				text-align: center;
-			}
-
-			.newsletter-title {
-				font-size: 2rem;
-				margin: 0 0 1rem 0;
-			}
-
-			.newsletter-description {
-				font-size: 1.1rem;
-				margin: 0 0 2rem 0;
-				opacity: 0.9;
-			}
-
-			.newsletter-button {
-				display: inline-block;
-				padding: 1rem 2rem;
-				background: white;
-				color: var(--accent);
-				text-decoration: none;
-				border-radius: 8px;
-				font-weight: 600;
-				transition: all 0.3s ease;
-			}
-
-			.newsletter-button:hover {
-				background: var(--color-bg-secondary);
-				transform: translateY(-2px);
-			}
-
-			/* Responsive Design */
-			@media (max-width: 768px) {
-				.hero h1 {
-					font-size: 2.5rem;
-				}
-
-				.hero .subtitle {
-					font-size: 1.2rem;
-				}
-
-				.hero-cta {
-					flex-direction: column;
-					align-items: center;
-				}
-
-				.stats-grid {
-					grid-template-columns: repeat(2, 1fr);
-				}
-
-				.section-title {
-					font-size: 2rem;
-				}
-
-				.services-grid {
-					grid-template-columns: 1fr;
-				}
-
-				.achievements {
-					flex-direction: column;
-					align-items: center;
-				}
-
-				.github-contributions {
-					padding: 1rem;
-				}
-
-				.contributions-chart {
-					overflow-x: auto;
-				}
-
-				.contributions-stats {
-					grid-template-columns: repeat(2, 1fr);
-					gap: 1rem;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<!-- Hero Section -->
-			<section class="hero">
-				<div class="hero-content">
-					<div class="hero-image">
-						<img src="/img/2757486.png" alt="Emanuele Bartolesi" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
-					</div>
-					<!-- <h1>Emanuele Bartolesi</h1> -->
-					<!-- <p class="subtitle">GitHub Technical Lead, Technical Writer & Mentor</p> -->
-					<h1>GitHub Technical Lead, <br /> Technical Writer & Mentor</h1>
-					<div class="hero-cta">
-						<a href="/blog" class="cta-button primary">Read My Blog</a>
-						<a href="/mentor" class="cta-button">Book Mentoring</a>
-						<a href="/newsletter" class="cta-button">Join Newsletter</a>
-					</div>
-					
-					<!-- Visitor Badge -->
-					<div class="visitor-badge">
-						<a href="https://visitorbadge.io/status?path=https%3A%2F%2Fwww.emanuelebartolesi.com">
-							<img src="https://api.visitorbadge.io/api/combined?path=https%3A%2F%2Fwww.emanuelebartolesi.com&label=Visitors&countColor=%23263759&style=flat" alt="Visitor Badge" />
-						</a>
-					</div>
-				</div>
-			</section>
-
-			<!-- GitHub Contributions Section -->
-			<GitHubActivityCalendar username="kasuken" />
-
-			<!-- GitHub Statistics Section -->
-			<GitHubStats username="kasuken" />
-
-			<!-- RescueTime Productivity Section -->
-			<RescueTimeProductivity />
-
-			<!-- Featured Blog Posts -->
-			<section class="section">
-				<div class="section-header">
-					<h2 class="section-title">Latest Blog Posts</h2>
-					<p class="section-subtitle">Thoughts on web development, cloud computing, and technology</p>
-				</div>
-				<div class="posts-grid">
-					{allPosts.map((post) => (
-						<a href={`/blog/${post.id}`} class="post-card">
-							{post.data.heroImage ? (
-								<img src={post.data.heroImage} alt={post.data.title} class="post-image" />
-							) : (
-								<div class="post-image">📄</div>
-							)}
-							<div class="post-content">
-								<h3 class="post-title">{post.data.title}</h3>
-								<p class="post-date">
-									<FormattedDate date={post.data.pubDate} />
-								</p>
-								<div class="post-metadata">
-									{post.data.readingTimeMinutes && (
-										<span class="metadata-item">
-											<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-												<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-												<path d="M7.5 3a.5.5 0 0 1 .5.5V9l2.5 1.5a.5.5 0 0 1-.5.866l-3-1.8A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
-											</svg>
-											{post.data.readingTimeMinutes} min
-										</span>
-									)}
-									{post.data.publicReactionsCount && (
-										<span class="metadata-item">
-											<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-												<path d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-											</svg>
-											{post.data.publicReactionsCount}
-										</span>
-									)}
-								</div>
-							</div>
-						</a>
-					))}
-				</div>
-			</section>
-
-			<!-- About Section -->
-			<section class="about-section">
-				<div class="about-content">
-					<h2 class="about-title">About Me</h2>
-					<p class="about-text">
-						I'm a passionate full-stack developer with over 20 years of experience building web applications 
-						and cloud solutions. As a Microsoft MVP and technical writer, I love sharing knowledge and helping 
-						other developers grow in their careers.
-					</p>
-					<p class="about-text">
-						When I'm not coding, you'll find me training for Ironman competitions or spending time with my 
-						beloved Basset Hounds. I believe in continuous learning, community building, and making technology 
-						accessible to everyone.
-					</p>
-					<div class="achievements">
-						<div class="achievement">🏆 Microsoft MVP (12x)</div>
-						<div class="achievement">⭐ GitHub Star (4x)</div>
-					</div>
-				</div>
-			</section>
-
-			<!-- Newsletter CTA -->
-			<section class="newsletter-cta">
-				<h2 class="newsletter-title">Stay Updated</h2>
-				<p class="newsletter-description">
-					Get weekly insights on web development, developer tools, and career advice delivered to your inbox.
-				</p>
-				<a href="/newsletter" class="newsletter-button">Subscribe to Dev Dispatch</a>
-			</section>
-		</main>
-		<Footer />
-	</body>
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body class="bg-[var(--background)] text-[var(--text-primary)] antialiased transition-colors duration-300">
+    <Header />
+    <main class="w-full max-w-6xl mx-auto px-6 font-sans">
+      <!-- Hero Section -->
+      <section class="flex flex-col justify-center items-center pt-16 pb-12 md:pt-24 md:pb-16 relative overflow-hidden">
+        
+        <!-- Subtle Background Elements -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--accent)]/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+
+        <div class="flex flex-col-reverse md:flex-row items-center justify-between gap-12 lg:gap-24 relative z-10 w-full max-w-5xl">
+          
+          <div class="flex-1 text-center space-y-8 flex flex-col items-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] text-sm font-semibold tracking-wide border border-[var(--accent)]/20 mb-4 shadow-sm">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent)] opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-[var(--accent)]"></span>
+              </span>
+              Building tools and content for developers
+            </div>
+            
+            <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.05] text-[var(--text-primary)]">
+              Building <span class="text-[var(--accent)]">Digital</span> Experiences.
+            </h1>
+            
+            <p class="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed max-w-2xl font-light mx-auto">
+              Hi, I'm Emanuele Bartolesi. <br class="hidden md:block" /> GitHub Technical Lead, Technical Writer & Mentor. <br class="hidden md:block" /> I build scalable apps, open-source projects, and help developers level up.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full justify-center">
+              <a href="/blog" class="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-[var(--accent)] !text-white font-bold tracking-wide shadow-lg shadow-[var(--accent)]/30 hover:-translate-y-1 hover:shadow-xl hover:shadow-[var(--accent)]/40 transition-all duration-300 w-full sm:w-auto border border-[var(--accent-dark)]">
+                Explore My Writing
+              </a>
+              <a href="/mentor" class="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-[var(--background-secondary)] !text-[var(--text-primary)] font-bold tracking-wide shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 border border-[var(--border)] w-full sm:w-auto">
+                Book Mentoring
+              </a>
+            </div>
+          </div>
+
+          <div class="w-48 h-48 sm:w-64 sm:h-64 lg:w-96 lg:h-96 relative group z-20">
+            <div class="absolute inset-0 bg-gradient-to-tr from-[var(--accent)] to-transparent rounded-[2rem] sm:rounded-[3rem] rotate-6 group-hover:rotate-12 transition-transform duration-500 opacity-20 -z-10"></div>
+            <img 
+              src="/img/2757486.png" 
+              alt="Emanuele Bartolesi" 
+              class="w-full h-full object-cover rounded-[2rem] sm:rounded-[3rem] shadow-2xl border-4 border-[var(--background)] z-10 relative group-hover:-translate-y-2 transition-transform duration-500 bg-zinc-100"
+            />
+            
+            <!-- Floating Elements -->
+            <div class="absolute -bottom-6 -left-6 bg-[var(--background)] border border-[var(--border)] p-3 rounded-2xl shadow-xl z-30 animate-bounce cursor-default select-none" style="animation-duration: 3s">
+              <span class="text-2xl">✨</span>
+            </div>
+            <div class="absolute -top-6 -right-6 bg-[var(--background)] border border-[var(--border)] p-3 rounded-2xl shadow-xl z-30 animate-bounce cursor-default select-none" style="animation-duration: 4s; animation-delay: 1s">
+              <span class="text-2xl">🦄</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="mt-12 md:mt-16 z-10">
+          <a href="https://visitorbadge.io/status?path=https%3A%2F%2Fwww.emanuelebartolesi.com" target="_blank" rel="noopener noreferrer" class="opacity-70 hover:opacity-100 transition-opacity drop-shadow-sm">
+            <img src="https://api.visitorbadge.io/api/combined?path=https%3A%2F%2Fwww.emanuelebartolesi.com&label=Visitors&countColor=%23263759&style=flat" alt="Visitor Badge" class="rounded shadow-sm" />
+          </a>
+        </div>
+      </section>
+
+      <div class="max-w-5xl mx-auto space-y-16 md:space-y-24 pb-24">
+        
+        <!-- GitHub Stats Grid -->
+        <section class="flex flex-col gap-8 md:gap-12 w-full">
+          <div class="bg-[var(--background-secondary)] rounded-[2rem] p-4 sm:p-8 border border-[var(--border)] shadow-sm overflow-x-auto w-full">
+            <GitHubActivityCalendar username="kasuken" />
+          </div>
+          <div class="bg-[var(--background-secondary)] rounded-[2rem] p-4 sm:p-8 border border-[var(--border)] shadow-sm overflow-x-auto w-full">
+            <GitHubStats username="kasuken" />
+          </div>
+        </section>
+
+        <section class="bg-[var(--background-secondary)] rounded-[2rem] p-4 sm:p-8 border border-[var(--border)] shadow-sm overflow-x-auto">
+          <RescueTimeProductivity />
+        </section>
+
+        <!-- Featured Posts -->
+        <section>
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+              <h2 class="text-4xl md:text-5xl font-black tracking-tight mb-4 text-[var(--text-primary)]">Latest Dispatches</h2>
+              <p class="text-lg text-[var(--text-secondary)]">Thoughts on web development, cloud computing, and technology.</p>
+            </div>
+            <a href="/blog" class="text-[var(--accent)] font-semibold hover:text-[var(--accent-dark)] transition-colors flex items-center gap-2 group whitespace-nowrap">
+              View all posts
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {allPosts.map((post, i) => (
+              <a href={`/blog/${post.id}`} class="group flex flex-col bg-[var(--background-secondary)] rounded-3xl overflow-hidden border border-[var(--border)] shadow-sm hover:shadow-xl hover:shadow-[var(--accent)]/10 transition-all duration-300 hover:-translate-y-2">
+                <div class="aspect-[16/10] overflow-hidden bg-[var(--border)] relative border-b border-[var(--border)]">
+                  {post.data.heroImage ? (
+                    <img src={post.data.heroImage} alt={post.data.title} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  ) : (
+                    <div class="w-full h-full flex items-center justify-center text-5xl bg-gradient-to-br from-[var(--background-secondary)] to-[var(--border)]">
+                      📄
+                    </div>
+                  )}
+                  <div class="absolute top-4 left-4">
+                    <span class="px-3 py-1 bg-[var(--background)]/90 backdrop-blur-md rounded-full text-xs font-semibold shadow-sm border border-[var(--border)] text-[var(--text-primary)]">
+                      <FormattedDate date={post.data.pubDate} />
+                    </span>
+                  </div>
+                </div>
+                
+                <div class="p-6 lg:p-8 flex flex-col flex-1">
+                  <h3 class="text-xl font-bold text-[var(--text-primary)] mb-3 leading-snug group-hover:text-[var(--accent)] transition-colors line-clamp-3">
+                    {post.data.title}
+                  </h3>
+                  
+                  <div class="mt-auto pt-6 flex items-center gap-4 text-sm font-medium text-[var(--text-light)]">
+                    {post.data.readingTimeMinutes && (
+                      <span class="flex items-center gap-1.5 bg-[var(--background)] px-2.5 py-1 rounded-md border border-[var(--border)]">
+                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M7.5 3a.5.5 0 0 1 .5.5V9l2.5 1.5a.5.5 0 0 1-.5.866l-3-1.8A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/></svg>
+                        {post.data.readingTimeMinutes} min
+                      </span>
+                    )}
+                    {post.data.publicReactionsCount && (
+                      <span class="flex items-center gap-1.5 bg-[var(--background)] px-2.5 py-1 rounded-md border border-[var(--border)] text-pink-500">
+                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/></svg>
+                        {post.data.publicReactionsCount}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch pt-12 border-t border-[var(--border)]">
+          <!-- About Section -->
+          <section class="bg-[var(--background-secondary)] rounded-[3rem] p-10 lg:p-14 border border-[var(--border)] shadow-sm relative overflow-hidden group flex flex-col justify-start">
+            <div class="absolute -right-20 -top-20 w-64 h-64 bg-[var(--accent)]/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-150"></div>
+            
+            <div class="relative z-10 flex-grow">
+              <h2 class="text-3xl lg:text-4xl font-black mb-6 text-[var(--text-primary)]">Beyond the Code</h2>
+              
+              <div class="space-y-6 text-[var(--text-secondary)] text-lg leading-relaxed">
+                <p>
+                  I'm a passionate full-stack developer with over <strong class="text-[var(--text-primary)]">20 years of experience</strong> building robust web applications and cloud solutions. As a Microsoft MVP and technical writer, I love sharing knowledge and mentoring developers worldwide.
+                </p>
+                <p>
+                  When I'm off the keyboard, you'll find me training for Ironman competitions, exploring new technologies, or spending quality time with my beloved Basset Hounds.
+                </p>
+              </div>
+            </div>
+            
+            <div class="flex flex-wrap gap-3 pt-10 mt-auto relative z-10">
+              <div class="px-4 py-2 bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-900/50 rounded-xl font-bold tracking-tight shadow-sm">
+                🏆 Microsoft MVP (12x)
+              </div>
+              <div class="px-4 py-2 bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-900/50 rounded-xl font-bold tracking-tight shadow-sm">
+                ⭐ GitHub Star (4x)
+              </div>
+            </div>
+          </section>
+
+          <!-- Newsletter CTA -->
+          <section class="bg-[var(--background-secondary)] rounded-[3rem] p-10 lg:p-14 border border-[var(--border)] shadow-sm relative overflow-hidden group flex flex-col justify-start">
+            <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-150"></div>
+            
+            <div class="relative z-10 flex-grow">
+              <div class="w-16 h-16 bg-blue-500/10 text-blue-500 rounded-2xl flex items-center justify-center mb-6 border border-blue-500/20 shadow-inner">
+                <span class="text-3xl">📫</span>
+              </div>
+              
+              <h2 class="text-3xl lg:text-4xl font-black tracking-tight mb-4 text-[var(--text-primary)]">Join the Dev Dispatch</h2>
+              
+              <p class="text-lg mb-10 leading-relaxed font-medium max-w-md text-[var(--text-secondary)]">
+                Get actionable insights on web development, modern tooling, and career strategies delivered straight to your inbox. No fluff, just signal.
+              </p>
+            </div>
+            
+            <div class="relative z-10 pt-4 mt-auto">
+              <a href="/newsletter" class="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 bg-blue-600 !text-white rounded-xl font-bold tracking-wide hover:bg-blue-700 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 border border-blue-500">
+                Subscribe Now
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                </svg>
+              </a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+    <Footer />
+  </body>
 </html>

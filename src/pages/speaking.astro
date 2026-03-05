@@ -29,8 +29,9 @@ interface SessionizeEvent {
   name: string;
   eventStartDate: string; // ISO
   eventEndDate: string;   // ISO
-  location: string | null;
+  location: string;
   website: string | null;
+  slug: string;
 }
 
 interface SessionizeApiResponse {
@@ -58,464 +59,177 @@ try {
 
 // Helpers
 const toDate = (s: string) => new Date(s);
-const fmtDate = (s: string) => new Date(s).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
 
-const sessionsByLanguage = data?.sessions?.reduce((acc, s) => {
-  const key = s.language || 'Other';
-  (acc[key] ||= []).push(s);
-  return acc;
-}, {} as Record<string, SessionizeSession[]>) ?? {};
+const now = new Date();
+const _events = data?.events || [];
+const upcomingEvents = _events.filter(e => toDate(e.eventEndDate) >= now)
+  .sort((a, b) => toDate(a.eventStartDate).getTime() - toDate(b.eventStartDate).getTime());
+const pastEvents = _events.filter(e => toDate(e.eventEndDate) < now)
+  .sort((a, b) => toDate(b.eventStartDate).getTime() - toDate(a.eventStartDate).getTime()); // descending
 
-const today = new Date();
-const eventsSorted = (data?.events ?? []).slice().sort((a, b) => toDate(a.eventStartDate).getTime() - toDate(b.eventStartDate).getTime());
-const upcomingEvents = eventsSorted.filter(e => toDate(e.eventEndDate) >= today && e.name !== "AI Dev Tools Today");
-const pastEvents = eventsSorted.filter(e => toDate(e.eventEndDate) < today).reverse();
-
-// Extract simple technology tags from titles/descriptions
-const techRegex = /\b(Azure|Microsoft 365|Blazor|GitHub|Codespaces|Visual Studio|\.NET|C#|JavaScript|TypeScript|React|Angular|Vue|Docker|Kubernetes|PowerShell|SQL|NoSQL|API|GraphQL|DevOps|CI\/CD|Git|HTML|CSS|Node\.js|Python|Java|Redis|AWS|GCP|Terraform|Ansible|Semantic Kernel|AI|Machine Learning|Serverless|Functions|App Service|Authentication|OAuth|SAML|B2C|Active Directory|Teams|SharePoint|Power Platform|Power BI|Office 365|OpenAI|ChatGPT)\b/gi;
-const techSet = new Set<string>();
-for (const s of (data?.sessions ?? [])) {
-  for (const text of [s.title, s.description]) {
-    const matches = text?.match?.(techRegex) ?? [];
-    for (const m of matches) techSet.add(m);
-  }
-}
-const technologies = Array.from(techSet).sort((a, b) => a.localeCompare(b));
+const fmtDate = (iso: string) => {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+};
 ---
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <BaseHead title={`Speaking - ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
-    <style>
-      main {
-        width: 960px;
-        max-width: calc(100% - 2rem);
-        margin: auto;
-        padding: 3rem 1rem;
-      }
+	<head>
+		<BaseHead title="Speaking - My Tech Talks and Events" description="Public speaking, conferences, and technical sessions." />
+	</head>
+	<body class="bg-[var(--background)] text-[var(--text-primary)] font-body antialiased min-h-screen flex flex-col selection:bg-[var(--accent)] selection:text-white">
+		<Header />
+		<main class="flex-grow w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+			
+			<div class="text-center mb-16 relative">
+				<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[var(--accent)]/10 blur-[100px] rounded-full pointer-events-none"></div>
+				
+				<span class="inline-block text-5xl mb-4 relative z-10">🎤</span>
+				<h1 class="text-5xl md:text-7xl font-black tracking-tighter text-[var(--text-primary)] mb-6 relative z-10">
+					Tech <span class="text-[var(--accent)]">Speaking</span>
+				</h1>
+			</div>
 
-      .speaking-header {
-        text-align: center;
-        margin-bottom: 3rem;
-      }
+			<div class="prose prose-lg dark:prose-invert max-w-3xl mx-auto text-center mb-20">
+				<p class="text-[var(--text-secondary)] text-xl font-medium leading-relaxed">
+					I regularly speak at conferences, meetups, and online events about Azure, Microsoft 365, DevOps, CI/CD, GitHub, and other technical topics. Here you can find a list of my past and upcoming speaking engagements.
+				</p>
+				<div class="mt-8 p-8 bg-[var(--background-secondary)]/30 border border-[var(--border)] rounded-3xl backdrop-blur-sm">
+					<h2 class="text-2xl font-black text-[var(--text-primary)] mb-4">Want me to speak at your event?</h2>
+					<p class="text-[var(--text-secondary)] mb-6">
+						If you'd like me to speak at your event, please reach out via my social channels or LinkedIn. You can also check out my <a href="https://sessionize.com/emanuelebartolesi/" target="_blank" class="text-[var(--accent)] hover:underline font-bold">Sessionize profile</a>.
+					</p>
+					<a href="https://sessionize.com/emanuelebartolesi/" target="_blank" class="inline-flex items-center justify-center px-6 py-3 font-bold text-[var(--background)] bg-[var(--text-primary)] hover:bg-[var(--accent)] hover:text-white rounded-full transition-colors shadow-lg">
+						View Speaker Profile
+					</a>
+				</div>
+			</div>
 
-      .speaking-header h1 {
-        margin: 0 0 0.5rem 0;
-        color: var(--text-primary);
-        font-weight: var(--font-weight-bold);
-        letter-spacing: var(--tracking-tight);
-      }
+			{fetchError ? (
+				<div class="bg-red-500/10 border-2 border-red-500/50 text-red-500 p-8 rounded-3xl text-center shadow-lg">
+					<span class="text-4xl mb-4 block">❌</span>
+					<h2 class="text-2xl font-black mb-2">Unable to load speaking data</h2>
+					<p class="font-mono text-sm opacity-80 mb-2">Error: {fetchError}</p>
+					<p>Please try again later.</p>
+				</div>
+			) : !data ? (
+				<div class="bg-[var(--background-secondary)]/20 border border-[var(--border)] p-12 rounded-3xl text-center shadow-lg animate-pulse">
+					<span class="text-4xl mb-4 block animate-bounce">⏳</span>
+					<h2 class="text-2xl font-black text-[var(--text-primary)] mb-2">Loading...</h2>
+					<p class="text-[var(--text-secondary)]">Fetching the latest information from Sessionize.</p>
+				</div>
+			) : (
+				<div class="space-y-24">
+					
+					{/* Upcoming Events */}
+					<section>
+						<div class="flex items-center gap-4 mb-8 border-b border-[var(--border)] pb-4">
+							<span class="text-3xl">🚀</span>
+							<div>
+								<h2 class="text-3xl font-black text-[var(--text-primary)] tracking-tight">Upcoming Events</h2>
+								<p class="text-[var(--text-secondary)]">Where you can catch me next</p>
+							</div>
+						</div>
 
-      .intro-section {
-        background: var(--background);
-        padding: 2.5rem;
-        border-radius: 16px;
-        box-shadow: var(--shadow-md);
-        margin-bottom: 3rem;
-        border: 1px solid var(--border);
-        max-width: 700px;
-        margin-left: auto;
-        margin-right: auto;
-      }
+						{upcomingEvents.length === 0 ? (
+							<div class="bg-[var(--background-secondary)]/20 border border-dashed border-[var(--border)] p-12 rounded-3xl text-center">
+								<span class="text-3xl block mb-2 opacity-50">📅</span>
+								<p class="text-[var(--text-secondary)] font-medium">No upcoming events listed right now.</p>
+							</div>
+						) : (
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+								{upcomingEvents.map(e => (
+									<div class="group relative flex flex-col bg-[var(--background-secondary)]/30 border-2 border-[var(--accent)]/30 rounded-3xl p-6 hover:border-[var(--accent)] transition-all duration-300 shadow-lg shadow-[var(--accent)]/5 hover:-translate-y-1">
+										<div class="absolute -top-3 -right-3 px-4 py-1.5 bg-gradient-to-r from-[var(--accent)] to-purple-500 text-white text-xs font-black uppercase tracking-widest rounded-full shadow-lg rotate-3 group-hover:rotate-6 transition-transform">
+											Upcoming
+										</div>
+										
+										<div class="flex items-start gap-4 mb-4">
+											<div class="w-12 h-12 rounded-xl bg-[var(--background-tertiary)] flex items-center justify-center text-xl flex-shrink-0 shadow-inner group-hover:bg-[var(--accent)]/20 group-hover:scale-110 transition-all">🎯</div>
+											<h3 class="text-xl font-bold leading-tight text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors">
+												{e.name}
+											</h3>
+										</div>
+										
+										<div class="space-y-3 mb-6 font-medium text-sm text-[var(--text-secondary)] flex-grow">
+											<div class="flex items-center gap-3">
+												<span class="opacity-50">📅</span>
+												<span>{fmtDate(e.eventStartDate)} – {fmtDate(e.eventEndDate)}</span>
+											</div>
+											{e.location && (
+												<div class="flex items-center gap-3">
+													<span class="opacity-50">📍</span>
+													<span>{e.location}</span>
+												</div>
+											)}
+										</div>
+										
+										{e.website && (
+											<a href={e.website} target="_blank" rel="noopener noreferrer" class="mt-auto block w-full py-2.5 px-4 text-center font-bold text-sm text-[var(--text-primary)] bg-[var(--background-tertiary)] hover:bg-[var(--accent)] hover:text-white rounded-xl transition-colors border border-[var(--border)] group-hover:border-transparent">
+												Visit Website
+											</a>
+										)}
+									</div>
+								))}
+							</div>
+						)}
+					</section>
 
-      .intro-section p {
-        color: var(--text-primary);
-        line-height: 1.7;
-        margin-bottom: 1.5rem;
-        font-size: 1rem;
-      }
+					{/* Past Events */}
+					<section>
+						<div class="flex items-center gap-4 mb-8 border-b border-[var(--border)] pb-4 opacity-80">
+							<span class="text-3xl grayscale">📚</span>
+							<div>
+								<h2 class="text-3xl font-black text-[var(--text-primary)] tracking-tight">Past Events</h2>
+								<p class="text-[var(--text-secondary)]">A selection of previous conferences and meetups</p>
+							</div>
+						</div>
 
-      .intro-section h2 {
-        color: var(--text-primary);
-        margin: 2rem 0 1rem 0;
-        font-size: 1.5rem;
-        font-weight: var(--font-weight-bold);
-      }
+						{pastEvents.length === 0 ? (
+							<div class="bg-[var(--background-secondary)]/20 border border-dashed border-[var(--border)] p-8 rounded-3xl text-center">
+								<p class="text-[var(--text-secondary)]">No past events listed.</p>
+							</div>
+						) : (
+							<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+								{pastEvents.slice(0, 12).map(e => (
+									<div class="group flex flex-col bg-[var(--background-secondary)]/10 border border-[var(--border)] rounded-2xl p-5 hover:border-[var(--text-secondary)] transition-colors">
+										<div class="mb-3">
+											<span class="inline-block px-2 py-1 bg-[var(--background-tertiary)] text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-wider rounded border border-[var(--border)] mb-3 opacity-70">
+												Completed
+											</span>
+											<h4 class="text-lg font-bold leading-tight text-[var(--text-primary)] group-hover:text-[var(--text-primary)] line-clamp-2">
+												{e.name}
+											</h4>
+										</div>
+										
+										<div class="space-y-2 mb-4 text-xs font-medium text-[var(--text-secondary)] flex-grow font-mono">
+											<div class="flex items-center gap-2">
+												<span>•</span>
+												<span>{fmtDate(e.eventStartDate)}</span>
+											</div>
+											{e.location && (
+												<div class="flex items-center gap-2">
+													<span>•</span>
+													<span class="truncate">{e.location}</span>
+												</div>
+											)}
+										</div>
+										
+										{e.website && (
+											<a href={e.website} target="_blank" rel="noopener noreferrer" class="text-sm font-bold text-[var(--text-secondary)] hover:text-[var(--accent)] hover:underline inline-flex items-center gap-1 mt-auto">
+												Website <span>↗</span>
+											</a>
+										)}
+									</div>
+								))}
+							</div>
+						)}
+					</section>
 
-      .intro-section p:last-child {
-        margin-bottom: 0;
-      }
-
-      .section {
-        margin-bottom: 4rem;
-      }
-
-      .section-title {
-        font-size: var(--text-3xl);
-        margin: 0 0 1.5rem 0;
-        color: var(--text-primary);
-        text-align: center;
-        font-weight: var(--font-weight-bold);
-      }
-
-      .section-sub {
-        text-align: center;
-        color: var(--text-secondary);
-        margin-bottom: 2rem;
-        font-size: var(--text-sm);
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 1.5rem;
-      }
-
-      .card {
-        background: var(--background);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 1.5rem;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        box-shadow: var(--shadow-sm);
-      }
-
-      .card:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
-      }
-
-      .card h3 {
-        margin: 0 0 0.75rem;
-        font-size: 1.25rem;
-        color: var(--accent);
-        font-weight: var(--font-weight-bold);
-      }
-
-      .muted {
-        color: var(--text-secondary);
-        font-size: var(--text-sm);
-      }
-
-      .desc {
-        margin: 0.75rem 0 1rem;
-        line-height: 1.6;
-        color: var(--text-primary);
-      }
-
-      .btn {
-        display: inline-block;
-        background: var(--accent);
-        color: white;
-        text-decoration: none;
-        padding: 0.6rem 1rem;
-        border-radius: var(--radius-lg);
-        font-weight: var(--font-weight-bold);
-        font-size: var(--text-sm);
-        transition: background 0.2s ease;
-      }
-
-      .btn:hover {
-        background: var(--accent-dark);
-      }
-
-      .chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        justify-content: center;
-      }
-
-      .chip {
-        background: var(--background-secondary);
-        color: var(--text-primary);
-        border: 1px solid var(--border);
-        padding: 0.4rem 0.8rem;
-        border-radius: 999px;
-        font-size: var(--text-xs);
-        font-weight: var(--font-weight-bold);
-      }
-
-      .events {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 2rem;
-        align-items: start;
-      }
-
-      .event {
-        display: flex;
-        flex-direction: column;
-        height: auto;
-        min-height: 200px;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .event-content {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        min-height: 0;
-        margin-bottom: 1rem;
-      }
-
-      .event h4 {
-        margin: 0 0 1rem;
-        font-size: 1.2rem;
-        color: var(--accent);
-        font-weight: var(--font-weight-bold);
-        line-height: 1.3;
-        display: flex;
-        align-items: flex-start;
-        gap: 0.5rem;
-        flex-shrink: 0;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-      }
-
-      .event .meta {
-        color: var(--text-secondary);
-        font-size: var(--text-sm);
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-        flex: 1;
-        margin-bottom: 1.5rem;
-      }
-
-      .event .date-range {
-        font-weight: var(--font-weight-medium);
-        color: var(--text-primary);
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        line-height: 1.4;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-      }
-
-      .event .location {
-        color: var(--text-secondary);
-        font-size: var(--text-sm);
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        line-height: 1.4;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-      }
-
-      .event-actions {
-        margin-top: auto;
-        flex-shrink: 0;
-        position: relative;
-        z-index: 1;
-      }
-
-      .event a {
-        color: var(--accent);
-        text-decoration: none;
-        font-weight: var(--font-weight-medium);
-        font-size: var(--text-sm);
-        padding: 0.75rem 1.25rem;
-        border: 1px solid var(--accent);
-        border-radius: var(--radius-lg);
-        display: block;
-        transition: all 0.2s ease;
-        text-align: center;
-        box-sizing: border-box;
-      }
-
-      .event a:hover {
-        background: var(--accent);
-        color: white;
-        text-decoration: none;
-        transform: translateY(-1px);
-        box-shadow: var(--shadow-sm);
-      }
-
-      .event-status {
-        font-size: var(--text-xs);
-        padding: 0.4rem 0.75rem;
-        border-radius: 999px;
-        font-weight: var(--font-weight-bold);
-        display: inline-block;
-        margin-bottom: 1rem;
-        flex-shrink: 0;
-        width: fit-content;
-      }
-
-      .event-status.upcoming {
-        background: #dcfce7;
-        color: #166534;
-        border: 1px solid #bbf7d0;
-      }
-
-      .event-status.past {
-        background: #f3f4f6;
-        color: #6b7280;
-        border: 1px solid #e5e7eb;
-      }
-
-      @media (max-width: 768px) {
-        .grid {
-          grid-template-columns: 1fr;
-        }
-        .events {
-          grid-template-columns: 1fr;
-          gap: 1.5rem;
-        }
-        .event {
-          min-height: 180px;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .events {
-          grid-template-columns: 1fr;
-          gap: 1rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <Header />
-    <main>
-      {fetchError ? (
-        <section>
-          <div class="card">
-            <h2 class="section-title">❌ Unable to load speaking data</h2>
-            <p class="section-sub">Error: {fetchError}</p>
-            <p class="muted">Please try again later.</p>
-          </div>
-        </section>
-      ) : !data ? (
-        <section>
-          <div class="card">
-            <h2 class="section-title">⏳ Loading…</h2>
-            <p class="muted">Fetching the latest information from Sessionize.</p>
-          </div>
-        </section>
-      ) : (
-        <>
-          <div class="speaking-header">
-            <h1>🎤 Speaking</h1>
-          </div>
-
-          <div class="intro-section">
-            <p>🗣️ I regularly speak at conferences, meetups, and online events about Azure, Microsoft 365, DevOps, End-to-End Testing, GitHub, and other technical topics. On this page you can find a list of my past and upcoming speaking engagements.</p>
-            
-            <h2>💬 Want me to speak at your event?</h2>
-            <p>📧 If you'd like me to speak at your event, please reach out via the contact page. You can also check out my <a href="https://sessionize.com/emanuelebartolesi/" target="_blank">🔗 speaking profile</a> and possible sessions on the sessions page.</p>
-          </div>
-
-          <section class="section">
-            <h2 class="section-title">🚀 Upcoming Events</h2>
-            <p class="section-sub">Where you can catch me next</p>
-            {upcomingEvents.length === 0 ? (
-              <p class="muted">📅 No upcoming events listed right now.</p>
-            ) : (
-              <div class="events">
-                {upcomingEvents.map(e => (
-                  <div class="card event">
-                    <div class="event-status upcoming">🔥 Upcoming</div>
-                    <div class="event-content">
-                      <h4>
-                        <span>🎯</span>
-                        <span>{e.name}</span>
-                      </h4>
-                      <div class="meta">
-                        <div class="date-range">
-                          <span>📅</span>
-                          <span>{fmtDate(e.eventStartDate)} – {fmtDate(e.eventEndDate)}</span>
-                        </div>
-                        {e.location && (
-                          <div class="location">
-                            <span>📍</span>
-                            <span>{e.location}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    <div class="event-actions">
-                      {e.website && <a href={e.website} target="_blank" rel="noopener noreferrer">🌐 Visit Website</a>}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </section>
-
-          <section class="section">
-            <h2 class="section-title">📚 Past Events</h2>
-            <p class="section-sub">A selection of previous conferences and meetups</p>
-            {pastEvents.length === 0 ? (
-              <p class="muted">📋 No past events listed.</p>
-            ) : (
-              <div class="events">
-                {pastEvents.slice(0, 12).map(e => (
-                  <div class="card event">
-                    <div class="event-status past">✅ Completed</div>
-                    <div class="event-content">
-                      <h4>
-                        <span>🏆</span>
-                        <span>{e.name}</span>
-                      </h4>
-                      <div class="meta">
-                        <div class="date-range">
-                          <span>📅</span>
-                          <span>{fmtDate(e.eventStartDate)} – {fmtDate(e.eventEndDate)}</span>
-                        </div>
-                        {e.location && (
-                          <div class="location">
-                            <span>📍</span>
-                            <span>{e.location}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    <div class="event-actions">
-                      {e.website && <a href={e.website} target="_blank" rel="noopener noreferrer">🌐 Visit Website</a>}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </section>
-
-          {technologies.length > 0 && (
-            <section class="section">
-              <h2 class="section-title">🛠️ Technologies & Topics</h2>
-              <p class="section-sub">Keywords extracted from session titles and descriptions</p>
-              <div class="chips">
-                {technologies.map(t => <span class="chip">💡 {t}</span>)}
-              </div>
-            </section>
-          )}
-
-          <section class="section">
-            <h2 class="section-title">💼 Available Sessions</h2>
-            <p class="section-sub">Talks ready for conferences, meetups, and corporate events</p>
-            <div class="grid">
-              {data.sessions.map((s) => (
-                <article class="card">
-                  <h3>🎯 {s.title}</h3>
-                  <p class="muted">🌐 {s.language}</p>
-                  {s.description && <p class="desc">{s.description}</p>}
-                  <a class="btn" href={s.sessionUrl} target="_blank" rel="noopener noreferrer">👁️ View details</a>
-                </article>
-              ))}
-            </div>
-          </section>
-
-          {Object.keys(sessionsByLanguage).length > 1 && (
-            <section class="section">
-              <h2 class="section-title">🗣️ Sessions by Language</h2>
-              <div class="grid">
-                {Object.entries(sessionsByLanguage).map(([lang, list]) => (
-                  <div class="card">
-                    <h3>🌍 {lang}</h3>
-                    <p class="muted">📊 {list.length} session{list.length === 1 ? '' : 's'}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-        </>
-      )}
-    </main>
-    <Footer />
-  </body>
-  </html>
+				</div>
+			)}
+		</main>
+		<Footer />
+	</body>
+</html>

@@ -4,59 +4,70 @@ import HeaderLink from './HeaderLink.astro';
 import ThemeToggle from './ThemeToggle.astro';
 ---
 
-<header>
-	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
-		<button class="mobile-menu-toggle" aria-label="Toggle menu">
-			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<header class="sticky top-0 z-50 w-full backdrop-blur-xl bg-[var(--background)]/80 border-b border-[var(--border)] transition-colors duration-300">
+	<nav class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+		<div class="flex-shrink-0 flex items-center">
+			<a href="/" class="text-xl font-black tracking-tighter text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors">
+				{SITE_TITLE}
+			</a>
+		</div>
+		
+		<button class="md:hidden p-2 -mr-2 text-[var(--text-secondary)] hover:bg-[var(--background-secondary)] rounded-lg transition-colors mobile-menu-toggle" aria-label="Toggle menu">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
 				<line x1="3" y1="12" x2="21" y2="12"></line>
 				<line x1="3" y1="6" x2="21" y2="6"></line>
 				<line x1="3" y1="18" x2="21" y2="18"></line>
 			</svg>
 		</button>
-		<div class="internal-links">
-			<HeaderLink href="/">Home</HeaderLink>
-			<HeaderLink href="/blog">Blog</HeaderLink>
-			<HeaderLink href="/portfolio">Portfolio</HeaderLink>
-			<HeaderLink href="/books">Books</HeaderLink>
-			<HeaderLink href="/courses">Courses</HeaderLink>
-			<HeaderLink href="/speaking">Speaking</HeaderLink>
-			<HeaderLink href="/live">Live</HeaderLink>
-			<HeaderLink href="/mentor">Mentor</HeaderLink>
-			<HeaderLink href="/newsletter">Newsletter</HeaderLink>
-			<HeaderLink href="/uses">Uses</HeaderLink>
-			<HeaderLink href="/about">About</HeaderLink>
+		
+		<div class="hidden md:flex flex-1 items-center justify-center">
+			<div class="flex items-center gap-1 bg-[var(--background-secondary)]/50 p-1 rounded-full border border-[var(--border)]/50 shadow-inner">
+				<HeaderLink href="/">Home</HeaderLink>
+				<HeaderLink href="/blog">Blog</HeaderLink>
+				<HeaderLink href="/portfolio">Portfolio</HeaderLink>
+				<HeaderLink href="/courses">Courses</HeaderLink>
+				<HeaderLink href="/live">Live</HeaderLink>
+				<HeaderLink href="/mentor">Mentor</HeaderLink>
+				<HeaderLink href="/about">About</HeaderLink>
+			</div>
 		</div>
-		<div class="social-links">
+		
+		<div class="hidden md:flex flex-shrink-0 items-center gap-3">
 			<ThemeToggle />
-			<a href="https://x.com/kasuken" target="_blank">
+			<div class="w-px h-5 bg-[var(--border)] mx-1"></div>
+			<a href="https://x.com/kasuken" target="_blank" class="w-9 h-9 flex items-center justify-center rounded-full text-[var(--text-secondary)] hover:bg-[#1DA1F2]/10 hover:text-[#1DA1F2] transition-colors">
 				<span class="sr-only">Follow me on X</span>
-				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
-					><path
-						fill="currentColor"
-						d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"
-					></path></svg
-				>
+				<svg viewBox="0 0 16 16" aria-hidden="true" class="w-4 h-4" fill="currentColor"><path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"></path></svg>
 			</a>
-			<a href="https://github.com/kasuken" target="_blank">
+			<a href="https://github.com/kasuken" target="_blank" class="w-9 h-9 flex items-center justify-center rounded-full text-[var(--text-secondary)] hover:bg-[var(--text-primary)] hover:text-[var(--background)] transition-colors">
 				<span class="sr-only">My GitHub Profile</span>
-				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
-					><path
-						fill="currentColor"
-						d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-					></path></svg
-				>
+				<svg viewBox="0 0 16 16" aria-hidden="true" class="w-5 h-5" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
 			</a>
 		</div>
 	</nav>
+	
+	<!-- Mobile Menu -->
+	<div class="mobile-menu hidden md:hidden border-t border-[var(--border)] bg-[var(--background)] px-4 py-4 space-y-2 flex flex-col items-center">
+		<HeaderLink href="/" class="w-full text-center">Home</HeaderLink>
+		<HeaderLink href="/blog" class="w-full text-center">Blog</HeaderLink>
+		<HeaderLink href="/portfolio" class="w-full text-center">Portfolio</HeaderLink>
+		<HeaderLink href="/courses" class="w-full text-center">Courses</HeaderLink>
+		<HeaderLink href="/live" class="w-full text-center">Live</HeaderLink>
+		<HeaderLink href="/mentor" class="w-full text-center">Mentor</HeaderLink>
+		<HeaderLink href="/about" class="w-full text-center">About</HeaderLink>
+		<div class="pt-4 mt-2 w-full border-t border-[var(--border)] flex items-center justify-between px-3">
+			<span class="text-sm font-medium text-[var(--text-secondary)]">Theme</span>
+			<ThemeToggle />
+		</div>
+	</div>
 </header>
 <script is:inline>
 	document.addEventListener('DOMContentLoaded', function() {
 		const menuToggle = document.querySelector('.mobile-menu-toggle');
-		const nav = document.querySelector('nav');
+		const mobileMenu = document.querySelector('.mobile-menu');
 		
 		const toggleMenu = () => {
-			nav?.classList.toggle('menu-open');
+			mobileMenu?.classList.toggle('hidden');
 		};
 		
 		if (menuToggle) {
@@ -70,165 +81,3 @@ import ThemeToggle from './ThemeToggle.astro';
 		}
 	});
 </script>
-<style>
-	header {
-		background: var(--background);
-		border-bottom: 1px solid var(--border);
-		position: sticky;
-		top: 0;
-		z-index: 100;
-		backdrop-filter: blur(10px);
-		-webkit-backdrop-filter: blur(10px);
-	}
-	
-	nav {
-		max-width: 1200px;
-		margin: 0 auto;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 0 1rem;
-		min-height: 64px;
-	}
-	
-	h2 {
-		margin: 0;
-		font-size: 1.25rem;
-		font-weight: 700;
-	}
-
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
-		color: var(--text-primary);
-		transition: color 0.2s ease;
-	}
-	
-	h2 a:hover {
-		color: var(--accent);
-		text-decoration: none;
-	}
-	
-	.internal-links {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-	}
-	
-	.internal-links a {
-		padding: 0.5rem 1rem;
-		color: var(--text-secondary);
-		border-radius: var(--radius);
-		text-decoration: none;
-		font-weight: 500;
-		font-size: 0.875rem;
-		transition: all 0.2s ease;
-		position: relative;
-	}
-	
-	.internal-links a:hover {
-		color: var(--accent);
-		background: var(--background-secondary);
-		text-decoration: none;
-	}
-	
-	.internal-links a.active {
-		color: var(--accent);
-		background: rgba(0, 102, 204, 0.1);
-	}
-	
-	.social-links {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-	}
-	
-	.social-links a {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 40px;
-		height: 40px;
-		color: var(--text-secondary);
-		border-radius: var(--radius);
-		transition: all 0.2s ease;
-	}
-	
-	.social-links a:hover {
-		color: var(--accent);
-		background: var(--background-secondary);
-	}
-	
-	.social-links svg {
-		width: 20px;
-		height: 20px;
-	}
-	
-	.mobile-menu-toggle {
-		display: none;
-		background: none;
-		border: none;
-		color: var(--text-secondary);
-		cursor: pointer;
-		padding: 0.5rem;
-		border-radius: var(--radius);
-		transition: all 0.2s ease;
-	}
-	
-	.mobile-menu-toggle svg {
-		width: 24px;
-		height: 24px;
-	}
-	
-	.mobile-menu-toggle:hover {
-		color: var(--accent);
-		background: var(--background-secondary);
-	}
-	
-	@media (max-width: 768px) {
-		.mobile-menu-toggle {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-		
-		nav {
-			padding: 0 1rem;
-			flex-wrap: wrap;
-		}
-		
-		.internal-links {
-			display: none;
-			width: 100%;
-			flex-direction: column;
-			gap: 0;
-			margin-top: 1rem;
-			padding-bottom: 1rem;
-		}
-		
-		nav.menu-open .internal-links {
-			display: flex;
-		}
-		
-		.internal-links a {
-			width: 100%;
-			text-align: left;
-			padding: 0.75rem 1rem;
-			border-radius: 0;
-		}
-		
-		.social-links {
-			gap: 0.25rem;
-		}
-		
-		.social-links a {
-			width: 36px;
-			height: 36px;
-		}
-		
-		.social-links svg {
-			width: 18px;
-			height: 18px;
-		}
-	}
-</style>

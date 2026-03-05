@@ -835,7 +835,11 @@ const sortedCategories = Object.entries(revenueByCategory)
       height: 20px;
     }
     
-        .vertical-progress-fill {\n      height: 100% !important;\n      left: 0;\n      right: auto;\n    }
+    .vertical-progress-fill {
+      height: 100% !important;
+      left: 0;
+      right: auto;
+    }
     
     .progress-markers {
       flex-direction: row;
@@ -941,7 +945,6 @@ const sortedCategories = Object.entries(revenueByCategory)
     .summary-amount {
       font-size: 1.2rem;
     }
-    }
   }
 </style>
 
@@ -949,7 +952,7 @@ const sortedCategories = Object.entries(revenueByCategory)
   // FAQ functionality
   document.addEventListener('DOMContentLoaded', function() {
     const faqQuestions = document.querySelectorAll('.faq-question');
-    
+
     faqQuestions.forEach(question => {
       question.addEventListener('click', function() {
         const faqId = this.getAttribute('data-faq');

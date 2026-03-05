@@ -82,8 +82,9 @@ function formatDayName(dateStr: string): string {
 ---
 
 <section class="rescuetime-section">
-  <h2 class="section-title">⏱️ Productivity Insights</h2>
-  <p class="section-subtitle">My productivity journey over the last 7 days (live <a href="https://www.rescuetime.com" target="_blank" rel="noopener noreferrer">RescueTime</a> data)</p>
+  <h2 class="text-3xl lg:text-4xl font-black mb-10 text-[var(--text-primary)] flex items-center justify-center gap-3">
+    <span class="text-3xl">⏱️</span> Productivity Insights
+  </h2>
   
   <article class="productivity-container">
     <!-- Productivity Pulse Section (if available) -->
@@ -231,33 +232,25 @@ function formatDayName(dateStr: string): string {
       </div>
     </div>
   </article>
+  
+  <div class="max-w-3xl mx-auto mt-10 text-[var(--text-secondary)] text-lg leading-relaxed space-y-4">
+    <p class="text-base text-[var(--text-secondary)]/80 bg-[var(--background-secondary)] p-4 rounded-xl border border-[var(--border)] inline-block">
+      <strong>How it works:</strong> The app <a href="https://www.rescuetime.com" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline font-semibold">RescueTime</a> monitors my active window and categorizes the activity on a scale from <span class="text-[#ef4444] font-medium">Very Distracting (-2)</span> (like social media or games) up to <span class="text-[#22c55e] font-medium">Very Productive (+2)</span> (like VS Code, Terminal, and documentation). It calculates a score ensuring I stay on track.
+    </p>
+  </div>
 </section>
 
 <style>
   .rescuetime-section {
-    margin: 4rem 0;
     text-align: center;
   }
 
-  .section-title {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: rgb(var(--black));
-    margin-bottom: 0.5rem;
-  }
-
-  .section-subtitle {
-    color: rgb(var(--gray-dark));
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
-  }
-
   .productivity-container {
-    background: white;
+    background: var(--background);
     padding: 2rem;
-    border-radius: 12px;
-    border: 1px solid rgb(var(--gray));
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 1.5rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
     max-width: 800px;
     margin: 0 auto;
   }

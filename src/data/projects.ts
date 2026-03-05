@@ -128,19 +128,36 @@ Spikes ⚡ · Hackathons 🧪 · Early product demos 🛠️ · Internal tools �
     imageUrl: 'https://i.imgur.com/IE8Ccwq.png'
   },
   {
+    id: 'vscode-copilot-insights',
+    title: 'Copilot Insights',
+    description: '💡🤖 VS Code extension to visualize your GitHub Copilot plan, quotas, and limits at a glance, with sidebar and status bar UI.',
+    longDescription: `Copilot Insights is a Visual Studio Code extension that surfaces your GitHub Copilot entitlement/quota information and presents it in a VS Code-friendly UI.\n\nFeatures:\n- Sidebar view with quota cards and pacing guidance\n- Status bar indicator for Premium Interactions (remaining / total + %)\n- One-time warning when Premium usage exceeds 85% of your monthly quota\n- Auto-refresh and manual refresh\n- Local Snapshot History: Track premium interactions over time\n- Visual line chart showing usage trends\n- Status badges and quota mood indicator\n- Copy Summary to Clipboard for easy sharing\n- Advanced error reporting and accessibility enhancements\n\nAll data is stored locally and authentication is handled via VS Code’s GitHub auth provider.`,
+    technologies: ['TypeScript', 'VS Code Extension', 'GitHub API'],
+    githubUrl: 'https://github.com/kasuken/vscode-copilot-insights',
+    featured: true,
+    category: 'vscode',
+    status: 'in-progress',
+    startDate: '2024-12',
+    imageUrl: 'https://github.com/kasuken/vscode-copilot-insights/blob/main/img/screen1.png?raw=true'
+  },
+  {
+    id: 'vscode-shipit',
+    title: 'ShipIt',
+    description: '📦🤖 Autonomous PRD-to-code workflow for VS Code. Reads your PRD, generates user stories, and implements them using GitHub Copilot SDK.',
+    longDescription: `ShipIt is a Visual Studio Code extension that orchestrates the GitHub Copilot SDK to implement your Product Requirements Document (PRD) in a structured, autonomous workflow.\n\nFeatures:\n- Autonomous Task Loop: Continuously works through your PRD until complete\n- User Stories Workflow: Breaks complex tasks into smaller, implementable pieces\n- Sidebar Control Panel: Real-time status, control buttons, and activity log\n- Smart Progress Tracking: Watches files and automatically detects task completion\n- Error Recovery: Built-in retry logic with exponential backoff\n- PRD Generation: Create structured task lists from descriptions\n- Progress Logging: Maintains a record of all completed work\n- Inactivity Detection: Alerts you if Copilot seems stuck\n\nRequires GitHub Copilot CLI and a valid Copilot subscription.`,
+    technologies: ['TypeScript', 'VS Code Extension', 'GitHub Copilot SDK'],
+    githubUrl: 'https://github.com/kasuken/vscode-shipit',
+    featured: true,
+    category: 'vscode',
+    status: 'in-progress',
+    startDate: '2025-01',
+    imageUrl: 'https://private-user-images.githubusercontent.com/2757486/540261026-aad5b973-4f3b-4d15-8156-62e741050dd1.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzI3MTAxMDMsIm5iZiI6MTc3MjcwOTgwMywicGF0aCI6Ii8yNzU3NDg2LzU0MDI2MTAyNi1hYWQ1Yjk3My00ZjNiLTRkMTUtODE1Ni02MmU3NDEwNTBkZDEucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI2MDMwNSUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNjAzMDVUMTEyMzIzWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9MWY1Njg3YjM1ODkzNDQxMDQzMjdlZjQ4ZGM5ODQyMTkzYTM5MmRkYjBhNzBiODRkZmM4YjJhMjE2ZDYyMzE1OCZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.kBn3HjdzUAmKaQ2_W-BdG31QVDyPMRh0tsO_mwrcTTE'
+  },
+  {
     id: 'octowatch',
     title: 'OctoWatch',
     description: '👁️‍🗨️🐙🔎 Open source governance tool for GitHub Enterprise. Provides insights, compliance, and automation for organizations. 🏢📊',
-    longDescription: `OctoWatch is an open source governance platform for GitHub Enterprise, designed to help organizations manage, monitor, and automate compliance and best practices across all their repositories and teams.
-
-Features:
-- Organization-wide insights and dashboards
-- Compliance and policy enforcement
-- Automated reporting and notifications
-- Integration with GitHub APIs and webhooks
-- Customizable rules and workflows
-
-I am the lead mantainer (hosted by Xebia)`,
+    longDescription: `OctoWatch is an open source governance platform for GitHub Enterprise, designed to help organizations manage, monitor, and automate compliance and best practices across all their repositories and teams.\n\nFeatures:\n- Organization-wide insights and dashboards\n- Compliance and policy enforcement\n- Automated reporting and notifications\n- Integration with GitHub APIs and webhooks\n- Customizable rules and workflows\n\nI am the lead mantainer (hosted by Xebia)`,
     technologies: ['TypeScript', 'Node.js', 'GitHub API', 'Governance', 'Automation'],
     githubUrl: 'https://github.com/xebia/octowatch',
     featured: true,
