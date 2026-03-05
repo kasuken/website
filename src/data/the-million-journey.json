@@ -16,6 +16,9 @@
   },
   "entries": [
     { "amount": 1000, "category": "Stealth Courses", "date": "2025-10-05", "note": "Monthly MRR" },
-    { "amount": 1000, "category": "Fractional CTO", "date": "2025-10-31", "note": "Monthly Retainer" }
+    { "amount": 1000, "category": "Fractional CTO", "date": "2025-10-31", "note": "Monthly Retainer" },
+    { "amount": 1000, "category": "Fractional CTO", "date": "2025-11-30", "note": "Monthly Retainer" },
+    { "amount": 1000, "category": "Fractional CTO", "date": "2026-01-31", "note": "Monthly Retainer" },
+    { "amount": 1000, "category": "Fractional CTO", "date": "2026-02-28", "note": "Monthly Retainer" }
   ]
 }

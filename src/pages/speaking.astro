@@ -67,6 +67,28 @@ const upcomingEvents = _events.filter(e => toDate(e.eventEndDate) >= now)
 const pastEvents = _events.filter(e => toDate(e.eventEndDate) < now)
   .sort((a, b) => toDate(b.eventStartDate).getTime() - toDate(a.eventStartDate).getTime()); // descending
 
+// Extract simple technology tags from titles/descriptions
+const techKeywords = ['Azure', 'GitHub', 'DevOps', 'CI/CD', 'Docker', 'Kubernetes', 'C#', '.NET', 'React', 'Node.js', 'AI', 'Cloud', 'Microservices', 'Blazor', 'ASP.NET', 'TypeScript', 'JavaScript'];
+const techSet = new Set<string>();
+
+const sessionsByLanguage: Record<string, SessionizeSession[]> = {};
+
+data?.sessions?.forEach(s => {
+  techKeywords.forEach(k => {
+    if (s.title.toLowerCase().includes(k.toLowerCase()) || 
+        (s.description && s.description.toLowerCase().includes(k.toLowerCase()))) {
+      techSet.add(k);
+    }
+  });
+
+  if (!sessionsByLanguage[s.language]) {
+    sessionsByLanguage[s.language] = [];
+  }
+  sessionsByLanguage[s.language].push(s);
+});
+
+const technologies = Array.from(techSet).sort((a, b) => a.localeCompare(b));
+
 const fmtDate = (iso: string) => {
   const d = new Date(iso);
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -226,6 +248,61 @@ const fmtDate = (iso: string) => {
 							</div>
 						)}
 					</section>
+
+					{/* Technologies & Topics */}
+					{technologies.length > 0 && (
+						<section>
+							<div class="flex items-center gap-4 mb-8 border-b border-[var(--border)] pb-4 relative z-10">
+								<span class="text-3xl">🛠️</span>
+								<div>
+									<h2 class="text-3xl font-black text-[var(--text-primary)] tracking-tight">Technologies & Topics</h2>
+									<p class="text-[var(--text-secondary)]">Keywords extracted from session titles and descriptions</p>
+								</div>
+							</div>
+							<div class="flex flex-wrap gap-3 relative z-10">
+								{technologies.map(t => (
+									<span class="px-4 py-2 bg-[var(--background-secondary)]/30 border border-[var(--border)] text-[var(--text-primary)] text-sm font-bold rounded-full shadow-sm hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors cursor-default">
+										{t}
+									</span>
+								))}
+							</div>
+						</section>
+					)}
+
+					{/* Available Sessions */}
+					{data.sessions && data.sessions.length > 0 && (
+						<section>
+							<div class="flex items-center gap-4 mb-8 border-b border-[var(--border)] pb-4 relative z-10">
+								<span class="text-3xl">💼</span>
+								<div>
+									<h2 class="text-3xl font-black text-[var(--text-primary)] tracking-tight">Available Sessions</h2>
+									<p class="text-[var(--text-secondary)]">Talks ready for conferences, meetups, and corporate events</p>
+								</div>
+							</div>
+							<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-10">
+								{data.sessions.map(s => (
+									<div class="group flex flex-col bg-[var(--background-secondary)]/10 border border-[var(--border)] rounded-2xl p-6 hover:border-[var(--accent)] hover:shadow-lg transition-all duration-300 relative overflow-hidden">
+										<div class="absolute top-0 right-0 px-3 py-1 bg-[var(--background-tertiary)] border-b border-l border-[var(--border)] text-xs font-bold text-[var(--text-secondary)] rounded-bl-xl">
+											🌐 {s.language}
+										</div>
+										<h3 class="text-xl font-bold leading-tight text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors pr-16 mb-4">
+											{s.title}
+										</h3>
+										{s.description && (
+											<p class="text-sm text-[var(--text-secondary)] mb-6 line-clamp-4 leading-relaxed flex-grow">
+												{s.description}
+											</p>
+										)}
+										<div class="mt-auto pt-4 border-t border-[var(--border)]/50">
+											<a href={s.sessionUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-bold text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors">
+												View Session Details <span>→</span>
+											</a>
+										</div>
+									</div>
+								))}
+							</div>
+						</section>
+					)}
 
 				</div>
 			)}
