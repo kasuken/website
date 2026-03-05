@@ -8,6 +8,9 @@ frontend:
       commands:
         - env >> .env
         - npm run build
+        - npm prune --omit=dev
+        - rm -rf node_modules/typescript node_modules/@esbuild node_modules/esbuild node_modules/@shikijs node_modules/shiki node_modules/@rollup node_modules/rollup node_modules/vite node_modules/@babel node_modules/fontkit node_modules/prismjs node_modules/@types node_modules/caniuse-lite
+        - rm -rf node_modules/lightningcss-* node_modules/.lightningcss-*
         - mv node_modules ./.amplify-hosting/compute/default
         - mv .env ./.amplify-hosting/compute/default/.env
   artifacts:
