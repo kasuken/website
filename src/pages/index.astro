@@ -4,9 +4,6 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import FormattedDate from '../components/FormattedDate.astro';
-import GitHubActivityCalendar from '../components/GitHubActivityCalendar.astro';
-import GitHubStats from '../components/GitHubStats.astro';
-import RescueTimeProductivity from '../components/RescueTimeProductivity.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 // Get latest blog posts
@@ -87,18 +84,51 @@ const allPosts = (await getCollection('blog'))
 
       <div class="max-w-5xl mx-auto space-y-16 md:space-y-24 pb-24">
 
-        <!-- GitHub Stats Grid -->
-        <section class="flex flex-col gap-8 md:gap-12 w-full">
-          <div class="bg-[var(--background-secondary)] rounded-[2rem] p-4 sm:p-8 border border-[var(--border)] shadow-sm overflow-x-auto w-full">
-            <GitHubActivityCalendar username="kasuken" />
-          </div>
-          <div class="bg-[var(--background-secondary)] rounded-[2rem] p-4 sm:p-8 border border-[var(--border)] shadow-sm overflow-x-auto w-full">
-            <GitHubStats username="kasuken" />
-          </div>
-        </section>
+        <!-- Explore Content Cards -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+          <!-- Portfolio & Projects -->
+          <a href="/portfolio" class="bg-[var(--background-secondary)] rounded-[2rem] p-8 border border-[var(--border)] shadow-sm hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group overflow-hidden relative">
+            <div class="absolute inset-0 bg-gradient-to-tr from-[var(--accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative z-10 space-y-4">
+              <div class="w-12 h-12 rounded-2xl bg-[var(--accent)]/10 text-[var(--accent)] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">🚀</div>
+              <h3 class="text-2xl font-black text-[var(--text-primary)]">Portfolio & Projects</h3>
+              <p class="text-[var(--text-secondary)]">Explore the applications, open-source projects, and tools I've built over the years.</p>
+              <span class="inline-flex items-center text-[var(--accent)] font-semibold mt-4 group-hover:translate-x-1 transition-transform">View Projects →</span>
+            </div>
+          </a>
 
-        <section class="bg-[var(--background-secondary)] rounded-[2rem] p-4 sm:p-8 border border-[var(--border)] shadow-sm overflow-x-auto">
-          <RescueTimeProductivity />
+          <!-- Dashboard & Stats -->
+          <a href="/activities" class="bg-[var(--background-secondary)] rounded-[2rem] p-8 border border-[var(--border)] shadow-sm hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group overflow-hidden relative">
+            <div class="absolute inset-0 bg-gradient-to-tr from-[var(--accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative z-10 space-y-4">
+              <div class="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">📊</div>
+              <h3 class="text-2xl font-black text-[var(--text-primary)]">Real-time Dashboard</h3>
+              <p class="text-[var(--text-secondary)]">Check out my real-time developer activity, GitHub stats, and RescueTime metrics.</p>
+              <span class="inline-flex items-center text-blue-500 font-semibold mt-4 group-hover:translate-x-1 transition-transform">View Stats →</span>
+            </div>
+          </a>
+
+          <!-- Speaking & Events -->
+          <a href="/speaking" class="bg-[var(--background-secondary)] rounded-[2rem] p-8 border border-[var(--border)] shadow-sm hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group overflow-hidden relative">
+            <div class="absolute inset-0 bg-gradient-to-tr from-[var(--accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative z-10 space-y-4">
+              <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">🎤</div>
+              <h3 class="text-2xl font-black text-[var(--text-primary)]">Speaking & Events</h3>
+              <p class="text-[var(--text-secondary)]">Catch me speaking at conferences, user groups, and events worldwide.</p>
+              <span class="inline-flex items-center text-purple-500 font-semibold mt-4 group-hover:translate-x-1 transition-transform">See Schedule →</span>
+            </div>
+          </a>
+
+          <!-- Mentorship -->
+          <a href="/mentor" class="bg-[var(--background-secondary)] rounded-[2rem] p-8 border border-[var(--border)] shadow-sm hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group overflow-hidden relative">
+            <div class="absolute inset-0 bg-gradient-to-tr from-[var(--accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div class="relative z-10 space-y-4">
+              <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">🤝</div>
+              <h3 class="text-2xl font-black text-[var(--text-primary)]">1:1 Mentorship</h3>
+              <p class="text-[var(--text-secondary)]">Want to level up your career? Book a mentoring session and let's achieve your goals.</p>
+              <span class="inline-flex items-center text-emerald-500 font-semibold mt-4 group-hover:translate-x-1 transition-transform">Book Session →</span>
+            </div>
+          </a>
         </section>
 
         <!-- The Million Journey Preview -->
