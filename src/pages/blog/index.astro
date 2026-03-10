@@ -10,6 +10,8 @@ const allPosts = (await getCollection('blog'))
 	.filter(post => post.id !== 'devto-stats') // Exclude stats entry from posts
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+const blogFallbackImage = '/img/bannerwebsite.png';
+
 console.log('[blog index] total posts after filtering:', allPosts.length);
 
 // Get Dev.to statistics
@@ -79,8 +81,8 @@ if (statsEntry) {
 									<img
 										width={720}
 										height={360}
-										src={allPosts[0].data.cover_image || '/placeholder-social.jpg'}
-										alt=""
+										src={allPosts[0].data.heroImage || blogFallbackImage}
+										alt={allPosts[0].data.title}
 										class="w-full h-full object-cover aspect-video md:aspect-auto group-hover:scale-105 transition-transform duration-500"
 									/>
 								</div>
@@ -97,10 +99,10 @@ if (statsEntry) {
 									</h2>
 									<p class="text-[var(--text-secondary)] font-medium mb-6 flex items-center gap-2">
 										<FormattedDate date={allPosts[0].data.pubDate} />
-										{allPosts[0].data.reading_time_minutes && (
+										{allPosts[0].data.readingTimeMinutes && (
 											<>
 												<span class="w-1 h-1 rounded-full bg-[var(--border)]"></span>
-												<span>{allPosts[0].data.reading_time_minutes} min read</span>
+												<span>{allPosts[0].data.readingTimeMinutes} min read</span>
 											</>
 										)}
 									</p>
@@ -122,8 +124,8 @@ if (statsEntry) {
 										<img
 											width={720}
 											height={360}
-											src={post.data.cover_image || '/placeholder-social.jpg'}
-											alt=""
+											src={post.data.heroImage || blogFallbackImage}
+											alt={post.data.title}
 											class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
 										/>
 									</div>
