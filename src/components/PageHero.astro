@@ -1,0 +1,26 @@
+---
+interface Props {
+	kicker?: string;
+	title: string;
+	accentWord?: string;
+	description?: string;
+	class?: string;
+}
+
+const { kicker, title, accentWord, description, class: className } = Astro.props;
+---
+
+<section class:list={["relative mb-16 md:mb-24 max-w-3xl", className]}>
+	{kicker && <p class="mono-label mb-4 reveal reveal-1">{kicker}</p>}
+	<h1 class="font-display text-5xl md:text-6xl lg:text-7xl tracking-tight text-[var(--text-primary)] mb-6 reveal reveal-2">
+		{title}{accentWord && <> <em class="text-[var(--accent)] not-italic font-display italic">{accentWord}</em></>}
+	</h1>
+	{description && (
+		<p class="text-xl md:text-2xl text-[var(--text-secondary)] leading-relaxed mb-0 reveal reveal-3">
+			{description}
+		</p>
+	)}
+	<div class="reveal reveal-4">
+		<slot />
+	</div>
+</section>

@@ -13,10 +13,10 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 	href={href} 
 	class:list={[
 		className, 
-		"inline-flex items-center justify-center px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 select-none",
+		"inline-flex items-center justify-center px-4 py-2 rounded-[var(--radius-pill)] text-sm font-medium no-underline! transition-colors duration-200 select-none",
 		isActive 
-			? "bg-[var(--background)] text-[var(--accent)] shadow-sm ring-1 ring-[var(--border)]" 
-			: "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--background-secondary)]/50"
+			? "text-[var(--accent)] bg-[var(--accent)]/10" 
+			: "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--background-secondary)]"
 	]} 
 	{...props}
 >
