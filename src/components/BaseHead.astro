@@ -16,6 +16,20 @@ const { title, description, image } = Astro.props;
 
 // Default og:image - you can replace 'default-og-image.jpg' with your preferred image name
 const defaultOgImage = image || '/img/bannerwebsite.png';
+
+const personJsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'Person',
+	name: 'Emanuele Bartolesi',
+	url: 'https://www.emanuelebartolesi.com',
+	sameAs: [
+		'https://dev.to/kasuken',
+		'https://x.com/kasuken',
+		'https://github.com/kasuken',
+		'https://linkedin.com/in/bartolesiemanuele',
+		'https://sessionize.com/emanuelebartolesi/',
+	],
+};
 ---
 
 <!-- Global Metadata -->
@@ -24,10 +38,10 @@ const defaultOgImage = image || '/img/bannerwebsite.png';
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 
-<!-- Inter Variable Font -->
+<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 
 <link
 	rel="alternate"
@@ -82,3 +96,6 @@ const defaultOgImage = image || '/img/bannerwebsite.png';
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(defaultOgImage, Astro.url)} />
+
+<!-- Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
