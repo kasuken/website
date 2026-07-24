@@ -3,6 +3,7 @@ import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
+import StatCard from '../../components/StatCard.astro';
 import { getCollection } from 'astro:content';
 
 // Sort posts by date; exclude stats entry (shouldn't render as a post, and this was requested to fix a bug set 404 on Amplify)
@@ -34,83 +35,66 @@ if (statsEntry) {
 	<head>
 		<BaseHead title="Blog - My Blog Posts" description="All my blog posts since many years" />
 	</head>
-	<body class="bg-[var(--background)] text-[var(--text-primary)] font-body antialiased selection:bg-[var(--accent)] selection:text-white">
+	<body class="bg-[var(--background)] text-[var(--text-primary)] antialiased selection:bg-[var(--accent)] selection:text-[var(--background)]">
 		<Header />
 		
 		<main class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-			<section class="mb-16 md:mb-24 text-center">
-				<h1 class="text-4xl md:text-6xl font-black tracking-tighter mb-4 text-[var(--text-primary)]">Blog</h1>
-				<p class="text-lg md:text-xl text-[var(--text-secondary)] max-w-2xl mx-auto">
-					Thoughts, tutorials, and insights on modern web development, architecture, and tech lifestyle.
-				</p>
-				<p class="text-sm text-[var(--text-secondary)] mt-4">
-					{allPosts.length} posts published
-				</p>
+			<section class="mb-16 md:mb-24">
+				<div class="max-w-3xl">
+					<p class="mono-label mb-4 reveal reveal-1">The Dev Dispatch — {allPosts.length} posts published</p>
+					<h1 class="font-display text-5xl md:text-7xl tracking-tight mb-6 reveal reveal-2">Writing</h1>
+					<p class="text-xl md:text-2xl text-[var(--text-secondary)] reveal reveal-3">
+						Thoughts, tutorials, and insights on modern web development, architecture, and tech lifestyle.
+					</p>
+				</div>
 
 				{stats && (
-				<div class="mt-8 flex justify-center gap-4 sm:gap-8 flex-wrap">
-					<div class="flex flex-col items-center justify-center p-4 bg-[var(--background-secondary)]/50 border border-[var(--border)] rounded-2xl w-32 shadow-sm relative overflow-hidden group">
-						<div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-						<span class="text-2xl mb-1">📝</span>
-						<span class="text-3xl font-black text-[var(--accent)] mb-1 relative z-10">{stats.totalPosts}</span>
-						<span class="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] relative z-10">Articles</span>
-					</div>
-					<div class="flex flex-col items-center justify-center p-4 bg-[var(--background-secondary)]/50 border border-[var(--border)] rounded-2xl w-32 shadow-sm relative overflow-hidden group">
-						<div class="absolute inset-0 bg-gradient-to-br from-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-						<span class="text-2xl mb-1">💖</span>
-						<span class="text-3xl font-black text-[var(--accent)] mb-1 relative z-10">{stats.totalReactions}</span>
-						<span class="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] relative z-10">Reactions</span>
-					</div>
-					<div class="flex flex-col items-center justify-center p-4 bg-[var(--background-secondary)]/50 border border-[var(--border)] rounded-2xl w-32 shadow-sm relative overflow-hidden group">
-						<div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-						<span class="text-2xl mb-1">💬</span>
-						<span class="text-3xl font-black text-[var(--accent)] mb-1 relative z-10">{stats.totalComments}</span>
-						<span class="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] relative z-10">Comments</span>
-					</div>
+				<div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl reveal reveal-4">
+					<StatCard value={stats.totalPosts} label="Articles" />
+					<StatCard value={stats.totalReactions} label="Reactions" />
+					<StatCard value={stats.totalComments} label="Comments" />
 				</div>
 				)}
 			</section>
 
 			<section>
 				{allPosts.length > 0 ? (
-					<ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+					<ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 list-none p-0 m-0">
 						{/* First Post (Featured) */}
 						<li class="col-span-1 md:col-span-2 lg:col-span-3">
-							<a href={`/blog/${allPosts[0].id}/`} class="group flex flex-col md:flex-row bg-[var(--background-secondary)]/30 border border-[var(--border)] rounded-3xl overflow-hidden hover:border-[var(--accent)]/50 transition-all duration-300 hover:shadow-xl hover:shadow-[var(--accent)]/5">
+							<a href={`/blog/${allPosts[0].id}/`} class="group flex flex-col md:flex-row bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-card)] overflow-hidden no-underline! hover:border-[var(--accent)] hover:shadow-md transition-all duration-200">
 								<div class="md:w-1/2 lg:w-3/5 overflow-hidden">
 									<img
 										width={720}
 										height={360}
 										src={allPosts[0].data.heroImage || blogFallbackImage}
-										alt={allPosts[0].data.title}
-										class="w-full h-full object-cover aspect-video md:aspect-auto group-hover:scale-105 transition-transform duration-500"
+										alt=""
+										class="w-full h-full object-cover rounded-none aspect-video md:aspect-auto group-hover:scale-[1.03] transition-transform duration-500"
 									/>
 								</div>
-								<div class="md:w-1/2 lg:w-2/5 p-8 lg:p-12 flex flex-col justify-center bg-gradient-to-br from-transparent to-[var(--background-secondary)]/50">
-									<div class="flex flex-wrap gap-2 mb-4">
-										{allPosts[0].data.tags && allPosts[0].data.tags.slice(0, 3).map((tag: string) => (
-											<span class="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-[var(--accent)]/10 text-[var(--accent)] rounded-full border border-[var(--accent)]/20">
-												{tag}
-											</span>
-										))}
-									</div>
-									<h2 class="text-3xl md:text-4xl font-black tracking-tight text-[var(--text-primary)] mb-4 group-hover:text-[var(--accent)] transition-colors">
-										{allPosts[0].data.title}
-									</h2>
-									<p class="text-[var(--text-secondary)] font-medium mb-6 flex items-center gap-2">
+								<div class="md:w-1/2 lg:w-2/5 p-8 lg:p-12 flex flex-col justify-center">
+									<div class="flex flex-wrap items-center gap-x-6 gap-y-2 mb-4 mono-label">
+										<span class="text-[var(--accent)]!">Latest dispatch</span>
 										<FormattedDate date={allPosts[0].data.pubDate} />
 										{allPosts[0].data.readingTimeMinutes && (
-											<>
-												<span class="w-1 h-1 rounded-full bg-[var(--border)]"></span>
-												<span>{allPosts[0].data.readingTimeMinutes} min read</span>
-											</>
+											<span>{allPosts[0].data.readingTimeMinutes} min read</span>
 										)}
-									</p>
+									</div>
+									<h2 class="font-display text-3xl md:text-4xl tracking-tight text-[var(--text-primary)] mb-4 group-hover:text-[var(--accent)] transition-colors">
+										{allPosts[0].data.title}
+									</h2>
 									<p class="text-[var(--text-secondary)] line-clamp-3 mb-6">
 										{allPosts[0].data.description}
 									</p>
-									<div class="mt-auto font-bold text-[var(--accent)] flex items-center gap-2 group-hover:gap-3 transition-all">
-										Read Article <span class="text-xl">&rarr;</span>
+									{allPosts[0].data.tags && (
+										<div class="flex flex-wrap gap-2 mb-6">
+											{allPosts[0].data.tags.slice(0, 3).map((tag: string) => (
+												<span class="px-3 py-1 mono-label bg-[var(--background)] border border-[var(--border)] rounded-[var(--radius-sm)]">#{tag}</span>
+											))}
+										</div>
+									)}
+									<div class="mt-auto font-semibold text-sm text-[var(--accent)] flex items-center gap-2 group-hover:gap-3 transition-all">
+										Read article <span aria-hidden="true">→</span>
 									</div>
 								</div>
 							</a>
@@ -119,33 +103,32 @@ if (statsEntry) {
 						{/* Other Posts */}
 						{allPosts.slice(1).map((post) => (
 							<li class="flex">
-								<a href={`/blog/${post.id}/`} class="group w-full flex flex-col bg-[var(--background-secondary)]/20 border border-[var(--border)] rounded-2xl overflow-hidden hover:border-[var(--accent)]/40 transition-all duration-300 hover:shadow-lg hover:shadow-[var(--accent)]/5 hover:-translate-y-1">
-									<div class="overflow-hidden aspect-video">
+								<a href={`/blog/${post.id}/`} class="group w-full flex flex-col bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-card)] overflow-hidden no-underline! hover:border-[var(--accent)] hover:shadow-md hover:-translate-y-[3px] transition-all duration-200">
+									<div class="overflow-hidden aspect-video border-b border-[var(--border)]">
 										<img
 											width={720}
 											height={360}
 											src={post.data.heroImage || blogFallbackImage}
-											alt={post.data.title}
-											class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+											alt=""
+											class="w-full h-full object-cover rounded-none group-hover:scale-[1.03] transition-transform duration-500"
+											loading="lazy"
 										/>
 									</div>
 									<div class="p-6 flex flex-col flex-grow">
-										<div class="flex flex-wrap gap-2 mb-3">
-											{post.data.tags && post.data.tags.slice(0, 2).map((tag: string) => (
-												<span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-[var(--background-tertiary)] text-[var(--text-secondary)] rounded-full">
-													{tag}
-												</span>
-											))}
-										</div>
-										<h3 class="text-xl font-bold leading-tight text-[var(--text-primary)] mb-2 group-hover:text-[var(--accent)] transition-colors line-clamp-2">
+										<p class="mono-label mb-3"><FormattedDate date={post.data.pubDate} /></p>
+										<h3 class="font-display text-xl leading-snug text-[var(--text-primary)] mb-3 group-hover:text-[var(--accent)] transition-colors line-clamp-2">
 											{post.data.title}
 										</h3>
-										<p class="text-sm text-[var(--text-secondary)] font-medium mb-4 flex items-center gap-2">
-											<FormattedDate date={post.data.pubDate} />
-										</p>
+										{post.data.tags && (
+											<div class="flex flex-wrap gap-2 mb-4">
+												{post.data.tags.slice(0, 2).map((tag: string) => (
+													<span class="px-2 py-0.5 mono-label bg-[var(--background)] border border-[var(--border)] rounded-[var(--radius-sm)]">#{tag}</span>
+												))}
+											</div>
+										)}
 										<div class="mt-auto pt-4 border-t border-[var(--border)] flex items-center justify-between text-sm">
 											<span class="text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">Read article</span>
-											<span class="text-[var(--accent)] group-hover:translate-x-1 transition-transform">&rarr;</span>
+											<span class="text-[var(--accent)] group-hover:translate-x-1 transition-transform" aria-hidden="true">→</span>
 										</div>
 									</div>
 								</a>
@@ -153,8 +136,13 @@ if (statsEntry) {
 						))}
 					</ul>
 				) : (
-					<div class="text-center py-20 bg-[var(--background-secondary)]/30 border border-dashed border-[var(--border)] rounded-3xl">
-						<p class="text-xl text-[var(--text-secondary)]">No posts found.</p>
+					<div class="text-center py-20 px-8 bg-[var(--background-secondary)] border border-dashed border-[var(--border)] rounded-[var(--radius-card)] max-w-2xl mx-auto">
+						<p class="mono-label mb-4">Feed temporarily unavailable</p>
+						<h2 class="font-display text-3xl mb-4">The dispatches are on their way</h2>
+						<p class="text-[var(--text-secondary)] mb-8">
+							Posts are syndicated from Dev.to and the feed could not be loaded right now. Please check back shortly, or read everything directly on Dev.to.
+						</p>
+						<a href="https://dev.to/kasuken" target="_blank" rel="noopener noreferrer" class="btn-secondary">Read on Dev.to →</a>
 					</div>
 				)}
 			</section>

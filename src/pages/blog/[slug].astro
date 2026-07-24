@@ -31,7 +31,7 @@ try {
 		contentHtml = typeof rendered === 'string' ? rendered : await rendered;
 	}
 } catch (err) {
-	contentHtml = '<p>⚠️ Unable to render markdown content.</p>';
+	contentHtml = '<p>Unable to render the content of this post. You can read the original on Dev.to using the link below.</p>';
 	console.error('[blog slug] markdown render error for', slug, err);
 }
 ---
@@ -44,302 +44,67 @@ try {
 		) : (
 			<BaseHead title="Post not found" description="The requested blog post could not be found." />
 		)}
-		<style>
-			main {
-				width: 960px;
-				margin: auto;
-				padding: 1rem;
-			}
-			.hero-image {
-				width: 100%;
-				max-height: 400px;
-				object-fit: cover;
-				border-radius: 12px;
-				margin-bottom: 2rem;
-			}
-			.post-header {
-				text-align: center;
-				margin-bottom: 2rem;
-			}
-			.post-title {
-				font-size: 3rem;
-				font-weight: 700;
-				line-height: 1.2;
-				margin: 0 0 1rem 0;
-				color: rgb(var(--black));
-			}
-			.post-meta {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				gap: 2rem;
-				flex-wrap: wrap;
-				margin-bottom: 1rem;
-				color: rgb(var(--gray));
-			}
-			.post-date {
-				font-size: 1.1rem;
-			}
-			.post-metadata {
-				display: flex;
-				justify-content: center;
-				gap: 2rem;
-				flex-wrap: wrap;
-				margin-bottom: 2rem;
-			}
-			.metadata-item {
-				display: flex;
-				align-items: center;
-				gap: 0.5rem;
-				color: rgb(var(--gray));
-				font-size: 1rem;
-				font-weight: 500;
-			}
-			.metadata-item svg {
-				opacity: 0.7;
-				flex-shrink: 0;
-			}
-			.post-tags {
-				display: flex;
-				justify-content: center;
-				gap: 0.5rem;
-				flex-wrap: wrap;
-				margin-bottom: 2rem;
-			}
-			.tag {
-				background: var(--accent);
-				color: white;
-				padding: 0.5rem 1rem;
-				border-radius: 1.5rem;
-				font-size: 0.9rem;
-				font-weight: 500;
-				border: 1px solid var(--accent);
-				text-decoration: none;
-			}
-			.post-content {
-				max-width: 768px;
-				margin: 0 auto;
-				line-height: 1.8;
-				font-size: 1.1rem;
-			}
-			.post-content :global(h1),
-			.post-content :global(h2),
-			.post-content :global(h3),
-			.post-content :global(h4),
-			.post-content :global(h5),
-			.post-content :global(h6) {
-				margin: 2rem 0 1rem 0;
-				line-height: 1.3;
-				color: rgb(var(--black));
-			}
-			.post-content :global(h1) { font-size: 2.5rem; }
-			.post-content :global(h2) { font-size: 2rem; }
-			.post-content :global(h3) { font-size: 1.5rem; }
-			.post-content :global(h4) { font-size: 1.25rem; }
-			
-			.post-content :global(p) {
-				margin: 1.5rem 0;
-				color: rgb(var(--gray-dark));
-			}
-			
-			.post-content :global(pre) {
-				background: rgb(var(--gray-light));
-				padding: 1.5rem;
-				border-radius: 8px;
-				overflow-x: auto;
-				margin: 2rem 0;
-			}
-			
-			.post-content :global(code) {
-				background: rgb(var(--gray-light));
-				padding: 0.2rem 0.4rem;
-				border-radius: 4px;
-				font-size: 0.9em;
-			}
-			
-			.post-content :global(pre code) {
-				background: none;
-				padding: 0;
-			}
-			
-			.post-content :global(blockquote) {
-				border-left: 4px solid var(--accent);
-				margin: 2rem 0;
-				padding: 1rem 1.5rem;
-				background: rgb(var(--gray-light));
-				font-style: italic;
-			}
-			
-			.post-content :global(ul),
-			.post-content :global(ol) {
-				margin: 1.5rem 0;
-				padding-left: 2rem;
-			}
-			
-			.post-content :global(li) {
-				margin: 0.5rem 0;
-			}
-			
-			.post-content :global(img) {
-				max-width: 100%;
-				height: auto;
-				border-radius: 8px;
-				margin: 2rem 0;
-			}
-			
-			.post-content :global(a) {
-				color: var(--accent);
-				text-decoration: underline;
-			}
-			
-			.post-content :global(a:hover) {
-				opacity: 0.8;
-			}
-			
-			.back-link {
-				display: inline-flex;
-				align-items: center;
-				gap: 0.5rem;
-				color: var(--accent);
-				text-decoration: none;
-				margin-bottom: 2rem;
-				font-weight: 500;
-				transition: opacity 0.2s ease;
-			}
-			
-			.back-link:hover {
-				opacity: 0.8;
-			}
-			
-			.original-link {
-				text-align: center;
-				margin: 3rem 0 2rem 0;
-				padding: 2rem;
-				background: rgb(var(--gray-light));
-				border-radius: 12px;
-			}
-			
-			.original-link a {
-				display: inline-flex;
-				align-items: center;
-				gap: 0.5rem;
-				color: var(--accent);
-				text-decoration: none;
-				font-weight: 600;
-				font-size: 1.1rem;
-				transition: opacity 0.2s ease;
-			}
-			
-			.original-link a:hover {
-				opacity: 0.8;
-			}
-			
-			@media (max-width: 768px) {
-				main {
-					padding: 1rem;
-				}
-				.post-title {
-					font-size: 2rem;
-				}
-				.post-meta {
-					gap: 1rem;
-				}
-				.post-metadata {
-					gap: 1rem;
-				}
-				.post-content {
-					font-size: 1rem;
-				}
-			}
-		</style>
 	</head>
-	<body>
+	<body class="bg-[var(--background)] text-[var(--text-primary)] antialiased selection:bg-[var(--accent)] selection:text-[var(--background)]">
 		<Header />
-		<main>
+		<main class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 md:py-16">
 			{notFound || !post ? (
-				<section style="max-width:760px;margin:4rem auto;text-align:center;">
-					<h1>🛰️ Post Not Found</h1>
-					<p>The blog post you requested does not exist or failed to load during build.</p>
-					<p><a href="/blog" style="color:var(--accent);text-decoration:underline;">← Back to all posts</a></p>
+				<section class="max-w-xl mx-auto my-16 text-center bg-[var(--background-secondary)] border border-dashed border-[var(--border)] rounded-[var(--radius-card)] p-12">
+					<p class="mono-label mb-4">404 — Dispatch missing</p>
+					<h1 class="font-display text-4xl mb-4">Post not found</h1>
+					<p class="text-[var(--text-secondary)] mb-8">The blog post you requested does not exist or failed to load during build.</p>
+					<a href="/blog" class="btn-secondary">← Back to all posts</a>
 				</section>
 			) : (
 			<>
-			<a href="/blog" class="back-link">
-				<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+			<a href="/blog" class="inline-flex items-center gap-2 mono-label no-underline! hover:text-[var(--accent)]! transition-colors mb-10 reveal reveal-1">
+				<svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
 					<path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
 				</svg>
-				Back to Blog
+				Back to writing
 			</a>
-			
-			{post.data.heroImage && (
-				<img 
-					src={post.data.heroImage} 
-					alt={post.data.title}
-					class="hero-image"
-				/>
-			)}
-			
+
 			<article>
-				<header class="post-header">
-					<h1 class="post-title">{post.data.title}</h1>
-					
-					<div class="post-meta">
-						<time class="post-date">
-							<FormattedDate date={post.data.pubDate} />
-						</time>
+				<header class="mb-12 reveal reveal-2">
+					<div class="flex flex-wrap items-center gap-x-6 gap-y-2 mb-6 mono-label">
+						<time><FormattedDate date={post.data.pubDate} /></time>
+						{post.data.readingTimeMinutes && <span>{post.data.readingTimeMinutes} min read</span>}
+						{post.data.publicReactionsCount !== undefined && <span>{post.data.publicReactionsCount} reactions</span>}
+						{post.data.commentsCount !== undefined && <span>{post.data.commentsCount} comments</span>}
 					</div>
-					
-					{/* Metadata section */}
-					<div class="post-metadata">
-						{post.data.readingTimeMinutes && (
-							<span class="metadata-item">
-								<svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-									<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-									<path d="M7.5 3a.5.5 0 0 1 .5.5V9l2.5 1.5a.5.5 0 0 1-.5.866l-3-1.8A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
-								</svg>
-								{post.data.readingTimeMinutes} min read
-							</span>
-						)}
-						{post.data.publicReactionsCount !== undefined && (
-							<span class="metadata-item">
-								<svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-									<path d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-								</svg>
-								{post.data.publicReactionsCount} reactions
-							</span>
-						)}
-						{post.data.commentsCount !== undefined && (
-							<span class="metadata-item">
-								<svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-									<path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-								</svg>
-								{post.data.commentsCount} comments
-							</span>
-						)}
-					</div>
-					
-					{/* Tags */}
+
+					<h1 class="font-display text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.05] mb-8">{post.data.title}</h1>
+
 					{post.data.tags && post.data.tags.length > 0 && (
-						<div class="post-tags">
+						<div class="flex flex-wrap gap-2">
 							{post.data.tags.map((tag: string) => (
-								<span class="tag">#{tag}</span>
+								<span class="px-3 py-1 mono-label bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-sm)]">#{tag}</span>
 							))}
 						</div>
 					)}
 				</header>
-				
-				<div class="post-content">
+
+				{post.data.heroImage && (
+					<img
+						src={post.data.heroImage}
+						alt=""
+						class="w-full max-h-[420px] object-cover rounded-[var(--radius-card)] border border-[var(--border)] mb-12 reveal reveal-3"
+					/>
+				)}
+
+				<div class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-display prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-[var(--text-primary)] prose-p:text-[var(--text-secondary)] prose-li:text-[var(--text-secondary)] prose-strong:text-[var(--text-primary)] prose-a:text-[var(--accent)] prose-a:decoration-2 prose-a:underline-offset-2 prose-code:font-mono prose-img:rounded-[var(--radius-card)] prose-img:border prose-img:border-[var(--border)] prose-blockquote:border-l-[var(--accent)] prose-blockquote:bg-[var(--background-secondary)] prose-pre:bg-[var(--background-secondary)] prose-pre:border prose-pre:border-[var(--border)] prose-pre:text-[var(--text-primary)] reveal reveal-4">
 					<div set:html={contentHtml}></div>
 				</div>
-				
+
 				{/* Link to original Dev.to post */}
-				<div class="original-link">
-					<a href={post.data.url} target="_blank" rel="noopener noreferrer">
-						<svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+				<div class="mt-16 p-8 bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-card)] text-center">
+					<p class="mono-label mb-4">Originally published on Dev.to</p>
+					<a href={post.data.url} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 font-semibold text-[var(--accent)] no-underline! hover:underline!">
+						<svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
 							<path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
 							<path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
 						</svg>
-						Read original post on Dev.to
+						Read the original post
 					</a>
 				</div>
 			</article>
