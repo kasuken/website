@@ -79,7 +79,7 @@ Spikes ⚡ · Hackathons 🧪 · Early product demos 🛠️ · Internal tools �
     category: 'extension',
     status: 'completed',
     startDate: '2024-06',
-    imageUrl: 'https://private-user-images.githubusercontent.com/2757486/476085182-a50b619c-01d6-4903-a342-4036deb7105f.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTk0NDA2ODcsIm5iZiI6MTc1OTQ0MDM4NywicGF0aCI6Ii8yNzU3NDg2LzQ3NjA4NTE4Mi1hNTBiNjE5Yy0wMWQ2LTQ5MDMtYTM0Mi00MDM2ZGViNzEwNWYucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MTAwMiUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTEwMDJUMjEyNjI3WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9N2IxZGJmN2E5ZDFiNTNhMTM0YTllN2Y2OTM5OWFlM2UzZTkxNTY3MjYwNjgzOGY4ZDU4Mzk2MDQ2NThiMmU4NCZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.fmcET0cbBPPD6oavoaKoZEt2gn2s1IPlA_K0By1Pcvg'
+    imageUrl: 'https://opengraph.githubassets.com/1/kasuken/green-software-indicator'
   },
   {
     id: 'chrome-edge-extension-typescript-template',
@@ -151,7 +151,7 @@ Spikes ⚡ · Hackathons 🧪 · Early product demos 🛠️ · Internal tools �
     category: 'vscode',
     status: 'in-progress',
     startDate: '2025-01',
-    imageUrl: 'https://private-user-images.githubusercontent.com/2757486/540261026-aad5b973-4f3b-4d15-8156-62e741050dd1.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzI3MTAxMDMsIm5iZiI6MTc3MjcwOTgwMywicGF0aCI6Ii8yNzU3NDg2LzU0MDI2MTAyNi1hYWQ1Yjk3My00ZjNiLTRkMTUtODE1Ni02MmU3NDEwNTBkZDEucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI2MDMwNSUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNjAzMDVUMTEyMzIzWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9MWY1Njg3YjM1ODkzNDQxMDQzMjdlZjQ4ZGM5ODQyMTkzYTM5MmRkYjBhNzBiODRkZmM4YjJhMjE2ZDYyMzE1OCZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.kBn3HjdzUAmKaQ2_W-BdG31QVDyPMRh0tsO_mwrcTTE'
+    imageUrl: 'https://opengraph.githubassets.com/1/kasuken/vscode-shipit'
   },
   {
     id: 'octowatch',

@@ -137,11 +137,27 @@
 	(function() {
 		const THEMES = ['light', 'dark', 'retrowave'];
 		
+		function getStoredTheme() {
+			try {
+				return localStorage.getItem('theme');
+			} catch {
+				return null;
+			}
+		}
+
+		function storeTheme(theme) {
+			try {
+				localStorage.setItem('theme', theme);
+			} catch {
+				// Ignore storage failures so theme changes still apply.
+			}
+		}
+
 		function initThemeToggle() {
 			console.log('🔧 Theme toggle initializing...');
 			
 			// Get stored theme or default to system preference
-			const storedTheme = localStorage.getItem('theme');
+			const storedTheme = getStoredTheme();
 			const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 			const initialTheme = storedTheme || (systemPrefersDark ? 'dark' : 'light');
 			
@@ -164,7 +180,7 @@
 			
 			// Listen for system theme changes (only if no stored preference)
 			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-				if (!localStorage.getItem('theme')) {
+				if (!getStoredTheme()) {
 					setTheme(e.matches ? 'dark' : 'light');
 				}
 			});
@@ -185,7 +201,7 @@
 			document.body.classList.add(theme + '-theme');
 			
 			// Store preference
-			localStorage.setItem('theme', theme);
+			storeTheme(theme);
 			
 			// Debug logging
 			console.log('✅ Theme set to:', theme);
