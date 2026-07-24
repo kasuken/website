@@ -104,12 +104,10 @@ const fmtDate = (iso: string) => {
 		<Header />
 		<main class="flex-grow w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
 			
-			<div class="text-center mb-16 relative">
-				<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[var(--accent)]/10 blur-[100px] rounded-full pointer-events-none"></div>
-				
-				<span class="inline-block text-5xl mb-4 relative z-10">🎤</span>
-				<h1 class="text-5xl md:text-7xl font-black tracking-tighter text-[var(--text-primary)] mb-6 relative z-10">
-					Tech <span class="text-[var(--accent)]">Speaking</span>
+			<div class="max-w-3xl mb-16">
+				<p class="mono-label mb-4 reveal reveal-1">Conferences · Meetups · Online events</p>
+				<h1 class="font-display text-5xl md:text-7xl tracking-tight text-[var(--text-primary)] mb-6 reveal reveal-2">
+					Tech <em class="italic text-[var(--accent)]">speaking</em>
 				</h1>
 			</div>
 
@@ -129,17 +127,17 @@ const fmtDate = (iso: string) => {
 			</div>
 
 			{fetchError ? (
-				<div class="bg-red-500/10 border-2 border-red-500/50 text-red-500 p-8 rounded-3xl text-center shadow-lg">
-					<span class="text-4xl mb-4 block">❌</span>
-					<h2 class="text-2xl font-black mb-2">Unable to load speaking data</h2>
-					<p class="font-mono text-sm opacity-80 mb-2">Error: {fetchError}</p>
-					<p>Please try again later.</p>
+				<div class="bg-[var(--background-secondary)] border border-dashed border-[var(--border)] p-12 rounded-[var(--radius-card)] text-center max-w-2xl mx-auto">
+					<p class="mono-label mb-4">Live data unavailable</p>
+					<h2 class="font-display text-2xl text-[var(--text-primary)] mb-3">Unable to load speaking data</h2>
+					<p class="text-[var(--text-secondary)] mb-6">The Sessionize feed could not be reached right now. Please try again later, or browse my full speaker profile.</p>
+					<a href="https://sessionize.com/emanuelebartolesi/" target="_blank" rel="noopener noreferrer" class="btn-secondary">View Sessionize profile →</a>
 				</div>
 			) : !data ? (
-				<div class="bg-[var(--background-secondary)]/20 border border-[var(--border)] p-12 rounded-3xl text-center shadow-lg animate-pulse">
-					<span class="text-4xl mb-4 block animate-bounce">⏳</span>
-					<h2 class="text-2xl font-black text-[var(--text-primary)] mb-2">Loading...</h2>
-					<p class="text-[var(--text-secondary)]">Fetching the latest information from Sessionize.</p>
+				<div class="bg-[var(--background-secondary)] border border-[var(--border)] p-12 rounded-[var(--radius-card)] text-center max-w-2xl mx-auto">
+					<p class="mono-label mb-4">Loading</p>
+					<h2 class="font-display text-2xl text-[var(--text-primary)] mb-2">Fetching events…</h2>
+					<p class="text-[var(--text-secondary)] mb-0">Getting the latest information from Sessionize.</p>
 				</div>
 			) : (
 				<div class="space-y-24">

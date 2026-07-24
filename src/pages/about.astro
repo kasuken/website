@@ -2,7 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import StatCard from '../components/StatCard.astro';
 ---
 
 <!doctype html>
@@ -10,33 +10,33 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	<head>
 		<BaseHead title="About Me - Emanuele Bartolesi" description="GitHub Technical Lead and Entrepreneur with over 20 years of experience in IT. Microsoft MVP, GitHub Star, and passionate about cloud technologies and AI." />
 	</head>
-	<body class="bg-[var(--background)] text-[var(--text-primary)] font-body antialiased min-h-screen flex flex-col selection:bg-[var(--accent)] selection:text-white">
+	<body class="bg-[var(--background)] text-[var(--text-primary)] antialiased min-h-screen flex flex-col selection:bg-[var(--accent)] selection:text-[var(--background)]">
 		<Header />
 		
-		<main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-			<!-- Hero Section -->
-			<section class="text-center mb-20 relative">
-				<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[var(--accent)]/10 blur-[100px] rounded-full pointer-events-none"></div>
-				
-				<div class="relative w-48 h-48 mx-auto mb-8">
-					<div class="absolute inset-0 rounded-full bg-gradient-to-tr from-[var(--accent)] to-purple-500 blur-xl opacity-40 animate-pulse"></div>
-					<div class="relative w-full h-full rounded-full border-4 border-[var(--background)] overflow-hidden shadow-2xl z-10 bg-[var(--background-secondary)]">
-						<img src="/img/2757486.png" alt="Emanuele Bartolesi" class="w-full h-full object-cover" />
+		<main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+			<!-- Hero Section — asymmetric editorial -->
+			<section class="grid grid-cols-1 md:grid-cols-12 gap-10 items-end mb-20">
+				<div class="md:col-span-8">
+					<p class="mono-label mb-4 reveal reveal-1">Zurich, Switzerland — since 2003 in tech</p>
+					<h1 class="font-display text-5xl md:text-7xl tracking-tight text-[var(--text-primary)] mb-6 reveal reveal-2">About me</h1>
+					<p class="text-xl md:text-2xl text-[var(--text-secondary)] max-w-2xl mb-0 reveal reveal-3">
+						GitHub Technical Lead, entrepreneur, and passionate technologist building the future of software.
+					</p>
+				</div>
+				<div class="md:col-span-4 reveal reveal-3">
+					<div class="relative w-44 h-44 md:w-full md:h-auto md:aspect-square md:rotate-2">
+						<img src="/img/2757486.png" alt="Portrait of Emanuele Bartolesi" class="w-full h-full object-cover rounded-[var(--radius-card)] border border-[var(--border)] shadow-lg" />
+						<span class="hidden md:block absolute -left-3 -bottom-3 w-full h-full border border-[var(--accent)] rounded-[var(--radius-card)] -z-10" aria-hidden="true"></span>
 					</div>
 				</div>
-
-				<h1 class="text-5xl md:text-7xl font-black tracking-tighter text-[var(--text-primary)] mb-6">About Me</h1>
-				<p class="text-xl md:text-2xl text-[var(--text-secondary)] font-medium max-w-2xl mx-auto">
-					GitHub Technical Lead, Entrepreneur, and passionate technologist building the future of software.
-				</p>
 			</section>
 
 			<!-- Content Grid -->
 			<div class="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16">
 				<!-- Left Column: Intro -->
-				<div class="md:col-span-8 space-y-8 prose prose-lg dark:prose-invert prose-headings:font-black prose-p:text-[var(--text-secondary)] prose-strong:text-[var(--text-primary)] hover:prose-a:text-[var(--accent)] prose-a:transition-colors">
+				<div class="md:col-span-8 space-y-8 prose prose-lg dark:prose-invert prose-headings:font-display prose-p:text-[var(--text-secondary)] prose-strong:text-[var(--text-primary)] prose-a:text-[var(--accent)]">
 					<p class="text-xl leading-relaxed">
-						Hi, I'm <strong class="font-black text-[var(--accent)]">Emanuele Bartolesi</strong>. With over 20 years of experience in the IT industry, I've worn many hats: developer, consultant, trainer, and speaker.
+						Hi, I'm <strong class="text-[var(--accent)]!">Emanuele Bartolesi</strong>. With over 20 years of experience in the IT industry, I've worn many hats: developer, consultant, trainer, and speaker.
 					</p>
 					<p>
 						My passion lies at the intersection of frontend technologies and cloud scale—specifically Microsoft Azure and AI. Throughout my career, I've designed and implemented robust solutions across diverse domains including e-commerce, banking, insurance, and healthcare.
@@ -47,9 +47,9 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 					
 					<hr class="border-[var(--border)] my-12" />
 					
-					<h2 class="text-3xl font-black">Professional Achievements</h2>
+					<h2 class="font-display">Professional achievements</h2>
 					<p>
-						I'm incredibly honored to have been recognized as a <strong>Microsoft MVP for 12 times</strong>, a <strong>4-time GitHub Star</strong> ⭐, and the <strong>GitHub Star of the Year in 2023</strong>.
+						I'm incredibly honored to have been recognized as a <strong>Microsoft MVP for 12 times</strong>, a <strong>4-time GitHub Star</strong>, and the <strong>GitHub Star of the Year in 2023</strong>.
 					</p>
 					<p>
 						Beyond coding, I am a technical author and instructor. I've written a book on Minimal APIs in ASP.NET Core and authored a course on "Learning GitHub" for LinkedIn Learning. Mentoring others is one of my greatest joys in this industry.
@@ -57,50 +57,21 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 				</div>
 				
 				<!-- Right Column: Stats / Quick Facts -->
-				<div class="md:col-span-4 space-y-6">
-					<div class="group p-6 bg-[var(--background-secondary)]/50 border border-[var(--border)] rounded-3xl hover:border-[var(--accent)]/50 transition-colors shadow-lg shadow-[var(--accent)]/5 flex items-center gap-4">
-						<div class="w-14 h-14 rounded-2xl bg-[#0078D4]/10 text-[#0078D4] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">🏆</div>
-						<div>
-							<div class="text-2xl font-black text-[var(--text-primary)]">12x</div>
-							<div class="text-sm font-bold text-[var(--text-secondary)] uppercase tracking-wider">Microsoft MVP</div>
-						</div>
-					</div>
-
-					<div class="group p-6 bg-[var(--background-secondary)]/50 border border-[var(--border)] rounded-3xl hover:border-[var(--accent)]/50 transition-colors shadow-lg shadow-[var(--accent)]/5 flex items-center gap-4">
-						<div class="w-14 h-14 rounded-2xl bg-yellow-500/10 text-yellow-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">⭐</div>
-						<div>
-							<div class="text-2xl font-black text-[var(--text-primary)]">4x</div>
-							<div class="text-sm font-bold text-[var(--text-secondary)] uppercase tracking-wider">GitHub Star</div>
-						</div>
-					</div>
-
-					<div class="group p-6 bg-[var(--background-secondary)]/50 border border-[var(--border)] rounded-3xl hover:border-[var(--accent)]/50 transition-colors shadow-lg shadow-[var(--accent)]/5 flex items-center gap-4">
-						<div class="w-14 h-14 rounded-2xl bg-[var(--accent)]/10 text-[var(--accent)] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">🥇</div>
-						<div>
-							<div class="text-2xl font-black text-[var(--text-primary)]">2023</div>
-							<div class="text-sm font-bold text-[var(--text-secondary)] uppercase tracking-wider">GitHub Star of the Year</div>
-						</div>
-					</div>
-
-					<div class="group p-6 bg-[var(--background-secondary)]/50 border border-[var(--border)] rounded-3xl hover:border-[var(--accent)]/50 transition-colors shadow-lg shadow-[var(--accent)]/5 flex items-center gap-4">
-						<div class="w-14 h-14 rounded-2xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">📚</div>
-						<div>
-							<div class="text-2xl font-black text-[var(--text-primary)]">2+</div>
-							<div class="text-sm font-bold text-[var(--text-secondary)] uppercase tracking-wider">Books & Courses</div>
-						</div>
-					</div>
+				<div class="md:col-span-4 space-y-4">
+					<StatCard value="12×" label="Microsoft MVP" />
+					<StatCard value="4×" label="GitHub Star" />
+					<StatCard value="2023" label="GitHub Star of the Year" />
+					<StatCard value="2+" label="Books & Courses" />
 				</div>
 			</div>
 			
-			<div class="mt-20 p-8 md:p-12 bg-gradient-to-br from-[var(--background-secondary)] to-[var(--background)] border border-[var(--border)] rounded-[2rem] text-center shadow-2xl relative overflow-hidden group">
-				<div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
-				<div class="relative z-10">
-					<h3 class="text-3xl font-black text-[var(--text-primary)] mb-4">Want to connect?</h3>
-					<p class="text-[var(--text-secondary)] mb-8 max-w-xl mx-auto">I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.</p>
-					<a href="https://linkedin.com/in/bartolesiemanuele" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-8 py-4 text-sm font-bold tracking-widest uppercase text-[var(--background)] bg-[var(--text-primary)] rounded-full hover:scale-105 transition-transform shadow-xl shadow-[var(--text-primary)]/20">
-						Reach out on LinkedIn
-					</a>
-				</div>
+			<div class="mt-20 p-10 md:p-14 bg-[var(--text-primary)] text-[var(--background)] rounded-[var(--radius-card)] text-center">
+				<p class="mono-label text-[var(--background)]/60! mb-4">Open for conversation</p>
+				<h3 class="font-display text-3xl text-[var(--background)] mb-4">Want to connect?</h3>
+				<p class="text-[var(--background)]/80 mb-8 max-w-xl mx-auto">I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.</p>
+				<a href="https://linkedin.com/in/bartolesiemanuele" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-7 py-3.5 text-sm font-semibold bg-[var(--accent)] text-[var(--background)]! rounded-[var(--radius-pill)] no-underline! hover:bg-[var(--accent-dark)] hover:-translate-y-[3px] transition-all duration-200">
+					Reach out on LinkedIn
+				</a>
 			</div>
 		</main>
 

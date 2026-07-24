@@ -2,6 +2,36 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import Button from '../components/Button.astro';
+import StatCard from '../components/StatCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+
+const expertiseAreas = [
+	{
+		title: 'Web Development',
+		description: 'Modern .NET applications, React frontends, and TypeScript development',
+		tags: ['.NET', 'React', 'TypeScript', 'Next.js'],
+		icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6" aria-hidden="true"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`,
+	},
+	{
+		title: 'Cloud Architecture',
+		description: 'Azure solutions, scalable architectures, and serverless applications',
+		tags: ['Azure', 'Microservices', 'Serverless', 'Architecture'],
+		icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6" aria-hidden="true"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>`,
+	},
+	{
+		title: 'AI Integration',
+		description: 'Integrating AI into modern applications, Semantic Kernel, and Prompt Engineering',
+		tags: ['OpenAI', 'Semantic Kernel', 'Copilot', 'LLMs'],
+		icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6" aria-hidden="true"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"></path><line x1="9" y1="21" x2="15" y2="21"></line></svg>`,
+	},
+	{
+		title: 'Career Growth',
+		description: 'Resume reviews, interview preparation, and developer relations strategies',
+		tags: ['DevRel', 'Public Speaking', 'Personal Branding', 'Leadership'],
+		icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>`,
+	},
+];
 ---
 
 <!doctype html>
@@ -9,150 +39,81 @@ import Header from '../components/Header.astro';
 	<head>
 		<BaseHead title="Professional Mentoring Services" description="Expert mentoring in web development, cloud technologies, and career growth. Book 1:1 sessions with Microsoft MVP Emanuele Bartolesi." />
 	</head>
-	<body class="bg-[var(--background)] text-[var(--text-primary)] font-body antialiased min-h-screen flex flex-col selection:bg-[var(--accent)] selection:text-white">
+	<body class="bg-[var(--background)] text-[var(--text-primary)] antialiased min-h-screen flex flex-col selection:bg-[var(--accent)] selection:text-[var(--background)]">
 		<Header />
 		<main class="flex-grow w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
 			
 			<!-- Hero Section -->
-			<section class="text-center mb-20 relative">
-				<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/10 blur-[100px] rounded-full pointer-events-none"></div>
-				
-				<div class="inline-flex items-center justify-center p-3 mb-6 bg-blue-500/10 text-blue-500 rounded-2xl shadow-inner shrink-0 rotate-3 transition-transform hover:rotate-6">
-					<span class="text-4xl leading-none">🤝</span>
-				</div>
-				
-				<h1 class="text-5xl md:text-7xl font-black tracking-tighter text-[var(--text-primary)] mb-6 relative z-10">
-					Professional <span class="text-[var(--accent)]">Mentoring</span>
+			<section class="max-w-3xl mb-16 md:mb-20">
+				<p class="mono-label mb-4 reveal reveal-1">1:1 sessions — 20+ years of experience</p>
+				<h1 class="font-display text-5xl md:text-7xl tracking-tight text-[var(--text-primary)] mb-6 reveal reveal-2">
+					Professional <em class="italic text-[var(--accent)]">mentoring</em>
 				</h1>
-				
-				<p class="text-xl md:text-2xl text-[var(--text-secondary)] font-medium max-w-2xl mx-auto relative z-10 mb-10 leading-relaxed">
+				<p class="text-xl md:text-2xl text-[var(--text-secondary)] mb-10 leading-relaxed reveal reveal-3">
 					Accelerate your career in web development, cloud technologies, and AI/ML with personalized guidance from someone with 20+ years of experience.
 				</p>
-				
-				<div class="relative z-10">
-					<a href="https://mentors.to/emanuelebartolesi" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-8 py-4 font-bold bg-[var(--accent)] hover:opacity-90 rounded-full transition-all shadow-xl shadow-[var(--accent)]/20 hover:-translate-y-1 gap-2 group text-lg" style="color: #ffffff;">
-						Book a Session 
-						<span class="group-hover:translate-x-1 transition-transform" style="color: #ffffff;">→</span>
-					</a>
+				<div class="reveal reveal-4">
+					<Button href="https://mentors.to/emanuelebartolesi" target="_blank" rel="noopener noreferrer">
+						Book a session
+						<span aria-hidden="true">→</span>
+					</Button>
 				</div>
 			</section>
 
 			<!-- Statistics -->
-			<section class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-24 relative z-10">
-				<div class="bg-[var(--background-secondary)]/40 backdrop-blur-sm border border-[var(--border)] rounded-3xl p-6 text-center shadow-lg">
-					<div class="text-4xl md:text-5xl font-black text-blue-500 mb-2">100+</div>
-					<div class="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">Mentoring Sessions</div>
-				</div>
-				<div class="bg-[var(--background-secondary)]/40 backdrop-blur-sm border border-[var(--border)] rounded-3xl p-6 text-center shadow-lg">
-					<div class="text-4xl md:text-5xl font-black text-blue-500 mb-2">55+</div>
-					<div class="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">Happy Mentees</div>
-				</div>
-				<div class="bg-[var(--background-secondary)]/40 backdrop-blur-sm border border-[var(--border)] rounded-3xl p-6 text-center shadow-lg">
-					<div class="text-4xl md:text-5xl font-black text-blue-500 mb-2">20+</div>
-					<div class="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">Years Experience</div>
-				</div>
-				<div class="bg-[var(--background-secondary)]/40 backdrop-blur-sm border border-[var(--border)] rounded-3xl p-6 text-center shadow-lg">
-					<div class="text-4xl md:text-5xl font-black text-blue-500 mb-2">4.9</div>
-					<div class="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">Average Rating</div>
-				</div>
+			<section class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-24 reveal reveal-5">
+				<StatCard value="100+" label="Mentoring Sessions" />
+				<StatCard value="55+" label="Happy Mentees" />
+				<StatCard value="20+" label="Years Experience" />
+				<StatCard value="4.9" label="Average Rating" />
 			</section>
 
 			<!-- Areas of Expertise -->
-			<section class="mb-24 relative z-10">
-				<h2 class="text-3xl font-black tracking-tight text-[var(--text-primary)] mb-8 flex items-center justify-center gap-3">
-					<span class="text-blue-500">🎯</span> Areas of Expertise
-				</h2>
+			<section class="mb-24">
+				<SectionHeading index="№1" title="Areas of expertise" />
 				
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-					<!-- Web Development -->
-					<div class="group bg-[var(--background-secondary)]/20 border border-[var(--border)] rounded-3xl p-8 hover:border-blue-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/5">
-						<div class="w-14 h-14 bg-blue-500/10 text-blue-500 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner group-hover:scale-110 transition-transform">🌐</div>
-						<h3 class="text-2xl font-bold text-[var(--text-primary)] mb-3">Web Development</h3>
-						<p class="text-[var(--text-secondary)] mb-6 leading-relaxed">
-							Modern .NET applications, React frontends, and TypeScript development
-						</p>
-						<div class="flex flex-wrap gap-2">
-							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">.NET</span>
-							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">React</span>
-							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">TypeScript</span>
-							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Next.js</span>
+					{expertiseAreas.map((area) => (
+						<div class="group bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-card)] p-8 hover:border-[var(--accent)] hover:-translate-y-[3px] hover:shadow-md transition-all duration-200">
+							<div class="w-12 h-12 bg-[var(--accent)]/10 text-[var(--accent)] rounded-[var(--radius-sm)] flex items-center justify-center mb-6" set:html={area.icon} />
+							<h3 class="font-display text-2xl text-[var(--text-primary)] mb-3">{area.title}</h3>
+							<p class="text-[var(--text-secondary)] mb-6 leading-relaxed">
+								{area.description}
+							</p>
+							<div class="flex flex-wrap gap-2">
+								{area.tags.map((tag) => (
+									<span class="px-3 py-1 bg-[var(--background)] border border-[var(--border)] mono-label rounded-[var(--radius-sm)]">{tag}</span>
+								))}
+							</div>
 						</div>
-					</div>
-
-					<!-- Cloud Architecture -->
-					<div class="group bg-[var(--background-secondary)]/20 border border-[var(--border)] rounded-3xl p-8 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/5">
-						<div class="w-14 h-14 bg-cyan-500/10 text-cyan-500 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner group-hover:scale-110 transition-transform">☁️</div>
-						<h3 class="text-2xl font-bold text-[var(--text-primary)] mb-3">Cloud Architecture</h3>
-						<p class="text-[var(--text-secondary)] mb-6 leading-relaxed">
-							Azure solutions, scalable architectures, and serverless applications
-						</p>
-						<div class="flex flex-wrap gap-2">
-							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Azure</span>
-							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Microservices</span>
-							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Serverless</span>
-							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Architecture</span>
-						</div>
-					</div>
-
-					<!-- AI & Machine Learning -->
-					<div class="group bg-[var(--background-secondary)]/20 border border-[var(--border)] rounded-3xl p-8 hover:border-purple-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/5">
-						<div class="w-14 h-14 bg-purple-500/10 text-purple-500 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner group-hover:scale-110 transition-transform">🤖</div>
-						<h3 class="text-2xl font-bold text-[var(--text-primary)] mb-3">AI Integration</h3>
-						<p class="text-[var(--text-secondary)] mb-6 leading-relaxed">
-							Integrating AI into modern applications, Semantic Kernel, and Prompt Engineering
-						</p>
-						<div class="flex flex-wrap gap-2">
-							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">OpenAI</span>
-							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Semantic Kernel</span>
-							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Copilot</span>
-							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">LLMs</span>
-						</div>
-					</div>
-
-					<!-- Career Growth -->
-					<div class="group bg-[var(--background-secondary)]/20 border border-[var(--border)] rounded-3xl p-8 hover:border-green-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-green-500/5">
-						<div class="w-14 h-14 bg-green-500/10 text-green-500 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner group-hover:scale-110 transition-transform">📈</div>
-						<h3 class="text-2xl font-bold text-[var(--text-primary)] mb-3">Career Growth</h3>
-						<p class="text-[var(--text-secondary)] mb-6 leading-relaxed">
-							Resume reviews, interview preparation, and developer relations strategies
-						</p>
-						<div class="flex flex-wrap gap-2">
-							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">DevRel</span>
-							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Public Speaking</span>
-							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Personal Branding</span>
-							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Leadership</span>
-						</div>
-					</div>
+					))}
 				</div>
 			</section>
 
-			<!-- Expectations and Testimonials -->
-			<section class="max-w-3xl mx-auto space-y-12 mb-16 relative z-10">
-				
-				<div class="bg-[var(--background-secondary)]/30 border border-[var(--border)] rounded-3xl p-8 md:p-12">
-					<h2 class="text-2xl font-black text-[var(--text-primary)] mb-6 flex items-center gap-3">
-						<span class="text-xl">💡</span> What to Expect
-					</h2>
-					<ul class="space-y-4 text-[var(--text-secondary)]">
+			<!-- Expectations -->
+			<section class="max-w-3xl mx-auto mb-16">
+				<div class="bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-card)] p-8 md:p-12">
+					<p class="mono-label mb-4">How it works</p>
+					<h2 class="font-display text-2xl text-[var(--text-primary)] mb-6">What to expect</h2>
+					<ul class="space-y-4 text-[var(--text-secondary)] list-none p-0 m-0">
 						<li class="flex items-start gap-3">
-							<svg class="w-6 h-6 text-blue-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+							<svg class="w-6 h-6 text-[var(--accent)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
 							<span>Personalized advice tailored to your specific goals and context</span>
 						</li>
 						<li class="flex items-start gap-3">
-							<svg class="w-6 h-6 text-blue-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+							<svg class="w-6 h-6 text-[var(--accent)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
 							<span>Honest, constructive feedback on your code, architecture, or career trajectory</span>
 						</li>
 						<li class="flex items-start gap-3">
-							<svg class="w-6 h-6 text-blue-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+							<svg class="w-6 h-6 text-[var(--accent)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
 							<span>Actionable next steps after every session to keep your momentum</span>
 						</li>
 						<li class="flex items-start gap-3">
-							<svg class="w-6 h-6 text-blue-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+							<svg class="w-6 h-6 text-[var(--accent)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
 							<span>Direct insights drawn from 20+ years navigating the tech industry</span>
 						</li>
 					</ul>
 				</div>
-				
 			</section>
 
 		</main>
