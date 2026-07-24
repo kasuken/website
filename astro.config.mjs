@@ -12,7 +12,7 @@ const isAWSDeployment = process.env.NODE_ENV === 'production' || process.env.AWS
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://example.com",
+  site: "https://www.emanuelebartolesi.com",
   integrations: [mdx(), sitemap()],
   ...(isAWSDeployment && { adapter: awsAmplify() }),
   output: isAWSDeployment ? "server" : "static",

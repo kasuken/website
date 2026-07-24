@@ -77,7 +77,7 @@ const allPosts = (await getCollection('blog'))
 
         <div class="mt-12 md:mt-16 z-10">
           <a href="https://visitorbadge.io/status?path=https%3A%2F%2Fwww.emanuelebartolesi.com" target="_blank" rel="noopener noreferrer" class="opacity-70 hover:opacity-100 transition-opacity drop-shadow-sm">
-            <img src="https://api.visitorbadge.io/api/combined?path=https%3A%2F%2Fwww.emanuelebartolesi.com&label=Visitors&countColor=%23263759&style=flat" alt="Visitor Badge" class="rounded shadow-sm" />
+            <img src="https://api.visitorbadge.io/api/combined?path=https%3A%2F%2Fwww.emanuelebartolesi.com&label=Visitors&countColor=%23263759&style=flat" alt="Visitor Badge" class="rounded shadow-sm" loading="lazy" decoding="async" />
           </a>
         </div>
       </section>
@@ -175,7 +175,7 @@ const allPosts = (await getCollection('blog'))
               <a href={`/blog/${post.id}`} class="group flex flex-col bg-[var(--background-secondary)] rounded-3xl overflow-hidden border border-[var(--border)] shadow-sm hover:shadow-xl hover:shadow-[var(--accent)]/10 transition-all duration-300 hover:-translate-y-2">
                 <div class="aspect-[16/10] overflow-hidden bg-[var(--border)] relative border-b border-[var(--border)]">
                   {post.data.heroImage ? (
-                    <img src={post.data.heroImage} alt={post.data.title} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <img src={post.data.heroImage} alt={post.data.title} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                   ) : (
                     <div class="w-full h-full flex items-center justify-center text-5xl bg-gradient-to-br from-[var(--background-secondary)] to-[var(--border)]">
                       📄
