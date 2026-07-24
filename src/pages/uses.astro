@@ -24,12 +24,6 @@ const stats = getUsesStats();
 	<head>
 		<BaseHead title="Uses - My Setup & Tools" description="Apps, hardware, and tools I use daily for development, design, and productivity. My complete tech setup and recommendations." />
 		<style>
-			main {
-				width: 960px;
-				max-width: calc(100% - 2rem);
-				margin: auto;
-				padding: 3rem 1rem;
-			}
 			
 			.uses-header {
 				text-align: center;
@@ -38,14 +32,14 @@ const stats = getUsesStats();
 			
 			.uses-header h1 {
 				margin: 0 0 0.5rem 0;
-				color: rgb(var(--black));
+				color: var(--text-primary);
 				font-weight: 700;
 				letter-spacing: -0.02em;
 			}
 			
 			.uses-header p {
 				margin: 0;
-				color: rgb(var(--gray));
+				color: var(--text-secondary);
 				font-size: 0.9rem;
 			}
 			
@@ -55,14 +49,14 @@ const stats = getUsesStats();
 				gap: 0.5rem;
 				margin-top: 1rem;
 				padding: 0.5rem 1rem;
-				background: rgb(var(--gray-light));
+				background: var(--background-secondary);
 				border-radius: 2rem;
 				font-size: 0.9rem;
-				color: rgb(var(--gray-dark));
+				color: var(--text-secondary);
 			}
 			
 			.stats-section {
-				background: rgb(var(--gray-light));
+				background: var(--background-secondary);
 				padding: 2rem;
 				border-radius: 12px;
 				margin-bottom: 3rem;
@@ -81,13 +75,13 @@ const stats = getUsesStats();
 			.stat-number {
 				font-size: 2.5rem;
 				font-weight: 700;
-				color: rgb(var(--accent));
+				color: var(--accent);
 				margin: 0;
 			}
 			
 			.stat-label {
 				margin: 0.5rem 0 0 0;
-				color: rgb(var(--gray-dark));
+				color: var(--text-secondary);
 				font-weight: 500;
 			}
 			
@@ -98,13 +92,13 @@ const stats = getUsesStats();
 			.section-title {
 				font-size: 2rem;
 				margin: 0 0 1rem 0;
-				color: rgb(var(--black));
+				color: var(--text-primary);
 				text-align: center;
 			}
 			
 			.section-subtitle {
 				text-align: center;
-				color: rgb(var(--gray));
+				color: var(--text-secondary);
 				margin-bottom: 2rem;
 				font-size: 1rem;
 			}
@@ -121,9 +115,9 @@ const stats = getUsesStats();
 				display: flex;
 				align-items: center;
 				gap: 0.5rem;
-				background: rgb(var(--gray-light));
-				border: 1px solid rgb(var(--gray));
-				color: rgb(var(--black));
+				background: var(--background-secondary);
+				border: 1px solid var(--text-secondary);
+				color: var(--text-primary);
 				padding: 0.75rem 1.25rem;
 				border-radius: 2rem;
 				cursor: pointer;
@@ -166,9 +160,9 @@ const stats = getUsesStats();
 			/* View Toggle */
 			.view-toggle {
 				display: flex;
-				background: rgb(var(--gray-light));
+				background: var(--background-secondary);
 				border-radius: 2rem;
-				border: 1px solid rgb(var(--gray));
+				border: 1px solid var(--text-secondary);
 				overflow: hidden;
 			}
 
@@ -178,7 +172,7 @@ const stats = getUsesStats();
 				gap: 0.5rem;
 				background: transparent;
 				border: none;
-				color: rgb(var(--black));
+				color: var(--text-primary);
 				padding: 0.75rem 1.5rem;
 				cursor: pointer;
 				transition: all 0.2s ease;
@@ -213,7 +207,7 @@ const stats = getUsesStats();
 			.table-wrapper {
 				overflow-x: auto;
 				border-radius: 1rem;
-				border: 1px solid rgb(var(--gray));
+				border: 1px solid var(--text-secondary);
 				box-shadow: var(--shadow-sm);
 			}
 
@@ -225,11 +219,11 @@ const stats = getUsesStats();
 			}
 
 			.uses-table th {
-				background: rgb(var(--gray-light));
-				color: rgb(var(--black));
+				background: var(--background-secondary);
+				color: var(--text-primary);
 				padding: 1rem;
 				text-align: left;
-				border-bottom: 1px solid rgb(var(--gray));
+				border-bottom: 1px solid var(--text-secondary);
 				font-weight: 600;
 				position: sticky;
 				top: 0;
@@ -263,12 +257,12 @@ const stats = getUsesStats();
 
 			.uses-table td {
 				padding: 1rem;
-				border-bottom: 1px solid rgb(var(--gray-light));
+				border-bottom: 1px solid var(--background-secondary);
 				vertical-align: middle;
 			}
 
 			.use-row:hover {
-				background: rgb(var(--gray-light));
+				background: var(--background-secondary);
 			}
 
 			.name-with-image {
@@ -282,7 +276,7 @@ const stats = getUsesStats();
 				height: 40px;
 				object-fit: cover;
 				border-radius: 0.5rem;
-				border: 1px solid rgb(var(--gray-light));
+				border: 1px solid var(--background-secondary);
 			}
 
 			.name-info {
@@ -292,13 +286,13 @@ const stats = getUsesStats();
 
 			.item-name {
 				font-weight: 600;
-				color: rgb(var(--black));
+				color: var(--text-primary);
 				margin-bottom: 0.25rem;
 			}
 
 			.item-description {
 				font-size: 0.8rem;
-				color: rgb(var(--gray-dark));
+				color: var(--text-secondary);
 				line-height: 1.4;
 				overflow: hidden;
 				display: -webkit-box;
@@ -328,7 +322,7 @@ const stats = getUsesStats();
 			}
 
 			.star {
-				color: rgb(var(--gray));
+				color: var(--text-secondary);
 				font-size: 0.9rem;
 			}
 
@@ -338,7 +332,7 @@ const stats = getUsesStats();
 
 			.rating-number {
 				font-size: 0.8rem;
-				color: rgb(var(--gray-dark));
+				color: var(--text-secondary);
 				font-weight: 500;
 			}
 
@@ -349,7 +343,7 @@ const stats = getUsesStats();
 
 			.no-rating,
 			.no-price {
-				color: rgb(var(--gray));
+				color: var(--text-secondary);
 				font-style: italic;
 			}
 
@@ -409,12 +403,12 @@ const stats = getUsesStats();
 			}
 			
 			.use-card.featured {
-				border: 2px solid rgb(var(--accent));
+				border: 2px solid var(--accent);
 				background: linear-gradient(135deg, rgba(var(--accent), 0.02), rgba(var(--accent), 0.05));
 			}
 			
 			.use-card.recent {
-				border-left: 4px solid rgb(var(--accent));
+				border-left: 4px solid var(--accent);
 			}
 			
 			.use-header {
@@ -426,7 +420,7 @@ const stats = getUsesStats();
 				position: absolute;
 				top: 1rem;
 				right: 1rem;
-				background: rgb(var(--accent));
+				background: var(--accent);
 				color: white;
 				padding: 0.25rem 0.75rem;
 				border-radius: 1rem;
@@ -445,7 +439,7 @@ const stats = getUsesStats();
 				width: 60px;
 				height: 60px;
 				border-radius: 12px;
-				background: linear-gradient(135deg, rgb(var(--accent-light, var(--accent))), rgb(var(--accent)));
+				background: linear-gradient(135deg, var(--accent), var(--accent));
 				display: flex;
 				align-items: center;
 				justify-content: center;
@@ -492,13 +486,13 @@ const stats = getUsesStats();
 				font-size: 1.3rem;
 				font-weight: 700;
 				margin: 0 0 0.25rem 0;
-				color: rgb(var(--black));
+				color: var(--text-primary);
 				line-height: 1.3;
 			}
 			
 			.use-brand {
 				font-size: 0.9rem;
-				color: rgb(var(--gray));
+				color: var(--text-secondary);
 				margin: 0;
 			}
 			
@@ -507,7 +501,7 @@ const stats = getUsesStats();
 				align-items: center;
 				gap: 1rem;
 				margin-bottom: 1rem;
-				color: rgb(var(--gray-dark));
+				color: var(--text-secondary);
 				font-size: 0.9rem;
 			}
 			
@@ -515,7 +509,7 @@ const stats = getUsesStats();
 				display: flex;
 				align-items: center;
 				gap: 0.25rem;
-				background: rgb(var(--gray-light));
+				background: var(--background-secondary);
 				padding: 0.25rem 0.75rem;
 				border-radius: 1rem;
 				font-size: 0.8rem;
@@ -529,12 +523,12 @@ const stats = getUsesStats();
 			}
 			
 			.stars {
-				color: rgb(var(--accent));
+				color: var(--accent);
 			}
 			
 			.use-price {
 				font-weight: 600;
-				color: rgb(var(--black));
+				color: var(--text-primary);
 			}
 			
 			.price-free {
@@ -546,29 +540,29 @@ const stats = getUsesStats();
 			}
 			
 			.use-description {
-				color: rgb(var(--gray-dark));
+				color: var(--text-secondary);
 				line-height: 1.6;
 				margin-bottom: 1.5rem;
 			}
 			
 			.use-reason {
-				background: rgb(var(--gray-light));
+				background: var(--background-secondary);
 				padding: 1rem;
 				border-radius: 0.75rem;
 				margin-bottom: 1.5rem;
-				border-left: 3px solid rgb(var(--accent));
+				border-left: 3px solid var(--accent);
 			}
 			
 			.reason-title {
 				font-size: 0.9rem;
 				font-weight: 600;
-				color: rgb(var(--black));
+				color: var(--text-primary);
 				margin: 0 0 0.5rem 0;
 			}
 			
 			.reason-text {
 				font-size: 0.9rem;
-				color: rgb(var(--gray-dark));
+				color: var(--text-secondary);
 				margin: 0;
 				line-height: 1.5;
 			}
@@ -581,8 +575,8 @@ const stats = getUsesStats();
 			}
 			
 			.tag {
-				background: rgb(var(--gray-light));
-				color: rgb(var(--gray-dark));
+				background: var(--background-secondary);
+				color: var(--text-secondary);
 				padding: 0.25rem 0.75rem;
 				border-radius: 1rem;
 				font-size: 0.8rem;
@@ -596,7 +590,7 @@ const stats = getUsesStats();
 			.specs-title {
 				font-size: 0.9rem;
 				font-weight: 600;
-				color: rgb(var(--black));
+				color: var(--text-primary);
 				margin: 0 0 0.5rem 0;
 			}
 			
@@ -610,12 +604,12 @@ const stats = getUsesStats();
 				grid-template-columns: 1fr 2fr;
 				gap: 0.5rem;
 				font-size: 0.85rem;
-				color: rgb(var(--gray-dark));
+				color: var(--text-secondary);
 			}
 			
 			.spec-key {
 				font-weight: 500;
-				color: rgb(var(--black));
+				color: var(--text-primary);
 			}
 			
 			.use-footer {
@@ -624,12 +618,12 @@ const stats = getUsesStats();
 				align-items: center;
 				gap: 1rem;
 				padding-top: 1rem;
-				border-top: 1px solid rgb(var(--gray-light));
+				border-top: 1px solid var(--background-secondary);
 			}
 			
 			.use-year {
 				font-size: 0.9rem;
-				color: rgb(var(--gray));
+				color: var(--text-secondary);
 			}
 			
 			.use-links {
@@ -651,7 +645,7 @@ const stats = getUsesStats();
 			}
 			
 			.btn-primary {
-				background: rgb(var(--accent));
+				background: var(--accent);
 				color: white;
 			}
 			
@@ -661,39 +655,36 @@ const stats = getUsesStats();
 			}
 			
 			.btn-secondary {
-				background: rgb(var(--gray-light));
-				color: rgb(var(--gray-dark));
-				border: 1px solid rgb(var(--gray));
+				background: var(--background-secondary);
+				color: var(--text-secondary);
+				border: 1px solid var(--text-secondary);
 			}
 			
 			.btn-secondary:hover {
-				background: rgb(var(--gray));
+				background: var(--text-secondary);
 				color: white;
 			}
 			
 			.alternatives {
 				margin-top: 1rem;
 				padding-top: 1rem;
-				border-top: 1px solid rgb(var(--gray-light));
+				border-top: 1px solid var(--background-secondary);
 			}
 			
 			.alternatives-title {
 				font-size: 0.9rem;
 				font-weight: 600;
-				color: rgb(var(--black));
+				color: var(--text-primary);
 				margin: 0 0 0.5rem 0;
 			}
 			
 			.alternatives-list {
 				font-size: 0.85rem;
-				color: rgb(var(--gray-dark));
+				color: var(--text-secondary);
 				margin: 0;
 			}
 			
 			@media (max-width: 768px) {
-				main {
-					padding: 2rem 1rem;
-				}
 				
 				.uses-header h1 {
 					font-size: 2rem;
@@ -795,12 +786,17 @@ const stats = getUsesStats();
 			}
 		</style>
 	</head>
-	<body>
+	<body class="bg-[var(--background)] text-[var(--text-primary)] font-body antialiased min-h-screen flex flex-col selection:bg-[var(--accent)] selection:text-white">
 		<Header />
-		<main>
-			<div class="uses-header">
-				<h1>Uses</h1>
-				<p class="item-count">
+		<main class="flex-grow w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+			<div class="text-center mb-16 relative">
+				<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[var(--accent)]/10 blur-[100px] rounded-full pointer-events-none"></div>
+				
+				<span class="inline-block text-5xl mb-4 relative z-10">💻</span>
+				<h1 class="text-5xl md:text-7xl font-black tracking-tighter text-[var(--text-primary)] mb-6 relative z-10">
+					My <span class="text-[var(--accent)]">Setup</span>
+				</h1>
+				<p class="text-xl md:text-2xl text-[var(--text-secondary)] font-medium max-w-2xl mx-auto relative z-10 mb-10 leading-relaxed">
 					{stats.totalItems} items across {Object.keys(stats.categoryDistribution).length} categories
 				</p>
 			</div>
@@ -1396,3 +1392,4 @@ const stats = getUsesStats();
 		</script>
 	</body>
 </html>
+

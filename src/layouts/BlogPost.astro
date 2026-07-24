@@ -1,83 +1,71 @@
 ---
-import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
-import Header from '../components/Header.astro';
+import { Image } from 'astro:assets';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.props;
 ---
 
 <html lang="en">
 	<head>
 		<BaseHead title={title} description={description} />
-		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
-			}
-			.hero-image {
-				width: 100%;
-			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
-			}
-			.last-updated-on {
-				font-style: italic;
-			}
-		</style>
 	</head>
 
-	<body>
+	<body class="bg-[var(--background)] text-[var(--text-primary)] font-body antialiased selection:bg-[var(--accent)] selection:text-white min-h-screen flex flex-col">
 		<Header />
-		<main>
-			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
+		<main class="flex-grow w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+			<article class="bg-[var(--background-secondary)]/20 p-6 md:p-12 rounded-3xl border border-[var(--border)] relative overflow-hidden">
+				
+				<div class="relative w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden mb-12 border border-[var(--border)]/50 shadow-2xl backdrop-blur-sm">
+					{heroImage ? (
+						<Image width={1020} height={510} src={heroImage} alt="" class="w-full h-full object-cover" />
+					) : (
+						<div class="w-full h-full bg-gradient-to-br from-[var(--background-secondary)] to-[var(--background-tertiary)] flex items-center justify-center">
+							<span class="text-[var(--text-secondary)] opacity-50 font-black text-4xl">EB</span>
 						</div>
-						<h1>{title}</h1>
-						<hr />
+					)}
+					<div class="absolute inset-0 bg-gradient-to-t from-[var(--background)]/80 via-transparent to-transparent pointer-events-none"></div>
+				</div>
+
+				<div class="max-w-3xl mx-auto">
+					<div class="text-center mb-12">
+						<div class="flex flex-wrap items-center justify-center gap-2 mb-6">
+							{tags && tags.map((tag: string) => (
+								<span class="px-3 py-1 text-xs font-bold uppercase tracking-wider bg-[var(--accent)]/10 text-[var(--accent)] rounded-full border border-[var(--accent)]/20">
+									{tag}
+								</span>
+							))}
+						</div>
+						
+						<h1 class="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-[var(--text-primary)] mb-6 leading-tight">
+							{title}
+						</h1>
+						
+						<div class="flex items-center justify-center gap-4 text-sm font-medium text-[var(--text-secondary)]">
+							<div class="flex items-center gap-2 bg-[var(--background-tertiary)]/50 py-1.5 px-4 rounded-full border border-[var(--border)]">
+								<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+								<FormattedDate date={pubDate} />
+							</div>
+							
+							{updatedDate && (
+								<div class="flex items-center gap-2 bg-[var(--accent)]/10 text-[var(--accent)] py-1.5 px-4 rounded-full border border-[var(--accent)]/20">
+									<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+									Updated: <FormattedDate date={updatedDate} />
+								</div>
+							)}
+						</div>
+						
+						<div class="w-24 h-1 bg-[var(--accent)] mx-auto mt-10 rounded-full opacity-50"></div>
 					</div>
-					<slot />
+
+					<div class="prose prose-lg dark:prose-invert prose-headings:font-sans prose-headings:font-bold prose-headings:text-[var(--text-primary)] prose-p:text-[var(--text-secondary)] prose-a:text-[var(--accent)] prose-a:no-underline hover:prose-a:underline prose-strong:text-[var(--text-primary)] prose-code:text-[var(--accent)] prose-code:bg-[var(--accent)]/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:before:content-none prose-code:after:content-none prose-blockquote:border-l-[var(--accent)] auto-mx w-full max-w-none">
+						<slot />
+					</div>
 				</div>
 			</article>
 		</main>

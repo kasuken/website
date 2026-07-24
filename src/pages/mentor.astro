@@ -8,306 +8,153 @@ import Header from '../components/Header.astro';
 <html lang="en">
 	<head>
 		<BaseHead title="Professional Mentoring Services" description="Expert mentoring in web development, cloud technologies, and career growth. Book 1:1 sessions with Microsoft MVP Emanuele Bartolesi." />
-		<style>
-			main {
-				width: 960px;
-				max-width: calc(100% - 2rem);
-				margin: auto;
-				padding: 3rem 1rem;
-			}
-			
-			.mentor-header {
-				text-align: center;
-				margin-bottom: 2rem;
-			}
-			
-			.mentor-header h1 {
-				margin: 0 0 0.5rem 0;
-				color: var(--text-primary);
-				font-weight: var(--font-weight-bold);
-				letter-spacing: var(--tracking-tight);
-			}
-			
-			.mentor-header p {
-				margin: 0 0 1.5rem 0;
-				color: var(--text-secondary);
-				font-size: var(--text-sm);
-			}
-			
-			.mentor-cta {
-				margin-top: 1rem;
-			}
-			
-			.cta-button {
-				display: inline-block;
-				background: var(--accent);
-				color: white;
-				padding: 1rem 2rem;
-				border-radius: var(--radius);
-				text-decoration: none;
-				font-weight: var(--font-weight-medium);
-				font-size: var(--text-lg);
-				transition: all var(--default-transition-duration) var(--default-transition-timing-function);
-				border: 2px solid var(--accent);
-				box-shadow: var(--shadow-md);
-			}
-			
-			.cta-button:hover {
-				background: var(--accent-dark);
-				border-color: var(--accent-dark);
-				transform: translateY(-2px);
-				box-shadow: var(--shadow-lg);
-			}
-			
-			.stats {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-				gap: 2rem;
-				margin: 4rem 0;
-			}
-			
-			.stat {
-				text-align: center;
-				padding: 2rem;
-				background: var(--background);
-				border-radius: var(--radius-md);
-				box-shadow: var(--shadow-md);
-				border: 1px solid var(--border);
-			}
-			
-			.stat-number {
-				font-size: var(--text-3xl);
-				font-weight: var(--font-weight-bold);
-				color: var(--accent);
-				margin: 0 0 0.5rem 0;
-			}
-			
-			.stat-label {
-				color: var(--text-secondary);
-				margin: 0;
-			}
-			
-			.specialties {
-				margin: 4rem 0;
-			}
-			
-			.section-title {
-				font-size: var(--text-4xl);
-				text-align: center;
-				margin: 0 0 3rem 0;
-				color: var(--text-primary);
-				font-weight: var(--font-weight-black);
-				letter-spacing: var(--tracking-tighter);
-			}
-			
-			.specialty-grid {
-				display: grid;
-				grid-template-columns: repeat(2, 1fr);
-				gap: 2rem;
-			}
-			
-			.specialty-card {
-				background: var(--background);
-				padding: 2rem;
-				border-radius: var(--radius-md);
-				box-shadow: var(--shadow-md);
-				border: 1px solid var(--border);
-			}
-			
-			.specialty-icon {
-				font-size: var(--text-4xl);
-				margin-bottom: 1rem;
-			}
-			
-			.specialty-title {
-				font-size: var(--text-xl);
-				font-weight: var(--font-weight-medium);
-				margin: 0 0 1rem 0;
-				color: var(--text-primary);
-			}
-			
-			.specialty-description {
-				color: var(--text-secondary);
-				margin: 0 0 1rem 0;
-				line-height: var(--text-base--line-height);
-			}
-			
-			.tags {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.5rem;
-			}
-			
-			.tag {
-				background: oklch(from var(--accent) l c h / 0.1);
-				color: var(--accent);
-				padding: 0.25rem 0.75rem;
-				border-radius: 20px;
-				font-size: var(--text-sm);
-				border: 1px solid oklch(from var(--accent) l c h / 0.2);
-			}
-			
-			.final-cta {
-				text-align: center;
-				margin: 4rem 0;
-				padding: 3rem;
-				background: var(--accent);
-				color: white;
-				border-radius: var(--radius-lg);
-				box-shadow: var(--shadow-lg);
-			}
-			
-			.final-cta h2 {
-				font-size: var(--text-3xl);
-				margin: 0 0 1rem 0;
-				color: white;
-				font-weight: var(--font-weight-bold);
-			}
-			
-			.final-cta p {
-				font-size: var(--text-lg);
-				margin: 0 0 2rem 0;
-				opacity: 0.9;
-				color: white;
-			}
-			
-			.final-cta .cta-button {
-				background: white;
-				color: var(--accent);
-				border: 2px solid white;
-			}
-			
-			.final-cta .cta-button:hover {
-				background: var(--color-bg-secondary);
-				color: var(--accent-dark);
-				border-color: var(--color-bg-secondary);
-			}
-			
-			@media (max-width: 768px) {
-				.mentor-header h1 {
-					font-size: var(--text-3xl);
-				}
-				
-				.section-title {
-					font-size: var(--text-3xl);
-				}
-				
-				.stats {
-					grid-template-columns: repeat(2, 1fr);
-				}
-				
-				.specialty-grid {
-					grid-template-columns: 1fr;
-				}
-			}
-		</style>
 	</head>
-	<body>
+	<body class="bg-[var(--background)] text-[var(--text-primary)] font-body antialiased min-h-screen flex flex-col selection:bg-[var(--accent)] selection:text-white">
 		<Header />
-		<main>
-			<!-- Header Section -->
-			<section class="mentor-header">
-				<h1>Professional Mentoring</h1>
-				<p>
-					Accelerate your career in web development, cloud technologies, and AI/ML. 
-					Get personalized guidance from a person with 20+ years of experience.
+		<main class="flex-grow w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+			
+			<!-- Hero Section -->
+			<section class="text-center mb-20 relative">
+				<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+				
+				<div class="inline-flex items-center justify-center p-3 mb-6 bg-blue-500/10 text-blue-500 rounded-2xl shadow-inner shrink-0 rotate-3 transition-transform hover:rotate-6">
+					<span class="text-4xl leading-none">🤝</span>
+				</div>
+				
+				<h1 class="text-5xl md:text-7xl font-black tracking-tighter text-[var(--text-primary)] mb-6 relative z-10">
+					Professional <span class="text-[var(--accent)]">Mentoring</span>
+				</h1>
+				
+				<p class="text-xl md:text-2xl text-[var(--text-secondary)] font-medium max-w-2xl mx-auto relative z-10 mb-10 leading-relaxed">
+					Accelerate your career in web development, cloud technologies, and AI/ML with personalized guidance from someone with 20+ years of experience.
 				</p>
-				<div class="mentor-cta">
-					<a href="https://mentors.to/emanuelebartolesi" target="_blank" rel="noopener" class="cta-button">
-						Book a Session →
+				
+				<div class="relative z-10">
+					<a href="https://mentors.to/emanuelebartolesi" target="_blank" rel="noopener" class="inline-flex items-center justify-center px-8 py-4 font-bold bg-[var(--accent)] hover:opacity-90 rounded-full transition-all shadow-xl shadow-[var(--accent)]/20 hover:-translate-y-1 gap-2 group text-lg" style="color: #ffffff;">
+						Book a Session 
+						<span class="group-hover:translate-x-1 transition-transform" style="color: #ffffff;">→</span>
 					</a>
 				</div>
 			</section>
 
 			<!-- Statistics -->
-			<section class="stats">
-				<div class="stat">
-					<div class="stat-number">100+</div>
-					<div class="stat-label">Mentoring Sessions</div>
+			<section class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-24 relative z-10">
+				<div class="bg-[var(--background-secondary)]/40 backdrop-blur-sm border border-[var(--border)] rounded-3xl p-6 text-center shadow-lg">
+					<div class="text-4xl md:text-5xl font-black text-blue-500 mb-2">100+</div>
+					<div class="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">Mentoring Sessions</div>
 				</div>
-				<div class="stat">
-					<div class="stat-number">55+</div>
-					<div class="stat-label">Happy Mentees</div>
+				<div class="bg-[var(--background-secondary)]/40 backdrop-blur-sm border border-[var(--border)] rounded-3xl p-6 text-center shadow-lg">
+					<div class="text-4xl md:text-5xl font-black text-blue-500 mb-2">55+</div>
+					<div class="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">Happy Mentees</div>
 				</div>
-				<div class="stat">
-					<div class="stat-number">20+</div>
-					<div class="stat-label">Years Experience</div>
+				<div class="bg-[var(--background-secondary)]/40 backdrop-blur-sm border border-[var(--border)] rounded-3xl p-6 text-center shadow-lg">
+					<div class="text-4xl md:text-5xl font-black text-blue-500 mb-2">20+</div>
+					<div class="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">Years Experience</div>
 				</div>
-				<div class="stat">
-					<div class="stat-number">4.9</div>
-					<div class="stat-label">Average Rating</div>
+				<div class="bg-[var(--background-secondary)]/40 backdrop-blur-sm border border-[var(--border)] rounded-3xl p-6 text-center shadow-lg">
+					<div class="text-4xl md:text-5xl font-black text-blue-500 mb-2">4.9</div>
+					<div class="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">Average Rating</div>
 				</div>
 			</section>
 
-			<!-- Specialties -->
-			<section class="specialties">
-				<h2 class="section-title">Areas of Expertise</h2>
-				<div class="specialty-grid">
-					<div class="specialty-card">
-						<div class="specialty-icon">🌐</div>
-						<h3 class="specialty-title">Web Development</h3>
-						<p class="specialty-description">
+			<!-- Areas of Expertise -->
+			<section class="mb-24 relative z-10">
+				<h2 class="text-3xl font-black tracking-tight text-[var(--text-primary)] mb-8 flex items-center justify-center gap-3">
+					<span class="text-blue-500">🎯</span> Areas of Expertise
+				</h2>
+				
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+					<!-- Web Development -->
+					<div class="group bg-[var(--background-secondary)]/20 border border-[var(--border)] rounded-3xl p-8 hover:border-blue-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/5">
+						<div class="w-14 h-14 bg-blue-500/10 text-blue-500 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner group-hover:scale-110 transition-transform">🌐</div>
+						<h3 class="text-2xl font-bold text-[var(--text-primary)] mb-3">Web Development</h3>
+						<p class="text-[var(--text-secondary)] mb-6 leading-relaxed">
 							Modern .NET applications, React frontends, and TypeScript development
 						</p>
-						<div class="tags">
-							<span class="tag">.NET</span>
-							<span class="tag">React</span>
-							<span class="tag">TypeScript</span>
-							<span class="tag">C#</span>
+						<div class="flex flex-wrap gap-2">
+							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">.NET</span>
+							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">React</span>
+							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">TypeScript</span>
+							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Next.js</span>
 						</div>
 					</div>
-					<div class="specialty-card">
-						<div class="specialty-icon">☁️</div>
-						<h3 class="specialty-title">Cloud & DevOps</h3>
-						<p class="specialty-description">
-							Azure cloud services, containerization with Docker, and GitHub workflows
+
+					<!-- Cloud Architecture -->
+					<div class="group bg-[var(--background-secondary)]/20 border border-[var(--border)] rounded-3xl p-8 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/5">
+						<div class="w-14 h-14 bg-cyan-500/10 text-cyan-500 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner group-hover:scale-110 transition-transform">☁️</div>
+						<h3 class="text-2xl font-bold text-[var(--text-primary)] mb-3">Cloud Architecture</h3>
+						<p class="text-[var(--text-secondary)] mb-6 leading-relaxed">
+							Azure solutions, scalable architectures, and serverless applications
 						</p>
-						<div class="tags">
-							<span class="tag">Azure</span>
-							<span class="tag">Docker</span>
-							<span class="tag">GitHub</span>
-							<span class="tag">CI/CD</span>
+						<div class="flex flex-wrap gap-2">
+							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Azure</span>
+							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Microservices</span>
+							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Serverless</span>
+							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Architecture</span>
 						</div>
 					</div>
-					<div class="specialty-card">
-						<div class="specialty-icon">🤖</div>
-						<h3 class="specialty-title">AI & Machine Learning</h3>
-						<p class="specialty-description">
-							Large Language Models integration, AI-powered applications, and ML solutions
+
+					<!-- AI & Machine Learning -->
+					<div class="group bg-[var(--background-secondary)]/20 border border-[var(--border)] rounded-3xl p-8 hover:border-purple-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/5">
+						<div class="w-14 h-14 bg-purple-500/10 text-purple-500 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner group-hover:scale-110 transition-transform">🤖</div>
+						<h3 class="text-2xl font-bold text-[var(--text-primary)] mb-3">AI Integration</h3>
+						<p class="text-[var(--text-secondary)] mb-6 leading-relaxed">
+							Integrating AI into modern applications, Semantic Kernel, and Prompt Engineering
 						</p>
-						<div class="tags">
-							<span class="tag">LLM</span>
-							<span class="tag">OpenAI</span>
-							<span class="tag">Azure AI</span>
-							<span class="tag">ML.NET</span>
+						<div class="flex flex-wrap gap-2">
+							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">OpenAI</span>
+							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Semantic Kernel</span>
+							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Copilot</span>
+							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">LLMs</span>
 						</div>
 					</div>
-					<div class="specialty-card">
-						<div class="specialty-icon">🚀</div>
-						<h3 class="specialty-title">Career Growth</h3>
-						<p class="specialty-description">
-							Leadership, technical interviews, and career advancement strategies
+
+					<!-- Career Growth -->
+					<div class="group bg-[var(--background-secondary)]/20 border border-[var(--border)] rounded-3xl p-8 hover:border-green-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-green-500/5">
+						<div class="w-14 h-14 bg-green-500/10 text-green-500 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner group-hover:scale-110 transition-transform">📈</div>
+						<h3 class="text-2xl font-bold text-[var(--text-primary)] mb-3">Career Growth</h3>
+						<p class="text-[var(--text-secondary)] mb-6 leading-relaxed">
+							Resume reviews, interview preparation, and developer relations strategies
 						</p>
-						<div class="tags">
-							<span class="tag">Leadership</span>
-							<span class="tag">Interviews</span>
-							<span class="tag">Strategy</span>
-							<span class="tag">Growth</span>
+						<div class="flex flex-wrap gap-2">
+							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">DevRel</span>
+							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Public Speaking</span>
+							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Personal Branding</span>
+							<span class="px-3 py-1 bg-[var(--background-tertiary)] border border-[var(--border)] text-[var(--text-secondary)] text-xs font-bold uppercase tracking-wider rounded-lg">Leadership</span>
 						</div>
 					</div>
 				</div>
 			</section>
 
-			<!-- Final CTA -->
-			<section class="final-cta">
-				<h2>Ready to Accelerate Your Career?</h2>
-				<p>
-					Join hundreds of developers who've advanced their careers through personalized mentoring.
-				</p>
-				<a href="https://mentors.to/emanuelebartolesi" target="_blank" rel="noopener" class="cta-button">
-					Schedule Your First Session
-				</a>
+			<!-- Expectations and Testimonials -->
+			<section class="max-w-3xl mx-auto space-y-12 mb-16 relative z-10">
+				
+				<div class="bg-[var(--background-secondary)]/30 border border-[var(--border)] rounded-3xl p-8 md:p-12">
+					<h2 class="text-2xl font-black text-[var(--text-primary)] mb-6 flex items-center gap-3">
+						<span class="text-xl">💡</span> What to Expect
+					</h2>
+					<ul class="space-y-4 text-[var(--text-secondary)]">
+						<li class="flex items-start gap-3">
+							<svg class="w-6 h-6 text-blue-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+							<span>Personalized advice tailored to your specific goals and context</span>
+						</li>
+						<li class="flex items-start gap-3">
+							<svg class="w-6 h-6 text-blue-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+							<span>Honest, constructive feedback on your code, architecture, or career trajectory</span>
+						</li>
+						<li class="flex items-start gap-3">
+							<svg class="w-6 h-6 text-blue-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+							<span>Actionable next steps after every session to keep your momentum</span>
+						</li>
+						<li class="flex items-start gap-3">
+							<svg class="w-6 h-6 text-blue-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+							<span>Direct insights drawn from 20+ years navigating the tech industry</span>
+						</li>
+					</ul>
+				</div>
+				
 			</section>
+
 		</main>
 		<Footer />
 	</body>

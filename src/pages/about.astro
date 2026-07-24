@@ -1,242 +1,109 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<BaseHead title="About Me - Emanuele Bartolesi" description="GitHub Technical Lead and Entrepreneur with over 20 years of experience in IT. Microsoft MVP, GitHub Star, and passionate about cloud technologies and AI." />
-		<style>
-			main {
-				width: 960px;
-				max-width: calc(100% - 2rem);
-				margin: auto;
-				padding: 3rem 1rem;
-			}
-			
-			.about-header {
-				text-align: center;
-				margin-bottom: 3rem;
-			}
-			
-			.about-header h1 {
-				margin: 0 0 0.5rem 0;
-				color: rgb(var(--black));
-				font-weight: 700;
-				letter-spacing: -0.02em;
-			}
-			
-			.about-header p {
-				margin: 0 0 2rem 0;
-				color: rgb(var(--gray));
-				font-size: 0.9rem;
-			}
-			
-			.about-image-placeholder {
-				width: 300px;
-				height: 300px;
-				margin: 0 auto 1rem auto;
-				background: linear-gradient(135deg, 
-					var(--color-blue-100) 0%, 
-					var(--color-blue-50) 100%);
-				border: 2px dashed var(--color-blue-300);
-				border-radius: 50%;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				color: var(--color-blue-600);
-				font-size: 1rem;
-				font-weight: 500;
-				text-align: center;
-				padding: 2rem;
-				box-sizing: border-box;
-			}
-			
-			.about-content {
-				max-width: 700px;
-				margin: 0 auto;
-			}
-			
-			.content-section {
-				background: var(--color-bg-primary);
-				padding: 2rem;
-				border-radius: 16px;
-				box-shadow: var(--shadow-md);
-				margin-bottom: 2rem;
-				border: 1px solid var(--color-border-secondary);
-			}
-			
-			.content-section p {
-				color: rgb(var(--gray-dark));
-				line-height: 1.7;
-				margin-bottom: 1.5rem;
-				font-size: 1rem;
-			}
-			
-			.content-section p:last-child {
-				margin-bottom: 0;
-			}
-			
-			.achievements {
-				background: linear-gradient(135deg, 
-					var(--color-blue-100) 0%, 
-					var(--color-blue-75) 50%,
-					var(--color-blue-50) 100%);
-				border: 1px solid var(--color-blue-200);
-			}
-			
-			.achievements h2 {
-				color: rgb(var(--black));
-				margin: 0 0 1.5rem 0;
-				font-size: 1.8rem;
-				font-weight: 600;
-			}
-			
-			.achievement-grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-				gap: 1.5rem;
-				margin-top: 1.5rem;
-			}
-			
-			.achievement-item {
-				background: var(--color-bg-secondary);
-				padding: 1.5rem;
-				border-radius: 12px;
-				text-align: center;
-				border: 1px solid var(--color-blue-100);
-			}
-			
-			.achievement-icon {
-				font-size: 2rem;
-				margin-bottom: 0.5rem;
-			}
-			
-			.achievement-title {
-				font-weight: 600;
-				color: rgb(var(--black));
-				margin: 0 0 0.25rem 0;
-				font-size: 0.9rem;
-			}
-			
-			.achievement-year {
-				color: rgb(var(--gray));
-				font-size: 0.8rem;
-				margin: 0;
-			}
-			
-			.personal-section {
-				background: linear-gradient(135deg, 
-					var(--color-amber-100) 0%, 
-					var(--color-amber-75) 50%,
-					var(--color-amber-50) 100%);
-				border: 1px solid var(--color-amber-300);
-			}
-			
-			.personal-section h2 {
-				color: rgb(var(--black));
-				margin: 0 0 1.5rem 0;
-				font-size: 1.8rem;
-				font-weight: 600;
-			}
-			
-			@media (max-width: 768px) {
-				.about-header h1 {
-					font-size: 2rem;
-				}
-				
-				.about-image-placeholder {
-					width: 250px;
-					height: 250px;
-					font-size: 0.9rem;
-				}
-				
-				.content-section {
-					padding: 2rem;
-				}
-				
-				.achievement-grid {
-					grid-template-columns: repeat(2, 1fr);
-					gap: 1rem;
-				}
-				
-				.achievement-item {
-					padding: 1rem;
-				}
-			}
-		</style>
 	</head>
-	<body>
+	<body class="bg-[var(--background)] text-[var(--text-primary)] font-body antialiased min-h-screen flex flex-col selection:bg-[var(--accent)] selection:text-white">
 		<Header />
-		<main>
-			<!-- Header Section -->
-			<section class="about-header">
-				<h1>About Me</h1>
-				<p>
-					GitHub Technical Lead, Entrepreneur, and passionate technologist
+		
+		<main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+			<!-- Hero Section -->
+			<section class="text-center mb-20 relative">
+				<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[var(--accent)]/10 blur-[100px] rounded-full pointer-events-none"></div>
+				
+				<div class="relative w-48 h-48 mx-auto mb-8">
+					<div class="absolute inset-0 rounded-full bg-gradient-to-tr from-[var(--accent)] to-purple-500 blur-xl opacity-40 animate-pulse"></div>
+					<div class="relative w-full h-full rounded-full border-4 border-[var(--background)] overflow-hidden shadow-2xl z-10 bg-[var(--background-secondary)]">
+						<img src="/img/2757486.png" alt="Emanuele Bartolesi" class="w-full h-full object-cover" />
+					</div>
+				</div>
+
+				<h1 class="text-5xl md:text-7xl font-black tracking-tighter text-[var(--text-primary)] mb-6">About Me</h1>
+				<p class="text-xl md:text-2xl text-[var(--text-secondary)] font-medium max-w-2xl mx-auto">
+					GitHub Technical Lead, Entrepreneur, and passionate technologist building the future of software.
 				</p>
 			</section>
 
-			<!-- Image Placeholder -->
-			<div class="about-image-placeholder">
-				<img src="/img/2757486.png" alt="Emanuele Bartolesi" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
-			</div>
-
-			<div class="about-content">
-				<!-- Introduction -->
-				<section class="content-section">
-					<p>
-						Hi, I'm <strong>Emanuele Bartolesi</strong>, GitHub Technical Lead and Entrepreneur. I have over 20 years of experience in the IT industry, working as a developer, consultant, trainer, and speaker. I'm passionate about frontend technologies and everything related to the cloud, especially Microsoft Azure and AI. I have designed and implemented solutions for various domains, such as e-commerce, banking, insurance, and healthcare.
+			<!-- Content Grid -->
+			<div class="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16">
+				<!-- Left Column: Intro -->
+				<div class="md:col-span-8 space-y-8 prose prose-lg dark:prose-invert prose-headings:font-black prose-p:text-[var(--text-secondary)] prose-strong:text-[var(--text-primary)] hover:prose-a:text-[var(--accent)] prose-a:transition-colors">
+					<p class="text-xl leading-relaxed">
+						Hi, I'm <strong class="font-black text-[var(--accent)]">Emanuele Bartolesi</strong>. With over 20 years of experience in the IT industry, I've worn many hats: developer, consultant, trainer, and speaker.
 					</p>
 					<p>
-						I currently live in Zurich and actively participate in local and international community activities and events. I'm a regular speaker at conferences and meetups. I share my love for technology through my blog <a href="https://dev.to/kasuken" target="_blank" rel="noopener" style="color: var(--color-accent); text-decoration: none; font-weight: 600;">dev.to/kasuken</a> and my live coding sessions on Twitch.
+						My passion lies at the intersection of frontend technologies and cloud scale—specifically Microsoft Azure and AI. Throughout my career, I've designed and implemented robust solutions across diverse domains including e-commerce, banking, insurance, and healthcare.
 					</p>
-				</section>
-
-				<!-- Achievements -->
-				<section class="content-section achievements">
-					<h2>Professional Achievements</h2>
 					<p>
-						<b>Microsoft MVP</b> for 12 times, a <b>GitHub Star</b> ⭐ for 4 times, <b>GitHub Star of the Year in 2023</b>, and a technical author and instructor. I wrote a book about Minimal APIs in ASP.NET Core and a course on Learning GitHub for LinkedIn Learning. I enjoy teaching and mentoring others, and I'm always eager to learn new things and explore new possibilities.
+						Currently based in Zurich, I am deeply involved in local and international tech communities. Whether I'm presenting at major conferences or live coding on Twitch, my goal is always the same: sharing knowledge. You can find many of my thoughts published on <a href="https://dev.to/kasuken" target="_blank" rel="noopener" class="text-[var(--accent)] underline decoration-2 underline-offset-2">dev.to/kasuken</a>.
 					</p>
-					<div class="achievement-grid">
-						<div class="achievement-item">
-							<div class="achievement-icon">🏆</div>
-							<div class="achievement-title">Microsoft MVP</div>
-							<div class="achievement-year">(12x)</div>
-						</div>
-						<div class="achievement-item">
-							<div class="achievement-icon">⭐</div>
-							<div class="achievement-title">GitHub Star</div>
-							<div class="achievement-year">(4x)</div>
-						</div>
-						<div class="achievement-item">
-							<div class="achievement-icon">📚</div>
-							<div class="achievement-title">Technical Author</div>
-							<div class="achievement-year">Books & Courses</div>
-						</div>
-						<div class="achievement-item">
-							<div class="achievement-icon">🎤</div>
-							<div class="achievement-title">Speaker</div>
-							<div class="achievement-year">Conferences & Meetups</div>
+					
+					<hr class="border-[var(--border)] my-12" />
+					
+					<h2 class="text-3xl font-black">Professional Achievements</h2>
+					<p>
+						I'm incredibly honored to have been recognized as a <strong>Microsoft MVP for 12 times</strong>, a <strong>4-time GitHub Star</strong> ⭐, and the <strong>GitHub Star of the Year in 2023</strong>.
+					</p>
+					<p>
+						Beyond coding, I am a technical author and instructor. I've written a book on Minimal APIs in ASP.NET Core and authored a course on "Learning GitHub" for LinkedIn Learning. Mentoring others is one of my greatest joys in this industry.
+					</p>
+				</div>
+				
+				<!-- Right Column: Stats / Quick Facts -->
+				<div class="md:col-span-4 space-y-6">
+					<div class="group p-6 bg-[var(--background-secondary)]/50 border border-[var(--border)] rounded-3xl hover:border-[var(--accent)]/50 transition-colors shadow-lg shadow-[var(--accent)]/5 flex items-center gap-4">
+						<div class="w-14 h-14 rounded-2xl bg-[#0078D4]/10 text-[#0078D4] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">🏆</div>
+						<div>
+							<div class="text-2xl font-black text-[var(--text-primary)]">12x</div>
+							<div class="text-sm font-bold text-[var(--text-secondary)] uppercase tracking-wider">Microsoft MVP</div>
 						</div>
 					</div>
-				</section>
 
-				<!-- Personal Life -->
-				<section class="content-section personal-section">
-					<h2>Beyond Technology</h2>
-					<p>
-						When I'm not coding or writing, you can find me swimming, biking, or running. I'm an Ironman finisher and I'm training for a marathon in desert (September 2026). I love challenging myself and pushing my limits, both physically and mentally.
-					</p>
-					<p>
-						I'm also a desperate housewife, a Basset Hound lover, and a fan of Kobe Bryant. I have a great sense of humor and I like to make people laugh. I'm always open to new challenges and collaborations, so feel free to reach out to me anytime.
-					</p>
-				</section>
+					<div class="group p-6 bg-[var(--background-secondary)]/50 border border-[var(--border)] rounded-3xl hover:border-[var(--accent)]/50 transition-colors shadow-lg shadow-[var(--accent)]/5 flex items-center gap-4">
+						<div class="w-14 h-14 rounded-2xl bg-yellow-500/10 text-yellow-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">⭐</div>
+						<div>
+							<div class="text-2xl font-black text-[var(--text-primary)]">4x</div>
+							<div class="text-sm font-bold text-[var(--text-secondary)] uppercase tracking-wider">GitHub Star</div>
+						</div>
+					</div>
+
+					<div class="group p-6 bg-[var(--background-secondary)]/50 border border-[var(--border)] rounded-3xl hover:border-[var(--accent)]/50 transition-colors shadow-lg shadow-[var(--accent)]/5 flex items-center gap-4">
+						<div class="w-14 h-14 rounded-2xl bg-[var(--accent)]/10 text-[var(--accent)] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">🥇</div>
+						<div>
+							<div class="text-2xl font-black text-[var(--text-primary)]">2023</div>
+							<div class="text-sm font-bold text-[var(--text-secondary)] uppercase tracking-wider">GitHub Star of the Year</div>
+						</div>
+					</div>
+
+					<div class="group p-6 bg-[var(--background-secondary)]/50 border border-[var(--border)] rounded-3xl hover:border-[var(--accent)]/50 transition-colors shadow-lg shadow-[var(--accent)]/5 flex items-center gap-4">
+						<div class="w-14 h-14 rounded-2xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">📚</div>
+						<div>
+							<div class="text-2xl font-black text-[var(--text-primary)]">2+</div>
+							<div class="text-sm font-bold text-[var(--text-secondary)] uppercase tracking-wider">Books & Courses</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="mt-20 p-8 md:p-12 bg-gradient-to-br from-[var(--background-secondary)] to-[var(--background)] border border-[var(--border)] rounded-[2rem] text-center shadow-2xl relative overflow-hidden group">
+				<div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
+				<div class="relative z-10">
+					<h3 class="text-3xl font-black text-[var(--text-primary)] mb-4">Want to connect?</h3>
+					<p class="text-[var(--text-secondary)] mb-8 max-w-xl mx-auto">I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.</p>
+					<a href="https://linkedin.com/in/bartolesiemanuele" target="_blank" class="inline-flex items-center justify-center px-8 py-4 text-sm font-bold tracking-widest uppercase text-[var(--background)] bg-[var(--text-primary)] rounded-full hover:scale-105 transition-transform shadow-xl shadow-[var(--text-primary)]/20">
+						Reach out on LinkedIn
+					</a>
+				</div>
 			</div>
 		</main>
+
 		<Footer />
 	</body>
 </html>
