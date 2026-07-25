@@ -4,6 +4,8 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Button from '../components/Button.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 // Get latest blog posts
@@ -11,6 +13,41 @@ const allPosts = (await getCollection('blog'))
   .filter(post => post.id !== 'devto-stats')
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 6); // Get latest 6 posts
+
+const destinations = [
+  {
+    index: '01',
+    href: '/portfolio',
+    title: 'Portfolio & Projects',
+    description: "Applications, open-source projects, and tools I've built over the years.",
+    cta: 'View projects',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`,
+  },
+  {
+    index: '02',
+    href: '/activities',
+    title: 'Real-time Dashboard',
+    description: 'My real-time developer activity, GitHub stats, and RescueTime metrics.',
+    cta: 'View stats',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>`,
+  },
+  {
+    index: '03',
+    href: '/speaking',
+    title: 'Speaking & Events',
+    description: 'Catch me speaking at conferences, user groups, and events worldwide.',
+    cta: 'See schedule',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>`,
+  },
+  {
+    index: '04',
+    href: '/mentor',
+    title: '1:1 Mentorship',
+    description: "Level up your career — book a mentoring session and let's achieve your goals.",
+    cta: 'Book session',
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`,
+  },
+];
 ---
 
 <!doctype html>
@@ -18,191 +55,126 @@ const allPosts = (await getCollection('blog'))
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
-  <body class="bg-[var(--background)] text-[var(--text-primary)] antialiased transition-colors duration-300">
+  <body class="bg-[var(--background)] text-[var(--text-primary)] antialiased selection:bg-[var(--accent)] selection:text-[var(--background)]">
     <Header />
-    <main class="w-full max-w-6xl mx-auto px-6 font-sans">
-      <!-- Hero Section -->
-      <section class="flex flex-col justify-center items-center pt-16 pb-12 md:pt-24 md:pb-16 relative overflow-hidden">
-        
-        <!-- Subtle Background Elements -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--accent)]/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+    <main class="w-full max-w-6xl mx-auto px-6">
 
-        <div class="flex flex-col-reverse md:flex-row items-center justify-between gap-12 lg:gap-24 relative z-10 w-full max-w-5xl">
-          
-          <div class="flex-1 text-center space-y-8 flex flex-col items-center">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] text-sm font-semibold tracking-wide border border-[var(--accent)]/20 mb-4 shadow-sm">
-              <span class="relative flex h-2 w-2">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent)] opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-[var(--accent)]"></span>
-              </span>
-              Building tools and content for developers
-            </div>
-            
-            <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.05] text-[var(--text-primary)]">
-              Building <span class="text-[var(--accent)]">Digital</span> Experiences.
+      <!-- Hero Section — asymmetric editorial layout -->
+      <section class="relative pt-16 pb-16 md:pt-24 md:pb-24">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16 items-end">
+          <div class="md:col-span-8">
+            <p class="mono-label mb-6 reveal reveal-1">The Dev Dispatch — Zurich, Switzerland</p>
+            <h1 class="font-display text-6xl sm:text-7xl lg:text-8xl tracking-tight leading-[0.98] text-[var(--text-primary)] mb-8 reveal reveal-2">
+              Building <em class="italic text-[var(--accent)]">digital</em> experiences.
             </h1>
-            
-            <p class="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed max-w-2xl font-light mx-auto">
-              Hi, I'm Emanuele Bartolesi. <br class="hidden md:block" /> GitHub Technical Lead, Technical Writer & Mentor. <br class="hidden md:block" /> I build scalable apps, open-source projects, and help developers level up.
+            <p class="text-xl md:text-2xl text-[var(--text-secondary)] leading-relaxed max-w-2xl mb-10 reveal reveal-3">
+              Hi, I'm Emanuele Bartolesi — GitHub Technical Lead, technical writer & mentor. I build scalable apps, open-source projects, and help developers level up.
             </p>
-            
-            <div class="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full justify-center">
-              <a href="/blog" class="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-[var(--accent)] !text-white font-bold tracking-wide shadow-lg shadow-[var(--accent)]/30 hover:-translate-y-1 hover:shadow-xl hover:shadow-[var(--accent)]/40 transition-all duration-300 w-full sm:w-auto border border-[var(--accent-dark)]">
-                Explore My Writing
-              </a>
-              <a href="/mentor" class="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-[var(--background-secondary)] !text-[var(--text-primary)] font-bold tracking-wide shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 border border-[var(--border)] w-full sm:w-auto">
-                Book Mentoring
-              </a>
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 reveal reveal-4">
+              <Button href="/blog">Explore my writing</Button>
+              <Button href="/mentor" variant="secondary">Book mentoring</Button>
             </div>
           </div>
 
-          <div class="w-48 h-48 sm:w-64 sm:h-64 lg:w-96 lg:h-96 relative group z-20">
-            <div class="absolute inset-0 bg-gradient-to-tr from-[var(--accent)] to-transparent rounded-[2rem] sm:rounded-[3rem] rotate-6 group-hover:rotate-12 transition-transform duration-500 opacity-20 -z-10"></div>
-            <img 
-              src="/img/2757486.png" 
-              alt="Emanuele Bartolesi" 
-              class="w-full h-full object-cover rounded-[2rem] sm:rounded-[3rem] shadow-2xl border-4 border-[var(--background)] z-10 relative group-hover:-translate-y-2 transition-transform duration-500 bg-zinc-100"
-            />
-            
-            <!-- Floating Elements -->
-            <div class="absolute -bottom-6 -left-6 bg-[var(--background)] border border-[var(--border)] p-3 rounded-2xl shadow-xl z-30 animate-bounce cursor-default select-none" style="animation-duration: 3s">
-              <span class="text-2xl">✨</span>
-            </div>
-            <div class="absolute -top-6 -right-6 bg-[var(--background)] border border-[var(--border)] p-3 rounded-2xl shadow-xl z-30 animate-bounce cursor-default select-none" style="animation-duration: 4s; animation-delay: 1s">
-              <span class="text-2xl">🦄</span>
+          <div class="md:col-span-4 relative reveal reveal-3">
+            <div class="relative md:-mb-6 lg:-mb-10 md:rotate-2">
+              <img
+                src="/img/2757486.png"
+                alt="Portrait of Emanuele Bartolesi"
+                class="w-56 h-56 sm:w-72 sm:h-72 md:w-full md:h-auto md:aspect-square object-cover rounded-[var(--radius-card)] border border-[var(--border)] shadow-lg"
+              />
+              <span class="hidden md:block absolute -left-4 -bottom-4 w-full h-full border border-[var(--accent)] rounded-[var(--radius-card)] -z-10" aria-hidden="true"></span>
             </div>
           </div>
-
         </div>
 
-        <div class="mt-12 md:mt-16 z-10">
-          <a href="https://visitorbadge.io/status?path=https%3A%2F%2Fwww.emanuelebartolesi.com" target="_blank" rel="noopener noreferrer" class="opacity-70 hover:opacity-100 transition-opacity drop-shadow-sm">
-            <img src="https://api.visitorbadge.io/api/combined?path=https%3A%2F%2Fwww.emanuelebartolesi.com&label=Visitors&countColor=%23263759&style=flat" alt="Visitor Badge" class="rounded shadow-sm" loading="lazy" decoding="async" />
-          </a>
+        <!-- Mono metadata strip -->
+        <div class="mt-14 md:mt-20 border-y border-[var(--border)] py-4 flex flex-wrap gap-x-10 gap-y-2 reveal reveal-5">
+          <span class="mono-label">GitHub Technical Lead</span>
+          <span class="mono-label text-[var(--accent)]!">Microsoft MVP ×12</span>
+          <span class="mono-label">GitHub Star ×4</span>
+          <span class="mono-label">20+ yrs shipping software</span>
         </div>
       </section>
 
-      <div class="max-w-5xl mx-auto space-y-16 md:space-y-24 pb-24">
+      <div class="max-w-6xl mx-auto space-y-20 md:space-y-28 pb-24">
 
-        <!-- Explore Content Cards -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-          <!-- Portfolio & Projects -->
-          <a href="/portfolio" class="bg-[var(--background-secondary)] rounded-[2rem] p-8 border border-[var(--border)] shadow-sm hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group overflow-hidden relative">
-            <div class="absolute inset-0 bg-gradient-to-tr from-[var(--accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="relative z-10 space-y-4">
-              <div class="w-12 h-12 rounded-2xl bg-[var(--accent)]/10 text-[var(--accent)] flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">🚀</div>
-              <h3 class="text-2xl font-black text-[var(--text-primary)]">Portfolio & Projects</h3>
-              <p class="text-[var(--text-secondary)]">Explore the applications, open-source projects, and tools I've built over the years.</p>
-              <span class="inline-flex items-center text-[var(--accent)] font-semibold mt-4 group-hover:translate-x-1 transition-transform">View Projects →</span>
-            </div>
-          </a>
-
-          <!-- Dashboard & Stats -->
-          <a href="/activities" class="bg-[var(--background-secondary)] rounded-[2rem] p-8 border border-[var(--border)] shadow-sm hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group overflow-hidden relative">
-            <div class="absolute inset-0 bg-gradient-to-tr from-[var(--accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="relative z-10 space-y-4">
-              <div class="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">📊</div>
-              <h3 class="text-2xl font-black text-[var(--text-primary)]">Real-time Dashboard</h3>
-              <p class="text-[var(--text-secondary)]">Check out my real-time developer activity, GitHub stats, and RescueTime metrics.</p>
-              <span class="inline-flex items-center text-blue-500 font-semibold mt-4 group-hover:translate-x-1 transition-transform">View Stats →</span>
-            </div>
-          </a>
-
-          <!-- Speaking & Events -->
-          <a href="/speaking" class="bg-[var(--background-secondary)] rounded-[2rem] p-8 border border-[var(--border)] shadow-sm hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group overflow-hidden relative">
-            <div class="absolute inset-0 bg-gradient-to-tr from-[var(--accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="relative z-10 space-y-4">
-              <div class="w-12 h-12 rounded-2xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">🎤</div>
-              <h3 class="text-2xl font-black text-[var(--text-primary)]">Speaking & Events</h3>
-              <p class="text-[var(--text-secondary)]">Catch me speaking at conferences, user groups, and events worldwide.</p>
-              <span class="inline-flex items-center text-purple-500 font-semibold mt-4 group-hover:translate-x-1 transition-transform">See Schedule →</span>
-            </div>
-          </a>
-
-          <!-- Mentorship -->
-          <a href="/mentor" class="bg-[var(--background-secondary)] rounded-[2rem] p-8 border border-[var(--border)] shadow-sm hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group overflow-hidden relative">
-            <div class="absolute inset-0 bg-gradient-to-tr from-[var(--accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="relative z-10 space-y-4">
-              <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">🤝</div>
-              <h3 class="text-2xl font-black text-[var(--text-primary)]">1:1 Mentorship</h3>
-              <p class="text-[var(--text-secondary)]">Want to level up your career? Book a mentoring session and let's achieve your goals.</p>
-              <span class="inline-flex items-center text-emerald-500 font-semibold mt-4 group-hover:translate-x-1 transition-transform">Book Session →</span>
-            </div>
-          </a>
+        <!-- Explore — numbered editorial list -->
+        <section>
+          <SectionHeading index="№1" title="Explore" description="Four places to start." />
+          <div class="flex flex-col divide-y divide-[var(--border)] border-y border-[var(--border)]">
+            {destinations.map((item) => (
+              <a href={item.href} class="group grid grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 py-6 md:py-8 no-underline! hover:bg-[var(--background-secondary)] transition-colors px-2 md:px-4 -mx-2 md:-mx-4">
+                <span class="mono-label w-10">{item.index}</span>
+                <span class="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-6 min-w-0">
+                  <span class="font-display text-2xl md:text-3xl text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors whitespace-nowrap">{item.title}</span>
+                  <span class="text-[var(--text-secondary)] text-base truncate">{item.description}</span>
+                </span>
+                <span class="flex items-center gap-3 text-[var(--accent)]">
+                  <span class="hidden sm:inline text-sm font-semibold">{item.cta}</span>
+                  <span class="w-10 h-10 flex items-center justify-center rounded-[var(--radius-pill)] border border-[var(--border)] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[var(--background)] transition-colors" set:html={item.icon} />
+                </span>
+              </a>
+            ))}
+          </div>
         </section>
 
         <!-- The Million Journey Preview -->
-        <section class="bg-[var(--background-secondary)] rounded-[2rem] p-8 md:p-12 border border-[var(--border)] shadow-sm relative overflow-hidden group">
-          <div class="absolute inset-0 bg-gradient-to-tr from-[var(--accent)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-          
-          <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+        <section class="bg-[var(--background-secondary)] rounded-[var(--radius-card)] p-8 md:p-12 border border-[var(--border)] relative overflow-hidden">
+          <div class="flex flex-col md:flex-row items-center justify-between gap-8">
             <div class="flex-1 space-y-4 text-center md:text-left">
-              <div class="inline-flex items-center justify-center p-3 mb-2 bg-[var(--background-tertiary)] border border-[var(--border)] rounded-2xl shadow-inner shrink-0 group-hover:scale-110 transition-transform duration-300">
-                <span class="text-3xl leading-none">💸</span>
-              </div>
-              <h2 class="text-3xl md:text-4xl font-black tracking-tight text-[var(--text-primary)]">The <span class="text-[var(--accent)]">Million</span> Journey</h2>
-              <p class="text-lg text-[var(--text-secondary)] max-w-xl mx-auto md:mx-0">
+              <p class="mono-label mb-0!">Public experiment <span aria-hidden="true">💸</span></p>
+              <h2 class="font-display text-3xl md:text-4xl tracking-tight text-[var(--text-primary)]">The <em class="italic text-[var(--accent)]">Million</em> Journey</h2>
+              <p class="text-lg text-[var(--text-secondary)] max-w-xl mx-auto md:mx-0 mb-0">
                 Follow my public journey to reach one million in revenue. Each square represents $1,000 towards the goal through SaaS, consulting, and courses.
               </p>
             </div>
-            
+
             <div class="flex-shrink-0 w-full md:w-auto">
-              <a href="/millionjourney" class="w-full md:w-auto inline-flex items-center justify-center px-8 py-4 font-bold bg-[var(--accent)] hover:opacity-90 rounded-full transition-all shadow-xl shadow-[var(--accent)]/20 hover:-translate-y-1 gap-2 group/btn" style="color: #ffffff;">
-                Track Progress
-                <span class="group-hover/btn:translate-x-1 transition-transform" style="color: #ffffff;">→</span>
-              </a>
+              <Button href="/millionjourney" class="w-full md:w-auto">
+                Track progress
+                <span aria-hidden="true">→</span>
+              </Button>
             </div>
           </div>
         </section>
 
         <!-- Featured Posts -->
         <section>
-          <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-            <div>
-              <h2 class="text-4xl md:text-5xl font-black tracking-tight mb-4 text-[var(--text-primary)]">Latest Dispatches</h2>
-              <p class="text-lg text-[var(--text-secondary)]">Thoughts on web development, cloud computing, and technology.</p>
-            </div>
-            <a href="/blog" class="text-[var(--accent)] font-semibold hover:text-[var(--accent-dark)] transition-colors flex items-center gap-2 group whitespace-nowrap">
-              View all posts
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </a>
-          </div>
+          <SectionHeading index="№2" title="Latest Dispatches" description="Thoughts on web development, cloud computing, and technology.">
+            <a slot="action" href="/blog" class="text-sm font-semibold text-[var(--accent)] no-underline! hover:underline! whitespace-nowrap">All posts →</a>
+            <a slot="action-mobile" href="/blog" class="text-sm font-semibold text-[var(--accent)] no-underline! hover:underline!">All posts →</a>
+          </SectionHeading>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {allPosts.map((post, i) => (
-              <a href={`/blog/${post.id}`} class="group flex flex-col bg-[var(--background-secondary)] rounded-3xl overflow-hidden border border-[var(--border)] shadow-sm hover:shadow-xl hover:shadow-[var(--accent)]/10 transition-all duration-300 hover:-translate-y-2">
-                <div class="aspect-[16/10] overflow-hidden bg-[var(--border)] relative border-b border-[var(--border)]">
+            {allPosts.map((post) => (
+              <a href={`/blog/${post.id}`} class="group flex flex-col bg-[var(--background-secondary)] rounded-[var(--radius-card)] overflow-hidden border border-[var(--border)] no-underline! hover:-translate-y-[3px] hover:shadow-md hover:border-[var(--accent)] transition-all duration-200">
+                <div class="aspect-[16/10] overflow-hidden bg-[var(--background-tertiary)] border-b border-[var(--border)]">
                   {post.data.heroImage ? (
-                    <img src={post.data.heroImage} alt={post.data.title} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                    <img src={post.data.heroImage} alt="" class="w-full h-full object-cover rounded-none transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
                   ) : (
-                    <div class="w-full h-full flex items-center justify-center text-5xl bg-gradient-to-br from-[var(--background-secondary)] to-[var(--border)]">
-                      📄
+                    <div class="w-full h-full flex items-center justify-center bg-[var(--background-tertiary)] text-[var(--text-light)]">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="w-12 h-12" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
                     </div>
                   )}
-                  <div class="absolute top-4 left-4">
-                    <span class="px-3 py-1 bg-[var(--background)]/90 backdrop-blur-md rounded-full text-xs font-semibold shadow-sm border border-[var(--border)] text-[var(--text-primary)]">
-                      <FormattedDate date={post.data.pubDate} />
-                    </span>
-                  </div>
                 </div>
-                
+
                 <div class="p-6 lg:p-8 flex flex-col flex-1">
-                  <h3 class="text-xl font-bold text-[var(--text-primary)] mb-3 leading-snug group-hover:text-[var(--accent)] transition-colors line-clamp-3">
+                  <p class="mono-label mb-3"><FormattedDate date={post.data.pubDate} /></p>
+                  <h3 class="font-display text-xl text-[var(--text-primary)] mb-3 leading-snug group-hover:text-[var(--accent)] transition-colors line-clamp-3">
                     {post.data.title}
                   </h3>
-                  
-                  <div class="mt-auto pt-6 flex items-center gap-4 text-sm font-medium text-[var(--text-light)]">
+
+                  <div class="mt-auto pt-6 flex items-center gap-5 mono-label">
                     {post.data.readingTimeMinutes && (
-                      <span class="flex items-center gap-1.5 bg-[var(--background)] px-2.5 py-1 rounded-md border border-[var(--border)]">
-                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M7.5 3a.5.5 0 0 1 .5.5V9l2.5 1.5a.5.5 0 0 1-.5.866l-3-1.8A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/></svg>
+                      <span class="flex items-center gap-1.5">
+                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M7.5 3a.5.5 0 0 1 .5.5V9l2.5 1.5a.5.5 0 0 1-.5.866l-3-1.8A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/></svg>
                         {post.data.readingTimeMinutes} min
                       </span>
                     )}
                     {post.data.publicReactionsCount && (
-                      <span class="flex items-center gap-1.5 bg-[var(--background)] px-2.5 py-1 rounded-md border border-[var(--border)] text-pink-500">
-                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/></svg>
+                      <span class="flex items-center gap-1.5">
+                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/></svg>
                         {post.data.publicReactionsCount}
                       </span>
                     )}
@@ -215,52 +187,42 @@ const allPosts = (await getCollection('blog'))
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch pt-12 border-t border-[var(--border)]">
           <!-- About Section -->
-          <section class="bg-[var(--background-secondary)] rounded-[3rem] p-10 lg:p-14 border border-[var(--border)] shadow-sm relative overflow-hidden group flex flex-col justify-start">
-            <div class="absolute -right-20 -top-20 w-64 h-64 bg-[var(--accent)]/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-150"></div>
-            
-            <div class="relative z-10 flex-grow">
-              <h2 class="text-3xl lg:text-4xl font-black mb-6 text-[var(--text-primary)]">Beyond the Code</h2>
-              
+          <section class="bg-[var(--background-secondary)] rounded-[var(--radius-card)] p-10 lg:p-14 border border-[var(--border)] flex flex-col justify-start">
+            <div class="flex-grow">
+              <p class="mono-label mb-4">Off the record</p>
+              <h2 class="font-display text-3xl lg:text-4xl mb-6 text-[var(--text-primary)]">Beyond the code</h2>
+
               <div class="space-y-6 text-[var(--text-secondary)] text-lg leading-relaxed">
-                <p>
+                <p class="mb-0">
                   I'm a passionate full-stack developer with over <strong class="text-[var(--text-primary)]">20 years of experience</strong> building robust web applications and cloud solutions. As a Microsoft MVP and technical writer, I love sharing knowledge and mentoring developers worldwide.
                 </p>
-                <p>
+                <p class="mb-0">
                   When I'm off the keyboard, you'll find me training for Ironman competitions, exploring new technologies, or spending quality time with my beloved Basset Hounds.
                 </p>
               </div>
             </div>
-            
-            <div class="flex flex-wrap gap-3 pt-10 mt-auto relative z-10">
-              <div class="px-4 py-2 bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-900/50 rounded-xl font-bold tracking-tight shadow-sm">
-                🏆 Microsoft MVP (12x)
-              </div>
-              <div class="px-4 py-2 bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-900/50 rounded-xl font-bold tracking-tight shadow-sm">
-                ⭐ GitHub Star (4x)
-              </div>
+
+            <div class="flex flex-wrap gap-x-8 gap-y-2 pt-10 mt-auto border-t border-[var(--border)]">
+              <span class="mono-label text-[var(--accent)]!">Microsoft MVP ×12</span>
+              <span class="mono-label">GitHub Star ×4</span>
             </div>
           </section>
 
           <!-- Newsletter CTA -->
-          <section class="bg-[var(--background-secondary)] rounded-[3rem] p-10 lg:p-14 border border-[var(--border)] shadow-sm relative overflow-hidden group flex flex-col justify-start">
-            <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-150"></div>
-            
-            <div class="relative z-10 flex-grow">
-              <div class="w-16 h-16 bg-blue-500/10 text-blue-500 rounded-2xl flex items-center justify-center mb-6 border border-blue-500/20 shadow-inner">
-                <span class="text-3xl">📫</span>
-              </div>
-              
-              <h2 class="text-3xl lg:text-4xl font-black tracking-tight mb-4 text-[var(--text-primary)]">Join the Dev Dispatch</h2>
-              
-              <p class="text-lg mb-10 leading-relaxed font-medium max-w-md text-[var(--text-secondary)]">
+          <section class="bg-[var(--text-primary)] text-[var(--background)] rounded-[var(--radius-card)] p-10 lg:p-14 border border-[var(--border)] flex flex-col justify-start">
+            <div class="flex-grow">
+              <p class="mono-label text-[var(--background)]/60! mb-4">Newsletter</p>
+              <h2 class="font-display text-3xl lg:text-4xl tracking-tight mb-4 text-[var(--background)]">Join the Dev Dispatch</h2>
+
+              <p class="text-lg mb-10 leading-relaxed max-w-md text-[var(--background)]/80">
                 Get actionable insights on web development, modern tooling, and career strategies delivered straight to your inbox. No fluff, just signal.
               </p>
             </div>
-            
-            <div class="relative z-10 pt-4 mt-auto">
-              <a href="/newsletter" class="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 bg-blue-600 !text-white rounded-xl font-bold tracking-wide hover:bg-blue-700 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 border border-blue-500">
-                Subscribe Now
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+
+            <div class="pt-4 mt-auto">
+              <a href="/newsletter" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 bg-[var(--accent)] text-[var(--background)]! rounded-[var(--radius-pill)] text-sm font-semibold no-underline! hover:bg-[var(--accent-dark)] hover:-translate-y-[3px] transition-all duration-200">
+                Subscribe now
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                   <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                 </svg>

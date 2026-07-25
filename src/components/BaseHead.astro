@@ -41,7 +41,7 @@ const personJsonLd = {
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link
 	rel="alternate"
@@ -55,12 +55,16 @@ const personJsonLd = {
 <script is:inline>
 	// This script runs before the page renders to prevent theme flash
 	(function() {
-		const THEMES = ['light', 'dark', 'retrowave'];
+		const THEMES = ['light', 'dark'];
 		
 		const getInitialTheme = () => {
 			const storedTheme = typeof Storage !== 'undefined' ? localStorage.getItem('theme') : null;
 			if (storedTheme && THEMES.includes(storedTheme)) {
 				return storedTheme;
+			}
+			// Migrate the removed 'retrowave' preference to dark
+			if (storedTheme === 'retrowave') {
+				return 'dark';
 			}
 			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 		};
@@ -70,10 +74,6 @@ const personJsonLd = {
 		document.documentElement.classList.add(theme + '-theme');
 	})();
 </script>
-
-<!-- Font preloads -->
-<link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin />
-<link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />

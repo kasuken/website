@@ -16,25 +16,25 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	<body class="bg-[var(--background)] text-[var(--text-primary)] antialiased transition-colors duration-300">
 		<Header />
 		<main class="w-full max-w-6xl mx-auto px-6 font-sans py-16 md:py-24">
-			<section class="text-center mb-16 relative">
-				<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[var(--accent)]/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
-				<h1 class="text-5xl md:text-7xl font-black tracking-tighter text-[var(--text-primary)] mb-6">Real-time <span class="text-[var(--accent)]">Dashboard</span></h1>
-				<p class="text-xl text-[var(--text-secondary)] font-medium max-w-2xl mx-auto">
+			<section class="max-w-3xl mb-16">
+				<p class="mono-label mb-4 reveal reveal-1">GitHub · RescueTime · Live metrics</p>
+				<h1 class="font-display text-5xl md:text-7xl tracking-tight text-[var(--text-primary)] mb-6 reveal reveal-2">Real-time <em class="italic text-[var(--accent)]">dashboard</em></h1>
+				<p class="text-xl text-[var(--text-secondary)] mb-0 reveal reveal-3">
 					My coding activity, GitHub statistics, and RescueTime productivity metrics.
 				</p>
 			</section>
 
 			<div class="space-y-12 md:space-y-16 pb-24">
 				<section class="flex flex-col gap-8 md:gap-12 w-full">
-					<div class="bg-[var(--background-secondary)] rounded-[2rem] p-4 sm:p-8 border border-[var(--border)] shadow-sm overflow-x-auto w-full">
+					<div class="bg-[var(--background-secondary)] rounded-[var(--radius-card)] p-4 sm:p-8 border border-[var(--border)] overflow-x-auto w-full">
 						<GitHubActivityCalendar username="kasuken" />
 					</div>
-					<div class="bg-[var(--background-secondary)] rounded-[2rem] p-4 sm:p-8 border border-[var(--border)] shadow-sm overflow-x-auto w-full">
+					<div class="bg-[var(--background-secondary)] rounded-[var(--radius-card)] p-4 sm:p-8 border border-[var(--border)] overflow-x-auto w-full">
 						<GitHubStats username="kasuken" />
 					</div>
 				</section>
 		
-				<section class="bg-[var(--background-secondary)] rounded-[2rem] p-4 sm:p-8 border border-[var(--border)] shadow-sm overflow-x-auto">
+				<section class="bg-[var(--background-secondary)] rounded-[var(--radius-card)] p-4 sm:p-8 border border-[var(--border)] overflow-x-auto">
 					<RescueTimeProductivity />
 				</section>
 			</div>
