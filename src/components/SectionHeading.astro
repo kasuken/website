@@ -1,0 +1,24 @@
+---
+interface Props {
+	index?: string;
+	title: string;
+	description?: string;
+	class?: string;
+}
+
+const { index, title, description, class: className } = Astro.props;
+---
+
+<div class:list={["mb-10 md:mb-14", className]}>
+	<div class="flex items-baseline gap-4 border-b border-[var(--border)] pb-4 mb-4">
+		{index && <span class="mono-label text-[var(--accent)]!">{index}</span>}
+		<h2 class="font-display text-3xl md:text-4xl mb-0! text-[var(--text-primary)]">{title}</h2>
+		<div class="ml-auto hidden sm:block">
+			<slot name="action" />
+		</div>
+	</div>
+	{description && <p class="text-lg text-[var(--text-secondary)] max-w-2xl mb-0!">{description}</p>}
+	<div class="sm:hidden mt-4">
+		<slot name="action-mobile" />
+	</div>
+</div>

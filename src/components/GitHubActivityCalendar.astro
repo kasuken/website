@@ -178,14 +178,21 @@ function getMonthLabels(
 
 const { username, year = 'last' } = Astro.props
 
-const data = await fetchData(username, year)
+let data: GitHubActivityApiResponse | null = null
+let fetchError: string | null = null
+try {
+  data = await fetchData(username, year)
+} catch (err) {
+  fetchError = err instanceof Error ? err.message : 'Failed to load contribution data.'
+  console.error('[GitHubActivityCalendar] falling back to placeholder:', fetchError)
+}
 
 const themeFromColorscheme: [string, string] = [
   'rgb(var(--gray-light))',
   'rgb(var(--accent))',
 ]
 
-const totalCount = year === 'last' ? data.total.lastYear : data.total[year]
+const totalCount = data ? (year === 'last' ? data.total.lastYear : data.total[year]) : 0
 const maxLevel = 4
 const blockMargin = 4
 const labelMargin = 8
@@ -198,11 +205,11 @@ const hideTotalCount = false
 const weekStart = 0 // 0 = Sunday, 1 = Monday, etc.
 
 const colorScale = calcColorScale(themeFromColorscheme, maxLevel + 1)
-const activities = data.contributions
+const activities = data?.contributions ?? []
 
 const firstActivity = activities[0]
-const activityYear = getYear(parseISO(firstActivity.date))
-const weeks = groupByWeeks(activities, weekStart)
+const activityYear = firstActivity ? getYear(parseISO(firstActivity.date)) : new Date().getFullYear()
+const weeks = activities.length > 0 ? groupByWeeks(activities, weekStart) : []
 const labels = {
   months: [
     'Jan',
@@ -230,9 +237,17 @@ const height = labelHeight + (blockSize + blockMargin) * 7 - blockMargin
 ---
 
 <section class="github-activity-section">
-  <h2 class="section-title">🚀 GitHub Activity</h2>
+  <h2 class="section-title">GitHub Activity</h2>
   <p class="section-subtitle">My coding journey over the past year</p>
-  
+
+  {!data ? (
+    <div class="mx-auto max-w-xl text-center px-8 py-14 bg-[var(--background)] border border-dashed border-[var(--border)] rounded-[var(--radius-card)]">
+      <p class="mono-label mb-3">Live data unavailable</p>
+      <p class="text-[var(--text-secondary)] mb-0">
+        The contribution calendar could not be loaded right now. You can see my full activity directly on GitHub below.
+      </p>
+    </div>
+  ) : (
   <article
     id="github-activity-calendar"
     class="activity-calendar"
@@ -325,6 +340,7 @@ const height = labelHeight + (blockSize + blockMargin) * 7 - blockMargin
       )
     }
   </article>
+  )}
   
   <div class="max-w-3xl mx-auto mt-8 flex flex-col items-center justify-center gap-4">
     <p class="text-lg text-[var(--text-secondary)] text-center max-w-2xl">

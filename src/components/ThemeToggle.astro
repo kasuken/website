@@ -1,9 +1,9 @@
 ---
-// Theme Toggle Component - Three State: Light → Dark → Retrowave
+// Theme Toggle Component — two state: Light ↔ Dark
 ---
 
-<button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle light/dark/retrowave mode">
-	<svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+	<svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 		<circle cx="12" cy="12" r="5"></circle>
 		<line x1="12" y1="1" x2="12" y2="3"></line>
 		<line x1="12" y1="21" x2="12" y2="23"></line>
@@ -14,13 +14,8 @@
 		<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
 		<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
 	</svg>
-	<svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+	<svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 		<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-	</svg>
-	<svg class="retrowave-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-		<path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-		<path d="M2 17l10 5 10-5"></path>
-		<path d="M2 12l10 5 10-5"></path>
 	</svg>
 </button>
 
@@ -32,101 +27,64 @@
 		justify-content: center;
 		width: 40px;
 		height: 40px;
-		border: none;
-		border-radius: var(--radius);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-pill);
 		background: var(--background-secondary);
 		color: var(--text-secondary);
 		cursor: pointer;
-		transition: all 0.2s ease;
+		transition: background-color 0.2s ease, color 0.2s ease;
 		overflow: hidden;
 	}
-	
+
 	.theme-toggle:hover {
 		background: var(--background-tertiary);
 		color: var(--accent);
-		transform: scale(1.05);
 	}
-	
-	.theme-toggle:active {
-		transform: scale(0.95);
-	}
-	
+
 	.theme-toggle .sun-icon,
-	.theme-toggle .moon-icon,
-	.theme-toggle .retrowave-icon {
+	.theme-toggle .moon-icon {
 		position: absolute;
 		top: 50%;
 		left: 50%;
 		width: 20px;
 		height: 20px;
-		transition: all 0.3s ease;
+		transition: opacity 0.3s ease, transform 0.3s ease;
 		opacity: 0;
 		visibility: hidden;
 		transform: translate(-50%, -50%) scale(0.5);
 	}
-	
-	/* Light mode state - show sun, hide others */
+
 	.theme-toggle .sun-icon {
 		opacity: 1;
 		visibility: visible;
 		transform: translate(-50%, -50%) scale(1);
 	}
-	
-	/* Dark mode state - show moon, hide others */
+
 	html[data-theme="dark"] .theme-toggle .sun-icon {
 		opacity: 0;
 		visibility: hidden;
 		transform: translate(-50%, -50%) scale(0.5);
 	}
-	
+
 	html[data-theme="dark"] .theme-toggle .moon-icon {
 		opacity: 1;
 		visibility: visible;
 		transform: translate(-50%, -50%) scale(1);
 	}
-	
-	html[data-theme="dark"] .theme-toggle .retrowave-icon {
-		opacity: 0;
-		visibility: hidden;
-		transform: translate(-50%, -50%) scale(0.5);
-	}
-	
-	/* Retrowave mode state - show retrowave icon, hide others */
-	html[data-theme="retrowave"] .theme-toggle .sun-icon {
-		opacity: 0;
-		visibility: hidden;
-		transform: translate(-50%, -50%) scale(0.5);
-	}
-	
-	html[data-theme="retrowave"] .theme-toggle .moon-icon {
-		opacity: 0;
-		visibility: hidden;
-		transform: translate(-50%, -50%) scale(0.5);
-	}
-	
-	html[data-theme="retrowave"] .theme-toggle .retrowave-icon {
-		opacity: 1;
-		visibility: visible;
-		transform: translate(-50%, -50%) scale(1);
-		color: #ff00ff;
-		filter: drop-shadow(0 0 5px #ff00ff);
-	}
-	
-	/* Focus styles for accessibility */
-	.theme-toggle:focus {
+
+	.theme-toggle:focus-visible {
 		outline: 2px solid var(--accent);
 		outline-offset: 2px;
 	}
-	
+
 	@media (max-width: 768px) {
 		.theme-toggle {
 			width: 36px;
 			height: 36px;
 		}
-		
+
 		.sun-icon,
-		.moon-icon,
-		.retrowave-icon {
+		.moon-icon {
 			width: 18px;
 			height: 18px;
 		}
@@ -135,8 +93,8 @@
 
 <script is:inline>
 	(function() {
-		const THEMES = ['light', 'dark', 'retrowave'];
-		
+		const THEMES = ['light', 'dark'];
+
 		function getStoredTheme() {
 			try {
 				return localStorage.getItem('theme');
@@ -153,84 +111,54 @@
 			}
 		}
 
+		function setTheme(theme) {
+			if (!THEMES.includes(theme)) {
+				theme = 'light';
+			}
+
+			document.documentElement.setAttribute('data-theme', theme);
+			document.body.className = document.body.className.replace(/\b(light|dark|retrowave)-theme\b/g, '');
+			document.body.classList.add(theme + '-theme');
+			storeTheme(theme);
+		}
+
+		function toggleTheme() {
+			const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+			setTheme(currentTheme === 'light' ? 'dark' : 'light');
+		}
+
+		function getCurrentTheme() {
+			return document.documentElement.getAttribute('data-theme') || 'light';
+		}
+
 		function initThemeToggle() {
-			console.log('🔧 Theme toggle initializing...');
-			
-			// Get stored theme or default to system preference
 			const storedTheme = getStoredTheme();
 			const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-			const initialTheme = storedTheme || (systemPrefersDark ? 'dark' : 'light');
-			
-			console.log('📱 Initial theme detected:', initialTheme);
-			
-			// Apply initial theme
-			setTheme(initialTheme);
-			
-			// Setup toggle button
-			const toggleButton = document.getElementById('theme-toggle');
-			if (toggleButton) {
-				console.log('🎯 Theme toggle button found, adding click listener');
-				toggleButton.addEventListener('click', function() {
-					console.log('🖱️ Theme toggle button clicked');
-					toggleTheme();
-				});
-			} else {
-				console.error('❌ Theme toggle button not found!');
+			let initialTheme = storedTheme || (systemPrefersDark ? 'dark' : 'light');
+			if (!THEMES.includes(initialTheme)) {
+				initialTheme = 'dark'; // migrate removed themes (e.g. retrowave) to dark
 			}
-			
-			// Listen for system theme changes (only if no stored preference)
+
+			setTheme(initialTheme);
+
+			const toggleButtons = document.querySelectorAll('#theme-toggle, .theme-toggle');
+			toggleButtons.forEach((button) => {
+				button.addEventListener('click', toggleTheme);
+			});
+
 			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
 				if (!getStoredTheme()) {
 					setTheme(e.matches ? 'dark' : 'light');
 				}
 			});
 		}
-		
-		function setTheme(theme) {
-			console.log('🎨 Setting theme to:', theme);
-			
-			// Validate theme
-			if (!THEMES.includes(theme)) {
-				theme = 'light';
-			}
-			
-			document.documentElement.setAttribute('data-theme', theme);
-			
-			// Also add class to body for better compatibility
-			document.body.className = document.body.className.replace(/\b(light|dark|retrowave)-theme\b/g, '');
-			document.body.classList.add(theme + '-theme');
-			
-			// Store preference
-			storeTheme(theme);
-			
-			// Debug logging
-			console.log('✅ Theme set to:', theme);
-			console.log('📄 data-theme attribute:', document.documentElement.getAttribute('data-theme'));
-			console.log('🏷️ Body classes:', document.body.className);
-		}
-		
-		function toggleTheme() {
-			const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-			const currentIndex = THEMES.indexOf(currentTheme);
-			const nextIndex = (currentIndex + 1) % THEMES.length;
-			const newTheme = THEMES[nextIndex];
-			
-			console.log('🔄 Toggling theme from', currentTheme, 'to', newTheme);
-			setTheme(newTheme);
-		}
-		
-		function getCurrentTheme() {
-			return document.documentElement.getAttribute('data-theme') || 'light';
-		}
-		
-		// Initialize when DOM is ready
+
 		if (document.readyState === 'loading') {
 			document.addEventListener('DOMContentLoaded', initThemeToggle);
 		} else {
 			initThemeToggle();
 		}
-		
-		// Export functions for potential use in other scripts
+
 		window.setTheme = setTheme;
 		window.toggleTheme = toggleTheme;
 		window.getCurrentTheme = getCurrentTheme;
