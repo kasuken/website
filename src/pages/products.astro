@@ -1,0 +1,266 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import ProductMark from '../components/ProductMark.astro';
+import { products } from '../data/products.ts';
+import { SITE_TITLE } from '../consts';
+
+const title = `Products · ${SITE_TITLE}`;
+const description =
+	'Brainy, MoneyBrain, LearnStack and Needly — four SaaS products built on .NET and Blazor, shipped in the open.';
+
+const liveCount = products.filter((p) => p.status === 'Live').length;
+
+const softwareJsonLd = products.map((product) => ({
+	'@context': 'https://schema.org',
+	'@type': 'SoftwareApplication',
+	name: product.name,
+	description: product.summary,
+	applicationCategory: 'BusinessApplication',
+	url: product.site ?? product.repo,
+	author: { '@type': 'Person', name: 'Emanuele Bartolesi' },
+}));
+
+const arrow = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
+const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5"><polyline points="20 6 9 17 4 12"/></svg>`;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+		<script type="application/ld+json" set:html={JSON.stringify(softwareJsonLd)} />
+	</head>
+	<body class="bg-[var(--background)] text-[var(--text-primary)] antialiased">
+		<Header />
+		<main class="w-full max-w-6xl mx-auto px-6">
+
+			<!-- Hero -->
+			<section class="pt-16 pb-14 md:pt-24 md:pb-20 max-w-4xl">
+				<h1 class="font-display text-5xl md:text-6xl lg:text-7xl tracking-tight text-[var(--text-primary)] mb-6">
+					Four products, one
+					<em class="italic text-[var(--accent-text)]">obsession</em>: turning input into output.
+				</h1>
+				<p class="text-xl md:text-2xl text-[var(--text-secondary)] leading-relaxed max-w-[62ch] mb-10">
+					I kept hitting the same wall — notes, money, reading lists and GitHub
+					notifications all pile up faster than they turn into anything useful.
+					So I built the tools I wanted. All four run on .NET&nbsp;10 and Blazor,
+					and every line is public.
+				</p>
+
+				<!-- Jump rail -->
+				<nav aria-label="Jump to a product" class="flex flex-wrap gap-3">
+					{products.map((product) => (
+						<a
+							href={`#${product.slug}`}
+							data-product={product.slug}
+							class="group inline-flex items-center gap-2.5 pl-2.5 pr-4 py-2 rounded-[var(--radius-pill)] border border-[var(--border)] no-underline! text-sm font-semibold text-[var(--text-primary)]! hover:border-[var(--p)] hover:bg-[var(--p-tint)] transition-colors"
+						>
+							<span class="w-6 h-6 text-[var(--p)]">
+								<ProductMark slug={product.slug} />
+							</span>
+							{product.name}
+						</a>
+					))}
+				</nav>
+			</section>
+
+			<!-- Products -->
+			<div class="space-y-20 md:space-y-28">
+				{products.map((product) => (
+					<section
+						id={product.slug}
+						data-product={product.slug}
+						aria-labelledby={`${product.slug}-name`}
+						class="scroll-mt-24"
+					>
+						<!-- Product header -->
+						<div class="flex flex-col sm:flex-row sm:items-center gap-6 pb-8 mb-8 border-b border-[var(--p-edge)]">
+							<span
+								data-reveal
+								class="w-16 h-16 md:w-20 md:h-20 shrink-0 flex items-center justify-center rounded-[var(--radius-card)] bg-[var(--p-tint)] text-[var(--p)] border border-[var(--p-edge)] p-3.5 md:p-4"
+							>
+								<ProductMark slug={product.slug} />
+							</span>
+
+							<div class="min-w-0">
+								<div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
+									<h2
+										id={`${product.slug}-name`}
+										class="font-display text-4xl md:text-5xl mb-0! text-[var(--text-primary)]"
+									>
+										{product.name}
+									</h2>
+									<span class="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--text-secondary)] border border-[var(--border)] rounded-[var(--radius-pill)] px-2.5 py-1">
+										<span
+											class={`w-1.5 h-1.5 rounded-full ${product.status === 'Live' ? 'bg-[var(--p)]' : 'border border-current'}`}
+											aria-hidden="true"
+										></span>
+										{product.status}
+									</span>
+								</div>
+								<p class="text-xl md:text-2xl text-[var(--p-ink)] font-medium mb-0! max-w-[50ch]">
+									{product.tagline}
+								</p>
+							</div>
+						</div>
+
+						<div class="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-16">
+							<!-- Narrative -->
+							<div>
+								<p class="text-[var(--text-secondary)] text-lg leading-relaxed max-w-[68ch]">
+									{product.summary}
+								</p>
+
+								<div class="rounded-[var(--radius-card)] bg-[var(--background-secondary)] border border-[var(--border)] p-6 mb-8">
+									<h3 class="font-display text-sm font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-2!">
+										The problem
+									</h3>
+									<p class="text-[var(--text-primary)] text-lg mb-0! max-w-[56ch]">
+										{product.problem}
+									</p>
+								</div>
+
+								<h3 class="font-display text-sm font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-3!">
+									Built with
+								</h3>
+								<ul class="flex flex-wrap gap-2 list-none p-0 m-0 mb-8">
+									{product.stack.map((tech) => (
+										<li class="text-sm font-medium text-[var(--text-secondary)] bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-pill)] px-3 py-1.5">
+											{tech}
+										</li>
+									))}
+								</ul>
+
+								<div class="flex flex-wrap items-center gap-3">
+									{product.site && (
+										<a
+											href={product.site}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="inline-flex items-center gap-2 px-6 py-3 rounded-[var(--radius-pill)] text-sm font-semibold no-underline! bg-[var(--p-solid)] text-[var(--p-on)]! hover:brightness-110 hover:-translate-y-px transition-[filter,transform] duration-200"
+										>
+											Open {product.name}
+											<span set:html={arrow} />
+										</a>
+									)}
+									<a
+										href={product.repo}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="inline-flex items-center gap-2 px-6 py-3 rounded-[var(--radius-pill)] text-sm font-semibold no-underline! text-[var(--text-primary)]! border border-[var(--border)] hover:border-[var(--p)] hover:text-[var(--p-ink)]! transition-colors"
+									>
+										<svg viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+										View source
+									</a>
+								</div>
+							</div>
+
+							<!-- Capabilities -->
+							<div>
+								<h3 class="font-display text-sm font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-5!">
+									What it does
+								</h3>
+								<ul class="list-none p-0 m-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-x-8 gap-y-0">
+									{product.features.map((feature, i) => (
+										<li
+											data-reveal
+											style={`--reveal-delay: ${Math.min(i, 5) * 60}ms`}
+											class="flex items-start gap-3 py-3 border-b border-[var(--border)] text-[var(--text-secondary)]"
+										>
+											<span
+												class="mt-1 shrink-0 w-5 h-5 rounded-[var(--radius-pill)] bg-[var(--p-tint)] text-[var(--p-ink)] flex items-center justify-center"
+												set:html={check}
+												aria-hidden="true"
+											/>
+											<span class="min-w-0">{feature}</span>
+										</li>
+									))}
+								</ul>
+							</div>
+						</div>
+					</section>
+				))}
+			</div>
+
+			<!-- Comparison -->
+			<section aria-labelledby="compare-heading" class="mt-24 md:mt-32 pt-12 border-t border-[var(--border)]">
+				<h2 id="compare-heading" class="font-display text-3xl md:text-4xl text-[var(--text-primary)] mb-4">
+					Which one is for you?
+				</h2>
+				<p class="text-lg text-[var(--text-secondary)] max-w-[64ch] mb-10">
+					{liveCount} of the 4 are live today; the rest are in active
+					development. They share a stack but solve different problems.
+				</p>
+
+				<div class="overflow-x-auto -mx-6 px-6">
+					<table class="w-full min-w-[40rem] text-left border-collapse">
+						<caption class="sr-only">
+							The four products compared by what they are best for and their current status
+						</caption>
+						<thead>
+							<tr>
+								<th scope="col" class="font-display text-sm uppercase tracking-wider text-[var(--text-secondary)] pb-3">Product</th>
+								<th scope="col" class="font-display text-sm uppercase tracking-wider text-[var(--text-secondary)] pb-3">Reach for it when</th>
+								<th scope="col" class="font-display text-sm uppercase tracking-wider text-[var(--text-secondary)] pb-3 whitespace-nowrap">Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							{products.map((product) => (
+								<tr data-product={product.slug} class="group hover:bg-[var(--p-tint)] transition-colors">
+									<th scope="row" class="align-middle py-5 pr-6 font-normal">
+										<a href={`#${product.slug}`} class="inline-flex items-center gap-3 no-underline! text-[var(--text-primary)]! hover:text-[var(--p-ink)]! transition-colors">
+											<span class="w-8 h-8 shrink-0 p-1.5 rounded-[var(--radius-sm)] bg-[var(--p-tint)] text-[var(--p)] border border-[var(--p-edge)]">
+												<ProductMark slug={product.slug} />
+											</span>
+											<span class="font-display text-lg font-semibold">{product.name}</span>
+										</a>
+									</th>
+									<td class="align-middle py-5 pr-6 text-[var(--text-secondary)]">{product.bestFor}</td>
+									<td class="align-middle py-5 whitespace-nowrap">
+										<span class="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--text-secondary)]">
+											<span
+												class={`w-1.5 h-1.5 rounded-full ${product.status === 'Live' ? 'bg-[var(--p)]' : 'border border-current'}`}
+												aria-hidden="true"
+											></span>
+											{product.status}
+										</span>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<!-- Closing CTA -->
+			<section class="mt-20 md:mt-28 mb-24 rounded-[var(--radius-card)] bg-[var(--text-primary)] text-[var(--background)] p-10 md:p-14">
+				<h2 class="font-display text-3xl md:text-4xl tracking-tight mb-4 text-[var(--background)]">
+					Building these in public
+				</h2>
+				<p class="text-lg leading-relaxed max-w-[60ch] text-[var(--background)]/80 mb-8">
+					I write about the decisions behind these products — the architecture,
+					the mistakes, and what shipping solo actually costs. The newsletter is
+					where that lands first.
+				</p>
+				<div class="flex flex-wrap gap-4">
+					<a
+						href="/newsletter"
+						class="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--accent)] text-[var(--on-accent)]! rounded-[var(--radius-pill)] text-sm font-semibold no-underline! hover:brightness-110 hover:-translate-y-px transition-[filter,transform] duration-200"
+					>
+						Subscribe
+						<span set:html={arrow} />
+					</a>
+					<a
+						href="/millionjourney"
+						class="inline-flex items-center gap-2 px-7 py-3.5 rounded-[var(--radius-pill)] text-sm font-semibold no-underline! text-[var(--background)]! border border-[var(--background)]/25 hover:bg-[var(--background)]/10 transition-colors"
+					>
+						Follow the revenue journey
+					</a>
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

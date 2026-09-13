@@ -1,0 +1,76 @@
+---
+/**
+ * Geometric mark for each SaaS product.
+ *
+ * Pure geometry — exact shapes on a 48×48 grid, one stroke weight (2), one
+ * cap/join style. Colors come from the `--p` / `--p-soft` product variables set
+ * by the `data-product` attribute on an ancestor, so a mark inherits the brand
+ * hue of whatever card it sits in.
+ */
+
+interface Props {
+	slug: string;
+	class?: string;
+}
+
+const { slug, class: className } = Astro.props;
+---
+
+<svg
+	viewBox="0 0 48 48"
+	fill="none"
+	stroke="currentColor"
+	stroke-width="2"
+	stroke-linecap="round"
+	stroke-linejoin="round"
+	class:list={['w-full h-full', className]}
+	aria-hidden="true"
+>
+	{slug === 'brainy' && (
+		<>
+			{/* Knowledge lattice: four nodes wired into one hub. */}
+			<line x1="24" y1="24" x2="10" y2="12" stroke-opacity="0.45" />
+			<line x1="24" y1="24" x2="38" y2="12" stroke-opacity="0.45" />
+			<line x1="24" y1="24" x2="10" y2="36" stroke-opacity="0.45" />
+			<line x1="24" y1="24" x2="38" y2="36" stroke-opacity="0.45" />
+			<line x1="10" y1="12" x2="38" y2="12" stroke-opacity="0.25" />
+			<line x1="10" y1="36" x2="38" y2="36" stroke-opacity="0.25" />
+			<circle cx="10" cy="12" r="3.5" />
+			<circle cx="38" cy="12" r="3.5" />
+			<circle cx="10" cy="36" r="3.5" />
+			<circle cx="38" cy="36" r="3.5" />
+			<circle cx="24" cy="24" r="5.5" fill="currentColor" fill-opacity="0.14" />
+		</>
+	)}
+
+	{slug === 'moneybrain' && (
+		<>
+			{/* Budget envelopes: four allocations, filled to different levels. */}
+			<rect x="7" y="9" width="34" height="7" rx="2" />
+			<rect x="7" y="9" width="27" height="7" rx="2" fill="currentColor" fill-opacity="0.22" stroke="none" />
+			<rect x="7" y="20.5" width="34" height="7" rx="2" />
+			<rect x="7" y="20.5" width="16" height="7" rx="2" fill="currentColor" fill-opacity="0.22" stroke="none" />
+			<rect x="7" y="32" width="34" height="7" rx="2" />
+			<rect x="7" y="32" width="23" height="7" rx="2" fill="currentColor" fill-opacity="0.22" stroke="none" />
+		</>
+	)}
+
+	{slug === 'learnstack' && (
+		<>
+			{/* Stacked plates: a queue seen edge-on, the top one active. */}
+			<path d="M24 7 41 15 24 23 7 15 24 7Z" fill="currentColor" fill-opacity="0.16" />
+			<path d="M7 23 24 31 41 23" stroke-opacity="0.55" />
+			<path d="M7 31 24 39 41 31" stroke-opacity="0.3" />
+		</>
+	)}
+
+	{slug === 'needly' && (
+		<>
+			{/* Funnel: a wide stream of events narrowing into one next action. */}
+			<path d="M8 10h32l-12 14v14l-8 4V24L8 10Z" fill="currentColor" fill-opacity="0.14" />
+			<line x1="14" y1="6" x2="14" y2="2" stroke-opacity="0.4" />
+			<line x1="24" y1="6" x2="24" y2="2" stroke-opacity="0.4" />
+			<line x1="34" y1="6" x2="34" y2="2" stroke-opacity="0.4" />
+		</>
+	)}
+</svg>

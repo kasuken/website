@@ -29,7 +29,7 @@ const stats = getCourseStats();
 				<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[var(--accent)]/10 blur-[100px] rounded-full pointer-events-none"></div>
 				
 				<h1 class="text-5xl md:text-7xl font-black tracking-tighter text-[var(--text-primary)] mb-6 relative z-10">
-					Professional <span class="text-[var(--accent)]">Training</span>
+					Professional <span class="text-[var(--accent-text)]">Training</span>
 				</h1>
 				<p class="text-xl md:text-2xl text-[var(--text-secondary)] font-medium max-w-2xl mx-auto relative z-10 mb-8">
 					Level up your skills with comprehensive courses on cloud deployment, web development, and AI integration.
@@ -78,7 +78,7 @@ const stats = getCourseStats();
 					<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 						{featuredCourses.map((course: any) => (
 							<div class="group flex flex-col bg-[var(--background-secondary)]/30 border-2 border-[var(--accent)]/50 rounded-3xl overflow-hidden hover:border-[var(--accent)] transition-all duration-300 shadow-xl shadow-[var(--accent)]/5 relative">
-								<div class="absolute top-4 right-4 z-10 px-3 py-1 bg-[var(--background)] text-[var(--accent)] text-xs font-bold uppercase tracking-wider rounded-full border border-[var(--accent)] shadow-sm">
+								<div class="absolute top-4 right-4 z-10 px-3 py-1 bg-[var(--background)] text-[var(--accent-text)] text-xs font-bold uppercase tracking-wider rounded-full border border-[var(--accent)] shadow-sm">
 									Featured
 								</div>
 								
@@ -92,7 +92,7 @@ const stats = getCourseStats();
 								
 								<div class="p-6 md:p-8 flex flex-col flex-grow">
 									<div class="flex justify-between items-start mb-4 gap-4">
-										<h3 class="text-2xl font-bold leading-tight text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors">
+										<h3 class="text-2xl font-bold leading-tight text-[var(--text-primary)] group-hover:text-[var(--accent-text)] transition-colors">
 											{course.title}
 										</h3>
 										<div class="flex-shrink-0 text-right">
@@ -162,7 +162,7 @@ const stats = getCourseStats();
 							</div>
 							
 							<div class="p-5 flex flex-col flex-grow">
-								<h3 class="text-xl font-bold leading-tight text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors mb-2 line-clamp-2">
+								<h3 class="text-xl font-bold leading-tight text-[var(--text-primary)] group-hover:text-[var(--accent-text)] transition-colors mb-2 line-clamp-2">
 									{course.title}
 								</h3>
 								

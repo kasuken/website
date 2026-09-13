@@ -1,0 +1,120 @@
+---
+/**
+ * Homepage SaaS section — an editorial ledger of the four products.
+ *
+ * Rows, not a card grid: the page already spends its card budget on blog
+ * posts, and a ledger lets each product carry its own hue and mark while
+ * staying scannable top-to-bottom.
+ */
+
+import { products } from '../data/products.ts';
+import ProductMark from './ProductMark.astro';
+
+const arrow = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
+---
+
+<section aria-labelledby="products-heading">
+	<div class="mb-10 md:mb-14">
+		<div class="flex flex-wrap items-baseline gap-x-6 gap-y-3 border-b border-[var(--border)] pb-5 mb-5">
+			<h2
+				id="products-heading"
+				class="font-display text-3xl md:text-4xl mb-0! text-[var(--text-primary)]"
+			>
+				Products I'm building
+			</h2>
+			<a
+				href="/products"
+				class="ml-auto text-sm font-semibold text-[var(--accent-text)] no-underline! hover:underline! whitespace-nowrap"
+			>
+				All four in detail →
+			</a>
+		</div>
+		<p class="text-lg text-[var(--text-secondary)] max-w-[68ch] mb-0!">
+			Four SaaS products, all built on .NET and Blazor, all solving a problem I
+			had myself. Each one ships in the open — the source is on GitHub.
+		</p>
+	</div>
+
+	<div class="border-t border-[var(--border)]">
+		{products.map((product, i) => (
+			<article
+				data-product={product.slug}
+				data-reveal
+				style={`--reveal-delay: ${i * 90}ms`}
+				class="group relative border-b border-[var(--border)] transition-colors duration-300 hover:bg-[var(--p-tint)]"
+			>
+				{/* Oversized mark, bleeding off the right edge on hover. */}
+				<div
+					class="pointer-events-none absolute -right-6 top-1/2 -translate-y-1/2 w-48 h-48 text-[var(--p)] opacity-0 scale-90 group-hover:opacity-[0.13] group-hover:scale-100 transition-all duration-500 hidden lg:block"
+					aria-hidden="true"
+				>
+					<ProductMark slug={product.slug} />
+				</div>
+
+				<div class="relative grid grid-cols-[auto_1fr] md:grid-cols-[auto_1fr_auto] gap-x-5 md:gap-x-8 gap-y-4 items-start py-8 md:py-10 px-2 md:px-4">
+					<span
+						class="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-[var(--radius-md)] bg-[var(--p-tint)] text-[var(--p)] border border-[var(--p-edge)] p-2.5 md:p-3 transition-transform duration-300 group-hover:-translate-y-0.5"
+					>
+						<ProductMark slug={product.slug} />
+					</span>
+
+					<div class="min-w-0">
+						<div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
+							<h3 class="font-display text-2xl md:text-3xl mb-0! text-[var(--text-primary)] group-hover:text-[var(--p-ink)] transition-colors">
+								{product.name}
+							</h3>
+							<span class="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--text-secondary)]">
+								<span
+									class={`w-1.5 h-1.5 rounded-full ${product.status === 'Live' ? 'bg-[var(--p)]' : 'border border-current'}`}
+									aria-hidden="true"
+								></span>
+								{product.status}
+							</span>
+						</div>
+
+						<p class="text-lg md:text-xl text-[var(--text-secondary)] max-w-[52ch] mb-2">
+							{product.tagline}
+						</p>
+
+						<p class="text-[var(--text-secondary)] max-w-[64ch] mb-4">
+							{product.problem}
+						</p>
+
+						<ul class="flex flex-wrap gap-x-2 gap-y-2 list-none p-0 m-0">
+							{product.stack.slice(0, 4).map((tech) => (
+								<li class="text-xs font-medium text-[var(--text-secondary)] bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-pill)] px-2.5 py-1">
+									{tech}
+								</li>
+							))}
+						</ul>
+					</div>
+
+					<div class="col-start-2 md:col-start-3 flex flex-wrap items-center gap-3 md:self-center">
+						{product.site && (
+							<a
+								href={product.site}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius-pill)] text-sm font-semibold no-underline! bg-[var(--p-solid)] text-[var(--p-on)]! hover:brightness-110 transition-[filter,transform] duration-200 hover:-translate-y-px"
+							>
+								Visit
+								<span set:html={arrow} />
+								<span class="sr-only">{product.name} website</span>
+							</a>
+						)}
+						<a
+							href={product.repo}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius-pill)] text-sm font-semibold no-underline! text-[var(--text-primary)]! border border-[var(--border)] hover:border-[var(--p)] hover:text-[var(--p-ink)]! transition-colors"
+						>
+							<svg viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+							Source
+							<span class="sr-only">for {product.name} on GitHub</span>
+						</a>
+					</div>
+				</div>
+			</article>
+		))}
+	</div>
+</section>
