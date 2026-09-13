@@ -129,7 +129,7 @@ const stats = getCourseStats();
 										</div>
 									</div>
 									
-									<a href={course.link || '#'} class="block w-full py-3 px-4 text-center font-bold text-[var(--background)] bg-[var(--text-primary)] hover:bg-[var(--accent)] hover:text-white rounded-xl transition-colors">
+									<a href={course.link || '#'} class="block w-full py-3 px-4 text-center font-bold text-[var(--background)] bg-[var(--text-primary)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] rounded-xl transition-colors">
 										Enroll Now
 									</a>
 								</div>
@@ -181,7 +181,7 @@ const stats = getCourseStats();
 									</div>
 								</div>
 								
-								<a href={course.link || '#'} class="mt-4 block w-full py-2 px-4 text-center text-sm font-bold text-[var(--text-primary)] bg-[var(--background-tertiary)] hover:bg-[var(--accent)] hover:text-white rounded-lg transition-colors">
+								<a href={course.link || '#'} class="mt-4 block w-full py-2 px-4 text-center text-sm font-bold text-[var(--text-primary)] bg-[var(--background-tertiary)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] rounded-lg transition-colors">
 									{course.upcoming ? 'Notify Me' : 'View Details'}
 								</a>
 							</div>

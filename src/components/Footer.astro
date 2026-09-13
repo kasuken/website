@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 const today = new Date();
 ---
 
@@ -14,6 +16,7 @@ const today = new Date();
 			<div class="col-span-1">
 				<h4 class="mono-label mb-4">Explore</h4>
 				<div class="flex flex-col gap-2 text-sm">
+					<a href="/products" class="text-[var(--text-secondary)] no-underline! hover:text-[var(--accent-text)] transition-colors">Products</a>
 					<a href="/blog" class="text-[var(--text-secondary)] no-underline! hover:text-[var(--accent-text)] transition-colors">Writing</a>
 					<a href="/portfolio" class="text-[var(--text-secondary)] no-underline! hover:text-[var(--accent-text)] transition-colors">Work</a>
 					<a href="/speaking" class="text-[var(--text-secondary)] no-underline! hover:text-[var(--accent-text)] transition-colors">Speaking</a>
@@ -52,8 +55,20 @@ const today = new Date();
 		
 		<div class="pt-8 border-t border-[var(--border)] text-sm flex flex-col sm:flex-row items-center justify-between gap-4">
 			<span>&copy; {today.getFullYear()} Emanuele Bartolesi. All rights reserved.</span>
-			<a href="https://visitorbadge.io/status?path=https%3A%2F%2Fwww.emanuelebartolesi.com" target="_blank" rel="noopener noreferrer" class="opacity-60 hover:opacity-100 transition-opacity">
-				<img src="https://api.visitorbadge.io/api/combined?path=https%3A%2F%2Fwww.emanuelebartolesi.com&label=Visitors&countColor=%23263759&style=flat" alt="Visitor count badge" loading="lazy" decoding="async" />
+			<!--
+				The visitorbadge.io <img> was a third-party, referrer-gated PNG that
+				rendered broken off-domain and shipped a foreign visual style into the
+				footer. The stats stay one click away, without the request or the
+				broken image.
+			-->
+			<a
+				href="https://visitorbadge.io/status?path=https%3A%2F%2Fwww.emanuelebartolesi.com"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="inline-flex items-center gap-1.5 text-[var(--text-secondary)] hover:text-[var(--accent-text)] no-underline! transition-colors"
+			>
+				Visitor stats
+				<Icon name="arrow-up-right" class="w-3.5 h-3.5" />
 			</a>
 		</div>
 	</div>

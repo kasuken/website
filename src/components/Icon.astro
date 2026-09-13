@@ -1,0 +1,123 @@
+---
+/**
+ * Drawn icon set.
+ *
+ * One 24×24 grid, one stroke weight, one cap/join style, `currentColor`
+ * throughout — so icons inherit text color and optical weight wherever they
+ * sit. Emoji are not an icon system: they render differently per platform,
+ * carry no stroke relationship to the type, and cannot be recolored.
+ *
+ * Add new glyphs here rather than inlining SVG at call sites.
+ */
+
+interface Props {
+	name:
+		| 'calendar'
+		| 'map-pin'
+		| 'mic'
+		| 'archive'
+		| 'tag'
+		| 'slides'
+		| 'globe'
+		| 'arrow-right'
+		| 'arrow-up-right'
+		| 'users';
+	class?: string;
+	/** Decorative by default; pass a label when the icon is the only content. */
+	label?: string;
+}
+
+const { name, class: className, label } = Astro.props;
+---
+
+<svg
+	viewBox="0 0 24 24"
+	fill="none"
+	stroke="currentColor"
+	stroke-width="1.75"
+	stroke-linecap="round"
+	stroke-linejoin="round"
+	class:list={['shrink-0', className]}
+	role={label ? 'img' : undefined}
+	aria-label={label}
+	aria-hidden={label ? undefined : 'true'}
+>
+	{name === 'calendar' && (
+		<>
+			<rect x="3" y="5" width="18" height="16" rx="2" />
+			<line x1="3" y1="10" x2="21" y2="10" />
+			<line x1="8" y1="3" x2="8" y2="7" />
+			<line x1="16" y1="3" x2="16" y2="7" />
+		</>
+	)}
+
+	{name === 'map-pin' && (
+		<>
+			<path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z" />
+			<circle cx="12" cy="10" r="2.5" />
+		</>
+	)}
+
+	{name === 'mic' && (
+		<>
+			<rect x="9" y="2" width="6" height="12" rx="3" />
+			<path d="M5 11a7 7 0 0 0 14 0" />
+			<line x1="12" y1="18" x2="12" y2="22" />
+			<line x1="8" y1="22" x2="16" y2="22" />
+		</>
+	)}
+
+	{name === 'archive' && (
+		<>
+			<rect x="3" y="4" width="18" height="4" rx="1" />
+			<path d="M5 8v11a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8" />
+			<line x1="10" y1="13" x2="14" y2="13" />
+		</>
+	)}
+
+	{name === 'tag' && (
+		<>
+			<path d="M12.6 3H20a1 1 0 0 1 1 1v7.4a2 2 0 0 1-.6 1.4l-7.6 7.6a2 2 0 0 1-2.8 0l-6.4-6.4a2 2 0 0 1 0-2.8l7.6-7.6a2 2 0 0 1 1.4-.6Z" />
+			<circle cx="16.5" cy="7.5" r="1.5" />
+		</>
+	)}
+
+	{name === 'slides' && (
+		<>
+			<rect x="3" y="4" width="18" height="12" rx="2" />
+			<line x1="12" y1="16" x2="12" y2="20" />
+			<line x1="8" y1="20" x2="16" y2="20" />
+		</>
+	)}
+
+	{name === 'globe' && (
+		<>
+			<circle cx="12" cy="12" r="9" />
+			<line x1="3" y1="12" x2="21" y2="12" />
+			<path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18Z" />
+		</>
+	)}
+
+	{name === 'arrow-right' && (
+		<>
+			<line x1="5" y1="12" x2="19" y2="12" />
+			<polyline points="12 5 19 12 12 19" />
+		</>
+	)}
+
+	{name === 'arrow-up-right' && (
+		<>
+			<line x1="7" y1="17" x2="17" y2="7" />
+			<polyline points="8 7 17 7 17 16" />
+		</>
+	)}
+
+	{name === 'users' && (
+		<>
+			<path d="M16 20v-1.5a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V20" />
+			<circle cx="9" cy="7" r="3.5" />
+			<path d="M22 20v-1.5a4 4 0 0 0-3-3.87" />
+			<path d="M16 4.13a4 4 0 0 1 0 7.75" />
+		</>
+	)}
+</svg>
