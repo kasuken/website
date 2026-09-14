@@ -1,4 +1,5 @@
 ---
+import Icon from "../components/Icon.astro";
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
@@ -38,17 +39,17 @@ const stats = getCourseStats();
 				{/* Stats Cards */}
 				<div class="flex justify-center gap-4 sm:gap-8 flex-wrap">
 					<div class="flex flex-col items-center justify-center p-4 bg-[var(--background-secondary)]/50 border border-[var(--border)] rounded-2xl w-32 shadow-sm relative overflow-hidden group">
-						<span class="text-2xl mb-1">📚</span>
+						<Icon name="book-open" class="w-6 h-6 mb-1" />
 						<span class="text-3xl font-black text-[var(--text-primary)] mb-1">{stats.totalCourses}</span>
 						<span class="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">Courses</span>
 					</div>
 					<div class="flex flex-col items-center justify-center p-4 bg-[var(--background-secondary)]/50 border border-[var(--border)] rounded-2xl w-32 shadow-sm relative overflow-hidden group">
-						<span class="text-2xl mb-1">⏱️</span>
+						<Icon name="clock" class="w-6 h-6 mb-1" />
 						<span class="text-3xl font-black text-[var(--text-primary)] mb-1">11h+</span>
 						<span class="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">Content</span>
 					</div>
 					<div class="flex flex-col items-center justify-center p-4 bg-[var(--background-secondary)]/50 border border-[var(--border)] rounded-2xl w-32 shadow-sm relative overflow-hidden group">
-						<span class="text-2xl mb-1">🧑‍🎓</span>
+						<Icon name="graduation-cap" class="w-6 h-6 mb-1" />
 						<span class="text-3xl font-black text-[var(--text-primary)] mb-1">1k+</span>
 						<span class="text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">Students</span>
 					</div>
@@ -73,7 +74,7 @@ const stats = getCourseStats();
 			{featuredCourses.length > 0 && (
 				<section class="mb-20">
 					<h2 class="text-3xl font-black tracking-tight text-[var(--text-primary)] mb-8 flex items-center gap-3">
-						<span class="text-yellow-500">⭐</span> Featured Programs
+						Featured programs
 					</h2>
 					<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 						{featuredCourses.map((course: any) => (

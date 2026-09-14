@@ -189,13 +189,13 @@ export const getUpcomingBooks = () => {
 };
 
 export const bookCategories = [
-  { key: 'all', label: 'All Categories', icon: '📚' },
-  { key: 'technical', label: 'Technical', icon: '⚙️' },
-  { key: 'programming', label: 'Programming', icon: '💻' },
-  { key: 'cloud', label: 'Cloud', icon: '☁️' },
-  { key: 'web-development', label: 'Web Development', icon: '🌐' },
-  { key: 'career', label: 'Career & Development', icon: '🚀' },
-  { key: 'other', label: 'Other', icon: '📖' }
+  { key: 'all', label: 'All Categories', icon: 'book-open' },
+  { key: 'technical', label: 'Technical', icon: 'wrench' },
+  { key: 'programming', label: 'Programming', icon: 'code' },
+  { key: 'cloud', label: 'Cloud', icon: 'cloud' },
+  { key: 'web-development', label: 'Web Development', icon: 'globe' },
+  { key: 'career', label: 'Career & Development', icon: 'trend-up' },
+  { key: 'other', label: 'Other', icon: 'book-open' }
 ];
 
 export const getBookStats = () => {

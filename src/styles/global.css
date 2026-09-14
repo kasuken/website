@@ -470,26 +470,26 @@
 
 	.btn-primary {
 		background: var(--text-primary);
-		color: var(--background) !important;
+		color: var(--background);
 	}
 
 	.btn-primary:hover {
 		background: var(--accent);
-		color: var(--primary) !important;
+		color: var(--on-accent);
 		transform: translateY(-2px);
 		box-shadow: 0 4px 12px oklch(from var(--accent) l c h / 0.3);
 	}
 
 	.btn-secondary {
 		background: transparent;
-		color: var(--text-primary) !important;
+		color: var(--text-primary);
 		border-color: var(--border);
 	}
 
 	.btn-secondary:hover {
 		background: var(--background-secondary);
 		border-color: var(--text-primary);
-		color: var(--text-primary) !important;
+		color: var(--text-primary);
 		transform: translateY(-2px);
 	}
 
@@ -521,6 +521,25 @@
 	height: 1px; width: 1px; overflow: hidden;
 	clip: rect(1px 1px 1px 1px); clip: rect(1px, 1px, 1px, 1px); clip-path: inset(50%);
 	white-space: nowrap;
+}
+
+
+/* Star ratings — shared across the books and uses pages. Global rather than
+   scoped because the <svg> these target is rendered by Icon.astro, which
+   carries its own component scope. */
+.star-on {
+	fill: #f59e0b;
+	color: #f59e0b;
+}
+
+.star-off {
+	fill: none;
+	color: var(--text-light);
+}
+
+[data-theme="dark"] .star-on {
+	fill: #fbbf24;
+	color: #fbbf24;
 }
 
 @plugin "@tailwindcss/typography";

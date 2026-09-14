@@ -1,4 +1,5 @@
 ---
+import Icon from "../components/Icon.astro";
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
@@ -19,7 +20,7 @@ import { SITE_DESCRIPTION } from '../consts';
 				<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#9146ff]/10 blur-[100px] rounded-full pointer-events-none"></div>
 				
 				<div class="inline-flex items-center justify-center p-3 mb-6 bg-[#9146ff]/10 text-[#9146ff] rounded-2xl shadow-inner shrink-0 rotate-3 transition-transform hover:rotate-6">
-					<span class="text-4xl leading-none">🔴</span>
+					<Icon name="radio" class="w-9 h-9 text-[var(--accent-text)]" />
 				</div>
 				
 				<h1 class="text-5xl md:text-7xl font-black tracking-tighter text-[var(--text-primary)] mb-6 relative z-10">
@@ -54,7 +55,7 @@ import { SITE_DESCRIPTION } from '../consts';
 			<!-- Schedule Section -->
 			<section class="max-w-4xl mx-auto mb-24 relative z-10">
 				<h2 class="text-3xl font-black tracking-tight text-[var(--text-primary)] mb-8 flex items-center justify-center md:justify-start gap-3">
-					<span class="text-2xl">📅</span> Streaming Schedule
+					<Icon name="calendar" class="w-6 h-6" /> Streaming schedule
 				</h2>
 				
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -97,13 +98,13 @@ import { SITE_DESCRIPTION } from '../consts';
 			<!-- Features / What to expect -->
 			<section class="max-w-4xl mx-auto relative z-10">
 				<h2 class="text-3xl font-black tracking-tight text-[var(--text-primary)] mb-8 flex items-center justify-center md:justify-start gap-3">
-					<span class="text-2xl">💡</span> What to Expect
+					<Icon name="lightbulb" class="w-6 h-6" /> What to expect
 				</h2>
 				<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 					<!-- Expectation 1 -->
 					<div class="bg-[var(--background-secondary)]/20 p-6 rounded-2xl border border-[var(--border)] shadow-sm">
 						<div class="w-12 h-12 rounded-xl bg-[var(--accent)]/10 text-[var(--accent-text)] flex items-center justify-center text-xl mb-4 font-bold border border-[var(--accent)]/20">
-							💻
+							<Icon name="laptop" class="w-7 h-7" />
 						</div>
 						<h4 class="text-xl font-bold text-[var(--text-primary)] mb-2">Live Coding</h4>
 						<p class="text-sm text-[var(--text-secondary)]">Watch real-world problem-solving in action. No edits, just raw development.</p>
@@ -111,7 +112,7 @@ import { SITE_DESCRIPTION } from '../consts';
 					<!-- Expectation 2 -->
 					<div class="bg-[var(--background-secondary)]/20 p-6 rounded-2xl border border-[var(--border)] shadow-sm">
 						<div class="w-12 h-12 rounded-xl bg-orange-500/10 text-orange-500 flex items-center justify-center text-xl mb-4 font-bold border border-orange-500/20">
-							💬
+							<Icon name="message-circle" class="w-7 h-7" />
 						</div>
 						<h4 class="text-xl font-bold text-[var(--text-primary)] mb-2">Interactive Q&A</h4>
 						<p class="text-sm text-[var(--text-secondary)]">Ask questions anytime in chat. We tackle concepts and roadblocks together.</p>
@@ -119,7 +120,7 @@ import { SITE_DESCRIPTION } from '../consts';
 					<!-- Expectation 3 -->
 					<div class="bg-[var(--background-secondary)]/20 p-6 rounded-2xl border border-[var(--border)] shadow-sm">
 						<div class="w-12 h-12 rounded-xl bg-green-500/10 text-green-500 flex items-center justify-center text-xl mb-4 font-bold border border-green-500/20">
-							🚀
+							<Icon name="rocket" class="w-7 h-7" />
 						</div>
 						<h4 class="text-xl font-bold text-[var(--text-primary)] mb-2">Tech Reviews</h4>
 						<p class="text-sm text-[var(--text-secondary)]">Exploring the latest in .NET, Astro, React, and Azure environments.</p>

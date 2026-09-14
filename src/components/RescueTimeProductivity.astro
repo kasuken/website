@@ -43,6 +43,15 @@ function getProductivityColor(productivity: number): string {
   return '#ef4444' // Red - Very distracting
 }
 
+// Level key drives the text colour class; the fill scale above stays as-is.
+function getProductivityLevel(productivity: number): string {
+  if (productivity >= 1.5) return 'vp'
+  if (productivity >= 0.5) return 'p'
+  if (productivity >= -0.5) return 'n'
+  if (productivity >= -1.5) return 'd'
+  return 'vd'
+}
+
 function getProductivityLabel(productivity: number): string {
   if (productivity >= 1.5) return 'Very Productive'
   if (productivity >= 0.5) return 'Productive'
@@ -173,7 +182,7 @@ function formatDayName(dateStr: string): string {
         <span class="stat-label">Total Hours</span>
       </div>
       <div class="summary-stat">
-        <span class="stat-value" style={`color: ${getProductivityColor(avgProductivity)}`}>
+        <span class={`stat-value ink-${getProductivityLevel(avgProductivity)}`}>
           {avgProductivity > 0 ? '+' : ''}{avgProductivity}
         </span>
         <span class="stat-label">Avg Productivity</span>
@@ -236,12 +245,26 @@ function formatDayName(dateStr: string): string {
   
   <div class="max-w-3xl mx-auto mt-10 text-[var(--text-secondary)] text-lg leading-relaxed space-y-4">
     <p class="text-base text-[var(--text-secondary)]/80 bg-[var(--background-secondary)] p-4 rounded-xl border border-[var(--border)] inline-block">
-      <strong>How it works:</strong> The app <a href="https://www.rescuetime.com" target="_blank" rel="noopener noreferrer" class="text-[var(--accent-text)] hover:underline font-semibold">RescueTime</a> monitors my active window and categorizes the activity on a scale from <span class="text-[#ef4444] font-medium">Very Distracting (-2)</span> (like social media or games) up to <span class="text-[#22c55e] font-medium">Very Productive (+2)</span> (like VS Code, Terminal, and documentation). It calculates a score ensuring I stay on track.
+      <strong>How it works:</strong> The app <a href="https://www.rescuetime.com" target="_blank" rel="noopener noreferrer" class="text-[var(--accent-text)] hover:underline font-semibold">RescueTime</a> monitors my active window and categorizes the activity on a scale from <span class="ink-vd font-medium">Very Distracting (-2)</span> (like social media or games) up to <span class="ink-vp font-medium">Very Productive (+2)</span> (like VS Code, Terminal, and documentation). It calculates a score ensuring I stay on track.
     </p>
   </div>
 </section>
 
 <style>
+  /* Text colours for the productivity scale. The fill scale is deliberately
+     lighter; these are the shades that clear AA as type. */
+  .ink-vp { color: #15803d; }
+  .ink-p  { color: #4d7c0f; }
+  .ink-n  { color: #a16207; }
+  .ink-d  { color: #c2410c; }
+  .ink-vd { color: #b91c1c; }
+
+  :global([data-theme="dark"]) .ink-vp { color: #4ade80; }
+  :global([data-theme="dark"]) .ink-p  { color: #a3e635; }
+  :global([data-theme="dark"]) .ink-n  { color: #fbbf24; }
+  :global([data-theme="dark"]) .ink-d  { color: #fb923c; }
+  :global([data-theme="dark"]) .ink-vd { color: #f87171; }
+
   .rescuetime-section {
     text-align: center;
   }
@@ -478,8 +501,7 @@ function formatDayName(dateStr: string): string {
   .bar-value {
     font-size: 0.75rem;
     font-weight: 600;
-    color: white;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    color: #0b0f19;
   }
 
   .productivity-score {

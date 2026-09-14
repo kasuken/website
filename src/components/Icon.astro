@@ -1,41 +1,160 @@
 ---
 /**
- * Drawn icon set.
+ * Icon system.
  *
- * One 24×24 grid, one stroke weight, one cap/join style, `currentColor`
- * throughout — so icons inherit text color and optical weight wherever they
- * sit. Emoji are not an icon system: they render differently per platform,
- * carry no stroke relationship to the type, and cannot be recolored.
+ * Glyphs come from Lucide (ISC), inlined at build time — one 24×24 grid, one
+ * stroke weight, round caps and joins, `currentColor` throughout, so icons
+ * inherit text colour and optical weight wherever they sit.
  *
- * Add new glyphs here rather than inlining SVG at call sites.
+ * Emoji are not an icon system: they render differently on every platform,
+ * carry no stroke relationship to the type around them, and cannot be
+ * recoloured or sized to match a design.
+ *
+ * Icons are imported explicitly rather than globbed so the bundle only ever
+ * carries the glyphs the site actually uses. To add one, import its raw SVG
+ * and add it to GLYPHS.
  */
 
+import archive from 'lucide-static/icons/archive.svg?raw';
+import appWindow from 'lucide-static/icons/app-window.svg?raw';
+import atom from 'lucide-static/icons/atom.svg?raw';
+import arrowRight from 'lucide-static/icons/arrow-right.svg?raw';
+import arrowUpRight from 'lucide-static/icons/arrow-up-right.svg?raw';
+import award from 'lucide-static/icons/award.svg?raw';
+import bookMarked from 'lucide-static/icons/book-marked.svg?raw';
+import bookOpen from 'lucide-static/icons/book-open.svg?raw';
+import bot from 'lucide-static/icons/bot.svg?raw';
+import calendar from 'lucide-static/icons/calendar.svg?raw';
+import camera from 'lucide-static/icons/camera.svg?raw';
+import chartColumn from 'lucide-static/icons/chart-column.svg?raw';
+import check from 'lucide-static/icons/check.svg?raw';
+import circleDot from 'lucide-static/icons/circle-dot.svg?raw';
+import cloud from 'lucide-static/icons/cloud.svg?raw';
+import construction from 'lucide-static/icons/construction.svg?raw';
+import clock from 'lucide-static/icons/clock.svg?raw';
+import code from 'lucide-static/icons/code.svg?raw';
+import database from 'lucide-static/icons/database.svg?raw';
+import filePen from 'lucide-static/icons/file-pen.svg?raw';
+import gift from 'lucide-static/icons/gift.svg?raw';
+import gitBranch from 'lucide-static/icons/git-branch.svg?raw';
+import gitFork from 'lucide-static/icons/git-fork.svg?raw';
+import globe from 'lucide-static/icons/globe.svg?raw';
+import graduationCap from 'lucide-static/icons/graduation-cap.svg?raw';
+import headphones from 'lucide-static/icons/headphones.svg?raw';
+import info from 'lucide-static/icons/info.svg?raw';
+import keyboard from 'lucide-static/icons/keyboard.svg?raw';
+import laptop from 'lucide-static/icons/laptop.svg?raw';
+import lightbulb from 'lucide-static/icons/lightbulb.svg?raw';
+import mail from 'lucide-static/icons/mail.svg?raw';
+import mapPin from 'lucide-static/icons/map-pin.svg?raw';
+import messageCircle from 'lucide-static/icons/message-circle.svg?raw';
+import mic from 'lucide-static/icons/mic.svg?raw';
+import monitor from 'lucide-static/icons/monitor.svg?raw';
+import mouse from 'lucide-static/icons/mouse.svg?raw';
+import music from 'lucide-static/icons/music.svg?raw';
+import notebookPen from 'lucide-static/icons/notebook-pen.svg?raw';
+import packageIcon from 'lucide-static/icons/package.svg?raw';
+import palette from 'lucide-static/icons/palette.svg?raw';
+import penLine from 'lucide-static/icons/pen-line.svg?raw';
+import presentation from 'lucide-static/icons/presentation.svg?raw';
+import radio from 'lucide-static/icons/radio.svg?raw';
+import rocket from 'lucide-static/icons/rocket.svg?raw';
+import shield from 'lucide-static/icons/shield.svg?raw';
+import shoppingCart from 'lucide-static/icons/shopping-cart.svg?raw';
+import smartphone from 'lucide-static/icons/smartphone.svg?raw';
+import sparkles from 'lucide-static/icons/sparkles.svg?raw';
+import star from 'lucide-static/icons/star.svg?raw';
+import store from 'lucide-static/icons/store.svg?raw';
+import tag from 'lucide-static/icons/tag.svg?raw';
+import terminal from 'lucide-static/icons/terminal.svg?raw';
+import trendingUp from 'lucide-static/icons/trending-up.svg?raw';
+import users from 'lucide-static/icons/users.svg?raw';
+import video from 'lucide-static/icons/video.svg?raw';
+import wrench from 'lucide-static/icons/wrench.svg?raw';
+import zap from 'lucide-static/icons/zap.svg?raw';
+
+const GLYPHS = {
+	archive,
+	'app-window': appWindow,
+	atom,
+	'arrow-right': arrowRight,
+	'arrow-up-right': arrowUpRight,
+	award,
+	bot,
+	'book-open': bookOpen,
+	calendar,
+	camera,
+	chart: chartColumn,
+	check,
+	'circle-dot': circleDot,
+	cloud,
+	construction,
+	clock,
+	code,
+	database,
+	'file-pen': filePen,
+	gift,
+	'git-branch': gitBranch,
+	'git-fork': gitFork,
+	globe,
+	'graduation-cap': graduationCap,
+	headphones,
+	info,
+	keyboard,
+	laptop,
+	lightbulb,
+	mail,
+	'map-pin': mapPin,
+	'message-circle': messageCircle,
+	mic,
+	monitor,
+	mouse,
+	music,
+	notebook: notebookPen,
+	package: packageIcon,
+	palette,
+	pen: penLine,
+	radio,
+	rocket,
+	// Named for the concept, not the file: a repository, a set of slides.
+	repo: bookMarked,
+	shield,
+	'shopping-cart': shoppingCart,
+	smartphone,
+	slides: presentation,
+	sparkles,
+	star,
+	store,
+	tag,
+	terminal,
+	'trend-up': trendingUp,
+	users,
+	video,
+	wrench,
+	zap,
+} as const;
+
+export type IconName = keyof typeof GLYPHS;
+
 interface Props {
-	name:
-		| 'calendar'
-		| 'map-pin'
-		| 'mic'
-		| 'archive'
-		| 'tag'
-		| 'slides'
-		| 'globe'
-		| 'arrow-right'
-		| 'arrow-up-right'
-		| 'users'
-		| 'repo'
-		| 'star'
-		| 'git-fork'
-		| 'code'
-		| 'trend-up'
-		| 'clock'
-		| 'info'
-		| 'check';
+	name: IconName;
 	class?: string;
 	/** Decorative by default; pass a label when the icon is the only content. */
 	label?: string;
 }
 
 const { name, class: className, label } = Astro.props;
+
+const source = GLYPHS[name];
+if (!source) {
+	throw new Error(
+		`<Icon name="${name}"> is not in the glyph set. Add it to src/components/Icon.astro.`
+	);
+}
+
+// Keep only the drawing; the wrapper below owns every presentation attribute so
+// every icon on the site shares one stroke and sizing contract.
+const body = source.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
 ---
 
 <svg
@@ -49,135 +168,5 @@ const { name, class: className, label } = Astro.props;
 	role={label ? 'img' : undefined}
 	aria-label={label}
 	aria-hidden={label ? undefined : 'true'}
->
-	{name === 'calendar' && (
-		<>
-			<rect x="3" y="5" width="18" height="16" rx="2" />
-			<line x1="3" y1="10" x2="21" y2="10" />
-			<line x1="8" y1="3" x2="8" y2="7" />
-			<line x1="16" y1="3" x2="16" y2="7" />
-		</>
-	)}
-
-	{name === 'map-pin' && (
-		<>
-			<path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z" />
-			<circle cx="12" cy="10" r="2.5" />
-		</>
-	)}
-
-	{name === 'mic' && (
-		<>
-			<rect x="9" y="2" width="6" height="12" rx="3" />
-			<path d="M5 11a7 7 0 0 0 14 0" />
-			<line x1="12" y1="18" x2="12" y2="22" />
-			<line x1="8" y1="22" x2="16" y2="22" />
-		</>
-	)}
-
-	{name === 'archive' && (
-		<>
-			<rect x="3" y="4" width="18" height="4" rx="1" />
-			<path d="M5 8v11a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8" />
-			<line x1="10" y1="13" x2="14" y2="13" />
-		</>
-	)}
-
-	{name === 'tag' && (
-		<>
-			<path d="M12.6 3H20a1 1 0 0 1 1 1v7.4a2 2 0 0 1-.6 1.4l-7.6 7.6a2 2 0 0 1-2.8 0l-6.4-6.4a2 2 0 0 1 0-2.8l7.6-7.6a2 2 0 0 1 1.4-.6Z" />
-			<circle cx="16.5" cy="7.5" r="1.5" />
-		</>
-	)}
-
-	{name === 'slides' && (
-		<>
-			<rect x="3" y="4" width="18" height="12" rx="2" />
-			<line x1="12" y1="16" x2="12" y2="20" />
-			<line x1="8" y1="20" x2="16" y2="20" />
-		</>
-	)}
-
-	{name === 'globe' && (
-		<>
-			<circle cx="12" cy="12" r="9" />
-			<line x1="3" y1="12" x2="21" y2="12" />
-			<path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18Z" />
-		</>
-	)}
-
-	{name === 'arrow-right' && (
-		<>
-			<line x1="5" y1="12" x2="19" y2="12" />
-			<polyline points="12 5 19 12 12 19" />
-		</>
-	)}
-
-	{name === 'arrow-up-right' && (
-		<>
-			<line x1="7" y1="17" x2="17" y2="7" />
-			<polyline points="8 7 17 7 17 16" />
-		</>
-	)}
-
-	{name === 'users' && (
-		<>
-			<path d="M16 20v-1.5a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V20" />
-			<circle cx="9" cy="7" r="3.5" />
-			<path d="M22 20v-1.5a4 4 0 0 0-3-3.87" />
-			<path d="M16 4.13a4 4 0 0 1 0 7.75" />
-		</>
-	)}
-
-	{name === 'repo' && (
-		<>
-			<path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H19v15H7.5A2.5 2.5 0 0 0 5 19.5Z" />
-			<path d="M5 19.5A2.5 2.5 0 0 1 7.5 17H19v5H7.5A2.5 2.5 0 0 1 5 19.5Z" />
-		</>
-	)}
-
-	{name === 'star' && (
-		<polygon points="12 3 14.9 9.2 21.5 10.1 16.7 14.8 17.9 21.4 12 18.2 6.1 21.4 7.3 14.8 2.5 10.1 9.1 9.2" />
-	)}
-
-	{name === 'git-fork' && (
-		<>
-			<circle cx="7" cy="5" r="2.5" />
-			<circle cx="17" cy="5" r="2.5" />
-			<circle cx="12" cy="19" r="2.5" />
-			<path d="M7 7.5v2a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-2" />
-			<line x1="12" y1="11.5" x2="12" y2="16.5" />
-		</>
-	)}
-
-	{name === 'code' && (
-		<>
-			<polyline points="16 18 22 12 16 6" />
-			<polyline points="8 6 2 12 8 18" />
-		</>
-	)}
-
-	{name === 'trend-up' && (
-		<>
-			<polyline points="3 17 9.5 10.5 13.5 14.5 21 7" />
-			<polyline points="15 7 21 7 21 13" />
-		</>
-	)}
-
-	{name === 'clock' && (
-		<>
-			<circle cx="12" cy="12" r="9" />
-			<polyline points="12 6.5 12 12 15.5 14" />
-		</>
-	)}
-
-	{name === 'info' && (
-		<>
-			<circle cx="12" cy="12" r="9" />
-			<line x1="12" y1="11" x2="12" y2="16.5" />
-			<line x1="12" y1="7.5" x2="12" y2="7.6" />
-		</>
-	)}
-
-	{name === 'check' && <polyline points="20 6 9 17 4 12" stroke-width="2.5" />}
-</svg>
+	set:html={body}
+/>
