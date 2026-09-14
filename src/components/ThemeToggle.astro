@@ -38,7 +38,7 @@
 
 	.theme-toggle:hover {
 		background: var(--background-tertiary);
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.theme-toggle .sun-icon,
@@ -60,13 +60,13 @@
 		transform: translate(-50%, -50%) scale(1);
 	}
 
-	html[data-theme="dark"] .theme-toggle .sun-icon {
+	:global([data-theme="dark"]) .theme-toggle .sun-icon {
 		opacity: 0;
 		visibility: hidden;
 		transform: translate(-50%, -50%) scale(0.5);
 	}
 
-	html[data-theme="dark"] .theme-toggle .moon-icon {
+	:global([data-theme="dark"]) .theme-toggle .moon-icon {
 		opacity: 1;
 		visibility: visible;
 		transform: translate(-50%, -50%) scale(1);

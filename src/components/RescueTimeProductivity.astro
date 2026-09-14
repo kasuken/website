@@ -1,4 +1,5 @@
 ---
+import Icon from "./Icon.astro";
 import { getCollection } from 'astro:content';
 
 interface ProductivityDay {
@@ -22,11 +23,11 @@ const sortedData: ProductivityDay[] = productivityData
   }))
   .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-console.log('📊 Loaded productivity data:', sortedData);
+console.log('[rescuetime] loaded productivity data:', sortedData);
 
 // Get the productivity pulse if available
 const productivityPulse = productivityPulseData.length > 0 ? productivityPulseData[0].data : null;
-console.log('🔥 Loaded productivity pulse:', productivityPulse);
+console.log('[rescuetime] loaded productivity pulse:', productivityPulse);
 
 // Calculate summary statistics
 const totalHours = Math.round(sortedData.reduce((sum, day) => sum + (day.hours || 0), 0) * 10) / 10;
@@ -42,6 +43,15 @@ function getProductivityColor(productivity: number): string {
   return '#ef4444' // Red - Very distracting
 }
 
+// Level key drives the text colour class; the fill scale above stays as-is.
+function getProductivityLevel(productivity: number): string {
+  if (productivity >= 1.5) return 'vp'
+  if (productivity >= 0.5) return 'p'
+  if (productivity >= -0.5) return 'n'
+  if (productivity >= -1.5) return 'd'
+  return 'vd'
+}
+
 function getProductivityLabel(productivity: number): string {
   if (productivity >= 1.5) return 'Very Productive'
   if (productivity >= 0.5) return 'Productive'
@@ -50,13 +60,13 @@ function getProductivityLabel(productivity: number): string {
   return 'Very Distracting'
 }
 
-function getPulseDescription(pulse: number): { emoji: string, level: string, description: string, color: string } {
-  if (pulse >= 85) return { emoji: '🔥', level: 'Peak Performance', description: 'Exceptional focus', color: '#22c55e' }
-  if (pulse >= 75) return { emoji: '⚡', level: 'High Energy', description: 'Strong productivity', color: '#84cc16' }
-  if (pulse >= 60) return { emoji: '💚', level: 'Steady Flow', description: 'Good momentum', color: '#10b981' }
-  if (pulse >= 45) return { emoji: '🌱', level: 'Building Up', description: 'Finding rhythm', color: '#eab308' }
-  if (pulse >= 30) return { emoji: '🌙', level: 'Low Key', description: 'Taking it easy', color: '#f97316' }
-  return { emoji: '💤', level: 'Rest Mode', description: 'Recharging', color: '#64748b' }
+function getPulseDescription(pulse: number): { level: string, description: string, color: string } {
+  if (pulse >= 85) return { level: 'Peak performance', description: 'Exceptional focus', color: '#15803d' }
+  if (pulse >= 75) return { level: 'High energy', description: 'Strong productivity', color: '#4d7c0f' }
+  if (pulse >= 60) return { level: 'Steady flow', description: 'Good momentum', color: '#047857' }
+  if (pulse >= 45) return { level: 'Building up', description: 'Finding rhythm', color: '#a16207' }
+  if (pulse >= 30) return { level: 'Low key', description: 'Taking it easy', color: '#c2410c' }
+  return { level: 'Rest mode', description: 'Recharging', color: '#475569' }
 }
 
 function formatDayName(dateStr: string): string {
@@ -82,8 +92,9 @@ function formatDayName(dateStr: string): string {
 ---
 
 <section class="rescuetime-section">
-  <h2 class="text-3xl lg:text-4xl font-black mb-10 text-[var(--text-primary)] flex items-center justify-center gap-3">
-    <span class="text-3xl">⏱️</span> Productivity Insights
+  <h2 class="font-display text-3xl lg:text-4xl mb-10 text-[var(--text-primary)] flex items-center justify-center gap-3">
+    <Icon name="clock" class="w-7 h-7 text-[var(--text-light)]" />
+    Productivity insights
   </h2>
   
   <article class="productivity-container">
@@ -91,12 +102,11 @@ function formatDayName(dateStr: string): string {
     {productivityPulse && (
       <div class="productivity-pulse">
         <div class="pulse-header">
-          <h3 class="pulse-title">🎯 Productivity Pulse</h3>
+          <h3 class="pulse-title">Productivity pulse</h3>
           <p class="pulse-description">A real-time measure of my focus and productivity</p>
         </div>
         <div class="pulse-display">
           <div class="pulse-score">
-            <span class="pulse-emoji">{getPulseDescription(productivityPulse.pulse).emoji}</span>
             <span class="pulse-value" style={`color: ${getPulseDescription(productivityPulse.pulse).color}`}>
               {productivityPulse.pulse}
             </span>
@@ -172,7 +182,7 @@ function formatDayName(dateStr: string): string {
         <span class="stat-label">Total Hours</span>
       </div>
       <div class="summary-stat">
-        <span class="stat-value" style={`color: ${getProductivityColor(avgProductivity)}`}>
+        <span class={`stat-value ink-${getProductivityLevel(avgProductivity)}`}>
           {avgProductivity > 0 ? '+' : ''}{avgProductivity}
         </span>
         <span class="stat-label">Avg Productivity</span>
@@ -235,12 +245,26 @@ function formatDayName(dateStr: string): string {
   
   <div class="max-w-3xl mx-auto mt-10 text-[var(--text-secondary)] text-lg leading-relaxed space-y-4">
     <p class="text-base text-[var(--text-secondary)]/80 bg-[var(--background-secondary)] p-4 rounded-xl border border-[var(--border)] inline-block">
-      <strong>How it works:</strong> The app <a href="https://www.rescuetime.com" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] hover:underline font-semibold">RescueTime</a> monitors my active window and categorizes the activity on a scale from <span class="text-[#ef4444] font-medium">Very Distracting (-2)</span> (like social media or games) up to <span class="text-[#22c55e] font-medium">Very Productive (+2)</span> (like VS Code, Terminal, and documentation). It calculates a score ensuring I stay on track.
+      <strong>How it works:</strong> The app <a href="https://www.rescuetime.com" target="_blank" rel="noopener noreferrer" class="text-[var(--accent-text)] hover:underline font-semibold">RescueTime</a> monitors my active window and categorizes the activity on a scale from <span class="ink-vd font-medium">Very Distracting (-2)</span> (like social media or games) up to <span class="ink-vp font-medium">Very Productive (+2)</span> (like VS Code, Terminal, and documentation). It calculates a score ensuring I stay on track.
     </p>
   </div>
 </section>
 
 <style>
+  /* Text colours for the productivity scale. The fill scale is deliberately
+     lighter; these are the shades that clear AA as type. */
+  .ink-vp { color: #15803d; }
+  .ink-p  { color: #4d7c0f; }
+  .ink-n  { color: #a16207; }
+  .ink-d  { color: #c2410c; }
+  .ink-vd { color: #b91c1c; }
+
+  :global([data-theme="dark"]) .ink-vp { color: #4ade80; }
+  :global([data-theme="dark"]) .ink-p  { color: #a3e635; }
+  :global([data-theme="dark"]) .ink-n  { color: #fbbf24; }
+  :global([data-theme="dark"]) .ink-d  { color: #fb923c; }
+  :global([data-theme="dark"]) .ink-vd { color: #f87171; }
+
   .rescuetime-section {
     text-align: center;
   }
@@ -293,10 +317,6 @@ function formatDayName(dateStr: string): string {
     display: flex;
     align-items: baseline;
     gap: 0.5rem;
-  }
-
-  .pulse-emoji {
-    font-size: 2rem;
   }
 
   .pulse-value {
@@ -481,8 +501,7 @@ function formatDayName(dateStr: string): string {
   .bar-value {
     font-size: 0.75rem;
     font-weight: 600;
-    color: white;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    color: #0b0f19;
   }
 
   .productivity-score {

@@ -57,7 +57,7 @@ try {
 				</section>
 			) : (
 			<>
-			<a href="/blog" class="inline-flex items-center gap-2 mono-label no-underline! hover:text-[var(--accent)]! transition-colors mb-10 reveal reveal-1">
+			<a href="/blog" class="inline-flex items-center gap-2 mono-label no-underline! hover:text-[var(--accent-text)]! transition-colors mb-10 reveal reveal-1">
 				<svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
 					<path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
 				</svg>
@@ -92,14 +92,14 @@ try {
 					/>
 				)}
 
-				<div class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-display prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-[var(--text-primary)] prose-p:text-[var(--text-secondary)] prose-li:text-[var(--text-secondary)] prose-strong:text-[var(--text-primary)] prose-a:text-[var(--accent)] prose-a:decoration-2 prose-a:underline-offset-2 prose-code:font-mono prose-img:rounded-[var(--radius-card)] prose-img:border prose-img:border-[var(--border)] prose-blockquote:border-l-[var(--accent)] prose-blockquote:bg-[var(--background-secondary)] prose-pre:bg-[var(--background-secondary)] prose-pre:border prose-pre:border-[var(--border)] prose-pre:text-[var(--text-primary)] reveal reveal-4">
+				<div class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-display prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-[var(--text-primary)] prose-p:text-[var(--text-secondary)] prose-li:text-[var(--text-secondary)] prose-strong:text-[var(--text-primary)] prose-a:text-[var(--accent-text)] prose-a:decoration-2 prose-a:underline-offset-2 prose-code:font-mono prose-img:rounded-[var(--radius-card)] prose-img:border prose-img:border-[var(--border)] prose-blockquote:border-l-[var(--accent)] prose-blockquote:bg-[var(--background-secondary)] prose-pre:bg-[var(--background-secondary)] prose-pre:border prose-pre:border-[var(--border)] prose-pre:text-[var(--text-primary)] reveal reveal-4">
 					<div set:html={contentHtml}></div>
 				</div>
 
 				{/* Link to original Dev.to post */}
 				<div class="mt-16 p-8 bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-card)] text-center">
 					<p class="mono-label mb-4">Originally published on Dev.to</p>
-					<a href={post.data.url} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 font-semibold text-[var(--accent)] no-underline! hover:underline!">
+					<a href={post.data.url} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 font-semibold text-[var(--accent-text)] no-underline! hover:underline!">
 						<svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
 							<path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
 							<path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>

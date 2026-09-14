@@ -7,7 +7,7 @@ import ThemeToggle from './ThemeToggle.astro';
 <header class="sticky top-0 z-50 w-full backdrop-blur-xl bg-[var(--background)]/85 border-b border-[var(--border)]">
 	<nav class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
 		<div class="flex-shrink-0 flex items-center">
-			<a href="/" class="font-display text-xl font-semibold tracking-tight text-[var(--text-primary)] no-underline! hover:text-[var(--accent)] transition-colors">
+			<a href="/" class="font-display text-xl font-semibold tracking-tight text-[var(--text-primary)] no-underline! hover:text-[var(--accent-text)] transition-colors">
 				{SITE_TITLE}
 			</a>
 		</div>
@@ -22,6 +22,7 @@ import ThemeToggle from './ThemeToggle.astro';
 		
 		<div class="hidden md:flex flex-1 items-center justify-center">
 			<div class="flex items-center gap-1">
+				<HeaderLink href="/products">Products</HeaderLink>
 				<HeaderLink href="/blog">Writing</HeaderLink>
 				<HeaderLink href="/portfolio">Work</HeaderLink>
 				<HeaderLink href="/speaking">Speaking</HeaderLink>
@@ -45,7 +46,7 @@ import ThemeToggle from './ThemeToggle.astro';
 		</div>
 		
 		<div class="hidden md:flex flex-shrink-0 items-center gap-3">
-			<a href="/mentor" class="inline-flex items-center px-5 py-2 rounded-[var(--radius-pill)] bg-[var(--accent)] text-[var(--background)]! text-sm font-semibold no-underline! hover:bg-[var(--accent-dark)] transition-colors">
+			<a href="/mentor" class="inline-flex items-center px-5 py-2 rounded-[var(--radius-pill)] bg-[var(--accent)] text-[var(--on-accent)]! text-sm font-semibold no-underline! hover:bg-[var(--accent-dark)] transition-colors">
 				Book Mentoring
 			</a>
 			<ThemeToggle />
@@ -58,6 +59,7 @@ import ThemeToggle from './ThemeToggle.astro';
 	<!-- Mobile Menu -->
 	<div class="mobile-menu hidden md:hidden border-t border-[var(--border)] bg-[var(--background)] px-4 py-4 space-y-2 flex flex-col items-center">
 		<HeaderLink href="/" class="w-full text-center">Home</HeaderLink>
+		<HeaderLink href="/products" class="w-full text-center">Products</HeaderLink>
 		<HeaderLink href="/blog" class="w-full text-center">Writing</HeaderLink>
 		<HeaderLink href="/portfolio" class="w-full text-center">Work</HeaderLink>
 		<HeaderLink href="/speaking" class="w-full text-center">Speaking</HeaderLink>
@@ -67,7 +69,7 @@ import ThemeToggle from './ThemeToggle.astro';
 		<HeaderLink href="/live" class="w-full text-center">Live</HeaderLink>
 		<HeaderLink href="/uses" class="w-full text-center">Uses</HeaderLink>
 		<HeaderLink href="/newsletter" class="w-full text-center">Newsletter</HeaderLink>
-		<a href="/mentor" class="w-full inline-flex items-center justify-center px-5 py-2.5 rounded-[var(--radius-pill)] bg-[var(--accent)] text-[var(--background)]! text-sm font-semibold no-underline! hover:bg-[var(--accent-dark)] transition-colors">
+		<a href="/mentor" class="w-full inline-flex items-center justify-center px-5 py-2.5 rounded-[var(--radius-pill)] bg-[var(--accent)] text-[var(--on-accent)]! text-sm font-semibold no-underline! hover:bg-[var(--accent-dark)] transition-colors">
 			Book Mentoring
 		</a>
 		<div class="pt-4 mt-2 w-full border-t border-[var(--border)] flex items-center justify-between px-3">

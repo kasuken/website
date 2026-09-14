@@ -74,13 +74,13 @@ if (statsEntry) {
 								</div>
 								<div class="md:w-1/2 lg:w-2/5 p-8 lg:p-12 flex flex-col justify-center">
 									<div class="flex flex-wrap items-center gap-x-6 gap-y-2 mb-4 mono-label">
-										<span class="text-[var(--accent)]!">Latest dispatch</span>
+										<span class="text-[var(--accent-text)]!">Latest dispatch</span>
 										<FormattedDate date={allPosts[0].data.pubDate} />
 										{allPosts[0].data.readingTimeMinutes && (
 											<span>{allPosts[0].data.readingTimeMinutes} min read</span>
 										)}
 									</div>
-									<h2 class="font-display text-3xl md:text-4xl tracking-tight text-[var(--text-primary)] mb-4 group-hover:text-[var(--accent)] transition-colors">
+									<h2 class="font-display text-3xl md:text-4xl tracking-tight text-[var(--text-primary)] mb-4 group-hover:text-[var(--accent-text)] transition-colors">
 										{allPosts[0].data.title}
 									</h2>
 									<p class="text-[var(--text-secondary)] line-clamp-3 mb-6">
@@ -93,7 +93,7 @@ if (statsEntry) {
 											))}
 										</div>
 									)}
-									<div class="mt-auto font-semibold text-sm text-[var(--accent)] flex items-center gap-2 group-hover:gap-3 transition-all">
+									<div class="mt-auto font-semibold text-sm text-[var(--accent-text)] flex items-center gap-2 group-hover:gap-3 transition-all">
 										Read article <span aria-hidden="true">→</span>
 									</div>
 								</div>
@@ -116,7 +116,7 @@ if (statsEntry) {
 									</div>
 									<div class="p-6 flex flex-col flex-grow">
 										<p class="mono-label mb-3"><FormattedDate date={post.data.pubDate} /></p>
-										<h3 class="font-display text-xl leading-snug text-[var(--text-primary)] mb-3 group-hover:text-[var(--accent)] transition-colors line-clamp-2">
+										<h3 class="font-display text-xl leading-snug text-[var(--text-primary)] mb-3 group-hover:text-[var(--accent-text)] transition-colors line-clamp-2">
 											{post.data.title}
 										</h3>
 										{post.data.tags && (
@@ -128,7 +128,7 @@ if (statsEntry) {
 										)}
 										<div class="mt-auto pt-4 border-t border-[var(--border)] flex items-center justify-between text-sm">
 											<span class="text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">Read article</span>
-											<span class="text-[var(--accent)] group-hover:translate-x-1 transition-transform" aria-hidden="true">→</span>
+											<span class="text-[var(--accent-text)] group-hover:translate-x-1 transition-transform" aria-hidden="true">→</span>
 										</div>
 									</div>
 								</a>

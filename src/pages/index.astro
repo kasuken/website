@@ -6,6 +6,9 @@ import Header from '../components/Header.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import Button from '../components/Button.astro';
+import ProductShowcase from '../components/ProductShowcase.astro';
+import ProductMark from '../components/ProductMark.astro';
+import { products } from '../data/products.ts';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 // Get latest blog posts
@@ -16,7 +19,6 @@ const allPosts = (await getCollection('blog'))
 
 const destinations = [
   {
-    index: '01',
     href: '/portfolio',
     title: 'Portfolio & Projects',
     description: "Applications, open-source projects, and tools I've built over the years.",
@@ -24,7 +26,6 @@ const destinations = [
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`,
   },
   {
-    index: '02',
     href: '/activities',
     title: 'Real-time Dashboard',
     description: 'My real-time developer activity, GitHub stats, and RescueTime metrics.',
@@ -32,7 +33,6 @@ const destinations = [
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>`,
   },
   {
-    index: '03',
     href: '/speaking',
     title: 'Speaking & Events',
     description: 'Catch me speaking at conferences, user groups, and events worldwide.',
@@ -40,7 +40,6 @@ const destinations = [
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>`,
   },
   {
-    index: '04',
     href: '/mentor',
     title: '1:1 Mentorship',
     description: "Level up your career — book a mentoring session and let's achieve your goals.",
@@ -55,7 +54,7 @@ const destinations = [
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
-  <body class="bg-[var(--background)] text-[var(--text-primary)] antialiased selection:bg-[var(--accent)] selection:text-[var(--background)]">
+  <body class="bg-[var(--background)] text-[var(--text-primary)] antialiased">
     <Header />
     <main class="w-full max-w-6xl mx-auto px-6">
 
@@ -63,15 +62,32 @@ const destinations = [
       <section class="relative pt-16 pb-16 md:pt-24 md:pb-24">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16 items-end">
           <div class="md:col-span-8">
-            <p class="mono-label mb-6 reveal reveal-1">The Dev Dispatch — Zurich, Switzerland</p>
             <h1 class="font-display text-6xl sm:text-7xl lg:text-8xl tracking-tight leading-[0.98] text-[var(--text-primary)] mb-8 reveal reveal-2">
-              Building <em class="italic text-[var(--accent)]">digital</em> experiences.
+              I build the tools I <em class="italic text-[var(--accent-text)]">wished</em> existed.
             </h1>
-            <p class="text-xl md:text-2xl text-[var(--text-secondary)] leading-relaxed max-w-2xl mb-10 reveal reveal-3">
+            <p class="text-xl md:text-2xl text-[var(--text-secondary)] leading-relaxed max-w-[46ch] mb-8 reveal reveal-3">
               Hi, I'm Emanuele Bartolesi — GitHub Technical Lead, technical writer & mentor. I build scalable apps, open-source projects, and help developers level up.
             </p>
-            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 reveal reveal-4">
-              <Button href="/blog">Explore my writing</Button>
+
+            <!-- The four products, named in the first viewport -->
+            <ul class="flex flex-wrap gap-2.5 list-none p-0 m-0 mb-10 reveal reveal-4">
+              {products.map((product) => (
+                <li data-product={product.slug}>
+                  <a
+                    href={`/products#${product.slug}`}
+                    class="inline-flex items-center gap-2 pl-2 pr-3.5 py-1.5 rounded-[var(--radius-pill)] border border-[var(--border)] no-underline! text-sm font-semibold text-[var(--text-primary)]! hover:border-[var(--p)] hover:bg-[var(--p-tint)] hover:text-[var(--p-ink)]! transition-colors"
+                  >
+                    <span class="w-5 h-5 text-[var(--p)]">
+                      <ProductMark slug={product.slug} />
+                    </span>
+                    {product.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 reveal reveal-5">
+              <Button href="/products">See what I'm building</Button>
               <Button href="/mentor" variant="secondary">Book mentoring</Button>
             </div>
           </div>
@@ -90,29 +106,31 @@ const destinations = [
 
         <!-- Mono metadata strip -->
         <div class="mt-14 md:mt-20 border-y border-[var(--border)] py-4 flex flex-wrap gap-x-10 gap-y-2 reveal reveal-5">
-          <span class="mono-label">GitHub Technical Lead</span>
-          <span class="mono-label text-[var(--accent)]!">Microsoft MVP ×12</span>
-          <span class="mono-label">GitHub Star ×4</span>
-          <span class="mono-label">20+ yrs shipping software</span>
+          <span class="mono-label text-[var(--text-secondary)]!">GitHub Technical Lead</span>
+          <span class="mono-label">Microsoft MVP ×12</span>
+          <span class="mono-label text-[var(--text-secondary)]!">GitHub Star ×4</span>
+          <span class="mono-label text-[var(--text-secondary)]!">20+ yrs shipping software</span>
         </div>
       </section>
 
       <div class="max-w-6xl mx-auto space-y-20 md:space-y-28 pb-24">
 
-        <!-- Explore — numbered editorial list -->
+        <!-- The four SaaS products -->
+        <ProductShowcase />
+
+        <!-- Explore — editorial list -->
         <section>
-          <SectionHeading index="№1" title="Explore" description="Four places to start." />
+          <SectionHeading title="Explore" description="Four more places to start." />
           <div class="flex flex-col divide-y divide-[var(--border)] border-y border-[var(--border)]">
             {destinations.map((item) => (
-              <a href={item.href} class="group grid grid-cols-[auto_1fr_auto] items-center gap-6 md:gap-10 py-6 md:py-8 no-underline! hover:bg-[var(--background-secondary)] transition-colors px-2 md:px-4 -mx-2 md:-mx-4">
-                <span class="mono-label w-10">{item.index}</span>
+              <a href={item.href} class="group grid grid-cols-[1fr_auto] items-center gap-6 md:gap-10 py-6 md:py-8 no-underline! hover:bg-[var(--background-secondary)] transition-colors px-2 md:px-4 -mx-2 md:-mx-4">
                 <span class="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-6 min-w-0">
-                  <span class="font-display text-2xl md:text-3xl text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors whitespace-nowrap">{item.title}</span>
+                  <span class="font-display text-2xl md:text-3xl text-[var(--text-primary)] group-hover:text-[var(--accent-text)] transition-colors whitespace-nowrap">{item.title}</span>
                   <span class="text-[var(--text-secondary)] text-base truncate">{item.description}</span>
                 </span>
-                <span class="flex items-center gap-3 text-[var(--accent)]">
+                <span class="flex items-center gap-3 text-[var(--accent-text)]">
                   <span class="hidden sm:inline text-sm font-semibold">{item.cta}</span>
-                  <span class="w-10 h-10 flex items-center justify-center rounded-[var(--radius-pill)] border border-[var(--border)] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[var(--background)] transition-colors" set:html={item.icon} />
+                  <span class="w-10 h-10 flex items-center justify-center rounded-[var(--radius-pill)] border border-[var(--border)] group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-[var(--on-accent)] transition-colors" set:html={item.icon} />
                 </span>
               </a>
             ))}
@@ -123,8 +141,7 @@ const destinations = [
         <section class="bg-[var(--background-secondary)] rounded-[var(--radius-card)] p-8 md:p-12 border border-[var(--border)] relative overflow-hidden">
           <div class="flex flex-col md:flex-row items-center justify-between gap-8">
             <div class="flex-1 space-y-4 text-center md:text-left">
-              <p class="mono-label mb-0!">Public experiment <span aria-hidden="true">💸</span></p>
-              <h2 class="font-display text-3xl md:text-4xl tracking-tight text-[var(--text-primary)]">The <em class="italic text-[var(--accent)]">Million</em> Journey</h2>
+              <h2 class="font-display text-3xl md:text-4xl tracking-tight text-[var(--text-primary)]">The <em class="italic text-[var(--accent-text)]">Million</em> Journey</h2>
               <p class="text-lg text-[var(--text-secondary)] max-w-xl mx-auto md:mx-0 mb-0">
                 Follow my public journey to reach one million in revenue. Each square represents $1,000 towards the goal through SaaS, consulting, and courses.
               </p>
@@ -141,9 +158,9 @@ const destinations = [
 
         <!-- Featured Posts -->
         <section>
-          <SectionHeading index="№2" title="Latest Dispatches" description="Thoughts on web development, cloud computing, and technology.">
-            <a slot="action" href="/blog" class="text-sm font-semibold text-[var(--accent)] no-underline! hover:underline! whitespace-nowrap">All posts →</a>
-            <a slot="action-mobile" href="/blog" class="text-sm font-semibold text-[var(--accent)] no-underline! hover:underline!">All posts →</a>
+          <SectionHeading title="Latest Dispatches" description="Thoughts on web development, cloud computing, and technology.">
+            <a slot="action" href="/blog" class="text-sm font-semibold text-[var(--accent-text)] no-underline! hover:underline! whitespace-nowrap">All posts →</a>
+            <a slot="action-mobile" href="/blog" class="text-sm font-semibold text-[var(--accent-text)] no-underline! hover:underline!">All posts →</a>
           </SectionHeading>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -161,7 +178,7 @@ const destinations = [
 
                 <div class="p-6 lg:p-8 flex flex-col flex-1">
                   <p class="mono-label mb-3"><FormattedDate date={post.data.pubDate} /></p>
-                  <h3 class="font-display text-xl text-[var(--text-primary)] mb-3 leading-snug group-hover:text-[var(--accent)] transition-colors line-clamp-3">
+                  <h3 class="font-display text-xl text-[var(--text-primary)] mb-3 leading-snug group-hover:text-[var(--accent-text)] transition-colors line-clamp-3">
                     {post.data.title}
                   </h3>
 
@@ -189,7 +206,6 @@ const destinations = [
           <!-- About Section -->
           <section class="bg-[var(--background-secondary)] rounded-[var(--radius-card)] p-10 lg:p-14 border border-[var(--border)] flex flex-col justify-start">
             <div class="flex-grow">
-              <p class="mono-label mb-4">Off the record</p>
               <h2 class="font-display text-3xl lg:text-4xl mb-6 text-[var(--text-primary)]">Beyond the code</h2>
 
               <div class="space-y-6 text-[var(--text-secondary)] text-lg leading-relaxed">
@@ -203,7 +219,7 @@ const destinations = [
             </div>
 
             <div class="flex flex-wrap gap-x-8 gap-y-2 pt-10 mt-auto border-t border-[var(--border)]">
-              <span class="mono-label text-[var(--accent)]!">Microsoft MVP ×12</span>
+              <span class="mono-label text-[var(--accent-text)]!">Microsoft MVP ×12</span>
               <span class="mono-label">GitHub Star ×4</span>
             </div>
           </section>
@@ -211,7 +227,6 @@ const destinations = [
           <!-- Newsletter CTA -->
           <section class="bg-[var(--text-primary)] text-[var(--background)] rounded-[var(--radius-card)] p-10 lg:p-14 border border-[var(--border)] flex flex-col justify-start">
             <div class="flex-grow">
-              <p class="mono-label text-[var(--background)]/60! mb-4">Newsletter</p>
               <h2 class="font-display text-3xl lg:text-4xl tracking-tight mb-4 text-[var(--background)]">Join the Dev Dispatch</h2>
 
               <p class="text-lg mb-10 leading-relaxed max-w-md text-[var(--background)]/80">
@@ -220,7 +235,7 @@ const destinations = [
             </div>
 
             <div class="pt-4 mt-auto">
-              <a href="/newsletter" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 bg-[var(--accent)] text-[var(--background)]! rounded-[var(--radius-pill)] text-sm font-semibold no-underline! hover:bg-[var(--accent-dark)] hover:-translate-y-[3px] transition-all duration-200">
+              <a href="/newsletter" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 bg-[var(--accent)] text-[var(--on-accent)]! rounded-[var(--radius-pill)] text-sm font-semibold no-underline! hover:bg-[var(--accent-dark)] hover:-translate-y-[3px] transition-all duration-200">
                 Subscribe now
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />

@@ -1,4 +1,5 @@
 ---
+import Icon from "../components/Icon.astro";
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
@@ -17,6 +18,25 @@ const allUses = uses.filter(item => item.stillUsing);
 const topRatedUses = getHighestRatedUses();
 const recentUses = getRecentlyAddedUses();
 const stats = getUsesStats();
+
+// Icons are chosen from the item's own subcategory, falling back to its
+// category, so every entry gets a glyph without hand-tagging 40 items.
+const SUBCATEGORY_ICONS: Record<string, string> = {
+  Computer: 'laptop', Monitor: 'monitor', Audio: 'headphones', Headphones: 'headphones',
+  'Input Devices': 'keyboard', Storage: 'database', Mobile: 'smartphone', Camera: 'camera',
+  'Operating System': 'app-window', Browser: 'globe', Utilities: 'wrench', Security: 'shield',
+  Editor: 'code', Terminal: 'terminal', 'Version Control': 'git-branch', Database: 'database',
+  'API Tools': 'zap', Graphics: 'palette', Notes: 'notebook', Communication: 'message-circle',
+  Software: 'laptop',
+};
+const CATEGORY_ICONS: Record<string, string> = {
+  hardware: 'monitor', software: 'laptop', development: 'code', design: 'palette',
+  productivity: 'zap', gaming: 'mouse', audio: 'headphones', mobile: 'smartphone',
+};
+const iconFor = (item: { subcategory?: string; category: string }) =>
+  (item.subcategory && SUBCATEGORY_ICONS[item.subcategory]) ||
+  CATEGORY_ICONS[item.category] ||
+  'package';
 ---
 
 <!doctype html>
@@ -75,7 +95,7 @@ const stats = getUsesStats();
 			.stat-number {
 				font-size: 2.5rem;
 				font-weight: 700;
-				color: var(--accent);
+				color: var(--accent-text);
 				margin: 0;
 			}
 			
@@ -128,8 +148,8 @@ const stats = getUsesStats();
 			
 			.filter-btn:hover {
 				background: var(--accent);
-				color: white;
-				border-color: var(--accent);
+				color: var(--on-accent);
+				border-color: var(--accent-text);
 				transform: translateY(-2px);
 				box-shadow: var(--shadow-md);
 			}
@@ -140,8 +160,8 @@ const stats = getUsesStats();
 			}
 			
 			.filter-btn.active {
-				background: var(--accent-dark);
-				color: white;
+				background: var(--accent);
+				color: var(--on-accent);
 				border-color: var(--accent-dark);
 				transform: translateY(-2px);
 				box-shadow: var(--shadow-md);
@@ -184,12 +204,12 @@ const stats = getUsesStats();
 
 			.view-btn:hover {
 				background: var(--accent);
-				color: white;
+				color: var(--on-accent);
 			}
 
 			.view-btn.active {
-				background: var(--accent-dark);
-				color: white;
+				background: var(--accent);
+				color: var(--on-accent);
 				font-weight: 600;
 				box-shadow: var(--shadow-sm);
 			}
@@ -252,7 +272,7 @@ const stats = getUsesStats();
 
 			.uses-table th.sorted .sort-icon {
 				opacity: 1;
-				color: var(--accent);
+				color: var(--accent-text);
 			}
 
 			.uses-table td {
@@ -303,7 +323,7 @@ const stats = getUsesStats();
 			.category-badge {
 				display: inline-block;
 				background: var(--accent);
-				color: white;
+				color: var(--on-accent);
 				padding: 0.25rem 0.75rem;
 				border-radius: 1rem;
 				font-size: 0.8rem;
@@ -354,7 +374,7 @@ const stats = getUsesStats();
 				width: 32px;
 				height: 32px;
 				background: var(--accent);
-				color: white;
+				color: var(--on-accent);
 				border-radius: 0.5rem;
 				text-decoration: none;
 				transition: all 0.2s ease;
@@ -403,12 +423,12 @@ const stats = getUsesStats();
 			}
 			
 			.use-card.featured {
-				border: 2px solid var(--accent);
-				background: linear-gradient(135deg, rgba(var(--accent), 0.02), rgba(var(--accent), 0.05));
+				border: 1px solid var(--accent);
+				background: linear-gradient(135deg, color-mix(in oklab, var(--accent) 2%, transparent), color-mix(in oklab, var(--accent) 5%, transparent));
 			}
 			
 			.use-card.recent {
-				border-left: 4px solid var(--accent);
+				border-color: color-mix(in oklab, var(--accent) 45%, var(--border));
 			}
 			
 			.use-header {
@@ -421,7 +441,7 @@ const stats = getUsesStats();
 				top: 1rem;
 				right: 1rem;
 				background: var(--accent);
-				color: white;
+				color: var(--on-accent);
 				padding: 0.25rem 0.75rem;
 				border-radius: 1rem;
 				font-size: 0.8rem;
@@ -435,15 +455,23 @@ const stats = getUsesStats();
 				margin-bottom: 1rem;
 			}
 			
+			.stars {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.1rem;
+			}
+
+
 			.use-icon {
 				width: 60px;
 				height: 60px;
 				border-radius: 12px;
-				background: linear-gradient(135deg, var(--accent), var(--accent));
+				background: color-mix(in oklab, var(--accent) 12%, transparent);
+				color: var(--accent-text);
+				border: 1px solid color-mix(in oklab, var(--accent) 28%, var(--border));
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				font-size: 1.5rem;
 				flex-shrink: 0;
 			}
 			
@@ -523,7 +551,7 @@ const stats = getUsesStats();
 			}
 			
 			.stars {
-				color: var(--accent);
+				color: var(--accent-text);
 			}
 			
 			.use-price {
@@ -550,7 +578,7 @@ const stats = getUsesStats();
 				padding: 1rem;
 				border-radius: 0.75rem;
 				margin-bottom: 1.5rem;
-				border-left: 3px solid var(--accent);
+				border: 1px solid var(--border);
 			}
 			
 			.reason-title {
@@ -646,7 +674,7 @@ const stats = getUsesStats();
 			
 			.btn-primary {
 				background: var(--accent);
-				color: white;
+				color: var(--on-accent);
 			}
 			
 			.btn-primary:hover {
@@ -662,7 +690,7 @@ const stats = getUsesStats();
 			
 			.btn-secondary:hover {
 				background: var(--text-secondary);
-				color: white;
+				color: var(--background);
 			}
 			
 			.alternatives {
@@ -791,10 +819,8 @@ const stats = getUsesStats();
 		<main class="flex-grow w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
 			<div class="text-center mb-16 relative">
 				<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[var(--accent)]/10 blur-[100px] rounded-full pointer-events-none"></div>
-				
-				<span class="inline-block text-5xl mb-4 relative z-10">💻</span>
 				<h1 class="text-5xl md:text-7xl font-black tracking-tighter text-[var(--text-primary)] mb-6 relative z-10">
-					My <span class="text-[var(--accent)]">Setup</span>
+					My <span class="text-[var(--accent-text)]">Setup</span>
 				</h1>
 				<p class="text-xl md:text-2xl text-[var(--text-secondary)] font-medium max-w-2xl mx-auto relative z-10 mb-10 leading-relaxed">
 					{stats.totalItems} items across {Object.keys(stats.categoryDistribution).length} categories
@@ -826,7 +852,7 @@ const stats = getUsesStats();
 			<!-- Recently Added -->
 			<!-- {recentUses.length > 0 && (
 				<section class="section">
-					<h2 class="section-title">🆕 Recently Added</h2>
+					<h2 class="section-title">Recently added</h2>
 					<p class="section-subtitle">Latest additions to my setup</p>
 					<div class="recent-grid">
 						{recentUses.slice(0, 3).map((item) => (
@@ -837,7 +863,7 @@ const stats = getUsesStats();
 											{item.imageUrl ? (
 												<img src={item.imageUrl} alt={item.name} />
 											) : (
-												<span>{item.icon || '📦'}</span>
+												<Icon name={iconFor(item) as any} class="w-7 h-7" />
 											)}
 										</div>
 										<div class="use-title-info">
@@ -847,11 +873,15 @@ const stats = getUsesStats();
 									</div>
 									<div class="use-meta">
 										<span class="use-category">
-											{useCategories.find(cat => cat.key === item.category)?.icon} {item.category}
+											{item.category}
 										</span>
 										{item.rating && (
 											<div class="use-rating">
-												<span class="stars">{'★'.repeat(item.rating)}{'☆'.repeat(5 - item.rating)}</span>
+												<span class="stars" role="img" aria-label={`${item.rating} out of 5`}>
+														{[1,2,3,4,5].map((n) => (
+															<Icon name="star" class={`w-3.5 h-3.5 ${n <= (item.rating ?? 0) ? 'star-on' : 'star-off'}`} />
+														))}
+													</span>
 												<span>{item.rating}/5</span>
 											</div>
 										)}
@@ -877,7 +907,7 @@ const stats = getUsesStats();
 			<!-- Featured Uses -->
 			{featuredUses.length > 0 && (
 				<section class="section">
-					<h2 class="section-title">⭐ Featured & Most Used Items</h2>
+					<h2 class="section-title">Featured &amp; most used</h2>
 					<p class="section-subtitle">My most essential and highly recommended tools</p>
 					<div class="featured-grid">
 						{featuredUses.map((item) => (
@@ -894,7 +924,7 @@ const stats = getUsesStats();
 											{item.imageUrl ? (
 												<img src={item.imageUrl} alt={item.name} />
 											) : (
-												<span>{item.icon || '⭐'}</span>
+												<Icon name={iconFor(item) as any} class="w-7 h-7" />
 											)}
 										</div>
 										<div class="use-title-info">
@@ -904,11 +934,15 @@ const stats = getUsesStats();
 									</div>
 									<div class="use-meta">
 										<span class="use-category">
-											{useCategories.find(cat => cat.key === item.category)?.icon} {item.subcategory || item.category}
+											{item.subcategory || item.category}
 										</span>
 										{item.rating && (
 											<div class="use-rating">
-												<span class="stars">{'★'.repeat(item.rating)}{'☆'.repeat(5 - item.rating)}</span>
+												<span class="stars" role="img" aria-label={`${item.rating} out of 5`}>
+														{[1,2,3,4,5].map((n) => (
+															<Icon name="star" class={`w-3.5 h-3.5 ${n <= (item.rating ?? 0) ? 'star-on' : 'star-off'}`} />
+														))}
+													</span>
 												<span>{item.rating}/5</span>
 											</div>
 										)}
@@ -1008,7 +1042,7 @@ const stats = getUsesStats();
 								class={`filter-btn ${category.key === 'all' ? 'active' : ''}`} 
 								data-filter={category.key}
 							>
-								<span>{category.icon}</span>
+								<Icon name={category.icon as any} class="w-4 h-4" />
 								{category.label}
 							</button>
 						))}
@@ -1030,7 +1064,7 @@ const stats = getUsesStats();
 										{item.imageUrl ? (
 											<img src={item.imageUrl} alt={item.name} />
 										) : (
-											<span>{item.icon || '🔧'}</span>
+											<Icon name={iconFor(item) as any} class="w-7 h-7" />
 										)}
 									</div>
 									<div class="use-title-info">
@@ -1040,11 +1074,15 @@ const stats = getUsesStats();
 								</div>
 								<div class="use-meta">
 									<span class="use-category">
-										{useCategories.find(cat => cat.key === item.category)?.icon} {item.subcategory || item.category}
+										{item.subcategory || item.category}
 									</span>
 									{item.rating && (
 										<div class="use-rating">
-											<span class="stars">{'★'.repeat(item.rating)}{'☆'.repeat(5 - item.rating)}</span>
+											<span class="stars" role="img" aria-label={`${item.rating} out of 5`}>
+														{[1,2,3,4,5].map((n) => (
+															<Icon name="star" class={`w-3.5 h-3.5 ${n <= (item.rating ?? 0) ? 'star-on' : 'star-off'}`} />
+														))}
+													</span>
 										</div>
 									)}
 									{item.price && (
@@ -1166,7 +1204,7 @@ const stats = getUsesStats();
 												<div class="rating-display">
 													<div class="stars">
 														{Array.from({ length: 5 }, (_, i) => (
-															<span class={`star ${i < (item.rating || 0) ? 'filled' : ''}`}>★</span>
+															<Icon name="star" class={`w-3.5 h-3.5 ${i < (item.rating || 0) ? 'star-on' : 'star-off'}`} />
 														))}
 													</div>
 													<span class="rating-number">{item.rating}</span>

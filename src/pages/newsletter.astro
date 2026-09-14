@@ -1,5 +1,6 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
+import Icon from '../components/Icon.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 ---
@@ -41,7 +42,7 @@ import Header from '../components/Header.astro';
 			.cta-button {
 				display: inline-block;
 				background: var(--accent);
-				color: white;
+				color: var(--on-accent);
 				padding: 1rem 2rem;
 				border-radius: var(--radius);
 				text-decoration: none;
@@ -116,7 +117,7 @@ import Header from '../components/Header.astro';
 			.stat-number {
 				font-size: var(--text-3xl);
 				font-weight: var(--font-weight-bold);
-				color: var(--accent);
+				color: var(--accent-text);
 				margin: 0 0 0.5rem 0;
 			}
 			
@@ -161,7 +162,7 @@ import Header from '../components/Header.astro';
 			}
 			
 			.email-link {
-				color: var(--accent);
+				color: var(--accent-text);
 				text-decoration: none;
 				font-weight: var(--font-weight-medium);
 			}
@@ -201,7 +202,7 @@ import Header from '../components/Header.astro';
 			<!-- Header Section -->
 			<section class="newsletter-header">
 				<h1>Dev Dispatch</h1>
-                <div class="newsletter-icon">📧</div>
+                <div class="newsletter-icon"><Icon name="mail" class="w-8 h-8" /></div>
 				<p>
 					Bi-weekly newsletter about software development, design, product management, and interesting finds from the internet.
 				</p>

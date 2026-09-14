@@ -2,13 +2,14 @@
 
 /*
   Design system — Modern Minimalist Tech (inspired by clean dev portfolios)
-  Clean stark contrast, Teal/Cyan accents, Outfit display, Plus Jakarta Sans body.
+  Clean stark contrast, teal accent, per-product brand hues.
+  Outfit display · IBM Plex Sans body · JetBrains Mono for data.
 */
 
 @theme {
 	--font-display: "Outfit", system-ui, sans-serif;
-	--font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
-	--font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+	--font-sans: "IBM Plex Sans", system-ui, sans-serif;
+	--font-body: "IBM Plex Sans", system-ui, sans-serif;
 	--font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
@@ -42,6 +43,11 @@
 	--accent-dark: var(--color-accent-700);
 	--accent-light: var(--color-accent-300);
 	--accent-secondary: var(--color-secondary-500);
+	/* Ink for text sitting on a filled accent surface. Accent is mid-light in
+	   both themes, so this stays dark in both. */
+	--on-accent: #0b0f19;
+	/* Accent as TEXT needs a deeper shade than accent as a fill. */
+	--accent-text: var(--color-accent-700);
 	
 	--primary: var(--color-gray-950);
 	--secondary: var(--color-gray-700);
@@ -132,6 +138,8 @@
 	--accent-dark: #14b8a6;
 	--accent-light: #99f6e4;
 	--accent-secondary: #60a5fa;
+	--on-accent: #0b0f19;
+	--accent-text: #2dd4bf;
 
 	--primary: var(--color-white);
 	--secondary: var(--color-gray-300);
@@ -163,6 +171,8 @@
 		--accent-dark: #14b8a6;
 		--accent-light: #99f6e4;
 		--accent-secondary: #60a5fa;
+		--on-accent: #0b0f19;
+		--accent-text: #2dd4bf;
 		--primary: var(--color-white);
 		--secondary: var(--color-gray-300);
 		--text-primary: var(--color-gray-100);
@@ -248,13 +258,13 @@
 	strong, b { font-weight: var(--font-weight-bold); }
 
 	a {
-		color: var(--accent);
+		color: var(--accent-text);
 		text-decoration: none;
 		transition: color var(--motion-duration) var(--ease-out);
 	}
 
 	a:hover {
-		color: var(--accent-light);
+		color: var(--accent-dark);
 		text-decoration: none;
 	}
 
@@ -340,14 +350,16 @@
 		font-size: 0.9em;
 	}
 
+	/* Pull quote: weight and measure carry the emphasis, not a colored slab. */
 	blockquote {
-		border-left: 4px solid var(--accent);
-		padding: 0.5rem 0 0.5rem 1.5rem;
-		margin: 2rem 0;
+		border-left: 1px solid var(--accent);
+		padding: 0.25rem 0 0.25rem 1.75rem;
+		margin: 2.5rem 0;
 		font-style: normal;
-		color: var(--text-secondary);
-		background: linear-gradient(90deg, var(--background-secondary) 0%, transparent 100%);
-		border-radius: 0 var(--radius-md) var(--radius-md) 0;
+		font-size: var(--text-lg);
+		line-height: 1.55;
+		color: var(--text-primary);
+		max-width: 60ch;
 	}
 	
 	blockquote p:last-child {
@@ -390,7 +402,7 @@
 		font-weight: var(--font-weight-heading);
 		letter-spacing: var(--tracking-wider);
 		text-transform: uppercase;
-		color: var(--accent);
+		color: var(--accent-text);
 	}
 
 	.card {
@@ -458,26 +470,26 @@
 
 	.btn-primary {
 		background: var(--text-primary);
-		color: var(--background) !important;
+		color: var(--background);
 	}
 
 	.btn-primary:hover {
 		background: var(--accent);
-		color: var(--primary) !important;
+		color: var(--on-accent);
 		transform: translateY(-2px);
 		box-shadow: 0 4px 12px oklch(from var(--accent) l c h / 0.3);
 	}
 
 	.btn-secondary {
 		background: transparent;
-		color: var(--text-primary) !important;
+		color: var(--text-primary);
 		border-color: var(--border);
 	}
 
 	.btn-secondary:hover {
 		background: var(--background-secondary);
 		border-color: var(--text-primary);
-		color: var(--text-primary) !important;
+		color: var(--text-primary);
 		transform: translateY(-2px);
 	}
 
@@ -511,4 +523,116 @@
 	white-space: nowrap;
 }
 
+
+/* Star ratings — shared across the books and uses pages. Global rather than
+   scoped because the <svg> these target is rendered by Icon.astro, which
+   carries its own component scope. */
+.star-on {
+	fill: #f59e0b;
+	color: #f59e0b;
+}
+
+.star-off {
+	fill: none;
+	color: var(--text-light);
+}
+
+[data-theme="dark"] .star-on {
+	fill: #fbbf24;
+	color: #fbbf24;
+}
+
 @plugin "@tailwindcss/typography";
+
+/* ---------------------------------------------------------------------------
+   Product brand system
+   Each SaaS owns a hue. `--p` drives graphics (marks, rules, tints) where
+   contrast rules are loose; `--p-ink` is the text-safe shade for that hue and
+   is re-pitched per theme so product-colored text always clears 4.5:1.
+   --------------------------------------------------------------------------- */
+
+[data-product] {
+	--p: var(--accent);
+	--p-ink: var(--accent-dark);
+	/* Filled-button pair: --p-solid is the fill, --p-on the text on it. */
+	--p-solid: var(--p-ink);
+	--p-on: #ffffff;
+	--p-tint: color-mix(in oklab, var(--p) 10%, transparent);
+	--p-edge: color-mix(in oklab, var(--p) 36%, var(--border));
+}
+
+[data-product="brainy"]     { --p: #7c5cff; --p-ink: #5b3fd9; }
+[data-product="moneybrain"] { --p: #10b981; --p-ink: #047857; }
+[data-product="learnstack"] { --p: #f59e0b; --p-ink: #b45309; }
+[data-product="needly"]     { --p: #3b82f6; --p-ink: #1d4ed8; }
+
+[data-theme="dark"] [data-product]              { --p-solid: var(--p); --p-on: #0b0f19; }
+[data-theme="dark"] [data-product="brainy"]     { --p: #a78bfa; --p-ink: #c4b5fd; }
+[data-theme="dark"] [data-product="moneybrain"] { --p: #34d399; --p-ink: #6ee7b7; }
+[data-theme="dark"] [data-product="learnstack"] { --p: #fbbf24; --p-ink: #fcd34d; }
+[data-theme="dark"] [data-product="needly"]     { --p: #60a5fa; --p-ink: #93c5fd; }
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]):not([data-theme="dark"]) [data-product]              { --p-solid: var(--p); --p-on: #0b0f19; }
+	:root:not([data-theme="light"]):not([data-theme="dark"]) [data-product="brainy"]     { --p: #a78bfa; --p-ink: #c4b5fd; }
+	:root:not([data-theme="light"]):not([data-theme="dark"]) [data-product="moneybrain"] { --p: #34d399; --p-ink: #6ee7b7; }
+	:root:not([data-theme="light"]):not([data-theme="dark"]) [data-product="learnstack"] { --p: #fbbf24; --p-ink: #fcd34d; }
+	:root:not([data-theme="light"]):not([data-theme="dark"]) [data-product="needly"]     { --p: #60a5fa; --p-ink: #93c5fd; }
+}
+
+/* ---------------------------------------------------------------------------
+   Browser surfaces — the parts we did not draw still belong to the design.
+   --------------------------------------------------------------------------- */
+
+::selection {
+	background: color-mix(in oklab, var(--accent) 28%, transparent);
+	color: var(--text-primary);
+}
+
+html {
+	scrollbar-color: var(--border) transparent;
+	scrollbar-width: thin;
+	scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb {
+	background: var(--border);
+	border: 3px solid var(--background);
+	border-radius: var(--radius-pill);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--text-light); }
+
+@layer base {
+	body { caret-color: var(--accent); }
+
+	a { text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+
+	/* Figures line up column-wise wherever numbers are compared. */
+	.tabular, time, [data-numeric] { font-variant-numeric: tabular-nums; }
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll reveal — the page's one authored entrance. Content is visible by
+   default and only animates when JS confirms support, so no-JS never blanks.
+   --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+	[data-reveal-ready] [data-reveal] {
+		opacity: 0;
+		transform: translateY(20px);
+		filter: blur(6px);
+		transition:
+			opacity 0.7s var(--ease-out),
+			transform 0.7s var(--ease-out),
+			filter 0.7s var(--ease-out);
+		transition-delay: var(--reveal-delay, 0s);
+	}
+
+	[data-reveal-ready] [data-reveal].is-revealed {
+		opacity: 1;
+		transform: none;
+		filter: none;
+	}
+}

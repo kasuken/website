@@ -1,0 +1,172 @@
+---
+/**
+ * Icon system.
+ *
+ * Glyphs come from Lucide (ISC), inlined at build time — one 24×24 grid, one
+ * stroke weight, round caps and joins, `currentColor` throughout, so icons
+ * inherit text colour and optical weight wherever they sit.
+ *
+ * Emoji are not an icon system: they render differently on every platform,
+ * carry no stroke relationship to the type around them, and cannot be
+ * recoloured or sized to match a design.
+ *
+ * Icons are imported explicitly rather than globbed so the bundle only ever
+ * carries the glyphs the site actually uses. To add one, import its raw SVG
+ * and add it to GLYPHS.
+ */
+
+import archive from 'lucide-static/icons/archive.svg?raw';
+import appWindow from 'lucide-static/icons/app-window.svg?raw';
+import atom from 'lucide-static/icons/atom.svg?raw';
+import arrowRight from 'lucide-static/icons/arrow-right.svg?raw';
+import arrowUpRight from 'lucide-static/icons/arrow-up-right.svg?raw';
+import award from 'lucide-static/icons/award.svg?raw';
+import bookMarked from 'lucide-static/icons/book-marked.svg?raw';
+import bookOpen from 'lucide-static/icons/book-open.svg?raw';
+import bot from 'lucide-static/icons/bot.svg?raw';
+import calendar from 'lucide-static/icons/calendar.svg?raw';
+import camera from 'lucide-static/icons/camera.svg?raw';
+import chartColumn from 'lucide-static/icons/chart-column.svg?raw';
+import check from 'lucide-static/icons/check.svg?raw';
+import circleDot from 'lucide-static/icons/circle-dot.svg?raw';
+import cloud from 'lucide-static/icons/cloud.svg?raw';
+import construction from 'lucide-static/icons/construction.svg?raw';
+import clock from 'lucide-static/icons/clock.svg?raw';
+import code from 'lucide-static/icons/code.svg?raw';
+import database from 'lucide-static/icons/database.svg?raw';
+import filePen from 'lucide-static/icons/file-pen.svg?raw';
+import gift from 'lucide-static/icons/gift.svg?raw';
+import gitBranch from 'lucide-static/icons/git-branch.svg?raw';
+import gitFork from 'lucide-static/icons/git-fork.svg?raw';
+import globe from 'lucide-static/icons/globe.svg?raw';
+import graduationCap from 'lucide-static/icons/graduation-cap.svg?raw';
+import headphones from 'lucide-static/icons/headphones.svg?raw';
+import info from 'lucide-static/icons/info.svg?raw';
+import keyboard from 'lucide-static/icons/keyboard.svg?raw';
+import laptop from 'lucide-static/icons/laptop.svg?raw';
+import lightbulb from 'lucide-static/icons/lightbulb.svg?raw';
+import mail from 'lucide-static/icons/mail.svg?raw';
+import mapPin from 'lucide-static/icons/map-pin.svg?raw';
+import messageCircle from 'lucide-static/icons/message-circle.svg?raw';
+import mic from 'lucide-static/icons/mic.svg?raw';
+import monitor from 'lucide-static/icons/monitor.svg?raw';
+import mouse from 'lucide-static/icons/mouse.svg?raw';
+import music from 'lucide-static/icons/music.svg?raw';
+import notebookPen from 'lucide-static/icons/notebook-pen.svg?raw';
+import packageIcon from 'lucide-static/icons/package.svg?raw';
+import palette from 'lucide-static/icons/palette.svg?raw';
+import penLine from 'lucide-static/icons/pen-line.svg?raw';
+import presentation from 'lucide-static/icons/presentation.svg?raw';
+import radio from 'lucide-static/icons/radio.svg?raw';
+import rocket from 'lucide-static/icons/rocket.svg?raw';
+import shield from 'lucide-static/icons/shield.svg?raw';
+import shoppingCart from 'lucide-static/icons/shopping-cart.svg?raw';
+import smartphone from 'lucide-static/icons/smartphone.svg?raw';
+import sparkles from 'lucide-static/icons/sparkles.svg?raw';
+import star from 'lucide-static/icons/star.svg?raw';
+import store from 'lucide-static/icons/store.svg?raw';
+import tag from 'lucide-static/icons/tag.svg?raw';
+import terminal from 'lucide-static/icons/terminal.svg?raw';
+import trendingUp from 'lucide-static/icons/trending-up.svg?raw';
+import users from 'lucide-static/icons/users.svg?raw';
+import video from 'lucide-static/icons/video.svg?raw';
+import wrench from 'lucide-static/icons/wrench.svg?raw';
+import zap from 'lucide-static/icons/zap.svg?raw';
+
+const GLYPHS = {
+	archive,
+	'app-window': appWindow,
+	atom,
+	'arrow-right': arrowRight,
+	'arrow-up-right': arrowUpRight,
+	award,
+	bot,
+	'book-open': bookOpen,
+	calendar,
+	camera,
+	chart: chartColumn,
+	check,
+	'circle-dot': circleDot,
+	cloud,
+	construction,
+	clock,
+	code,
+	database,
+	'file-pen': filePen,
+	gift,
+	'git-branch': gitBranch,
+	'git-fork': gitFork,
+	globe,
+	'graduation-cap': graduationCap,
+	headphones,
+	info,
+	keyboard,
+	laptop,
+	lightbulb,
+	mail,
+	'map-pin': mapPin,
+	'message-circle': messageCircle,
+	mic,
+	monitor,
+	mouse,
+	music,
+	notebook: notebookPen,
+	package: packageIcon,
+	palette,
+	pen: penLine,
+	radio,
+	rocket,
+	// Named for the concept, not the file: a repository, a set of slides.
+	repo: bookMarked,
+	shield,
+	'shopping-cart': shoppingCart,
+	smartphone,
+	slides: presentation,
+	sparkles,
+	star,
+	store,
+	tag,
+	terminal,
+	'trend-up': trendingUp,
+	users,
+	video,
+	wrench,
+	zap,
+} as const;
+
+export type IconName = keyof typeof GLYPHS;
+
+interface Props {
+	name: IconName;
+	class?: string;
+	/** Decorative by default; pass a label when the icon is the only content. */
+	label?: string;
+}
+
+const { name, class: className, label } = Astro.props;
+
+const source = GLYPHS[name];
+if (!source) {
+	throw new Error(
+		`<Icon name="${name}"> is not in the glyph set. Add it to src/components/Icon.astro.`
+	);
+}
+
+// Keep only the drawing; the wrapper below owns every presentation attribute so
+// every icon on the site shares one stroke and sizing contract.
+const body = source.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+---
+
+<svg
+	viewBox="0 0 24 24"
+	fill="none"
+	stroke="currentColor"
+	stroke-width="1.75"
+	stroke-linecap="round"
+	stroke-linejoin="round"
+	class:list={['shrink-0', className]}
+	role={label ? 'img' : undefined}
+	aria-label={label}
+	aria-hidden={label ? undefined : 'true'}
+	set:html={body}
+/>

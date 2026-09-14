@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 interface GitHubUser {
   public_repos: number;
   followers: number;
@@ -193,378 +194,122 @@ try {
   };
 }
 
-function formatDate(dateString: string) {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short'
-  });
-}
 
-function getLanguageIcon(language: string) {
-  const icons: { [key: string]: string } = {
-    'JavaScript': '🟨',
-    'TypeScript': '🔷',
-    'Python': '🐍',
-    'Java': '☕',
-    'C#': '🔷',
-    'C++': '⚡',
-    'C': '🔧',
-    'Go': '🐹',
-    'Rust': '🦀',
-    'PHP': '🐘',
-    'Ruby': '💎',
-    'Swift': '🍎',
-    'Kotlin': '🎯',
-    'Dart': '🎯',
-    'HTML': '🌐',
-    'CSS': '🎨',
-    'Shell': '💻',
-    'PowerShell': '💙',
-    'Dockerfile': '🐳',
-    'Vue': '💚',
-    'React': '⚛️'
-  };
-  return icons[language] || '📄';
-}
+// GitHub's own language colors — the convention readers already know, and a
+// system that scales to any language without commissioning icon art.
+const LANGUAGE_COLORS: Record<string, string> = {
+  JavaScript: '#f1e05a',
+  TypeScript: '#3178c6',
+  Python: '#3572a5',
+  Java: '#b07219',
+  'C#': '#178600',
+  'C++': '#f34b7d',
+  C: '#8f8f8f',
+  Go: '#00add8',
+  Rust: '#dea584',
+  PHP: '#4f5d95',
+  Ruby: '#c72c48',
+  Swift: '#f05138',
+  Kotlin: '#a97bff',
+  Dart: '#00b4ab',
+  HTML: '#e34c26',
+  CSS: '#663399',
+  SCSS: '#c6538c',
+  Shell: '#89e051',
+  PowerShell: '#3d7fd6',
+  Dockerfile: '#7a94a8',
+  Vue: '#41b883',
+  Svelte: '#ff3e00',
+  Astro: '#ff5d01',
+  Blazor: '#512bd4',
+  Razor: '#512bd4',
+};
+
+const languageColor = (language: string) => LANGUAGE_COLORS[language] ?? 'var(--text-light)';
+
+// When the API is unreachable we say so rather than presenting the placeholder
+// numbers as if they were real.
+const isStale = Boolean(data.error);
+
+const statTiles = [
+  { icon: 'repo' as const, label: 'Repositories', value: data.stats?.totalRepos },
+  { icon: 'star' as const, label: 'Stars earned', value: data.stats?.totalStars },
+  { icon: 'git-fork' as const, label: 'Forks', value: data.stats?.totalForks },
+  { icon: 'users' as const, label: 'Followers', value: data.stats?.followers },
+];
+
+const maxLanguageCount = Math.max(1, ...data.topLanguages.map(([, c]) => Number(c)));
 ---
 
-{data.error ? (
-  <section class="github-stats-section">
-    <h2 class="section-title">📊 GitHub Statistics</h2>
-    <p class="section-subtitle">Overview of my development activity and contributions</p>
-    
-    <div class="github-stats-notice">
-      <div class="notice-content">
-        <div class="notice-icon">ℹ️</div>
-        <div class="notice-text">
-          <strong>Live data temporarily unavailable</strong>
-          <p>{data.error}</p>
-          {data.stats && <p>Showing approximate statistics below.</p>}
-        </div>
+<section aria-labelledby="gh-stats-heading">
+  <div class="mb-8 border-b border-[var(--border)] pb-5">
+    <h2 id="gh-stats-heading" class="font-display text-3xl text-[var(--text-primary)] mb-1!">
+      GitHub statistics
+    </h2>
+    <p class="text-[var(--text-secondary)] mb-0!">
+      Overview of my development activity and contributions
+    </p>
+  </div>
+
+  {isStale && (
+    <div class="flex items-start gap-3 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--background-secondary)] p-5 mb-8">
+      <Icon name="info" class="w-5 h-5 mt-0.5 text-[var(--text-light)]" />
+      <div class="min-w-0">
+        <p class="font-semibold text-[var(--text-primary)] mb-1">Live data temporarily unavailable</p>
+        <p class="text-sm text-[var(--text-secondary)] mb-0 max-w-[60ch]">
+          {data.error} The figures below are placeholders, not live counts.
+        </p>
       </div>
     </div>
-    
-    {data.stats && (
-      <>
-        <!-- Main Stats Grid -->
-        <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon">📁</div>
-          <div class="stat-content">
-            <div class="stat-number">{data.stats?.totalRepos}</div>
-            <div class="stat-label">Repositories</div>
-          </div>
-        </div>          <div class="stat-card">
-            <div class="stat-icon">⭐</div>
-            <div class="stat-content">
-              <div class="stat-number">{data.stats?.totalStars}</div>
-              <div class="stat-label">Total Stars</div>
-            </div>
-          </div>
-          
-          <div class="stat-card">
-            <div class="stat-icon">🍴</div>
-            <div class="stat-content">
-              <div class="stat-number">{data.stats?.totalForks}</div>
-              <div class="stat-label">Total Forks</div>
-            </div>
-          </div>
-          
-          <div class="stat-card">
-            <div class="stat-icon">👥</div>
-            <div class="stat-content">
-              <div class="stat-number">{data.stats?.followers}</div>
-              <div class="stat-label">Followers</div>
-            </div>
-          </div>
-        </div>
+  )}
 
-        <div class="detailed-stats">
-          <!-- Top Languages -->
-          {data.topLanguages.length > 0 && (
-            <div class="stat-section">
-              <h3 class="subsection-title">🔤 Top Languages</h3>
-              <div class="languages-list">
-                {data.topLanguages.map(([language, count]) => (
-                  <div class="language-item">
-                    <span class="language-icon">{getLanguageIcon(String(language))}</span>
-                    <span class="language-name">{language}</span>
-                    <span class="language-count">{count} repos</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      </>
-    )}
-  </section>
-) : (
-  <section class="github-stats-section">
-    <h2 class="section-title">📊 GitHub Statistics</h2>
-    <p class="section-subtitle">Overview of my development activity and contributions</p>
-    
-    <!-- Main Stats Grid -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon">📁</div>
-        <div class="stat-content">
-          <div class="stat-number">{data.stats?.totalRepos}</div>
-          <div class="stat-label">Repositories</div>
-        </div>
-      </div>
-      
-      <div class="stat-card">
-        <div class="stat-icon">⭐</div>
-        <div class="stat-content">
-          <div class="stat-number">{data.stats?.totalStars}</div>
-          <div class="stat-label">Total Stars</div>
-        </div>
-      </div>
-      
-      <div class="stat-card">
-        <div class="stat-icon">🍴</div>
-        <div class="stat-content">
-          <div class="stat-number">{data.stats?.totalForks}</div>
-          <div class="stat-label">Total Forks</div>
-        </div>
-      </div>
-      
-      <div class="stat-card">
-        <div class="stat-icon">👥</div>
-        <div class="stat-content">
-          <div class="stat-number">{data.stats?.followers}</div>
-          <div class="stat-label">Followers</div>
-        </div>
-      </div>
-    </div>
+  {data.stats && (
+    <>
+      <dl class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12 m-0">
+        {statTiles.map((tile) => (
+          <div class="rounded-[var(--radius-card)] border border-[var(--border)] p-5">
+            <dt class="flex items-center gap-2 text-sm font-medium text-[var(--text-secondary)] mb-3">
+              <Icon name={tile.icon} class="w-4 h-4 text-[var(--text-light)]" />
+              {tile.label}
+            </dt>
+            <dd class="font-display text-4xl text-[var(--text-primary)] m-0 tabular">
+              {tile.value}
+              {isStale && <span class="sr-only"> (placeholder value)</span>}
+            </dd>
+          </div>
+        ))}
+      </dl>
 
-    <div class="detailed-stats">
-      <!-- Top Languages -->
       {data.topLanguages.length > 0 && (
-        <div class="stat-section">
-          <h3 class="subsection-title">🔤 Top Languages</h3>
-          <div class="languages-list">
+        <div>
+          <h3 class="font-display text-sm font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-5!">
+            Top languages
+          </h3>
+          <ul class="list-none p-0 m-0 space-y-3 max-w-2xl">
             {data.topLanguages.map(([language, count]) => (
-              <div class="language-item">
-                <span class="language-icon">{getLanguageIcon(String(language))}</span>
-                <span class="language-name">{language}</span>
-                <span class="language-count">{count} repos</span>
-              </div>
+              <li class="grid grid-cols-[auto_1fr_auto] items-center gap-4">
+                <span class="flex items-center gap-2.5 min-w-[9rem]">
+                  <span
+                    class="w-2.5 h-2.5 rounded-full shrink-0"
+                    style={`background:${languageColor(String(language))}`}
+                    aria-hidden="true"
+                  ></span>
+                  <span class="text-[var(--text-primary)] font-medium truncate">{language}</span>
+                </span>
+                <span class="h-1.5 rounded-[var(--radius-pill)] bg-[var(--background-tertiary)] overflow-hidden">
+                  <span
+                    class="block h-full rounded-[var(--radius-pill)]"
+                    style={`width:${(Number(count) / maxLanguageCount) * 100}%;background:${languageColor(String(language))}`}
+                  ></span>
+                </span>
+                <span class="text-sm text-[var(--text-secondary)] tabular whitespace-nowrap">
+                  {count} {Number(count) === 1 ? 'repo' : 'repos'}
+                </span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       )}
-    </div>
-  </section>
-)}
-
-<style>
-  .github-stats-section {
-    margin: 2rem 0;
-    text-align: center;
-  }
-
-  .github-stats-notice {
-    background: linear-gradient(135deg, rgba(var(--accent), 0.1), rgba(var(--accent), 0.05));
-    border: 1px solid rgba(var(--accent), 0.2);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-  }
-
-  .notice-content {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    text-align: left;
-  }
-
-  .notice-icon {
-    font-size: 1.5rem;
-    flex-shrink: 0;
-  }
-
-  .notice-text {
-    flex: 1;
-  }
-
-  .notice-text strong {
-    color: rgb(var(--black));
-    font-size: 1.1rem;
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  .notice-text p {
-    color: rgb(var(--gray-dark));
-    margin: 0.25rem 0;
-    font-size: 0.95rem;
-    line-height: 1.4;
-  }
-
-  .github-stats-error {
-    background: rgb(var(--gray-light));
-    padding: 1rem;
-    border-radius: 8px;
-    color: rgb(var(--gray-dark));
-    margin: 1rem 0;
-  }
-
-  .section-title {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: rgb(var(--black));
-    margin-bottom: 0.5rem;
-  }
-
-  .section-subtitle {
-    color: rgb(var(--gray-dark));
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
-  }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-    margin-bottom: 3rem;
-  }
-
-  .stat-card {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    border: 1px solid rgb(var(--gray));
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .stat-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-  }
-
-  .stat-icon {
-    font-size: 2.5rem;
-    opacity: 0.8;
-  }
-
-  .stat-content {
-    text-align: left;
-  }
-
-  .stat-number {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: rgb(var(--accent));
-    line-height: 1;
-    margin-bottom: 0.25rem;
-  }
-
-  .stat-label {
-    color: rgb(var(--gray-dark));
-    font-weight: 500;
-    font-size: 0.9rem;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-
-  .detailed-stats {
-    display: flex;
-    justify-content: center;
-    text-align: left;
-    margin-top: 2rem;
-  }
-
-  .stat-section {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    border: 1px solid rgb(var(--gray));
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    max-width: 500px;
-    width: 100%;
-  }
-
-  .subsection-title {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: rgb(var(--black));
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  /* Languages */
-  .languages-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .language-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem;
-    background: rgb(var(--gray-light));
-    border-radius: 8px;
-    transition: background 0.2s ease;
-  }
-
-  .language-item:hover {
-    background: rgba(var(--accent), 0.1);
-  }
-
-  .language-icon {
-    font-size: 1.2rem;
-  }
-
-  .language-name {
-    font-weight: 500;
-    color: rgb(var(--black));
-    flex: 1;
-  }
-
-  .language-count {
-    color: rgb(var(--gray-dark));
-    font-size: 0.9rem;
-  }
-
-  @media (max-width: 768px) {
-    .stats-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-    }
-
-    .stat-card {
-      padding: 1.5rem;
-      flex-direction: column;
-      text-align: center;
-    }
-
-    .stat-content {
-      text-align: center;
-    }
-
-    .detailed-stats {
-      margin-top: 1.5rem;
-    }
-
-    .stat-section {
-      padding: 1.5rem;
-    }
-  }
-
-  @media (max-width: 580px) {
-    .stats-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>
+    </>
+  )}
+</section>

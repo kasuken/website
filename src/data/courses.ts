@@ -48,15 +48,15 @@ export interface CourseCategory {
 
 // Course categories
 export const courseCategories: CourseCategory[] = [
-  { key: 'all', label: 'All Courses', description: 'View all available courses', icon: '📚' },
-  { key: 'web-development', label: 'Web Development', description: 'Frontend and fullstack web development', icon: '🌐' },
-  { key: 'javascript', label: 'JavaScript', description: 'Modern JavaScript and TypeScript', icon: '⚡' },
-  { key: 'react', label: 'React', description: 'React and ecosystem', icon: '⚛️' },
-  { key: 'backend', label: 'Backend', description: 'Server-side development', icon: '🔧' },
-  { key: 'devops', label: 'DevOps', description: 'Deployment and infrastructure', icon: '🚀' },
-  { key: 'ai-ml', label: 'AI & ML', description: 'Artificial Intelligence and Machine Learning', icon: '🤖' },
-  { key: 'mobile', label: 'Mobile', description: 'Mobile app development', icon: '📱' },
-  { key: 'data', label: 'Data', description: 'Data analysis and visualization', icon: '📊' }
+  { key: 'all', label: 'All Courses', description: 'View all available courses', icon: 'graduation-cap' },
+  { key: 'web-development', label: 'Web Development', description: 'Frontend and fullstack web development', icon: 'globe' },
+  { key: 'javascript', label: 'JavaScript', description: 'Modern JavaScript and TypeScript', icon: 'zap' },
+  { key: 'react', label: 'React', description: 'React and ecosystem', icon: 'atom' },
+  { key: 'backend', label: 'Backend', description: 'Server-side development', icon: 'database' },
+  { key: 'devops', label: 'DevOps', description: 'Deployment and infrastructure', icon: 'rocket' },
+  { key: 'ai-ml', label: 'AI & ML', description: 'Artificial Intelligence and Machine Learning', icon: 'bot' },
+  { key: 'mobile', label: 'Mobile', description: 'Mobile app development', icon: 'smartphone' },
+  { key: 'data', label: 'Data', description: 'Data analysis and visualization', icon: 'chart' }
 ];
 
 // Sample courses data

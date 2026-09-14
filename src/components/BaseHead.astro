@@ -41,7 +41,7 @@ const personJsonLd = {
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
 
 <link
 	rel="alternate"
@@ -72,6 +72,48 @@ const personJsonLd = {
 		const theme = getInitialTheme();
 		document.documentElement.setAttribute('data-theme', theme);
 		document.documentElement.classList.add(theme + '-theme');
+	})();
+</script>
+
+<!-- Scroll reveal: opt in before first paint so elements never flash in then out -->
+<script is:inline>
+	(function () {
+		var motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (!motionOk || !('IntersectionObserver' in window)) return;
+
+		document.documentElement.setAttribute('data-reveal-ready', '');
+
+		var start = function () {
+			var targets = document.querySelectorAll('[data-reveal]');
+			if (!targets.length) return;
+
+			var observer = new IntersectionObserver(
+				function (entries) {
+					entries.forEach(function (entry) {
+						if (!entry.isIntersecting) return;
+						entry.target.classList.add('is-revealed');
+						observer.unobserve(entry.target);
+					});
+				},
+				{ rootMargin: '0px 0px -12% 0px', threshold: 0.1 }
+			);
+
+			targets.forEach(function (el) {
+				// Anything already on screen reveals immediately, no scroll needed.
+				var box = el.getBoundingClientRect();
+				if (box.top < window.innerHeight && box.bottom > 0) {
+					el.classList.add('is-revealed');
+					return;
+				}
+				observer.observe(el);
+			});
+		};
+
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', start);
+		} else {
+			start();
+		}
 	})();
 </script>
 

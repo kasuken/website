@@ -1,5 +1,6 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
+import Icon from '../components/Icon.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { 
@@ -21,6 +22,14 @@ const stats = getBookStats();
 	<head>
 		<BaseHead title="Books - Published Works" description="Books I've written on software development, programming, and technology. Learn from practical guides and technical expertise." />
 		<style>
+			.review-stars,
+			.review-stars .stars {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.1rem;
+			}
+
+
 			main {
 				width: 960px;
 				max-width: calc(100% - 2rem);
@@ -97,7 +106,7 @@ const stats = getBookStats();
 			.stat-number {
 				font-size: 2.5rem;
 				font-weight: var(--font-weight-bold);
-				color: var(--accent);
+				color: var(--accent-text);
 				margin: 0;
 			}
 			
@@ -151,8 +160,8 @@ const stats = getBookStats();
 			
 			.filter-btn:hover {
 				background: var(--accent);
-				color: white;
-				border-color: var(--accent);
+				color: var(--on-accent);
+				border-color: var(--accent-text);
 				transform: translateY(-2px);
 				box-shadow: var(--shadow-md);
 			}
@@ -163,8 +172,8 @@ const stats = getBookStats();
 			}
 			
 			.filter-btn.active {
-				background: var(--accent-dark);
-				color: white;
+				background: var(--accent);
+				color: var(--on-accent);
 				border-color: var(--accent-dark);
 				transform: translateY(-2px);
 				box-shadow: var(--shadow-md);
@@ -215,7 +224,7 @@ const stats = getBookStats();
 			}
 			
 			.book-card.upcoming {
-				border-left: 4px solid var(--accent);
+				border-color: color-mix(in oklab, var(--accent) 45%, var(--border));
 			}
 			
 			.book-image {
@@ -247,7 +256,7 @@ const stats = getBookStats();
 				top: 1rem;
 				right: 1rem;
 				background: var(--background);
-				color: var(--accent);
+				color: var(--accent-text);
 				padding: 0.5rem 1rem;
 				border-radius: 1.5rem;
 				font-size: 0.8rem;
@@ -271,17 +280,17 @@ const stats = getBookStats();
 			
 			.status-published {
 				background: #22c55e;
-				color: white;
+				color: #0b0f19;
 			}
 			
 			.status-writing {
 				background: #f59e0b;
-				color: white;
+				color: #0b0f19;
 			}
 			
 			.status-reviewing {
 				background: #3b82f6;
-				color: white;
+				color: #0b0f19;
 			}
 			
 			.status-planning {
@@ -394,7 +403,7 @@ const stats = getBookStats();
 			
 			.btn-primary {
 				background: var(--accent);
-				color: white;
+				color: var(--on-accent);
 			}
 			
 			.btn-primary:hover {
@@ -411,12 +420,12 @@ const stats = getBookStats();
 			
 			.btn-secondary:hover {
 				background: var(--text-secondary);
-				color: white;
+				color: var(--background);
 			}
 			
 			.btn-amazon {
 				background: #ff9900;
-				color: white;
+				color: #1f2937;
 			}
 			
 			.btn-amazon:hover {
@@ -425,7 +434,7 @@ const stats = getBookStats();
 			
 			.btn-gumroad {
 				background: #ff90e8;
-				color: white;
+				color: #1f2937;
 			}
 			
 			.btn-gumroad:hover {
@@ -436,7 +445,7 @@ const stats = getBookStats();
 				display: flex;
 				align-items: center;
 				gap: 0.5rem;
-				color: var(--accent);
+				color: var(--accent-text);
 				font-weight: var(--font-weight-bold);
 				font-size: var(--text-sm);
 				margin-bottom: 1rem;
@@ -495,17 +504,17 @@ const stats = getBookStats();
 		<Header />
 		<main>
 			<div class="books-header">
-				<h1>📚 Books</h1>
+				<h1>Books</h1>
 				<p class="book-count">
 					{stats.totalBooks} {stats.totalBooks === 1 ? 'book' : 'books'} • {stats.publishedBooks} published • {stats.upcomingBooks} in progress
 				</p>
 			</div>
 
 			<div class="intro-section">
-				<p>📖 Welcome to my collection of books on software development, programming, and technology. As a passionate developer and educator, I write practical guides that help fellow developers master modern technologies and best practices.</p>
+				<p>Welcome to my collection of books on software development, programming, and technology. As a passionate developer and educator, I write practical guides that help fellow developers master modern technologies and best practices.</p>
 				
-				<h2>✍️ My Writing Philosophy</h2>
-				<p>💡 I believe in learning by doing. My books focus on real-world scenarios, practical examples, and hands-on projects that you can immediately apply in your development work. Each book is crafted with care to provide both theoretical foundations and actionable insights.</p>
+				<h2>My writing philosophy</h2>
+				<p>I believe in learning by doing. My books focus on real-world scenarios, practical examples, and hands-on projects that you can immediately apply in your development work. Each book is crafted with care to provide both theoretical foundations and actionable insights.</p>
 			</div>
 
 			<!-- Statistics Section -->
@@ -525,7 +534,7 @@ const stats = getBookStats();
 					</div>
 					{stats.averageRating > 0 && (
 						<div class="stat-item">
-							<h3 class="stat-number">{stats.averageRating.toFixed(1)}⭐</h3>
+							<h3 class="stat-number">{stats.averageRating.toFixed(1)}</h3>
 							<p class="stat-label">Avg Rating</p>
 						</div>
 					)}
@@ -535,7 +544,7 @@ const stats = getBookStats();
 			<!-- Featured Books -->
 			{featuredBooks.length > 0 && (
 				<section class="section">
-					<h2 class="section-title">⭐ Featured Books</h2>
+					<h2 class="section-title">Featured books</h2>
 					<p class="section-subtitle">My most popular and recommended books</p>
 					<div class="featured-grid">
 						{featuredBooks.map((book) => (
@@ -544,9 +553,9 @@ const stats = getBookStats();
 									{book.imageUrl ? (
 										<img src={book.imageUrl} alt={book.title} />
 									) : (
-										<span>📘</span>
+										<Icon name="book-open" class="w-10 h-10" />
 									)}
-									<div class="featured-badge">⭐ Featured</div>
+									<div class="featured-badge">Featured</div>
 									<div class={`status-badge status-${book.status}`}>
 										{book.status}
 									</div>
@@ -596,7 +605,9 @@ const stats = getBookStats();
 										<div class="book-reviews">
 											<div class="review-stars">
 												<span class="stars">
-													{Array.from({length: Math.round(book.reviews[0].rating)}, () => '⭐').join('')}
+													{Array.from({ length: 5 }, (_, i) => (
+                                <Icon name="star" class={`w-3.5 h-3.5 ${i < Math.round(book.reviews[0].rating) ? 'star-on' : 'star-off'}`} />
+                              ))}
 												</span>
 												<span>({book.reviews.length} {book.reviews.length === 1 ? 'review' : 'reviews'})</span>
 											</div>
@@ -608,22 +619,22 @@ const stats = getBookStats();
 										<div class="purchase-links">
 											{book.purchaseLinks.packt && (
 												<a href={book.purchaseLinks.packt} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-													📚 Packt Publishing
+													Packt Publishing
 												</a>
 											)}
 											{book.purchaseLinks.amazon && (
 												<a href={book.purchaseLinks.amazon} target="_blank" rel="noopener noreferrer" class="btn btn-amazon">
-													🛒 Amazon
+													Amazon
 												</a>
 											)}
 											{book.purchaseLinks.gumroad && (
 												<a href={book.purchaseLinks.gumroad} target="_blank" rel="noopener noreferrer" class="btn btn-gumroad">
-													💝 Gumroad
+													Gumroad
 												</a>
 											)}
 											{book.purchaseLinks.publisher && (
 												<a href={book.purchaseLinks.publisher} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-													🏪 Publisher
+													Publisher
 												</a>
 											)}
 										</div>
@@ -638,7 +649,7 @@ const stats = getBookStats();
 			<!-- Published Books -->
 			{publishedBooks.length > 0 && (
 				<section class="section">
-					<h2 class="section-title">📖 Published Books</h2>
+					<h2 class="section-title">Published books</h2>
 					<p class="section-subtitle">Available for purchase now</p>
 					
 					<!-- Filter Buttons -->
@@ -648,7 +659,7 @@ const stats = getBookStats();
 								class={`filter-btn ${category.key === 'all' ? 'active' : ''}`} 
 								data-filter={category.key}
 							>
-								<span>{category.icon}</span>
+								<Icon name={category.icon as any} class="w-4 h-4" />
 								{category.label}
 							</button>
 						))}
@@ -662,7 +673,7 @@ const stats = getBookStats();
 									{book.imageUrl ? (
 										<img src={book.imageUrl} alt={book.title} />
 									) : (
-										<span>📗</span>
+										<Icon name="book-open" class="w-10 h-10" />
 									)}
 									<div class={`status-badge status-${book.status}`}>
 										{book.status}
@@ -711,7 +722,9 @@ const stats = getBookStats();
 										<div class="book-reviews">
 											<div class="review-stars">
 												<span class="stars">
-													{Array.from({length: Math.round(book.reviews[0].rating)}, () => '⭐').join('')}
+													{Array.from({ length: 5 }, (_, i) => (
+                                <Icon name="star" class={`w-3.5 h-3.5 ${i < Math.round(book.reviews[0].rating) ? 'star-on' : 'star-off'}`} />
+                              ))}
 												</span>
 												<span>({book.reviews.length})</span>
 											</div>
@@ -722,17 +735,17 @@ const stats = getBookStats();
 										<div class="purchase-links">
 											{book.purchaseLinks.packt && (
 												<a href={book.purchaseLinks.packt} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-													📚 Packt
+													Packt
 												</a>
 											)}
 											{book.purchaseLinks.amazon && (
 												<a href={book.purchaseLinks.amazon} target="_blank" rel="noopener noreferrer" class="btn btn-amazon">
-													🛒 Amazon
+													Amazon
 												</a>
 											)}
 											{book.purchaseLinks.gumroad && (
 												<a href={book.purchaseLinks.gumroad} target="_blank" rel="noopener noreferrer" class="btn btn-gumroad">
-													💝 Gumroad
+													Gumroad
 												</a>
 											)}
 										</div>
@@ -747,7 +760,7 @@ const stats = getBookStats();
 			<!-- Upcoming Books -->
 			{upcomingBooks.length > 0 && (
 				<section class="section">
-					<h2 class="section-title">🚧 Upcoming Books</h2>
+					<h2 class="section-title">Upcoming books</h2>
 					<p class="section-subtitle">Currently in development</p>
 					<div class="upcoming-grid">
 						{upcomingBooks.map((book) => (
@@ -756,7 +769,7 @@ const stats = getBookStats();
 									{book.imageUrl ? (
 										<img src={book.imageUrl} alt={book.title} />
 									) : (
-										<span>📝</span>
+										<Icon name="file-pen" class="w-10 h-10" />
 									)}
 									<div class={`status-badge status-${book.status}`}>
 										{book.status}

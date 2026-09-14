@@ -45,9 +45,8 @@ const expertiseAreas = [
 			
 			<!-- Hero Section -->
 			<section class="max-w-3xl mb-16 md:mb-20">
-				<p class="mono-label mb-4 reveal reveal-1">1:1 sessions — 20+ years of experience</p>
 				<h1 class="font-display text-5xl md:text-7xl tracking-tight text-[var(--text-primary)] mb-6 reveal reveal-2">
-					Professional <em class="italic text-[var(--accent)]">mentoring</em>
+					Professional <em class="italic text-[var(--accent-text)]">mentoring</em>
 				</h1>
 				<p class="text-xl md:text-2xl text-[var(--text-secondary)] mb-10 leading-relaxed reveal reveal-3">
 					Accelerate your career in web development, cloud technologies, and AI/ML with personalized guidance from someone with 20+ years of experience.
@@ -70,12 +69,12 @@ const expertiseAreas = [
 
 			<!-- Areas of Expertise -->
 			<section class="mb-24">
-				<SectionHeading index="№1" title="Areas of expertise" />
+				<SectionHeading title="Areas of expertise" />
 				
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
 					{expertiseAreas.map((area) => (
 						<div class="group bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-card)] p-8 hover:border-[var(--accent)] hover:-translate-y-[3px] hover:shadow-md transition-all duration-200">
-							<div class="w-12 h-12 bg-[var(--accent)]/10 text-[var(--accent)] rounded-[var(--radius-sm)] flex items-center justify-center mb-6" set:html={area.icon} />
+							<div class="w-12 h-12 bg-[var(--accent)]/10 text-[var(--accent-text)] rounded-[var(--radius-sm)] flex items-center justify-center mb-6" set:html={area.icon} />
 							<h3 class="font-display text-2xl text-[var(--text-primary)] mb-3">{area.title}</h3>
 							<p class="text-[var(--text-secondary)] mb-6 leading-relaxed">
 								{area.description}
@@ -93,23 +92,22 @@ const expertiseAreas = [
 			<!-- Expectations -->
 			<section class="max-w-3xl mx-auto mb-16">
 				<div class="bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-card)] p-8 md:p-12">
-					<p class="mono-label mb-4">How it works</p>
 					<h2 class="font-display text-2xl text-[var(--text-primary)] mb-6">What to expect</h2>
 					<ul class="space-y-4 text-[var(--text-secondary)] list-none p-0 m-0">
 						<li class="flex items-start gap-3">
-							<svg class="w-6 h-6 text-[var(--accent)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+							<svg class="w-6 h-6 text-[var(--accent-text)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
 							<span>Personalized advice tailored to your specific goals and context</span>
 						</li>
 						<li class="flex items-start gap-3">
-							<svg class="w-6 h-6 text-[var(--accent)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+							<svg class="w-6 h-6 text-[var(--accent-text)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
 							<span>Honest, constructive feedback on your code, architecture, or career trajectory</span>
 						</li>
 						<li class="flex items-start gap-3">
-							<svg class="w-6 h-6 text-[var(--accent)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+							<svg class="w-6 h-6 text-[var(--accent-text)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
 							<span>Actionable next steps after every session to keep your momentum</span>
 						</li>
 						<li class="flex items-start gap-3">
-							<svg class="w-6 h-6 text-[var(--accent)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+							<svg class="w-6 h-6 text-[var(--accent-text)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
 							<span>Direct insights drawn from 20+ years navigating the tech industry</span>
 						</li>
 					</ul>

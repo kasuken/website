@@ -1,10 +1,10 @@
 ---
+import Icon from "../components/Icon.astro";
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { projects } from '../data/projects';
 import GitHubActivityCalendar from '../components/GitHubActivityCalendar.astro';
-import GitHubStats from '../components/GitHubStats.astro';
 
 const featuredProjects = projects.filter(project => project.featured);
 const allProjects = projects.filter(project => !project.featured);
@@ -23,7 +23,7 @@ const allProjects = projects.filter(project => !project.featured);
 				<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-500/10 blur-[100px] rounded-full pointer-events-none"></div>
 				
 				<h1 class="text-5xl md:text-7xl font-black tracking-tighter text-[var(--text-primary)] mb-6 relative z-10">
-					My <span class="text-[var(--accent)]">Portfolio</span>
+					My <span class="text-[var(--accent-text)]">Portfolio</span>
 				</h1>
 				<p class="text-xl md:text-2xl text-[var(--text-secondary)] font-medium max-w-2xl mx-auto relative z-10">
 					A showcase of my recent work, open-source contributions, and side projects.
@@ -33,7 +33,7 @@ const allProjects = projects.filter(project => !project.featured);
 			<!-- Featured Projects -->
 			<section class="mb-24">
 				<h2 class="text-3xl font-black tracking-tight text-[var(--text-primary)] mb-8 flex items-center gap-3">
-					<span class="text-yellow-500">⭐</span> Featured Projects
+					Featured projects
 				</h2>
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 					{featuredProjects.map((project, index) => (
@@ -61,7 +61,7 @@ const allProjects = projects.filter(project => !project.featured);
 							)}
 
 							<div class:list={["p-8 flex flex-col flex-grow", index === 0 ? "md:w-1/2 justify-center" : ""]}>
-								<h3 class="text-2xl font-black leading-tight text-[var(--text-primary)] mb-3 group-hover:text-[var(--accent)] transition-colors flex justify-between items-start">
+								<h3 class="text-2xl font-black leading-tight text-[var(--text-primary)] mb-3 group-hover:text-[var(--accent-text)] transition-colors flex justify-between items-start">
 									{project.title}
 								</h3>
 								
@@ -85,8 +85,8 @@ const allProjects = projects.filter(project => !project.featured);
 										</a>
 									)}
 									{project.liveUrl && (
-										<a href={project.liveUrl} target="_blank" rel="noopener noreferrer" class="flex-1 text-center py-2.5 px-4 font-bold text-sm text-[var(--background)] bg-[var(--text-primary)] hover:bg-[var(--accent)] rounded-xl transition-colors flex items-center justify-center gap-2">
-											Live Demo ↗
+										<a href={project.liveUrl} target="_blank" rel="noopener noreferrer" class="flex-1 text-center py-2.5 px-4 font-bold text-sm text-[var(--background)] bg-[var(--text-primary)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)]! rounded-xl transition-colors flex items-center justify-center gap-2">
+											Live demo <Icon name="arrow-up-right" class="w-4 h-4" />
 										</a>
 									)}
 								</div>
@@ -122,7 +122,7 @@ const allProjects = projects.filter(project => !project.featured);
 								</div>
 							)}
 
-							<h3 class="text-lg font-bold leading-tight text-[var(--text-primary)] mb-2 group-hover:text-[var(--accent)] transition-colors">
+							<h3 class="text-lg font-bold leading-tight text-[var(--text-primary)] mb-2 group-hover:text-[var(--accent-text)] transition-colors">
 								{project.title}
 							</h3>
 							
@@ -138,8 +138,8 @@ const allProjects = projects.filter(project => !project.featured);
 									</a>
 								)}
 								{project.liveUrl && (
-									<a href={project.liveUrl} target="_blank" rel="noopener noreferrer" class="text-sm font-bold text-[var(--accent)] hover:text-purple-500 transition-colors flex items-center gap-1.5">
-										Visit ↗
+									<a href={project.liveUrl} target="_blank" rel="noopener noreferrer" class="text-sm font-bold text-[var(--accent-text)] hover:text-purple-500 transition-colors flex items-center gap-1.5">
+										Visit <Icon name="arrow-up-right" class="w-4 h-4" />
 									</a>
 								)}
 							</div>
