@@ -403,12 +403,12 @@ const stats = getUsesStats();
 			}
 			
 			.use-card.featured {
-				border: 2px solid var(--accent);
-				background: linear-gradient(135deg, rgba(var(--accent), 0.02), rgba(var(--accent), 0.05));
+				border: 1px solid var(--accent);
+				background: linear-gradient(135deg, color-mix(in oklab, var(--accent) 2%, transparent), color-mix(in oklab, var(--accent) 5%, transparent));
 			}
 			
 			.use-card.recent {
-				border-left: 4px solid var(--accent);
+				border-color: color-mix(in oklab, var(--accent) 45%, var(--border));
 			}
 			
 			.use-header {
@@ -550,7 +550,7 @@ const stats = getUsesStats();
 				padding: 1rem;
 				border-radius: 0.75rem;
 				margin-bottom: 1.5rem;
-				border-left: 3px solid var(--accent);
+				border: 1px solid var(--border);
 			}
 			
 			.reason-title {

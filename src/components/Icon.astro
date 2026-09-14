@@ -21,7 +21,15 @@ interface Props {
 		| 'globe'
 		| 'arrow-right'
 		| 'arrow-up-right'
-		| 'users';
+		| 'users'
+		| 'repo'
+		| 'star'
+		| 'git-fork'
+		| 'code'
+		| 'trend-up'
+		| 'clock'
+		| 'info'
+		| 'check';
 	class?: string;
 	/** Decorative by default; pass a label when the icon is the only content. */
 	label?: string;
@@ -120,4 +128,56 @@ const { name, class: className, label } = Astro.props;
 			<path d="M16 4.13a4 4 0 0 1 0 7.75" />
 		</>
 	)}
+
+	{name === 'repo' && (
+		<>
+			<path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H19v15H7.5A2.5 2.5 0 0 0 5 19.5Z" />
+			<path d="M5 19.5A2.5 2.5 0 0 1 7.5 17H19v5H7.5A2.5 2.5 0 0 1 5 19.5Z" />
+		</>
+	)}
+
+	{name === 'star' && (
+		<polygon points="12 3 14.9 9.2 21.5 10.1 16.7 14.8 17.9 21.4 12 18.2 6.1 21.4 7.3 14.8 2.5 10.1 9.1 9.2" />
+	)}
+
+	{name === 'git-fork' && (
+		<>
+			<circle cx="7" cy="5" r="2.5" />
+			<circle cx="17" cy="5" r="2.5" />
+			<circle cx="12" cy="19" r="2.5" />
+			<path d="M7 7.5v2a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-2" />
+			<line x1="12" y1="11.5" x2="12" y2="16.5" />
+		</>
+	)}
+
+	{name === 'code' && (
+		<>
+			<polyline points="16 18 22 12 16 6" />
+			<polyline points="8 6 2 12 8 18" />
+		</>
+	)}
+
+	{name === 'trend-up' && (
+		<>
+			<polyline points="3 17 9.5 10.5 13.5 14.5 21 7" />
+			<polyline points="15 7 21 7 21 13" />
+		</>
+	)}
+
+	{name === 'clock' && (
+		<>
+			<circle cx="12" cy="12" r="9" />
+			<polyline points="12 6.5 12 12 15.5 14" />
+		</>
+	)}
+
+	{name === 'info' && (
+		<>
+			<circle cx="12" cy="12" r="9" />
+			<line x1="12" y1="11" x2="12" y2="16.5" />
+			<line x1="12" y1="7.5" x2="12" y2="7.6" />
+		</>
+	)}
+
+	{name === 'check' && <polyline points="20 6 9 17 4 12" stroke-width="2.5" />}
 </svg>

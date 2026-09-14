@@ -1,4 +1,5 @@
 ---
+import Icon from "./Icon.astro";
 import data from "../data/the-million-journey.json";
 
 const totalSlots = Math.floor(data.target / data.unit); // 1,000
@@ -46,6 +47,23 @@ const sortedCategories = Object.entries(revenueByCategory)
     amount,
     percentage: (amount / totalRevenue) * 100
   }));
+
+// Milestones along the track. A milestone is reached or it is not — that is the
+// only state worth drawing, so the marker is a check or an empty ring.
+const earned = filledUnits.length * data.unit;
+
+const milestones = [
+  { amount: 10000, position: 1, label: 'First goal' },
+  { amount: 100000, position: 10, label: 'Growth phase' },
+  { amount: 250000, position: 25, label: 'Quarter million' },
+  { amount: 500000, position: 50, label: 'Half million' },
+  { amount: 750000, position: 75, label: 'Final stretch' },
+  { amount: 1000000, position: 100, label: 'The goal' },
+].map((m) => ({
+  ...m,
+  reached: earned >= m.amount,
+  display: m.amount >= 1000000 ? '$1M' : `$${m.amount / 1000}K`,
+}));
 ---
 
 <!-- Journey Milestones -->
@@ -54,75 +72,27 @@ const sortedCategories = Object.entries(revenueByCategory)
   <!-- Milestone Timeline -->
   <div class="milestone-timeline">
     <div class="timeline-track"></div>
-    
-    <!-- $10K Milestone -->
-    <div class={`milestone ${(filledUnits.length * data.unit) >= 10000 ? 'completed' : 'upcoming'}`} style="left: 1%">
-      <div class="milestone-marker">
-        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 10000 ? '✅' : '🎯'}</span>
+    {milestones.map((m) => (
+      <div
+        class={`milestone ${m.reached ? 'completed' : 'upcoming'} ${m.amount >= 1000000 ? 'milestone-final' : ''}`}
+        style={`left: calc(2rem + (100% - 4rem) * ${m.position / 100})`}
+      >
+        <div class="milestone-marker">
+          {m.reached ? (
+            <Icon name="check" class="milestone-icon" label={`${m.display} reached`} />
+          ) : (
+            <span class="milestone-dot" aria-hidden="true"></span>
+          )}
+        </div>
+        <div class="milestone-info">
+          <div class="milestone-amount">{m.display}</div>
+          <div class="milestone-label">{m.label}</div>
+        </div>
       </div>
-      <div class="milestone-info">
-        <div class="milestone-amount">$10K</div>
-        <div class="milestone-label">First Goal</div>
-      </div>
-    </div>
-    
-    <!-- $100K Milestone -->
-    <div class={`milestone ${(filledUnits.length * data.unit) >= 100000 ? 'completed' : 'upcoming'}`} style="left: 10%">
-      <div class="milestone-marker">
-        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 100000 ? '✅' : '🚀'}</span>
-      </div>
-      <div class="milestone-info">
-        <div class="milestone-amount">$100K</div>
-        <div class="milestone-label">Growth Phase</div>
-      </div>
-    </div>
-    
-    <!-- $250K Milestone -->
-    <div class={`milestone ${(filledUnits.length * data.unit) >= 250000 ? 'completed' : 'upcoming'}`} style="left: 25%">
-      <div class="milestone-marker">
-        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 250000 ? '✅' : '⭐'}</span>
-      </div>
-      <div class="milestone-info">
-        <div class="milestone-amount">$250K</div>
-        <div class="milestone-label">Quarter Million</div>
-      </div>
-    </div>
-    
-    <!-- $500K Milestone -->
-    <div class={`milestone ${(filledUnits.length * data.unit) >= 500000 ? 'completed' : 'upcoming'}`} style="left: 50%">
-      <div class="milestone-marker">
-        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 500000 ? '✅' : '💎'}</span>
-      </div>
-      <div class="milestone-info">
-        <div class="milestone-amount">$500K</div>
-        <div class="milestone-label">Half Million</div>
-      </div>
-    </div>
-    
-    <!-- $750K Milestone -->
-    <div class={`milestone ${(filledUnits.length * data.unit) >= 750000 ? 'completed' : 'upcoming'}`} style="left: 75%">
-      <div class="milestone-marker">
-        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 750000 ? '✅' : '🔥'}</span>
-      </div>
-      <div class="milestone-info">
-        <div class="milestone-amount">$750K</div>
-        <div class="milestone-label">Final Stretch</div>
-      </div>
-    </div>
-    
-    <!-- $1M Milestone -->
-    <div class={`milestone ${(filledUnits.length * data.unit) >= 1000000 ? 'completed' : 'upcoming'}`} style="left: 100%">
-      <div class="milestone-marker milestone-final">
-        <span class="milestone-icon">{(filledUnits.length * data.unit) >= 1000000 ? '🎉' : '👑'}</span>
-      </div>
-      <div class="milestone-info">
-        <div class="milestone-amount">$1M</div>
-        <div class="milestone-label">The Goal!</div>
-      </div>
-    </div>
+    ))}
     
     <!-- Current Progress Indicator -->
-    <div class="current-progress" style={`left: ${(progress * 100)}%`}>
+    <div class="current-progress" style={`left: calc(2rem + (100% - 4rem) * ${progress})`}>
       <div class="progress-pulse"></div>
       <div class="current-amount">${(filledUnits.length * data.unit).toLocaleString()}</div>
     </div>
@@ -160,32 +130,6 @@ const sortedCategories = Object.entries(revenueByCategory)
 <div class="journey-sections">
 
 
-  <!-- Journey Stats Cards -->
-  <!-- <div class="journey-stats">
-    <div class="stat-card">
-      <div class="stat-icon">📈</div>
-      <div class="stat-content">
-        <div class="stat-number">{(progress * 100).toFixed(1)}%</div>
-        <div class="stat-label">Complete</div>
-      </div>
-    </div>
-    
-    <div class="stat-card">
-      <div class="stat-icon">💰</div>
-      <div class="stat-content">
-        <div class="stat-number">${(filledUnits.length * data.unit).toLocaleString()}</div>
-        <div class="stat-label">Earned</div>
-      </div>
-    </div>
-    
-    <div class="stat-card">
-      <div class="stat-icon">🎯</div>
-      <div class="stat-content">
-        <div class="stat-number">${(data.target - (filledUnits.length * data.unit)).toLocaleString()}</div>
-        <div class="stat-label">To Go</div>
-      </div>
-    </div>
-  </div> -->
 
   <!-- Revenue Breakdown by Category -->
   <section class="content-section revenue-breakdown-section">
@@ -219,7 +163,7 @@ const sortedCategories = Object.entries(revenueByCategory)
 
   <!-- FAQ Section -->
   <section class="content-section">
-    <h2>❓ Frequently Asked Questions</h2>
+    <h2>Frequently asked questions</h2>
     
     <div class="faq-container">
       <div class="faq-item">
@@ -228,7 +172,7 @@ const sortedCategories = Object.entries(revenueByCategory)
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer" id="faq-1">
-          <p>The Million Journey is my personal challenge to reach $1,000,000 in total revenue through various income streams including SaaS products, online courses, consulting, books, and content creation. Each square in the grid above represents $1,000 earned towards this goal.</p>
+          <div class="faq-answer-inner"><p>The Million Journey is my personal challenge to reach $1,000,000 in total revenue through various income streams including SaaS products, online courses, consulting, books, and content creation. Each square in the grid above represents $1,000 earned towards this goal.</p></div>
         </div>
       </div>
 
@@ -238,7 +182,7 @@ const sortedCategories = Object.entries(revenueByCategory)
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer" id="faq-2">
-          <p>I was heavily inspired by <a href="https://www.florin-pop.com/one-million/" target="_blank" rel="noopener" class="faq-link">Florin Pop's Million Dollar Challenge</a>. Seeing his transparent approach to tracking revenue through a visual grid and sharing the journey publicly showed me the power of accountability and community support. His innovative way of visualizing progress made entrepreneurship feel more tangible and achievable.</p>
+          <div class="faq-answer-inner"><p>I was heavily inspired by <a href="https://www.florin-pop.com/one-million/" target="_blank" rel="noopener" class="faq-link">Florin Pop's Million Dollar Challenge</a>. Seeing his transparent approach to tracking revenue through a visual grid and sharing the journey publicly showed me the power of accountability and community support. His innovative way of visualizing progress made entrepreneurship feel more tangible and achievable.</p></div>
         </div>
       </div>
 
@@ -248,7 +192,7 @@ const sortedCategories = Object.entries(revenueByCategory)
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer" id="faq-3">
-          <p>I started tracking this journey in October 2025 with the goal of reaching $1,000,000 by the end of September 2032. Exactly for my 50th birthday.</p>
+          <div class="faq-answer-inner"><p>I started tracking this journey in October 2025 with the goal of reaching $1,000,000 by the end of September 2032. Exactly for my 50th birthday.</p></div>
         </div>
       </div>
 
@@ -258,7 +202,7 @@ const sortedCategories = Object.entries(revenueByCategory)
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer" id="faq-4">
-          <p>I track all revenue streams meticulously, including SaaS monthly recurring revenue, course sales, consulting fees, book royalties, and speaking engagements. Each $1,000 earned fills one square in the grid. All numbers are gross revenue before taxes and expenses.</p>
+          <div class="faq-answer-inner"><p>I track all revenue streams meticulously, including SaaS monthly recurring revenue, course sales, consulting fees, book royalties, and speaking engagements. Each $1,000 earned fills one square in the grid. All numbers are gross revenue before taxes and expenses.</p></div>
         </div>
       </div>
 
@@ -268,7 +212,7 @@ const sortedCategories = Object.entries(revenueByCategory)
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer" id="faq-5">
-          <p>The journey includes revenue from: SaaS products and tools, Online courses (Udemy, LinkedIn Learning and custom platforms), Fractional CTO consulting, Books and eBooks, Mentoring and coaching, Content creation and sponsorships, Speaking engagements, and other entrepreneurial ventures.</p>
+          <div class="faq-answer-inner"><p>The journey includes revenue from: SaaS products and tools, Online courses (Udemy, LinkedIn Learning and custom platforms), Fractional CTO consulting, Books and eBooks, Mentoring and coaching, Content creation and sponsorships, Speaking engagements, and other entrepreneurial ventures.</p></div>
         </div>
       </div>
 
@@ -278,7 +222,7 @@ const sortedCategories = Object.entries(revenueByCategory)
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer" id="faq-6">
-          <p>Transparency creates accountability and inspiration. By sharing my progress, challenges, and lessons learned, I hope to motivate other entrepreneurs and provide real insights into building multiple income streams. Plus, the community support keeps me motivated!</p>
+          <div class="faq-answer-inner"><p>Transparency creates accountability and inspiration. By sharing my progress, challenges, and lessons learned, I hope to motivate other entrepreneurs and provide real insights into building multiple income streams. Plus, the community support keeps me motivated!</p></div>
         </div>
       </div>
 
@@ -288,7 +232,7 @@ const sortedCategories = Object.entries(revenueByCategory)
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer" id="faq-7">
-          <p>Nothing special happens, but let's what is the situation at that time. I plan to continue growing these income sources and help others start their own journeys to financial independence.</p>
+          <div class="faq-answer-inner"><p>Nothing special happens, but let's what is the situation at that time. I plan to continue growing these income sources and help others start their own journeys to financial independence.</p></div>
         </div>
       </div>
       
@@ -325,8 +269,8 @@ const sortedCategories = Object.entries(revenueByCategory)
   /* Milestone Timeline Styles */
   .milestone-timeline {
     position: relative;
-    height: 85px;
-    margin: 0 0 0 0;
+    height: 130px;
+    margin: 0;
     padding: 0 2rem;
   }
   
@@ -370,22 +314,42 @@ const sortedCategories = Object.entries(revenueByCategory)
   }
   
   .milestone.completed .milestone-marker {
-    background: linear-gradient(135deg, #10b981, #059669);
+    background: #059669;
+    color: #fff;
     animation: pulse-success 2s infinite;
   }
-  
+
   .milestone.upcoming .milestone-marker {
-    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+    background: var(--background);
+    border: 1px solid var(--border);
+    color: var(--text-light);
   }
-  
+
   .milestone-final .milestone-marker {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
   }
-  
+
+  .milestone-final.upcoming .milestone-marker {
+    border-color: var(--accent);
+  }
+
+  .milestone-final.completed .milestone-marker {
+    background: var(--accent-dark);
+  }
+
   .milestone-icon {
-    font-size: 1.4rem;
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  /* Not-yet-reached marker: an empty ring, no ornament. */
+  .milestone-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.5;
   }
   
   .milestone-info {
@@ -400,10 +364,12 @@ const sortedCategories = Object.entries(revenueByCategory)
   }
   
   .milestone-label {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
+    padding: 0 0.35rem;
     color: rgb(var(--gray));
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    white-space: nowrap;
   }
   
   .current-progress {
@@ -411,8 +377,8 @@ const sortedCategories = Object.entries(revenueByCategory)
     top: 50%;
     transform: translate(-50%, -50%);
     display: flex;
-    flex-direction: column;
     align-items: center;
+    z-index: 3;
   }
   
   .progress-pulse {
@@ -421,10 +387,13 @@ const sortedCategories = Object.entries(revenueByCategory)
     border-radius: 50%;
     background: #ef4444;
     animation: pulse-current 1.5s infinite;
-    margin-bottom: 0.5rem;
   }
-  
+
   .current-amount {
+    position: absolute;
+    bottom: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
     background: #ef4444;
     color: white;
     padding: 0.25rem 0.75rem;
@@ -447,15 +416,15 @@ const sortedCategories = Object.entries(revenueByCategory)
     align-items: center;
     gap: 1rem;
     padding: 1.5rem;
-    background: linear-gradient(135deg, rgba(var(--accent), 0.05), rgba(var(--accent), 0.1));
+    background: linear-gradient(135deg, color-mix(in oklab, var(--accent) 5%, transparent), color-mix(in oklab, var(--accent) 10%, transparent));
     border-radius: 16px;
-    border: 1px solid rgba(var(--accent), 0.1);
+    border: 1px solid color-mix(in oklab, var(--accent) 10%, transparent);
     transition: all 0.3s ease;
   }
   
   .stat-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(var(--accent), 0.15);
+    box-shadow: 0 8px 25px color-mix(in oklab, var(--accent) 15%, transparent);
   }
   
   .stat-icon {
@@ -465,7 +434,7 @@ const sortedCategories = Object.entries(revenueByCategory)
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(var(--accent), 0.1);
+    background: color-mix(in oklab, var(--accent) 10%, transparent);
     border-radius: 12px;
   }
   
@@ -539,12 +508,12 @@ const sortedCategories = Object.entries(revenueByCategory)
   }
   
   .faq-question:hover {
-    background: rgba(var(--accent), 0.05);
+    background: color-mix(in oklab, var(--accent) 5%, transparent);
   }
   
   .faq-icon {
     font-size: 1.5rem;
-    color: rgb(var(--accent));
+    color: var(--accent);
     transition: transform 0.3s ease;
     font-weight: 300;
   }
@@ -554,14 +523,21 @@ const sortedCategories = Object.entries(revenueByCategory)
   }
   
   .faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    background: rgba(var(--accent), 0.02);
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+    background: color-mix(in oklab, var(--accent) 2%, transparent);
   }
   
   .faq-answer.active {
-    max-height: 200px;
+    grid-template-rows: 1fr;
+  }
+
+  /* The collapsing grid item carries no padding of its own, so nothing leaks
+     through when the row is 0fr. The padding lives on the <p> inside it. */
+  .faq-answer-inner {
+    min-height: 0;
+    overflow: hidden;
   }
   
   .faq-answer p {
@@ -572,7 +548,7 @@ const sortedCategories = Object.entries(revenueByCategory)
   }
   
   .faq-link {
-    color: rgb(var(--accent));
+    color: var(--accent);
     text-decoration: none;
     font-weight: 600;
     border-bottom: 1px solid transparent;
@@ -580,7 +556,7 @@ const sortedCategories = Object.entries(revenueByCategory)
   }
   
   .faq-link:hover {
-    border-bottom-color: rgb(var(--accent));
+    border-bottom-color: var(--accent);
   }
 
   .progress-wrap { 
@@ -741,7 +717,7 @@ const sortedCategories = Object.entries(revenueByCategory)
   .revenue-amount {
     font-size: 1.2rem;
     font-weight: 700;
-    color: rgb(var(--accent));
+    color: var(--accent);
   }
   
   .revenue-bar-container {
@@ -755,7 +731,6 @@ const sortedCategories = Object.entries(revenueByCategory)
   
   .revenue-bar {
     height: 100%;
-    transition: width 0.8s ease;
     border-radius: 4px;
   }
   
@@ -776,7 +751,7 @@ const sortedCategories = Object.entries(revenueByCategory)
   .summary-item {
     text-align: center;
     padding: 1rem;
-    background: rgba(var(--accent), 0.05);
+    background: color-mix(in oklab, var(--accent) 5%, transparent);
     border-radius: 8px;
   }
   

@@ -74,21 +74,6 @@ async function fetchData(
   return data
 }
 
-function calcColorScale([start, end]: [string, string], steps: number): Array<string> {
-  return range(steps).map((i) => {
-    switch (i) {
-      case 0:
-        return start
-      case steps - 1:
-        return end
-      default: {
-        const pos = (i / (steps - 1)) * 100
-        return `color-mix(in oklab, ${end} ${parseFloat(pos.toFixed(2))}%, ${start})`
-      }
-    }
-  })
-}
-
 function fillHoles(activities: Array<GitHubActivityDay>): Array<GitHubActivityDay> {
   const calendar = new Map<string, GitHubActivityDay>(activities.map((a) => [a.date, a]))
   const firstActivity = activities[0] as GitHubActivityDay
@@ -187,10 +172,6 @@ try {
   console.error('[GitHubActivityCalendar] falling back to placeholder:', fetchError)
 }
 
-const themeFromColorscheme: [string, string] = [
-  'rgb(var(--gray-light))',
-  'rgb(var(--accent))',
-]
 
 const totalCount = data ? (year === 'last' ? data.total.lastYear : data.total[year]) : 0
 const maxLevel = 4
@@ -204,7 +185,6 @@ const hideMonthLabels = false
 const hideTotalCount = false
 const weekStart = 0 // 0 = Sunday, 1 = Monday, etc.
 
-const colorScale = calcColorScale(themeFromColorscheme, maxLevel + 1)
 const activities = data?.contributions ?? []
 
 const firstActivity = activities[0]
@@ -288,14 +268,13 @@ const height = labelHeight + (blockSize + blockMargin) * 7 - blockMargin
                 if (!activity) return null
                 return (
                   <rect
-                    class="activity-block"
+                    class={`activity-block gh-level-${activity.level}`}
                     x={0}
                     y={labelHeight + (blockSize + blockMargin) * dayIndex}
                     width={blockSize}
                     height={blockSize}
                     rx={blockRadius}
                     ry={blockRadius}
-                    fill={colorScale[activity.level]}
                     data-date={activity.date}
                     data-level={activity.level}
                   />
@@ -324,10 +303,9 @@ const height = labelHeight + (blockSize + blockMargin) * 7 - blockMargin
               {range(maxLevel + 1).map((level) => (
                 <svg width={blockSize} height={blockSize}>
                   <rect
-                    class="legend-block"
+                    class={`legend-block gh-level-${level}`}
                     width={blockSize}
                     height={blockSize}
-                    fill={colorScale[level]}
                     rx={blockRadius}
                     ry={blockRadius}
                   />
@@ -354,6 +332,13 @@ const height = labelHeight + (blockSize + blockMargin) * 7 - blockMargin
 </section>
 
 <style>
+  /* Contribution scale — empty day through busiest, following the site accent. */
+  .gh-level-0 { fill: var(--background-tertiary); }
+  .gh-level-1 { fill: color-mix(in oklab, var(--accent) 28%, var(--background-tertiary)); }
+  .gh-level-2 { fill: color-mix(in oklab, var(--accent) 52%, var(--background-tertiary)); }
+  .gh-level-3 { fill: color-mix(in oklab, var(--accent) 76%, var(--background-tertiary)); }
+  .gh-level-4 { fill: var(--accent); }
+
   .github-activity-section {
     margin: 1rem 0;
     text-align: center;
@@ -378,11 +363,10 @@ const height = labelHeight + (blockSize + blockMargin) * 7 - blockMargin
     flex-direction: column;
     gap: 1rem;
     font-size: 0.875rem;
-    background: white;
+    background: var(--background);
     padding: 2rem;
-    border-radius: 12px;
-    border: 1px solid rgb(var(--gray));
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border);
   }
 
   .calendar-container {
@@ -397,14 +381,14 @@ const height = labelHeight + (blockSize + blockMargin) * 7 - blockMargin
   }
 
   .activity-block {
-    stroke: rgb(var(--gray));
+    stroke: color-mix(in oklab, var(--text-primary) 8%, transparent);
     stroke-width: 1;
     transition: all 0.2s ease;
     cursor: pointer;
   }
 
   .activity-block:hover {
-    stroke: rgb(var(--accent));
+    stroke: var(--accent);
     stroke-width: 2;
     transform: scale(1.1);
   }
@@ -435,7 +419,7 @@ const height = labelHeight + (blockSize + blockMargin) * 7 - blockMargin
   }
 
   .legend-block {
-    stroke: rgb(var(--gray));
+    stroke: color-mix(in oklab, var(--text-primary) 8%, transparent);
     stroke-width: 1;
   }
 
