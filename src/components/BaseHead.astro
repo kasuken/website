@@ -12,6 +12,17 @@ interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
+// Microsoft Clarity (heatmaps + session replay). The project id is not a
+// secret — it ships to every visitor inside this tag — so it lives in source
+// rather than an env var. Injected only in production builds so local dev
+// sessions never land in the recordings.
+const CLARITY_PROJECT_ID = '9lil44f70u';
+const clarityTag = `(function(c,l,a,r,i,t,y){
+	c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+	t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+	y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "${CLARITY_PROJECT_ID}");`;
+
 const { title, description, image } = Astro.props;
 
 // Default og:image - you can replace 'default-og-image.jpg' with your preferred image name
@@ -50,6 +61,9 @@ const personJsonLd = {
 	href={new URL('rss.xml', Astro.site)}
 />
 <meta name="generator" content={Astro.generator} />
+
+{/* Microsoft Clarity — heatmaps and session replay. Production only. */}
+{import.meta.env.PROD && <script is:inline set:html={clarityTag} />}
 
 <!-- Prevent flash of unstyled content (FOUC) -->
 <script is:inline>
