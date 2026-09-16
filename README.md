@@ -343,9 +343,7 @@ Also deployable to Netlify, Vercel, Cloudflare Pages or any Node host — swap t
 
 ## 📄 License
 
-This project is licensed under the MIT License.
-
-> **Note:** there is currently no `LICENSE` file in the repository. Adding one makes the license enforceable and machine-readable — GitHub can generate it from **Add file → Create new file → `LICENSE`**.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
