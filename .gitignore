@@ -27,5 +27,3 @@ pnpm-debug.log*
 # local design screenshots + capture scripts
 .shots/
 
-# machine-specific skill symlinks (regenerate with: npx skills install)
-.claude/
