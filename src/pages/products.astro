@@ -8,7 +8,7 @@ import { SITE_TITLE } from '../consts';
 
 const title = `Products · ${SITE_TITLE}`;
 const description =
-	'Brainy, MoneyBrain, LearnStack and Needly — four SaaS products built on .NET and Blazor, shipped in the open.';
+	'Brainy, MoneyBrain, LearnStack, Needly and Passwordify — five SaaS products shipped in the open, most built on .NET and Blazor.';
 
 const liveCount = products.filter((p) => p.status === 'Live').length;
 
@@ -39,14 +39,14 @@ const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 			<!-- Hero -->
 			<section class="pt-16 pb-14 md:pt-24 md:pb-20 max-w-4xl">
 				<h1 class="font-display text-5xl md:text-6xl lg:text-7xl tracking-tight text-[var(--text-primary)] mb-6">
-					Four products, one
+					Five products, one
 					<em class="italic text-[var(--accent-text)]">obsession</em>: turning input into output.
 				</h1>
 				<p class="text-xl md:text-2xl text-[var(--text-secondary)] leading-relaxed max-w-[62ch] mb-10">
-					I kept hitting the same wall — notes, money, reading lists and GitHub
-					notifications all pile up faster than they turn into anything useful.
-					So I built the tools I wanted. All four run on .NET&nbsp;10 and Blazor,
-					and every line is public.
+					I kept hitting the same wall — notes, money, reading lists, GitHub
+					notifications and passwords all pile up faster than they turn into
+					anything useful. So I built the tools I wanted. Most run on .NET&nbsp;10
+					and Blazor, and every line is public.
 				</p>
 
 				<!-- Jump rail -->
@@ -180,6 +180,33 @@ const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 								</ul>
 							</div>
 						</div>
+
+						{product.screenshots && product.screenshots.length > 0 && (
+							<div class="mt-12 md:mt-16">
+								<h3 class="font-display text-sm font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-5!">
+									Screenshots
+								</h3>
+								<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+									{product.screenshots.map((shot) => (
+										<button
+											type="button"
+											class="product-shot group block w-full text-left aspect-[16/10] overflow-hidden rounded-[var(--radius-card)] border border-[var(--p-edge)] bg-[var(--background-secondary)] hover:border-[var(--p)] transition-colors cursor-zoom-in"
+											data-src={shot.src}
+											data-alt={shot.alt}
+										>
+											<img
+												src={shot.src}
+												alt={shot.alt}
+												width={shot.w}
+												height={shot.h}
+												loading="lazy"
+												class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+											/>
+										</button>
+									))}
+								</div>
+							</div>
+						)}
 					</section>
 				))}
 			</div>
@@ -190,14 +217,17 @@ const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 					Which one is for you?
 				</h2>
 				<p class="text-lg text-[var(--text-secondary)] max-w-[64ch] mb-10">
-					{liveCount} of the 4 are live today; the rest are in active
-					development. They share a stack but solve different problems.
+					{liveCount === products.length
+						? `All ${products.length} are live today.`
+						: `${liveCount} of the ${products.length} are live today; the rest are on the way.`}
+					{' '}Most share a .NET and Blazor stack, and each solves a
+					different problem.
 				</p>
 
 				<div class="overflow-x-auto -mx-6 px-6">
 					<table class="w-full min-w-[40rem] text-left border-collapse">
 						<caption class="sr-only">
-							The four products compared by what they are best for and their current status
+							The products compared by what they are best for and their current status
 						</caption>
 						<thead>
 							<tr>
@@ -261,6 +291,68 @@ const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 				</div>
 			</section>
 		</main>
+
+		<!-- Screenshot lightbox -->
+		<div id="shot-lightbox" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/85 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-label="Screenshot preview">
+			<button id="shot-close" type="button" aria-label="Close preview" class="absolute top-5 right-5 w-11 h-11 flex items-center justify-center rounded-[var(--radius-pill)] bg-white/10 text-white hover:bg-white/20 transition-colors">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+			</button>
+			<figure class="max-w-6xl max-h-full flex flex-col items-center gap-4 m-0">
+				<img id="shot-img" src="" alt="" class="max-w-full max-h-[80vh] rounded-[var(--radius-card)] shadow-2xl object-contain" />
+				<figcaption id="shot-caption" class="text-sm text-white/70 text-center max-w-2xl mb-0"></figcaption>
+			</figure>
+		</div>
+
+		<script is:inline>
+			document.addEventListener("DOMContentLoaded", function () {
+				const box = document.getElementById("shot-lightbox");
+				const img = document.getElementById("shot-img");
+				const cap = document.getElementById("shot-caption");
+				const closeBtn = document.getElementById("shot-close");
+				if (!box || !img || !cap) return;
+				const open = (src, alt) => {
+					img.setAttribute("src", src);
+					img.setAttribute("alt", alt);
+					cap.textContent = alt;
+					box.classList.remove("hidden");
+					box.classList.add("flex");
+					document.body.style.overflow = "hidden";
+				};
+				const close = () => {
+					box.classList.add("hidden");
+					box.classList.remove("flex");
+					img.setAttribute("src", "");
+					document.body.style.overflow = "";
+				};
+				document.querySelectorAll(".product-shot").forEach((el) => {
+					el.addEventListener("click", () => open(el.getAttribute("data-src"), el.getAttribute("data-alt") || ""));
+				});
+				closeBtn && closeBtn.addEventListener("click", close);
+				box.addEventListener("click", (e) => { if (e.target === box) close(); });
+				document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !box.classList.contains("hidden")) close(); });
+			});
+		</script>
+
+		<script is:inline>
+			// Reliable jump to a #product anchor when arriving from another page. The
+			// browser's on-load fragment scroll can land short (sticky-header offset plus
+			// late-settling layout), so re-run it once after the page has settled.
+			(function () {
+				const jump = (behavior) => {
+					if (!location.hash) return;
+					var target;
+					try { target = document.querySelector(location.hash); } catch (e) { return; }
+					if (target) target.scrollIntoView({ block: "start", behavior: behavior || "instant" });
+				};
+				if (location.hash) {
+					window.addEventListener("load", function () {
+						jump("instant");
+						setTimeout(function () { jump("instant"); }, 120);
+					});
+				}
+				window.addEventListener("hashchange", function () { jump("smooth"); });
+			})();
+		</script>
 		<Footer />
 	</body>
 </html>

@@ -2,7 +2,7 @@
 // Theme Toggle Component — two state: Light ↔ Dark
 ---
 
-<button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+<button id="theme-toggle" class="theme-toggle" aria-label="Switch theme" title="Switch theme: light, dark, synthwave">
 	<svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 		<circle cx="12" cy="12" r="5"></circle>
 		<line x1="12" y1="1" x2="12" y2="3"></line>
@@ -16,6 +16,12 @@
 	</svg>
 	<svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 		<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+	</svg>
+	<svg class="synth-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+		<circle cx="12" cy="11" r="6"></circle>
+		<line x1="7" y1="12.5" x2="17" y2="12.5"></line>
+		<line x1="8.5" y1="15" x2="15.5" y2="15"></line>
+		<line x1="10" y1="17.5" x2="14" y2="17.5"></line>
 	</svg>
 </button>
 
@@ -42,7 +48,8 @@
 	}
 
 	.theme-toggle .sun-icon,
-	.theme-toggle .moon-icon {
+	.theme-toggle .moon-icon,
+	.theme-toggle .synth-icon {
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -60,7 +67,8 @@
 		transform: translate(-50%, -50%) scale(1);
 	}
 
-	:global([data-theme="dark"]) .theme-toggle .sun-icon {
+	:global([data-theme="dark"]) .theme-toggle .sun-icon,
+	:global([data-theme="synthwave"]) .theme-toggle .sun-icon {
 		opacity: 0;
 		visibility: hidden;
 		transform: translate(-50%, -50%) scale(0.5);
@@ -70,6 +78,18 @@
 		opacity: 1;
 		visibility: visible;
 		transform: translate(-50%, -50%) scale(1);
+	}
+
+	:global([data-theme="synthwave"]) .theme-toggle .synth-icon {
+		opacity: 1;
+		visibility: visible;
+		transform: translate(-50%, -50%) scale(1);
+	}
+
+	:global([data-theme="synthwave"]) .theme-toggle {
+		border-color: color-mix(in oklab, var(--accent) 45%, var(--border));
+		color: var(--accent-text);
+		box-shadow: 0 0 12px -2px color-mix(in oklab, var(--accent) 55%, transparent);
 	}
 
 	.theme-toggle:focus-visible {
@@ -84,7 +104,8 @@
 		}
 
 		.sun-icon,
-		.moon-icon {
+		.moon-icon,
+		.synth-icon {
 			width: 18px;
 			height: 18px;
 		}
@@ -93,7 +114,14 @@
 
 <script is:inline>
 	(function() {
-		const THEMES = ['light', 'dark'];
+		// This component can render more than once per page (e.g. desktop header +
+		// mobile menu), which duplicates this inline script. Guard so setup runs a
+		// single time; otherwise every toggle button is bound twice and a click
+		// toggles the theme twice, landing back where it started.
+		if (window.__themeToggleReady) return;
+		window.__themeToggleReady = true;
+
+		const THEMES = ['light', 'dark', 'synthwave'];
 
 		function getStoredTheme() {
 			try {
@@ -117,14 +145,15 @@
 			}
 
 			document.documentElement.setAttribute('data-theme', theme);
-			document.body.className = document.body.className.replace(/\b(light|dark|retrowave)-theme\b/g, '');
+			document.body.className = document.body.className.replace(/\b(light|dark|synthwave|retrowave)-theme\b/g, '');
 			document.body.classList.add(theme + '-theme');
 			storeTheme(theme);
 		}
 
 		function toggleTheme() {
 			const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-			setTheme(currentTheme === 'light' ? 'dark' : 'light');
+			const index = THEMES.indexOf(currentTheme);
+			setTheme(THEMES[(index + 1) % THEMES.length]);
 		}
 
 		function getCurrentTheme() {

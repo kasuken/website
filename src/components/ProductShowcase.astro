@@ -1,6 +1,6 @@
 ---
 /**
- * Homepage SaaS section — an editorial ledger of the four products.
+ * Homepage SaaS section — an editorial ledger of the five products.
  *
  * Rows, not a card grid: the page already spends its card budget on blog
  * posts, and a ledger lets each product carry its own hue and mark while
@@ -26,11 +26,11 @@ const arrow = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 				href="/products"
 				class="ml-auto text-sm font-semibold text-[var(--accent-text)] no-underline! hover:underline! whitespace-nowrap"
 			>
-				All four in detail →
+				All five in detail →
 			</a>
 		</div>
 		<p class="text-lg text-[var(--text-secondary)] max-w-[68ch] mb-0!">
-			Four SaaS products, all built on .NET and Blazor, all solving a problem I
+			Five SaaS products, most built on .NET and Blazor, all solving a problem I
 			had myself. Each one ships in the open — the source is on GitHub.
 		</p>
 	</div>
@@ -60,8 +60,10 @@ const arrow = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 
 					<div class="min-w-0">
 						<div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-							<h3 class="font-display text-2xl md:text-3xl mb-0! text-[var(--text-primary)] group-hover:text-[var(--p-ink)] transition-colors">
-								{product.name}
+							<h3 class="font-display text-2xl md:text-3xl mb-0! group-hover:text-[var(--p-ink)] transition-colors">
+								<a href={`/products#${product.slug}`} class="no-underline! text-[var(--text-primary)]! group-hover:text-[var(--p-ink)]! transition-colors">
+									{product.name}
+								</a>
 							</h3>
 							<span class="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--text-secondary)]">
 								<span
@@ -90,6 +92,14 @@ const arrow = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 					</div>
 
 					<div class="col-start-2 md:col-start-3 flex flex-wrap items-center gap-3 md:self-center">
+						<a
+							href={`/products#${product.slug}`}
+							class="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius-pill)] text-sm font-semibold no-underline! text-[var(--text-primary)]! border border-[var(--border)] hover:border-[var(--p)] hover:text-[var(--p-ink)]! transition-colors"
+						>
+							Details
+							<span set:html={arrow} />
+							<span class="sr-only">about {product.name}</span>
+						</a>
 						{product.site && (
 							<a
 								href={product.site}

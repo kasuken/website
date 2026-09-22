@@ -164,6 +164,40 @@
 	--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
 }
 
+/* Synthwave Theme - Deep violet, neon pink + cyan */
+[data-theme="synthwave"] {
+	--accent: #ff3ea5;
+	--accent-dark: #d81f86;
+	--accent-light: #ff8fd0;
+	--accent-secondary: #2de2e6;
+	--on-accent: #1a0b2e;
+	--accent-text: #ff6ec7;
+
+	--primary: #ffffff;
+	--secondary: #cbb8f2;
+	--text-primary: #f4ecff;
+	--text-secondary: #bda8e6;
+	--text-light: #8f7bc0;
+
+	--background: #17102e;
+	--background-secondary: #1f1640;
+	--background-tertiary: #2a1d55;
+	--border: #3a2a6b;
+	--border-light: #251a49;
+
+	--black: 244, 236, 255;
+	--gray: 189, 168, 230;
+	--gray-light: 42, 29, 85;
+	--gray-dark: 220, 208, 245;
+
+	--gray-gradient: linear-gradient(180deg, var(--background-secondary) 0%, var(--background) 100%);
+
+	--shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.6);
+	--shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 62, 165, 0.05);
+	--shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.6), 0 0 18px -6px rgba(255, 62, 165, 0.35);
+	--shadow-lg: 0 10px 24px -4px rgba(0, 0, 0, 0.65), 0 0 28px -6px rgba(45, 226, 230, 0.3);
+}
+
 /* System preference fallback */
 @media (prefers-color-scheme: dark) {
 	:root:not([data-theme="light"]):not([data-theme="dark"]) {
@@ -565,12 +599,21 @@
 [data-product="moneybrain"] { --p: #10b981; --p-ink: #047857; }
 [data-product="learnstack"] { --p: #f59e0b; --p-ink: #b45309; }
 [data-product="needly"]     { --p: #3b82f6; --p-ink: #1d4ed8; }
+[data-product="passwordify"] { --p: #f43f5e; --p-ink: #be123c; }
 
 [data-theme="dark"] [data-product]              { --p-solid: var(--p); --p-on: #0b0f19; }
 [data-theme="dark"] [data-product="brainy"]     { --p: #a78bfa; --p-ink: #c4b5fd; }
 [data-theme="dark"] [data-product="moneybrain"] { --p: #34d399; --p-ink: #6ee7b7; }
 [data-theme="dark"] [data-product="learnstack"] { --p: #fbbf24; --p-ink: #fcd34d; }
 [data-theme="dark"] [data-product="needly"]     { --p: #60a5fa; --p-ink: #93c5fd; }
+[data-theme="dark"] [data-product="passwordify"] { --p: #fb7185; --p-ink: #fda4af; }
+
+[data-theme="synthwave"] [data-product]              { --p-solid: var(--p); --p-on: #17102e; }
+[data-theme="synthwave"] [data-product="brainy"]     { --p: #b98cff; --p-ink: #d9c6ff; }
+[data-theme="synthwave"] [data-product="moneybrain"] { --p: #34f0c4; --p-ink: #86f7de; }
+[data-theme="synthwave"] [data-product="learnstack"] { --p: #ffc23d; --p-ink: #ffe08a; }
+[data-theme="synthwave"] [data-product="needly"]     { --p: #4dc4ff; --p-ink: #a9e2ff; }
+[data-theme="synthwave"] [data-product="passwordify"] { --p: #ff5cb0; --p-ink: #ff9dd4; }
 
 @media (prefers-color-scheme: dark) {
 	:root:not([data-theme="light"]):not([data-theme="dark"]) [data-product]              { --p-solid: var(--p); --p-on: #0b0f19; }
@@ -578,6 +621,7 @@
 	:root:not([data-theme="light"]):not([data-theme="dark"]) [data-product="moneybrain"] { --p: #34d399; --p-ink: #6ee7b7; }
 	:root:not([data-theme="light"]):not([data-theme="dark"]) [data-product="learnstack"] { --p: #fbbf24; --p-ink: #fcd34d; }
 	:root:not([data-theme="light"]):not([data-theme="dark"]) [data-product="needly"]     { --p: #60a5fa; --p-ink: #93c5fd; }
+	:root:not([data-theme="light"]):not([data-theme="dark"]) [data-product="passwordify"] { --p: #fb7185; --p-ink: #fda4af; }
 }
 
 /* ---------------------------------------------------------------------------
