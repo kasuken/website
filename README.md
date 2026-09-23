@@ -6,7 +6,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Deployment](https://img.shields.io/badge/Deployed%20on-AWS%20Amplify-FF9900?style=flat-square&logo=aws-amplify&logoColor=white)](https://aws.amazon.com/amplify/)
 
-A fast, modern, SEO-optimized personal site — home to four SaaS products, a public revenue journey, writing, speaking, and mentoring. Built with Astro, a token-driven design system, and a measured accessibility floor.
+A fast, modern, SEO-optimized personal site — home to five SaaS products, a public revenue journey, writing, speaking, and mentoring. Built with Astro, a token-driven design system, and a measured accessibility floor.
 
 ## 📸 Screenshots
 
@@ -16,7 +16,7 @@ A fast, modern, SEO-optimized personal site — home to four SaaS products, a pu
 | --- | --- |
 | ![Homepage in light theme](docs/screenshots/home-light.png) | ![Homepage in dark theme](docs/screenshots/home-dark.png) |
 
-### Products — Brainy, MoneyBrain, LearnStack & Needly
+### Products — Brainy, MoneyBrain, LearnStack, Needly & Passwordify
 
 ![The products page, showing the Brainy product section](docs/screenshots/products.png)
 
@@ -27,15 +27,17 @@ A fast, modern, SEO-optimized personal site — home to four SaaS products, a pu
 ## ✨ Key Features
 
 ### 🧩 **SaaS Product Showcase**
-- **Four products** — Brainy, MoneyBrain, LearnStack and Needly, each with its own brand hue
+- **Five products** — Brainy, MoneyBrain, LearnStack, Needly and Passwordify, each with its own brand hue
 - **Per-product theming** — set `data-product="<slug>"` on any ancestor and descendants inherit that product's colour tokens
 - **Authored product marks** — geometric SVG built on one 48×48 grid, no stock icons
+- **Product galleries** — real interface screenshots for Brainy, LearnStack and Passwordify, with a click-to-expand viewer
+- **Direct product navigation** — homepage detail links and a product-page jump rail land on stable product anchors
 - **Structured data** — `SoftwareApplication` JSON-LD per product
 
 ### 🎨 **Design System**
 - **Token-driven theming** — every colour, type step and radius is a CSS custom property
-- **Light & dark themes** — system preference detection with a manual override, no flash on load
-- **Measured contrast** — key pages pass WCAG AA in both themes, verified with an automated audit
+- **Light, dark & synthwave themes** — system preference detection, a persistent manual override and no flash on load
+- **Measured contrast** — key pages pass WCAG AA in the light and dark themes, verified with an automated audit
 - **Drawn icon system** — [Lucide](https://lucide.dev) glyphs inlined at build time on one 24×24 grid; no emoji as icons
 - **One authored entrance** — scroll reveal that is opt-in before first paint and skipped under `prefers-reduced-motion`
 - See **[DESIGN.md](DESIGN.md)** for the tokens, the rules behind them, and the standing bans
@@ -91,7 +93,8 @@ A fast, modern, SEO-optimized personal site — home to four SaaS products, a pu
 ├── 🤖 .agents/skills/impeccable/  # Vendored design skill (see "Design workflow")
 │
 ├── 🎨 public/
-│   └── 🖼️  img/                    # Images and graphics
+│   ├── 🖼️  img/                    # Images and graphics
+│   └── 🧩 products/                # Product screenshot galleries
 │
 ├── 📸 docs/screenshots/           # README screenshots
 │
@@ -103,14 +106,14 @@ A fast, modern, SEO-optimized personal site — home to four SaaS products, a pu
 │   │   ├── Icon.astro             # Lucide-backed icon system
 │   │   ├── ProductMark.astro      # Geometric mark per SaaS product
 │   │   ├── ProductShowcase.astro  # Homepage product ledger
-│   │   ├── ThemeToggle.astro      # Light/dark toggle
+│   │   ├── ThemeToggle.astro      # Light/dark/synthwave toggle
 │   │   ├── GitHubStats.astro      # Live GitHub statistics
 │   │   ├── GitHubActivityCalendar.astro
 │   │   ├── RescueTimeProductivity.astro
 │   │   └── TheMillionJourney.astro
 │   │
 │   ├── 📊 data/                   # Content data and configuration
-│   │   ├── products.ts            # The four SaaS products
+│   │   ├── products.ts            # The five SaaS products and galleries
 │   │   ├── books.ts               # Books and publications
 │   │   ├── courses.ts             # Training courses
 │   │   ├── projects.ts            # Portfolio projects
@@ -197,10 +200,10 @@ A fast, modern, SEO-optimized personal site — home to four SaaS products, a pu
 ## 🌟 Key Pages
 
 ### 🏠 **Homepage** (`/`)
-Hero naming the four SaaS products, a product ledger, editorial links to the rest of the site, and the latest blog posts.
+Hero naming the five SaaS products, a product ledger with direct detail links, editorial links to the rest of the site, and the latest blog posts.
 
 ### 🧩 **Products** (`/products`)
-The four SaaS products in detail — what each does, the problem it solves, its capabilities and stack — plus a comparison table for choosing between them.
+The five SaaS products in detail — what each does, the problem it solves, its capabilities and stack — plus jump navigation, real interface galleries and a comparison table for choosing between them.
 
 ### 📝 **Blog** (`/blog`)
 Articles synchronized from Dev.to, with reading time, reactions and an RSS feed.
@@ -280,16 +283,24 @@ import rocket from 'lucide-static/icons/rocket.svg?raw';
   tagline: 'The action inbox for GitHub.',
   summary: '...',
   problem: '...',
-  status: 'In development',   // or 'Live'
+  status: 'In development',   // or 'Live' / 'Coming soon'
   site: 'https://needly.today',
   repo: 'https://github.com/kasuken/Needly',
   features: ['...'],
   stack: ['.NET 10', 'Blazor Web App'],
   bestFor: '...',
+  screenshots: [              // optional
+    {
+      src: '/products/needly/inbox.png',
+      alt: 'Needly inbox showing GitHub actions grouped by priority',
+      w: 1440,
+      h: 900,
+    },
+  ],
 }
 ```
 
-Then add the matching hue in `global.css` (`[data-product="needly"]`) and a mark in `ProductMark.astro`.
+Then add the matching hue in `global.css` (`[data-product="needly"]`), a mark in `ProductMark.astro`, and any gallery images under `public/products/<slug>/`.
 
 ### **Adding a book or project**
 
