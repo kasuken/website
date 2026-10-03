@@ -1,0 +1,78 @@
+---
+// Google Analytics 4 and Microsoft Clarity, loaded only after the visitor
+// accepts the consent banner (see ConsentBanner.astro). Neither id is a
+// secret — both ship to every visitor — so they live in source. Production
+// builds only, so local dev sessions never land in the reports.
+const GA_MEASUREMENT_ID = '';
+const CLARITY_PROJECT_ID = '9lil44f70u';
+---
+
+{import.meta.env.PROD && (
+	<script is:inline define:vars={{ gaId: GA_MEASUREMENT_ID, clarityId: CLARITY_PROJECT_ID }}>
+		var CONSENT_KEY = 'analytics-consent';
+		var loaded = false;
+
+		window.dataLayer = window.dataLayer || [];
+		window.gtag = function () { window.dataLayer.push(arguments); };
+		window.gtag('consent', 'default', {
+			ad_storage: 'denied',
+			ad_user_data: 'denied',
+			ad_personalization: 'denied',
+			analytics_storage: 'denied',
+		});
+
+		var addScript = function (src) {
+			var s = document.createElement('script');
+			s.async = true;
+			s.src = src;
+			document.head.appendChild(s);
+		};
+
+		var load = function () {
+			if (loaded) return;
+			loaded = true;
+			window.gtag('consent', 'update', { analytics_storage: 'granted' });
+
+			if (gaId) {
+				addScript('https://www.googletagmanager.com/gtag/js?id=' + gaId);
+				window.gtag('js', new Date());
+				window.gtag('config', gaId);
+			}
+
+			if (clarityId) {
+				window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+				window.clarity('consentv2', { ad_Storage: 'denied', analytics_Storage: 'granted' });
+				addScript('https://www.clarity.ms/tag/' + clarityId);
+			}
+		};
+
+		window.analyticsConsent = {
+			get: function () {
+				try { return localStorage.getItem(CONSENT_KEY); } catch (e) { return null; }
+			},
+			set: function (value) {
+				try { localStorage.setItem(CONSENT_KEY, value); } catch (e) {}
+				if (value === 'granted') {
+					load();
+				} else if (loaded) {
+					window.gtag('consent', 'update', { analytics_storage: 'denied' });
+					// Clarity's consent API with false also erases its cookies.
+					if (window.clarity) window.clarity('consent', false);
+				}
+			},
+		};
+
+		if (window.analyticsConsent.get() === 'granted') load();
+
+		// Newsletter sign-ups happen on Buttondown, so the click is the
+		// conversion we can see. Mark it as a key event in GA4.
+		document.addEventListener('click', function (event) {
+			var link = event.target instanceof Element && event.target.closest('a[href*="buttondown.email"]');
+			if (!link || !loaded) return;
+			window.gtag('event', 'newsletter_click', {
+				link_url: link.href,
+				page_path: location.pathname,
+			});
+		});
+	</script>
+)}
