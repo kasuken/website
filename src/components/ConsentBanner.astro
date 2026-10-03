@@ -1,0 +1,50 @@
+---
+// Asks once whether analytics may load. The choice lives in localStorage
+// (see Analytics.astro); the footer's "Cookie settings" link reopens it.
+// Production only, matching Analytics.astro, which defines window.analyticsConsent.
+---
+
+{import.meta.env.PROD && (
+	<>
+		<div
+			id="consent-banner"
+			role="dialog"
+			aria-live="polite"
+			aria-label="Analytics consent"
+			hidden
+			class="fixed inset-x-4 bottom-4 z-50 mx-auto max-w-xl rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--background)] p-5 shadow-lg sm:inset-x-6"
+		>
+			<p class="mb-4 text-sm text-[var(--text-secondary)]">
+				I use Google Analytics and Microsoft Clarity to learn which pages are useful.
+				They set cookies, so nothing loads unless you accept.
+			</p>
+			<div class="flex flex-wrap gap-3">
+				<button type="button" class="btn-primary" data-consent="granted">Accept</button>
+				<button type="button" class="btn-secondary" data-consent="denied">Decline</button>
+			</div>
+		</div>
+
+		<script is:inline>
+			(function () {
+				var banner = document.getElementById('consent-banner');
+				var consent = window.analyticsConsent;
+				if (!banner || !consent) return;
+
+				if (!consent.get()) banner.hidden = false;
+
+				banner.addEventListener('click', function (event) {
+					var button = event.target instanceof Element && event.target.closest('[data-consent]');
+					if (!button) return;
+					consent.set(button.getAttribute('data-consent'));
+					banner.hidden = true;
+				});
+
+				document.addEventListener('click', function (event) {
+					if (event.target instanceof Element && event.target.closest('[data-consent-open]')) {
+						banner.hidden = false;
+					}
+				});
+			})();
+		</script>
+	</>
+)}
