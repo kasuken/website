@@ -17,6 +17,7 @@ if (!post && slug) {
 }
 
 const notFound = !post;
+if (notFound) Astro.response.status = 404;
 
 // Configure marked options
 marked.setOptions({
@@ -40,7 +41,12 @@ try {
 <html lang="en">
 	<head>
 		{!notFound && post ? (
-			<BaseHead title={post.data.title} description={post.data.description} />
+			<BaseHead
+				title={post.data.title}
+				description={post.data.description}
+				image={post.data.socialImage || post.data.heroImage || undefined}
+				canonical={post.data.canonicalUrl}
+			/>
 		) : (
 			<BaseHead title="Post not found" description="The requested blog post could not be found." />
 		)}
