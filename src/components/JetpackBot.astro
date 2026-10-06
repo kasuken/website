@@ -1,0 +1,369 @@
+---
+// A tiny 16-bit robot with a jetpack that hops between elements on the page.
+// The sprite is authored as a character grid and rendered to crisp SVG rects
+// at build time, so there are no image assets to load.
+
+const PX = 3; // screen pixels per sprite pixel
+
+const palette: Record<string, string> = {
+	K: '#14161c', // outline
+	W: '#e8eef4', // light plating
+	G: '#a3b0bd', // mid plating
+	D: '#5d6874', // dark plating
+	A: 'var(--accent)', // visor + chest light, follows the theme
+	R: '#e5484d', // jetpack tank
+	r: '#a8262b', // jetpack shade
+};
+
+// Facing right; the jetpack sits on the back (left).
+const body = [
+	'.........K......',
+	'........KAK.....',
+	'.........K......',
+	'......KKKKKKK...',
+	'.....KWWWWWWWK..',
+	'.....KWKKKKKKK..',
+	'.....KWKAKKAKK..',
+	'.....KWKKKKKKK..',
+	'.....KGWWWWWWK..',
+	'..KK..KKKKKKK...',
+	'.KRRK.KWWWWWK...',
+	'.KRrKKWWAAWWKK..',
+	'.KRrKKWWWWWGKWK.',
+	'.KDDK.KGGGGGKK..',
+	'..KK..KDK.KDK...',
+	'......KKK.KKK...',
+];
+
+const blink = [
+	'.....KWKKKKKKK..',
+	'.....KWKKKKKKK..',
+];
+
+const flameA = ['.YY.', '.OY.', '.OO.', '..O.', '..R.'];
+const flameB = ['.YY.', 'YOOY', '.OO.', '.R..', '....'];
+const flameColors: Record<string, string> = { Y: '#fff3a3', O: '#ff9a1f', R: '#e5484d' };
+
+const toRects = (rows: string[], colors: Record<string, string>, ox = 0, oy = 0) =>
+	rows.flatMap((row, y) =>
+		[...row].flatMap((ch, x) =>
+			colors[ch] ? [{ x: x + ox, y: y + oy, fill: colors[ch] }] : [],
+		),
+	);
+
+const W = 16;
+const H = 21;
+const bodyRects = toRects(body, palette);
+const blinkRects = toRects(blink, palette, 0, 5);
+const flameARects = toRects(flameA, flameColors, 1, 15);
+const flameBRects = toRects(flameB, flameColors, 1, 15);
+---
+
+<div class="jetbot" id="jetbot" data-state="idle" aria-hidden="true">
+	<div class="jetbot__bubble" role="presentation"></div>
+	<svg
+		class="jetbot__sprite"
+		width={W * PX}
+		height={H * PX}
+		viewBox={`0 0 ${W} ${H}`}
+		shape-rendering="crispEdges"
+	>
+		<g class="jetbot__flame jetbot__flame--a">
+			{flameARects.map((r) => <rect x={r.x} y={r.y} width="1" height="1" fill={r.fill} />)}
+		</g>
+		<g class="jetbot__flame jetbot__flame--b">
+			{flameBRects.map((r) => <rect x={r.x} y={r.y} width="1" height="1" fill={r.fill} />)}
+		</g>
+		<g>
+			{bodyRects.map((r) => <rect x={r.x} y={r.y} width="1" height="1" fill={r.fill} />)}
+		</g>
+		<g class="jetbot__blink">
+			{blinkRects.map((r) => <rect x={r.x} y={r.y} width="1" height="1" fill={r.fill} />)}
+		</g>
+	</svg>
+	<div class="jetbot__shadow"></div>
+</div>
+
+<style>
+	.jetbot {
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 40; /* below the sticky header (z-50) so it ducks under it */
+		width: 48px;
+		height: 63px;
+		cursor: pointer;
+		user-select: none;
+		-webkit-tap-highlight-color: transparent;
+		transform: translate3d(-200px, -200px, 0);
+		will-change: transform;
+		opacity: 0;
+		transition: opacity 0.4s ease;
+	}
+	.jetbot[data-ready] { opacity: 1; }
+	.jetbot[data-parked] { opacity: 0; pointer-events: none; }
+
+	.jetbot__sprite {
+		display: block;
+		image-rendering: pixelated;
+		transform-origin: 50% 70%;
+		transform: scaleX(var(--face, 1)) rotate(var(--tilt, 0deg));
+		filter: drop-shadow(0 2px 0 rgb(0 0 0 / 0.18));
+	}
+
+	/* Jetpack flame: two frames, stepped like an old console sprite. */
+	.jetbot__flame { display: none; }
+	.jetbot[data-state='flying'] .jetbot__flame--a { display: block; animation: jetbot-flicker 0.16s steps(1) infinite; }
+	.jetbot[data-state='flying'] .jetbot__flame--b { display: block; animation: jetbot-flicker 0.16s steps(1) infinite reverse; }
+	@keyframes jetbot-flicker {
+		0% { opacity: 1; }
+		50% { opacity: 0; }
+	}
+
+	/* Idle: a 2-frame bob and an occasional blink. */
+	.jetbot[data-state='idle'] .jetbot__sprite { animation: jetbot-bob 0.9s steps(2) infinite; }
+	@keyframes jetbot-bob {
+		0% { translate: 0 0; }
+		100% { translate: 0 -3px; }
+	}
+	.jetbot__blink { opacity: 0; }
+	.jetbot[data-state='idle'] .jetbot__blink { animation: jetbot-blink 3.4s steps(1) infinite; }
+	@keyframes jetbot-blink {
+		0%, 94% { opacity: 0; }
+		95%, 100% { opacity: 1; }
+	}
+
+	.jetbot__shadow {
+		position: absolute;
+		left: 50%;
+		top: 48px; /* sprite feet; the flame hangs below */
+		width: 24px;
+		height: 3px;
+		margin-left: -12px;
+		background: rgb(0 0 0 / 0.18);
+		opacity: 0;
+		transition: opacity 0.2s;
+	}
+	.jetbot[data-state='idle'] .jetbot__shadow { opacity: 1; }
+
+	.jetbot__bubble {
+		position: absolute;
+		bottom: calc(100% + 8px);
+		left: 50%;
+		translate: -50% 4px;
+		padding: 4px 8px;
+		white-space: nowrap;
+		font-family: 'JetBrains Mono', ui-monospace, monospace;
+		font-size: 11px;
+		line-height: 1.3;
+		color: var(--text-primary);
+		background: var(--background);
+		border: 2px solid var(--text-primary);
+		box-shadow: 3px 3px 0 var(--accent);
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.15s steps(2), translate 0.15s steps(2);
+	}
+	.jetbot__bubble[data-show] { opacity: 1; translate: -50% 0; }
+
+	@media (max-width: 640px) {
+		.jetbot { scale: 0.75; transform-origin: 50% 76%; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.jetbot { display: none; }
+	}
+
+	@media print {
+		.jetbot { display: none; }
+	}
+</style>
+
+<script>
+	const bot = document.getElementById('jetbot') as HTMLDivElement | null;
+	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+	const PARK_KEY = 'jetbot-parked';
+
+	if (bot && !reduceMotion.matches) {
+		const sprite = bot.querySelector('.jetbot__sprite') as SVGElement;
+		const bubble = bot.querySelector('.jetbot__bubble') as HTMLDivElement;
+		const BOT_W = 48;
+		const BOT_H = 63;
+		const FEET = 48; // feet line inside the sprite; the flame hangs below it
+		const TARGETS =
+			'main h1, main h2, main h3, main img, main article, main [data-reveal], main a.btn, main button, footer h4';
+		const LINES = [
+			'beep boop!',
+			'ship it 🚀',
+			'git push',
+			'0 bugs found*',
+			'hello, dev!',
+			'LGTM',
+			'brb, refueling',
+			'it works on my machine',
+		];
+
+		type Perch = { el: Element; dx: number; dy: number };
+		let perch: Perch | null = null;
+		let pos = { x: window.innerWidth - BOT_W - 24, y: window.innerHeight + 40 };
+		let flight: {
+			from: { x: number; y: number };
+			target: Perch;
+			start: number;
+			duration: number;
+			lift: number;
+		} | null = null;
+		let nextHopAt = 0;
+		let bubbleTimer = 0;
+
+		const headerBottom = () => {
+			const header = document.querySelector('header');
+			return header ? Math.max(0, header.getBoundingClientRect().bottom) : 0;
+		};
+
+		const landingPoint = (p: Perch) => {
+			const r = p.el.getBoundingClientRect();
+			const x = Math.min(Math.max(r.left + p.dx, 4), window.innerWidth - BOT_W - 4);
+			return { x, y: r.top + p.dy - FEET };
+		};
+
+		// Headings carry leading above the glyphs; land on the letters, not the line box.
+		const glyphTop = (el: Element) => {
+			if (!/^H[1-6]$/.test(el.tagName)) return 0;
+			const style = getComputedStyle(el);
+			const size = parseFloat(style.fontSize);
+			const line = parseFloat(style.lineHeight) || size * 1.2;
+			return Math.max(0, (line - size) / 2 + size * 0.14);
+		};
+
+		const isUsable = (el: Element) => {
+			if (bot.contains(el)) return false;
+			const r = el.getBoundingClientRect();
+			if (r.width < 64 || r.height < 12) return false;
+			const top = headerBottom() + BOT_H + 8;
+			if (r.top < top || r.top > window.innerHeight - 24) return false;
+			if (r.right < 0 || r.left > window.innerWidth) return false;
+			const style = getComputedStyle(el);
+			return style.visibility !== 'hidden' && style.display !== 'none' && Number(style.opacity) > 0.1;
+		};
+
+		const pickPerch = (): Perch | null => {
+			const candidates = [...document.querySelectorAll(TARGETS)].filter(
+				(el) => el !== perch?.el && isUsable(el),
+			);
+			if (!candidates.length) return null;
+			// Prefer something a few hops away rather than the nearest neighbour.
+			const scored = candidates
+				.map((el) => {
+					const r = el.getBoundingClientRect();
+					const d = Math.hypot(r.left - pos.x, r.top - pos.y);
+					return { el, score: Math.random() * 400 + Math.min(d, 500) };
+				})
+				.sort((a, b) => b.score - a.score);
+			const el = scored[0].el;
+			const r = el.getBoundingClientRect();
+			const span = Math.max(0, Math.min(r.width, window.innerWidth) - BOT_W);
+			return { el, dx: Math.random() * span, dy: glyphTop(el) };
+		};
+
+		const launch = (now: number) => {
+			const target = pickPerch();
+			if (!target) {
+				nextHopAt = now + 1200;
+				return;
+			}
+			const to = landingPoint(target);
+			const dist = Math.hypot(to.x - pos.x, to.y - pos.y);
+			flight = {
+				from: { ...pos },
+				target,
+				start: now,
+				duration: Math.min(1800, 550 + dist * 1.4),
+				lift: 60 + Math.min(dist * 0.35, 160),
+			};
+			perch = null;
+			bot.dataset.state = 'flying';
+		};
+
+		const ease = (t: number) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+
+		const render = (tilt: number, face: number) => {
+			bot.style.transform = `translate3d(${Math.round(pos.x)}px, ${Math.round(pos.y)}px, 0)`;
+			sprite.style.setProperty('--tilt', `${tilt}deg`);
+			sprite.style.setProperty('--face', String(face));
+		};
+
+		let face = -1;
+		const tick = (now: number) => {
+			if (flight) {
+				const t = Math.min(1, (now - flight.start) / flight.duration);
+				const to = landingPoint(flight.target);
+				const e = ease(t);
+				// Quadratic bezier with a control point above the higher end.
+				const cx = (flight.from.x + to.x) / 2;
+				const cy = Math.min(flight.from.y, to.y) - flight.lift;
+				const prevX = pos.x;
+				pos = {
+					x: (1 - e) ** 2 * flight.from.x + 2 * (1 - e) * e * cx + e ** 2 * to.x,
+					y: (1 - e) ** 2 * flight.from.y + 2 * (1 - e) * e * cy + e ** 2 * to.y,
+				};
+				const vx = pos.x - prevX;
+				if (Math.abs(vx) > 0.3) face = vx > 0 ? 1 : -1;
+				render(Math.max(-14, Math.min(14, vx * 2)) * face, face);
+				if (t >= 1) {
+					perch = flight.target;
+					flight = null;
+					bot.dataset.state = 'idle';
+					nextHopAt = now + 2600 + Math.random() * 3200;
+				}
+			} else if (perch) {
+				if (!perch.el.isConnected || !isUsable(perch.el)) {
+					launch(now);
+				} else {
+					pos = landingPoint(perch);
+					render(0, face);
+					if (now >= nextHopAt) launch(now);
+				}
+			} else if (now >= nextHopAt) {
+				launch(now);
+			}
+			requestAnimationFrame(tick);
+		};
+
+		const say = (text: string) => {
+			bubble.textContent = text;
+			bubble.dataset.show = '';
+			window.clearTimeout(bubbleTimer);
+			bubbleTimer = window.setTimeout(() => delete bubble.dataset.show, 1800);
+		};
+
+		bot.addEventListener('click', () => {
+			say(LINES[Math.floor(Math.random() * LINES.length)]);
+			if (perch) nextHopAt = performance.now() + 1400;
+		});
+
+		// Double-click parks the bot for the rest of the session.
+		bot.addEventListener('dblclick', () => {
+			say('bye! 👋');
+			try {
+				sessionStorage.setItem(PARK_KEY, '1');
+			} catch {}
+			window.setTimeout(() => bot.setAttribute('data-parked', ''), 700);
+		});
+
+		let parked = false;
+		try {
+			parked = sessionStorage.getItem(PARK_KEY) === '1';
+		} catch {}
+
+		if (!parked) {
+			render(0, face);
+			bot.setAttribute('data-ready', '');
+			nextHopAt = performance.now() + 900;
+			bot.dataset.state = 'flying';
+			requestAnimationFrame(tick);
+		} else {
+			bot.setAttribute('data-parked', '');
+		}
+	}
+</script>
