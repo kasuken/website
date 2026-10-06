@@ -56,6 +56,16 @@ enter the viewport, staggered via `--reveal-delay`. It is opt-in before first
 paint (`data-reveal-ready` on `<html>`), so content stays visible without JS and
 is skipped entirely under `prefers-reduced-motion`.
 
+### Jetpack bot
+
+`JetpackBot.astro` (mounted from the footer, so it is on every page) is a
+16×16 pixel robot rendered as crisp SVG rects. It flies on an arced path to a
+random visible heading, image, or card, lands on it, idles, and hops again.
+Its visor uses `--accent`, so it follows every theme. It sits at `z-index: 40`
+so it ducks under the sticky header. Click it for a speech bubble;
+double-click parks it for the session. It is hidden under
+`prefers-reduced-motion` and in print.
+
 ## Browser surfaces
 
 Selection, caret, scrollbars, focus rings, underline offset, and tabular
