@@ -1,5 +1,5 @@
 /**
- * The five SaaS products.
+ * The six SaaS products.
  *
  * Every claim here traces back to the public README of the matching repo on
  * github.com/kasuken. No invented metrics, pricing, or testimonials.
@@ -165,6 +165,34 @@ export const products: Product[] = [
 			{ src: '/products/passwordify/breach-check.png', alt: 'Breach check result showing a compromised password and the k-anonymity hash prefix that was sent', w: 2560, h: 2480 },
 			{ src: '/products/passwordify/generator.png', alt: 'Secure password generator with a generated password, entropy meter and character-set options', w: 2560, h: 2480 },
 			{ src: '/products/passwordify/developers.png', alt: 'Developer API page with a live playground showing a validate request and JSON response', w: 2560, h: 1600 },
+		],
+	},
+	{
+		slug: 'relio',
+		name: 'Relio',
+		tagline: 'A private notebook for the people in your life.',
+		summary:
+			'Relio is a private relationship memory system — a calm place to remember the people in your life: what you talked about, what matters to them, and when to reach out again. Not a CRM and not a social network, available hosted or self-hosted, for your eyes rather than a public profile.',
+		problem: 'The small details about people — what you discussed, what matters to them, when to follow up — slip away between conversations.',
+		status: 'In development',
+		site: 'https://www.relio.club',
+		repo: 'https://github.com/kasuken/Relio',
+		features: [
+			'People profiles with relationship type, contact methods, tags and birthdays, imported from vCard or CSV',
+			'A timeline of private notes and dated interactions — pinned, filterable and paged',
+			'Reconnect follow-ups and birthday reminders, by email and on the dashboard',
+			'Difficult moments: record tensions, triggers, resolutions and lessons learned',
+			'A dashboard of upcoming reminders, people to reach out to and recent activity',
+			'Search people by name and filter by tag or relationship type',
+			'Hosted or self-hosted, with your data kept private',
+		],
+		stack: ['.NET 10', 'Blazor Web App', 'MudBlazor', 'EF Core', 'SQL Server'],
+		bestFor: 'Remembering what matters about the people you care about.',
+		screenshots: [
+			{ src: '/products/relio/relationship-thread.webp', alt: 'A fictional relationship timeline in Relio — a logged interaction, a note and a follow-up', w: 960, h: 680 },
+			{ src: '/products/relio/home.webp', alt: 'Relio home page — a private notebook for your relationships', w: 799, h: 544 },
+			{ src: '/products/relio/features.webp', alt: 'Relio features page covering people, interactions, reminders and difficult moments', w: 799, h: 544 },
+			{ src: '/products/relio/pricing.webp', alt: 'Relio hosting choices — use an existing instance or self-host your own', w: 799, h: 544 },
 		],
 	},
 ];
