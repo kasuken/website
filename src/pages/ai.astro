@@ -1,0 +1,198 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
+import Button from '../components/Button.astro';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead
+			title="AI Manifesto — Emanuele Bartolesi"
+			description="A transparent statement on how I use artificial intelligence in my writing, coding, and creative craft."
+		/>
+	</head>
+	<body class="bg-[var(--background)] text-[var(--text-primary)] antialiased min-h-screen flex flex-col selection:bg-[var(--accent)] selection:text-[var(--background)]">
+		<Header />
+
+		<main class="flex-grow w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+			<!-- Hero Section -->
+			<section class="max-w-3xl mb-16 md:mb-20">
+				<h1 class="font-display text-5xl md:text-7xl tracking-tight text-[var(--text-primary)] mb-6 reveal reveal-2">
+					AI <em class="italic text-[var(--accent-text)]">manifesto</em>
+				</h1>
+				<p class="text-xl md:text-2xl text-[var(--text-secondary)] mb-0 leading-relaxed reveal reveal-3">
+					A transparent statement on how I use artificial intelligence in my writing, coding, and creative craft.
+				</p>
+			</section>
+
+			<!-- Quick Summary Highlights Grid -->
+			<section class="mb-16 md:mb-20 grid grid-cols-1 md:grid-cols-2 gap-6 reveal reveal-3">
+				<div class="p-6 md:p-8 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--background-secondary)] transition-all duration-200 hover:shadow-lg">
+					<div class="flex items-center gap-3 mb-4 text-[var(--accent-text)]">
+						<Icon name="lightbulb" class="w-6 h-6" />
+						<h2 class="font-display text-xl text-[var(--text-primary)] m-0">Original ideas</h2>
+					</div>
+					<p class="text-[var(--text-secondary)] text-sm md:text-base leading-relaxed m-0">
+						Every article, talk, opinion, and architectural approach comes directly from my own experience, research, and 20+ years in IT.
+					</p>
+				</div>
+
+				<div class="p-6 md:p-8 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--background-secondary)] transition-all duration-200 hover:shadow-lg">
+					<div class="flex items-center gap-3 mb-4 text-[var(--accent-text)]">
+						<Icon name="pen" class="w-6 h-6" />
+						<h2 class="font-display text-xl text-[var(--text-primary)] m-0">Editorial polish</h2>
+					</div>
+					<p class="text-[var(--text-secondary)] text-sm md:text-base leading-relaxed m-0">
+						As a non-native English speaker, I occasionally use AI to refine grammar and readability, catching awkward phrasings while keeping my own voice intact.
+					</p>
+				</div>
+
+				<div class="p-6 md:p-8 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--background-secondary)] transition-all duration-200 hover:shadow-lg">
+					<div class="flex items-center gap-3 mb-4 text-[var(--accent-text)]">
+						<Icon name="code" class="w-6 h-6" />
+						<h2 class="font-display text-xl text-[var(--text-primary)] m-0">Human-vetted code</h2>
+					</div>
+					<p class="text-[var(--text-secondary)] text-sm md:text-base leading-relaxed m-0">
+						I write and review all code myself. Copilot assists with speed and syntax lookups, but every single line shipped to production is understood, refactored, and tested.
+					</p>
+				</div>
+
+				<div class="p-6 md:p-8 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--background-secondary)] transition-all duration-200 hover:shadow-lg">
+					<div class="flex items-center gap-3 mb-4 text-[var(--accent-text)]">
+						<Icon name="message-circle" class="w-6 h-6" />
+						<h2 class="font-display text-xl text-[var(--text-primary)] m-0">Direct communication</h2>
+					</div>
+					<p class="text-[var(--text-secondary)] text-sm md:text-base leading-relaxed m-0">
+						No synthetic automated newsletters or AI replies. When you read an email, message, or post from me, you are hearing from a real person.
+					</p>
+				</div>
+			</section>
+
+			<!-- Detailed Editorial Body -->
+			<article class="prose prose-lg dark:prose-invert prose-headings:font-display prose-p:text-[var(--text-secondary)] prose-strong:text-[var(--text-primary)] prose-a:text-[var(--accent-text)] max-w-3xl space-y-8">
+				<h2 class="text-3xl font-display text-[var(--text-primary)]">Why an /ai page?</h2>
+				<p>
+					We are living through a transformation in how software, text, and media are produced. Generative AI tools and large language models have become remarkably capable at generating text, churning out summaries, and assisting developers.
+				</p>
+				<p>
+					However, with that capability comes an influx of synthetic noise and automated spam across the web. To preserve trust, transparency is essential. I was inspired by <a href="https://www.bydamo.la/p/ai-manifesto" target="_blank" rel="noopener noreferrer">Damola Morenikeji's original /ai manifesto</a> and peers like <a href="https://cassidoo.co/ai/" target="_blank" rel="noopener noreferrer">Cassidy Williams</a> who published an <code class="text-sm font-mono bg-[var(--background-secondary)] px-1.5 py-0.5 rounded border border-[var(--border)]">/ai</code> page to openly articulate where and how artificial intelligence enters their work.
+				</p>
+				<p>
+					Here is my clear stance.
+				</p>
+
+				<hr class="border-[var(--border)] my-12" />
+
+				<h2 class="text-3xl font-display text-[var(--text-primary)]">Content and writing</h2>
+				<p>
+					<strong>All ideas, perspectives, and opinions are 100% my own.</strong>
+				</p>
+				<p>
+					Italian is my mother tongue. When sharing technical concepts, architectural post-mortems, and engineering insights in English, I sometimes use AI tools as an editorial assistant. It helps me spot grammatical slips, smooth out phrasing, and ensure the text is easily understood by engineers around the world.
+				</p>
+				<p>
+					What I do <em>not</em> do:
+				</p>
+				<ul>
+					<li>I do not use AI to generate articles from scratch or brainstorm opinions.</li>
+					<li>I do not publish synthetic posts or filler tutorials generated by prompts.</li>
+					<li>I do not outsource my critical thinking or engineering perspective.</li>
+				</ul>
+				<p>
+					Every tutorial, blog post on <a href="https://dev.to/kasuken" target="_blank" rel="noopener noreferrer">dev.to/kasuken</a>, book chapter, or newsletter issue is rooted in real-world scenarios I have encountered throughout my 20+ years of working in tech.
+				</p>
+
+				<hr class="border-[var(--border)] my-12" />
+
+				<h2 class="text-3xl font-display text-[var(--text-primary)]">Code, architecture, and engineering</h2>
+				<p>
+					I am a software engineer and a GitHub Technical Lead. Writing code is what I love doing, and that has not changed.
+				</p>
+				<p>
+					I actively use modern developer tools, including GitHub Copilot, for productivity — things like exploring new API surfaces, scaffolding boilerplate, or looking up repetitive patterns. But AI never acts on autopilot.
+				</p>
+				<p>
+					<strong>I write and review my code as I always have.</strong> Every line of code that goes into my open-source projects, SaaS applications, or educational demos is reviewed, tested, and maintained by me. If something breaks, I am responsible for diagnosing and fixing it. Engineering rigor, security, performance, and architecture remain human-driven responsibilities.
+				</p>
+
+				<hr class="border-[var(--border)] my-12" />
+
+				<h2 class="text-3xl font-display text-[var(--text-primary)]">Community, newsletter, and media</h2>
+				<p>
+					I believe deeply in authentic community relationships. When you subscribe to my newsletter, read my updates, or interact with me on GitHub, LinkedIn, or Twitch:
+				</p>
+				<ul>
+					<li>You are reading words written directly by me, not an automated ghostwriter.</li>
+					<li>Any reply to an email or direct message comes straight from my desk.</li>
+					<li>The screenshots, diagrams, and code snippets represent real systems, not synthetic mockups.</li>
+				</ul>
+				<p>
+					Your time and attention are valuable. If someone takes five minutes out of their day to read what I've published, it is my duty to ensure that it reflects genuine thought, real effort, and authentic human experience.
+				</p>
+
+				<hr class="border-[var(--border)] my-12" />
+
+				<h2 class="text-3xl font-display text-[var(--text-primary)]">Machine-readable human authorship: human.json</h2>
+				<p>
+					In addition to publishing this human-readable manifesto, I also support the <a href="https://codeberg.org/robida/human.json" target="_blank" rel="noopener noreferrer"><code>human.json</code> protocol</a>, as adopted by creators like <a href="https://cobb.land/ai/" target="_blank" rel="noopener noreferrer">Cobb</a> and specified by <a href="https://robida.net/" target="_blank" rel="noopener noreferrer">Beto Dealmeida</a>.
+				</p>
+				<p>
+					You can inspect my <a href="/human.json" target="_blank" class="font-mono"><code>human.json</code> file</a> directly on this site, also discovered via <code class="text-sm font-mono bg-[var(--background-secondary)] px-1.5 py-0.5 rounded border border-[var(--border)]">&lt;link rel="human-json" href="/human.json"&gt;</code> in the HTML header.
+				</p>
+				
+				<h3 class="text-2xl font-display text-[var(--text-primary)]">Why add a human.json file?</h3>
+				<p>
+					While an editorial manifesto speaks to humans who visit the page, <code class="text-sm font-mono bg-[var(--background-secondary)] px-1.5 py-0.5 rounded border border-[var(--border)]">human.json</code> provides a lightweight, open, and machine-verifiable complement:
+				</p>
+				<ul>
+					<li><strong>Verifiable human assertion:</strong> It provides a machine-readable declaration of human authorship tied to URL ownership, without relying on corporate surveillance or third-party identity silos.</li>
+					<li><strong>Decentralized Web of Trust:</strong> Through mutual and directional <em>vouches</em>, real creators establish a crawlable trust graph. Readers can start from a seed site they trust and discover other genuine human creators through verified hops.</li>
+					<li><strong>Browser extension recognition:</strong> Verifier extensions (such as the Human.json Verifier for Firefox and Chrome) instantly detect the file and notify readers that they are browsing authentic, human-crafted work rather than synthetic content farms.</li>
+				</ul>
+
+				<hr class="border-[var(--border)] my-12" />
+
+				<h2 class="text-3xl font-display text-[var(--text-primary)]">Join the /ai movement</h2>
+				<p>
+					If you produce content, code, or creative work on the web, consider publishing your own <code class="text-sm font-mono bg-[var(--background-secondary)] px-1.5 py-0.5 rounded border border-[var(--border)]">/ai</code> page and declaring your <code class="text-sm font-mono bg-[var(--background-secondary)] px-1.5 py-0.5 rounded border border-[var(--border)]">human.json</code> file.
+				</p>
+				<p>
+					It does not matter whether your policy is strictly zero-AI or deeply integrated into your workflow — what matters is honesty, attribution, and respecting your audience.
+				</p>
+				<p>
+					To read more about the philosophy and explore other creators' declarations:
+				</p>
+				<ul>
+					<li><a href="https://www.bydamo.la/p/ai-manifesto" target="_blank" rel="noopener noreferrer">The original /ai manifesto by Damola Morenikeji</a></li>
+					<li><a href="https://cassidoo.co/ai/" target="_blank" rel="noopener noreferrer">Cassidy Williams' /ai page</a></li>
+					<li><a href="https://cobb.land/ai/" target="_blank" rel="noopener noreferrer">Cobb's AI page and human.json implementation</a></li>
+					<li><a href="https://codeberg.org/robida/human.json" target="_blank" rel="noopener noreferrer">The human.json protocol specification</a></li>
+					<li><a href="https://slashai.page" target="_blank" rel="noopener noreferrer">slashAI.page — Directory of /ai pages</a></li>
+				</ul>
+			</article>
+
+			<!-- Bottom Callout / Connect Card -->
+			<div class="mt-20 p-8 md:p-12 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--background-secondary)] text-center">
+				<h3 class="font-display text-2xl md:text-3xl text-[var(--text-primary)] mb-4">Have questions or feedback?</h3>
+				<p class="text-[var(--text-secondary)] mb-8 max-w-xl mx-auto text-base md:text-lg">
+					I'm always open to discussing technology, developer tools, and the ethics of artificial intelligence.
+				</p>
+				<div class="flex flex-wrap items-center justify-center gap-4">
+					<Button href="https://linkedin.com/in/bartolesiemanuele" target="_blank" rel="noopener noreferrer">
+						Connect on LinkedIn
+						<Icon name="arrow-up-right" class="w-4 h-4 ml-1 inline" />
+					</Button>
+					<Button href="/about" variant="secondary">
+						Read more about me
+						<Icon name="arrow-right" class="w-4 h-4 ml-1 inline" />
+					</Button>
+				</div>
+			</div>
+		</main>
+
+		<Footer />
+	</body>
+</html>
