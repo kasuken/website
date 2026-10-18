@@ -92,7 +92,6 @@ const planRows = [
     <h2 id="sources-heading">Sources &amp; updates</h2>
     <p class="resource-summary">This is a manually maintained reference, last reviewed on <time datetime={copilotReviewDate}>{copilotReviewLabel}</time>. GitHub can change rates, promotions, model availability, and allowances. Check the linked documentation before making a purchase or setting a budget.</p>
     <ul class="resource-source-list">{Object.values(copilotSources).map(source => <li><a href={source.url}>{source.title}</a></li>)}</ul>
-    <p class="resource-note">Inspired by <a href="https://ba4bes.com/sheets/">Barbara Forbes' Copilot sheets</a>, with independently written guidance and HTML tables in place of diagrams. This guide is not official GitHub documentation.</p>
     <a class="resource-back" href="/resources">Back to all resources</a>
   </section>
 </ResourceLayout>
