@@ -1,0 +1,127 @@
+---
+import { claudePriceRows, claudeModes, claudeScopeLabels } from '../data/claude';
+const money = (value: number) => `$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 5 })}`;
+---
+
+<div data-claude-pricing>
+  <form class="pricing-controls" aria-label="Filter Claude model prices" hidden>
+    <div class="pricing-search">
+      <label for="claude-search">Find a model or API ID</label>
+      <input id="claude-search" type="search" placeholder="Try Haiku, Opus, or claude-sonnet-5-5" autocomplete="off" aria-controls="claude-price-body" />
+    </div>
+    <div>
+      <label for="claude-scope">Model range</label>
+      <select id="claude-scope" aria-controls="claude-price-body">
+        <option value="current">Current lineup</option>
+        <option value="active">All active public models</option>
+        <option value="restricted">Restricted-access models</option>
+        <option value="all">All listed models</option>
+      </select>
+    </div>
+    <div>
+      <label for="claude-mode">Pricing mode</label>
+      <select id="claude-mode" aria-controls="claude-price-body">
+        <option value="standard">Standard API</option>
+        <option value="batch">Batch API</option>
+        <option value="fast">Fast mode</option>
+        <option value="all">All modes</option>
+      </select>
+    </div>
+    <div>
+      <label for="claude-sort">Sort by</label>
+      <select id="claude-sort" aria-controls="claude-price-body">
+        <option value="output">Output: low to high</option>
+        <option value="input">Input: low to high</option>
+        <option value="name">Model name: A to Z</option>
+      </select>
+    </div>
+    <button type="reset" class="resource-reset">Reset</button>
+  </form>
+
+  <p class="pricing-results" role="status" aria-live="polite" aria-atomic="true" data-claude-count hidden></p>
+  <p class="resource-table-hint" id="claude-scroll-hint">Scroll to compare all columns. Model names and API IDs stay in view.</p>
+  <div class="resource-table-scroll pricing-scroll" role="region" aria-labelledby="claude-price-caption" aria-describedby="claude-scroll-hint" tabindex="0">
+    <table class="resource-table pricing-table claude-pricing-table">
+      <caption id="claude-price-caption">Anthropic direct API rates in USD per 1 million tokens; global routing</caption>
+      <thead>
+        <tr>
+          <th scope="col">Model / API ID</th>
+          <th scope="col">Mode / prompt length</th>
+          <th scope="col" class="numeric">Input</th>
+          <th scope="col" class="numeric">Cache read</th>
+          <th scope="col" class="numeric">5-minute write</th>
+          <th scope="col" class="numeric">1-hour write</th>
+          <th scope="col" class="numeric output-price">Output</th>
+        </tr>
+      </thead>
+      <tbody id="claude-price-body">
+        {claudePriceRows.map(({ model, mode, prompt, rates }) => (
+          <tr data-claude-row data-name={model.name} data-search={`${model.name} ${model.id} ${model.family}`.toLowerCase()} data-scope={model.scope} data-mode={mode} data-input={rates.input} data-output={rates.output}>
+            <th scope="row">
+              <span class="model-name">{model.name}</span>
+              <code class="cell-detail model-api-id">{model.id}</code>
+              <span class="cell-detail">{claudeScopeLabels[model.scope]}{model.note && <> · <a href={`#${model.note}`}>See note</a></>}</span>
+            </th>
+            <td>{claudeModes[mode]}<span class="cell-detail">{prompt}</span></td>
+            <td class="numeric">{money(rates.input)}</td>
+            <td class="numeric">{money(rates.read)}</td>
+            <td class="numeric">{money(rates.write5m)}</td>
+            <td class="numeric">{money(rates.write1h)}</td>
+            <td class="numeric output-price">{money(rates.output)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="pricing-empty" data-claude-empty hidden>No matching rates. Try another model, change the model range or pricing mode, or reset the filters.</p>
+  <noscript><p class="resource-note">All listed models and pricing modes are visible. Use your browser's Find command to locate a model or API ID.</p></noscript>
+  <p class="resource-note claude-derived-note">Batch cache rates and fast-mode cache rates are calculated from Anthropic's published discount and caching rules. Fast mode cannot be combined with Batch. A cache write or read replaces the base input charge for those tokens; these columns are not fees to add to every input token.</p>
+</div>
+
+<script>
+  const pricing = document.querySelector<HTMLElement>('[data-claude-pricing]');
+  if (pricing) {
+    const form = pricing.querySelector<HTMLFormElement>('form')!;
+    const search = pricing.querySelector<HTMLInputElement>('#claude-search')!;
+    const scope = pricing.querySelector<HTMLSelectElement>('#claude-scope')!;
+    const mode = pricing.querySelector<HTMLSelectElement>('#claude-mode')!;
+    const sort = pricing.querySelector<HTMLSelectElement>('#claude-sort')!;
+    const body = pricing.querySelector<HTMLTableSectionElement>('tbody')!;
+    const count = pricing.querySelector<HTMLElement>('[data-claude-count]')!;
+    const empty = pricing.querySelector<HTMLElement>('[data-claude-empty]')!;
+    const rows = Array.from(body.querySelectorAll<HTMLTableRowElement>('[data-claude-row]'));
+
+    const update = () => {
+      const query = search.value.trim().toLowerCase();
+      rows.sort((a, b) => {
+        if (sort.value === 'name') return a.dataset.name!.localeCompare(b.dataset.name!);
+        return Number(a.dataset[sort.value]) - Number(b.dataset[sort.value]) || a.dataset.name!.localeCompare(b.dataset.name!);
+      });
+      let visible = 0;
+      const fragment = document.createDocumentFragment();
+      for (const row of rows) {
+        const inScope = scope.value === 'all' || row.dataset.scope === scope.value ||
+          (scope.value === 'active' && (row.dataset.scope === 'current' || row.dataset.scope === 'earlier'));
+        row.hidden = !(inScope && (mode.value === 'all' || row.dataset.mode === mode.value) && row.dataset.search!.includes(query));
+        if (!row.hidden) visible++;
+        fragment.append(row);
+      }
+      body.append(fragment);
+      count.textContent = `${visible} ${visible === 1 ? 'rate' : 'rates'} shown · ${scope.selectedOptions[0].textContent} · ${mode.selectedOptions[0].textContent}`;
+      empty.hidden = visible !== 0;
+    };
+    form.addEventListener('submit', event => event.preventDefault());
+    search.addEventListener('input', update);
+    for (const select of [scope, mode, sort]) select.addEventListener('change', update);
+    form.addEventListener('reset', () => {
+      search.value = '';
+      scope.value = 'current';
+      mode.value = 'standard';
+      sort.value = 'output';
+      update();
+    });
+    form.reset();
+    form.hidden = false;
+    count.hidden = false;
+  }
+</script>

@@ -1,0 +1,140 @@
+---
+import ResourceLayout from '../../layouts/ResourceLayout.astro';
+import ClaudePricingTable from '../../components/ClaudePricingTable.astro';
+import {
+  claudeDescription, claudeReviewDate, claudeReviewLabel, claudeSources,
+  claudeGroups, claudeTasks, claudePersonalPlans, claudeOrganizationPlans,
+} from '../../data/claude';
+
+const personalRows = [
+  { label: 'Monthly price (USD)', values: claudePersonalPlans.map(p => p.monthly), numeric: true },
+  { label: 'Annual billing', values: claudePersonalPlans.map(p => p.annual) },
+  { label: 'Included app usage', values: claudePersonalPlans.map(p => p.usage) },
+  { label: 'Model family access', values: claudePersonalPlans.map(p => p.models) },
+  { label: 'Fable access', values: claudePersonalPlans.map(p => p.fable) },
+  { label: 'Claude Code', values: claudePersonalPlans.map(p => p.code) },
+  { label: 'Separate monthly API credits', values: claudePersonalPlans.map(p => p.credits) },
+];
+const organizationRows = [
+  { label: 'Monthly billing (USD)', values: claudeOrganizationPlans.map(p => p.monthly) },
+  { label: 'Annual price (USD)', values: claudeOrganizationPlans.map(p => p.annual) },
+  { label: 'Seat requirements', values: claudeOrganizationPlans.map(p => p.minimum) },
+  { label: 'Usage model', values: claudeOrganizationPlans.map(p => p.usage) },
+  { label: 'Claude Code', values: claudeOrganizationPlans.map(p => p.code) },
+  { label: 'Fable access', values: claudeOrganizationPlans.map(p => p.fable) },
+  { label: 'Monthly API credit contribution', values: claudeOrganizationPlans.map(p => p.credits) },
+  { label: 'Organization controls', values: claudeOrganizationPlans.map(p => p.controls) },
+];
+---
+
+<ResourceLayout title="Claude models & plans guide" description={claudeDescription} guide guideLabel="Claude">
+  <header class="resource-intro guide-intro">
+    <h1>Claude <span>guide</span></h1>
+    <p class="resource-lead">Model prices, task choices, and plans. Compare Anthropic's API costs and Claude subscriptions in one reference.</p>
+    <p class="resource-reviewed">Reviewed against Anthropic's documentation on <time datetime={claudeReviewDate}>{claudeReviewLabel}</time>. Prices are in USD, before tax.</p>
+    <nav class="resource-contents" aria-label="On this page">
+      <a href="#model-pricing">API model pricing</a>
+      <a href="#choosing-a-model">Choosing a model</a>
+      <a href="#plans">Plan comparison</a>
+      <a href="#sources">Sources &amp; updates</a>
+    </nav>
+  </header>
+
+  <section class="resource-section" id="model-pricing" aria-labelledby="claude-pricing-heading">
+    <div class="resource-section-heading">
+      <h2 id="claude-pricing-heading">What does each model cost?</h2>
+      <a href={claudeSources.pricing.url}>Anthropic pricing documentation</a>
+    </div>
+    <p class="resource-summary">These are <strong>direct Claude API token rates</strong>, not the price of a Claude chat message or a subscription allowance. Start with the current lineup, then select older public models or restricted models when you need them.</p>
+    <p class="resource-note">Prices use standard global routing. Search by model name or API ID, and compare Standard, Batch, or Fast mode. Models listed here can have different availability and prices in <a href="/resources/github-copilot">GitHub Copilot</a> or cloud-provider catalogs.</p>
+    <ClaudePricingTable />
+
+    <div class="pricing-notes">
+      <ul class="resource-notes-list">
+        <li id="claude-haiku-threshold"><strong>Haiku 5.5:</strong> prompts above 100,000 input tokens use the higher rate for the request. The threshold counts all input, including cache reads and writes.</li>
+        <li id="claude-retention"><strong>Fable and Mythos:</strong> these Covered Models require 30-day data retention unless Anthropic expressly authorizes an exception. Read the <a href={claudeSources.retention.url}>retention and access requirements</a> before selecting them.</li>
+        <li id="claude-restricted"><strong>Mythos:</strong> access requires an organization verified through Anthropic's verification programs. A published price does not grant access; the retention requirement above also applies.</li>
+        <li id="claude-deprecated"><strong>Sonnet 4.5:</strong> deprecated and scheduled to retire on 30 November 2026. It appears only under “All listed models.” Retired models are excluded from this guide.</li>
+      </ul>
+    </div>
+    <p class="resource-source">Sources: <a href={claudeSources.pricing.url}>token and cache pricing</a>, <a href={claudeSources.models.url}>current model specifications</a>, and <a href={claudeSources.lifecycle.url}>model lifecycle</a>.</p>
+
+    <h3 class="claude-subheading" id="claude-cost-details">What can change the bill?</h3>
+    <div class="resource-table-scroll" role="region" aria-labelledby="claude-modifiers-caption" tabindex="0">
+      <table class="resource-table claude-modifier-table">
+        <caption id="claude-modifiers-caption">Pricing rules for Anthropic's direct API</caption>
+        <thead><tr><th scope="col">Factor</th><th scope="col">How to read it</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Prompt caching</th><td>A 5-minute write is 1.25× base input; a 1-hour write is 2×. Read discounts vary by model, so compare the explicit cache columns.</td></tr>
+          <tr><th scope="row">Batch API</th><td>Asynchronous processing receives a 50% token-price discount. Prompt-caching discounts stack; Batch is separate from Fast mode.</td></tr>
+          <tr><th scope="row">Fast mode</th><td>Opus 5.5, Opus 5, and Opus 4.8 have premium rates. Opus 5 and 4.8 fast mode remain in research preview. Eligibility and dedicated limits apply.</td></tr>
+          <tr><th scope="row">Long prompts</th><td>For 4.6-and-later models, full context uses standard per-token prices except Haiku 5.5's higher band. A larger prompt still costs more because it contains more tokens.</td></tr>
+          <tr><th scope="row">US-only inference</th><td>Supported 4.6-and-later models use a 1.1× multiplier across token categories. The table shows global rates.</td></tr>
+          <tr><th scope="row">Thinking and tools</th><td>Reasoning and tool interactions consume tokens; server tools and managed-agent infrastructure can add charges. Token prices alone are not a complete agent-session estimate.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="resource-source">Rules and exceptions: <a href={claudeSources.pricing.url}>Anthropic's feature-specific pricing</a>.</p>
+  </section>
+
+  <section class="resource-section" id="choosing-a-model" aria-labelledby="claude-choice-heading">
+    <div class="resource-section-heading">
+      <h2 id="claude-choice-heading">Choose for the task</h2>
+      <a href={claudeSources.selection.url}>Anthropic model guidance</a>
+    </div>
+    <p class="resource-summary">Anthropic recommends Opus 5.5 as a starting point for most workloads. An efficiency-first approach can start with Haiku; Sonnet balances speed and capability. Evaluate Fable for demanding work when Opus at higher effort still falls short.</p>
+    <dl class="model-groups">{claudeGroups.map(group => <div><dt>{group.name}</dt><dd>{group.examples}</dd></div>)}</dl>
+    <div class="resource-table-scroll" role="region" aria-labelledby="claude-task-caption" tabindex="0">
+      <table class="resource-table task-table">
+        <caption id="claude-task-caption">Editorial starting points based on Anthropic's guidance; validate with your own tasks.</caption>
+        <thead><tr><th scope="col">Your task</th>{claudeGroups.map(group => <th scope="col">{group.name}</th>)}</tr></thead>
+        <tbody>{claudeTasks.map(row => <tr><th scope="row">{row.task}</th>{row.fits.map(fit => <td class:list={{ 'recommended-fit': fit === 'Start here', 'secondary-fit': fit !== 'Start here' }}>{fit}</td>)}</tr>)}</tbody>
+      </table>
+    </div>
+    <p class="resource-note">This is not a benchmark ranking. The four current API models accept text and images, with a 1M-token context window and up to 128K output tokens. Those API maxima do not define the allowance in a Claude app plan. Adjust effort and measure quality, latency, and total cost on your own workload.</p>
+    <p class="resource-source">Sources: <a href={claudeSources.selection.url}>selection and evaluation</a>, <a href={claudeSources.models.url}>capabilities and limits</a>.</p>
+  </section>
+
+  <section class="resource-section" id="plans" aria-labelledby="claude-plans-heading">
+    <div class="resource-section-heading">
+      <h2 id="claude-plans-heading">Which Claude plan fits?</h2>
+      <a href={claudeSources.plans.url}>Claude plan documentation</a>
+    </div>
+    <p class="resource-summary">Choose a subscription for using Claude and Claude Code, or API billing for an application you build. Eligible Max and Team plans also offer separately claimed API credits. These balances and usage limits are different.</p>
+
+    <h3 class="claude-subheading">Personal plans</h3>
+    <div class="resource-table-scroll" role="region" aria-labelledby="claude-personal-caption" tabindex="0">
+      <table class="resource-table plan-table">
+        <caption id="claude-personal-caption">Individual subscriptions, USD. Usage multipliers are not guaranteed message or token counts.</caption>
+        <thead><tr><th scope="col">Compare</th>{claudePersonalPlans.map(plan => <th scope="col">{plan.name}</th>)}</tr></thead>
+        <tbody>{personalRows.map(row => <tr><th scope="row">{row.label}</th>{row.values.map(value => <td class:list={{ 'plan-number': row.numeric }}>{value}</td>)}</tr>)}</tbody>
+      </table>
+    </div>
+    <p class="resource-note">Pro and Max have shared session and weekly limits across Claude and Claude Code. Fable has separate access rules and limits. Once included usage is exhausted, paid usage credits or another billing route can add cost; check the account's current settings.</p>
+
+    <h3 class="claude-subheading">Team and Enterprise</h3>
+    <div class="resource-table-scroll" role="region" aria-labelledby="claude-business-caption" tabindex="0">
+      <table class="resource-table plan-table claude-organization-table">
+        <caption id="claude-business-caption">Published organization offers, USD. Annual prices require annual billing; Enterprise adds metered usage.</caption>
+        <thead><tr><th scope="col">Compare</th>{claudeOrganizationPlans.map(plan => <th scope="col">{plan.name}</th>)}</tr></thead>
+        <tbody>{organizationRows.map(row => <tr><th scope="row">{row.label}</th>{row.values.map(value => <td>{value}</td>)}</tr>)}</tbody>
+      </table>
+    </div>
+    <p class="resource-note">The Enterprise price above is the published self-serve offer. Sales-assisted terms can differ. Team API credits are capped at <strong>$500 per month for the whole plan</strong>, not $500 per seat.</p>
+
+    <div class="resource-plan-notes">
+      <p><strong>Claim API credits separately.</strong> Eligible new Max and Team subscribers can claim after seven days by linking a Console organization. Credits expire each cycle without rollover. Free, Pro, and Enterprise do not qualify for this program.</p>
+      <p><strong>Keep the billing routes clear.</strong> Included API credits cover Claude Platform applications and agents. They do not cover Claude Code, extra usage in Claude apps, or partner clouds. API-key authentication in Claude Code uses API billing instead of subscription usage.</p>
+      <p><strong>Training is separate from retention.</strong> Commercial inputs and outputs are not used for training by default; voluntary feedback and permission are exceptions. Personal accounts have model-improvement choices, with feedback and safety-review exceptions. Fable and Mythos retention still needs a separate check.</p>
+    </div>
+    <p class="resource-source">Details: <a href={claudeSources.personal.url}>personal tier prices</a>, <a href={claudeSources.credits.url}>API-credit rules</a>, <a href={claudeSources.code.url}>Claude Code limits and billing</a>, <a href={claudeSources.commercialPrivacy.url}>commercial data use</a>, and <a href={claudeSources.consumerPrivacy.url}>consumer data use</a>.</p>
+  </section>
+
+  <section class="resource-section resource-sources" id="sources" aria-labelledby="claude-sources-heading">
+    <h2 id="claude-sources-heading">Sources &amp; updates</h2>
+    <p class="resource-summary">This reference is manually maintained, last reviewed on <time datetime={claudeReviewDate}>{claudeReviewLabel}</time>. Model availability, promotional benefits, usage limits, and prices can change. Check the linked official sources before choosing a plan or setting a budget.</p>
+    <ul class="resource-source-list">{Object.values(claudeSources).map(source => <li><a href={source.url}>{source.title}</a></li>)}</ul>
+    <p class="resource-note">The task matrix is an editorial synthesis of Anthropic's guidance. This page is independent of Anthropic and is not official documentation. For Claude models billed through Copilot, use the <a href="/resources/github-copilot">GitHub Copilot guide</a>.</p>
+    <a class="resource-back" href="/resources">Back to all resources</a>
+  </section>
+</ResourceLayout>

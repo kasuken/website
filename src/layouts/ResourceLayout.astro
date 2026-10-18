@@ -9,8 +9,9 @@ interface Props {
   title: string;
   description: string;
   guide?: boolean;
+  guideLabel?: string;
 }
-const { title, description, guide = false } = Astro.props;
+const { title, description, guide = false, guideLabel = 'GitHub Copilot' } = Astro.props;
 ---
 
 <!doctype html>
@@ -26,7 +27,7 @@ const { title, description, guide = false } = Astro.props;
         <nav class="resource-breadcrumb" aria-label="Breadcrumb">
           <a href="/resources">Resources</a>
           <span aria-hidden="true">/</span>
-          <span aria-current="page">GitHub Copilot</span>
+          <span aria-current="page">{guideLabel}</span>
         </nav>
       )}
       <slot />

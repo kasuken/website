@@ -101,7 +101,15 @@
 .resource-entry p { color: var(--text-secondary); max-width: 62ch; margin-bottom: 1rem; }
 .resource-entry .resource-reviewed { text-align: right; }
 .resource-entry time { display: block; }
+.resource-entry + .resource-entry { border-top: 0; }
 .resource-entry-links { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; font-size: .875rem; }
+.model-api-id { padding: 0; background: none; font-family: var(--font-mono); overflow-wrap: anywhere; }
+.claude-pricing-table th:first-child { width: 265px; }
+.claude-derived-note { margin-top: 1.25rem; }
+.claude-subheading { margin-top: 2rem; font-size: 1.5rem; }
+.claude-organization-table { min-width: 960px; }
+.claude-modifier-table { min-width: 650px; }
+.claude-modifier-table th:first-child { width: 185px; }
 
 @media (max-width: 700px) {
   .resource-main { padding: 2rem 1rem 1rem; }
@@ -137,7 +145,10 @@
   .resource-table { min-width: 0; font-size: 8pt; }
   .resource-table th, .resource-table td { padding: 4pt; font-size: 8pt; }
   .resource-table th:first-child, .resource-table thead th { position: static; min-width: 0; width: auto; }
-  .resource-table tr[hidden] { display: table-row; }
+  /* Keep this override in Preflight's layer: layered important rules win. */
+  @layer base {
+    .resource-table tr[hidden] { display: table-row !important; }
+  }
   .resource-table tr { break-inside: avoid; }
   .resource-table thead { display: table-header-group; }
   .resource-section { margin-top: 2rem; }
