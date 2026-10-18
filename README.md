@@ -52,6 +52,7 @@ A fast, modern, SEO-optimized personal site — home to five SaaS products, a pu
 - **Books showcase** — published and upcoming titles with purchase links
 - **Portfolio projects** — open-source work and tools
 - **Course catalog** — training programs and workshops
+- **Resources** — a GitHub Copilot guide with searchable pricing tables, task guidance, plan comparisons, and dated official sources
 - **Speaking engagements** — live Sessionize integration for upcoming and past talks
 - **The Million Journey** — a public revenue tracker toward $1,000,000
 - **Real-time dashboard** — live GitHub statistics, contribution calendar and RescueTime productivity metrics
@@ -207,6 +208,11 @@ The five SaaS products in detail — what each does, the problem it solves, its 
 
 ### 📝 **Blog** (`/blog`)
 Articles synchronized from Dev.to, with reading time, reactions and an RSS feed.
+
+### **Resources** (`/resources`)
+Developer reference guides, starting with the [GitHub Copilot guide](src/pages/resources/github-copilot.astro) at `/resources/github-copilot`. Available from **More → Resources**, the mobile menu, and the footer. The guide compares model rates, task choices, and paid plans in HTML tables.
+
+Update the guide's rates, model notes, plan allowances, task matrix, and review date in [`src/data/copilot.ts`](src/data/copilot.ts). See [the maintenance notes](docs/copilot-guide-maintenance.md) for the source review process.
 
 ### 💼 **Portfolio** (`/portfolio`)
 Open-source projects and tools, with links to live demos and repositories.

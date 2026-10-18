@@ -1,0 +1,36 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+import '../styles/resources.css';
+
+interface Props {
+  title: string;
+  description: string;
+  guide?: boolean;
+}
+const { title, description, guide = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`${title} · ${SITE_TITLE}`} description={description} />
+  </head>
+  <body class="resource-page">
+    <a href="#main-content" class="resource-skip">Skip to content</a>
+    <Header />
+    <main id="main-content" class="resource-main">
+      {guide && (
+        <nav class="resource-breadcrumb" aria-label="Breadcrumb">
+          <a href="/resources">Resources</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">GitHub Copilot</span>
+        </nav>
+      )}
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

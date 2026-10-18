@@ -1,0 +1,29 @@
+---
+import ResourceLayout from '../../layouts/ResourceLayout.astro';
+import Icon from '../../components/Icon.astro';
+import { copilotReviewDate, copilotReviewLabel } from '../../data/copilot';
+---
+
+<ResourceLayout title="Resources" description="Practical developer reference guides, with readable tables, clear sources, and review dates. Start with GitHub Copilot pricing, models, and plans.">
+  <header class="resource-intro">
+    <h1>Resources</h1>
+    <p class="resource-lead">Reference material to keep close while you work.</p>
+    <p class="resource-summary">Quick comparisons, practical guidance, and links to the documentation behind them.</p>
+  </header>
+
+  <section class="resource-catalog" aria-labelledby="guides-heading">
+    <h2 id="guides-heading">Reference guides</h2>
+    <article class="resource-entry">
+      <div>
+        <h3><a href="/resources/github-copilot">GitHub Copilot guide <Icon name="arrow-right" class="resource-arrow" /></a></h3>
+        <p>What the models cost, which kind of task they fit, and how personal plans compare with Business and Enterprise.</p>
+        <nav class="resource-entry-links" aria-label="GitHub Copilot guide sections">
+          <a href="/resources/github-copilot#model-pricing">Model pricing</a>
+          <a href="/resources/github-copilot#choosing-a-model">Choosing a model</a>
+          <a href="/resources/github-copilot#plans">Plan comparison</a>
+        </nav>
+      </div>
+      <p class="resource-reviewed">Reviewed <time datetime={copilotReviewDate}>{copilotReviewLabel}</time></p>
+    </article>
+  </section>
+</ResourceLayout>

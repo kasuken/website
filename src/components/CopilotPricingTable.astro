@@ -1,0 +1,129 @@
+---
+import { copilotModels, modelAccess, modelNotes } from '../data/copilot';
+const money = (value: number) => `$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 3 })}`;
+const rows = copilotModels.flatMap((model) => [
+  { model, tier: 'default', rates: model.rates },
+  ...(model.longContext ? [{ model, tier: 'long', rates: model.longContext }] : []),
+]).sort((a, b) => a.rates.output - b.rates.output || a.model.name.localeCompare(b.model.name));
+---
+
+<div data-copilot-pricing>
+  <form class="pricing-controls" aria-label="Filter model prices" hidden>
+    <div class="pricing-search">
+      <label for="model-search">Find a model or provider</label>
+      <input id="model-search" type="search" placeholder="Try Sonnet, GPT, or Google" autocomplete="off" aria-controls="model-price-body" />
+    </div>
+    <div>
+      <label for="model-tier">Pricing tier</label>
+      <select id="model-tier" aria-controls="model-price-body">
+        <option value="default">Default rates</option>
+        <option value="long">Long-context rates</option>
+        <option value="all">All rates</option>
+      </select>
+    </div>
+    <div>
+      <label for="model-sort">Sort by</label>
+      <select id="model-sort" aria-controls="model-price-body">
+        <option value="output">Output price: low to high</option>
+        <option value="input">Input price: low to high</option>
+        <option value="name">Model name: A to Z</option>
+      </select>
+    </div>
+    <button type="reset" class="resource-reset">Reset</button>
+  </form>
+
+  <p class="pricing-results" role="status" aria-live="polite" aria-atomic="true" data-price-count hidden></p>
+  <p class="resource-table-hint" id="price-scroll-hint">Scroll the table to compare all columns. Model names stay in view.</p>
+  <div class="resource-table-scroll pricing-scroll" role="region" aria-labelledby="price-caption" aria-describedby="price-scroll-hint" tabindex="0">
+    <table class="resource-table pricing-table">
+      <caption id="price-caption">Model rates in USD per 1 million tokens</caption>
+      <thead>
+        <tr>
+          <th scope="col">Model / provider</th>
+          <th scope="col">Tier / input threshold</th>
+          <th scope="col" class="numeric">Input</th>
+          <th scope="col" class="numeric">Cached input</th>
+          <th scope="col" class="numeric">Cache write</th>
+          <th scope="col" class="numeric output-price">Output</th>
+          <th scope="col">Availability</th>
+        </tr>
+      </thead>
+      <tbody id="model-price-body">
+        {rows.map(({ model, rates, tier }) => (
+          <tr data-model-row data-name={model.name} data-search={`${model.name} ${model.provider}`.toLowerCase()} data-tier={tier} data-input={rates.input} data-output={rates.output}>
+            <th scope="row">
+              <span class="model-name">{model.name}</span>
+              <span class="cell-detail">{model.provider}{model.note && <> · <a href={`#${model.note}`}>{model.note.includes('promo') ? 'Promo' : 'See note'}</a></>}</span>
+            </th>
+            <td>
+              {tier === 'default' ? 'Default' : 'Long context'}
+              {model.threshold && <span class="cell-detail">{tier === 'default' ? '≤' : '>'} {model.threshold / 1000}K input tokens</span>}
+            </td>
+            <td class="numeric">{money(rates.input)}</td>
+            <td class="numeric">{money(rates.cached)}</td>
+            <td class="numeric">{rates.write === null ? <span class="no-rate">N/A</span> : money(rates.write)}</td>
+            <td class="numeric output-price">{money(rates.output)}</td>
+            <td class="model-availability">{modelAccess[model.access]}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="pricing-empty" data-price-empty hidden>No matching models. Try another name or provider, change the pricing tier, or reset the filters.</p>
+  <noscript><p class="resource-note">All default and long-context rates are shown. Use your browser's Find command to locate a model.</p></noscript>
+
+  <div class="pricing-notes">
+    <p><strong>Premium plans</strong> means Pro+, Max, Business, and Enterprise. Organization policies and your client can further restrict access. <strong>N/A</strong> means GitHub lists no separate cache-write rate.</p>
+    <ul class="resource-notes-list">
+      {Object.entries(modelNotes).map(([id, note]) => <li id={id}>{note}</li>)}
+    </ul>
+  </div>
+</div>
+
+<script>
+  const pricing = document.querySelector<HTMLElement>('[data-copilot-pricing]');
+  if (pricing) {
+    const form = pricing.querySelector<HTMLFormElement>('form')!;
+    const search = pricing.querySelector<HTMLInputElement>('#model-search')!;
+    const tier = pricing.querySelector<HTMLSelectElement>('#model-tier')!;
+    const sort = pricing.querySelector<HTMLSelectElement>('#model-sort')!;
+    const body = pricing.querySelector<HTMLTableSectionElement>('tbody')!;
+    const count = pricing.querySelector<HTMLElement>('[data-price-count]')!;
+    const empty = pricing.querySelector<HTMLElement>('[data-price-empty]')!;
+    const rows = Array.from(body.querySelectorAll<HTMLTableRowElement>('[data-model-row]'));
+
+    const update = () => {
+      const query = search.value.trim().toLowerCase();
+      rows.sort((a, b) => {
+        if (sort.value === 'name') return a.dataset.name!.localeCompare(b.dataset.name!);
+        const difference = Number(a.dataset[sort.value]) - Number(b.dataset[sort.value]);
+        return difference || a.dataset.name!.localeCompare(b.dataset.name!);
+      });
+      let visible = 0;
+      const fragment = document.createDocumentFragment();
+      for (const row of rows) {
+        row.hidden = !(row.dataset.search!.includes(query) && (tier.value === 'all' || row.dataset.tier === tier.value));
+        if (!row.hidden) visible++;
+        fragment.append(row);
+      }
+      body.append(fragment);
+      count.textContent = `${visible} ${visible === 1 ? 'rate' : 'rates'} shown · ${tier.selectedOptions[0].textContent}`;
+      empty.hidden = visible !== 0;
+    };
+
+    form.addEventListener('submit', (event) => event.preventDefault());
+    search.addEventListener('input', update);
+    tier.addEventListener('change', update);
+    sort.addEventListener('change', update);
+    form.addEventListener('reset', () => {
+      search.value = '';
+      tier.value = 'default';
+      sort.value = 'output';
+      update();
+    });
+    // Match the first rendered state even when a browser restores form values.
+    form.reset();
+    form.hidden = false;
+    count.hidden = false;
+  }
+</script>

@@ -26,4 +26,5 @@ pnpm-debug.log*
 .amplify-hosting/
 # local design screenshots + capture scripts
 .shots/
+.impeccable/review/
 

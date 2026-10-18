@@ -1,0 +1,98 @@
+---
+import ResourceLayout from '../../layouts/ResourceLayout.astro';
+import CopilotPricingTable from '../../components/CopilotPricingTable.astro';
+import {
+  copilotDescription, copilotReviewDate, copilotReviewLabel, copilotSources,
+  copilotPlans, modelGroups, taskGuidance,
+} from '../../data/copilot';
+
+const number = (value: number) => value.toLocaleString('en-US');
+const planRows = [
+  { label: 'Monthly price (USD)', values: copilotPlans.map(p => `$${p.monthly}${p.audience === 'Organization' ? ' / seat' : ''}`), numeric: true },
+  { label: 'Base AI credits / month', values: copilotPlans.map(p => number(p.base)), numeric: true },
+  { label: 'Flex credits / month', values: copilotPlans.map(p => p.flex === null ? 'Not applicable' : number(p.flex)), numeric: true },
+  { label: 'Total included AI credits', values: copilotPlans.map(p => number(p.base + (p.flex ?? 0))), numeric: true, highlight: true },
+  { label: 'Who the credits belong to', values: copilotPlans.map(p => p.ownership) },
+  { label: 'Model access', values: copilotPlans.map(p => p.models) },
+  { label: 'Management', values: copilotPlans.map(p => p.management) },
+  { label: 'After included credits run out', values: copilotPlans.map(p => p.extra) },
+  { label: 'GitHub training on interaction data', values: copilotPlans.map(p => p.training) },
+];
+---
+
+<ResourceLayout title="GitHub Copilot guide" description={copilotDescription} guide>
+  <header class="resource-intro guide-intro">
+    <h1>GitHub Copilot <span>guide</span></h1>
+    <p class="resource-lead">Model costs, task choices, and plans. All in tables you can search and compare.</p>
+    <p class="resource-reviewed">Reviewed against GitHub's documentation on <time datetime={copilotReviewDate}>{copilotReviewLabel}</time>. Prices are in USD.</p>
+    <nav class="resource-contents" aria-label="On this page">
+      <a href="#model-pricing">Model pricing</a>
+      <a href="#choosing-a-model">Choosing a model</a>
+      <a href="#plans">Plan comparison</a>
+      <a href="#sources">Sources &amp; updates</a>
+    </nav>
+  </header>
+
+  <section class="resource-section" id="model-pricing" aria-labelledby="pricing-heading">
+    <div class="resource-section-heading">
+      <h2 id="pricing-heading">What does each model cost?</h2>
+      <a href={copilotSources.pricing.url}>GitHub pricing documentation</a>
+    </div>
+    <p class="resource-summary">Compare the token rates behind Copilot's AI credits. <strong>1 AI credit = $0.01 USD.</strong> A task can make several model calls, so its cost depends on the tokens used across the whole session.</p>
+    <p class="resource-note">These are Copilot usage rates. Default and long-context tiers are separate; select a tier to see the corresponding input threshold. Paid code completions and next edit suggestions do not consume AI credits.</p>
+    <CopilotPricingTable />
+    <p class="resource-source">Rates: <a href={copilotSources.pricing.url}>GitHub's pricing tables</a>. Eligibility: <a href={copilotSources.models.url}>supported models and plan restrictions</a>. No separate long-context price is inferred where GitHub does not publish one.</p>
+  </section>
+
+  <section class="resource-section" id="choosing-a-model" aria-labelledby="choice-heading">
+    <div class="resource-section-heading">
+      <h2 id="choice-heading">Choose for the task</h2>
+      <a href={copilotSources.comparison.url}>GitHub model guidance</a>
+    </div>
+    <p class="resource-summary">Start with the least expensive model that handles your task reliably, then move up when the work needs more reasoning or autonomy. The matrix below is editorial guidance, not a benchmark or an official GitHub ranking.</p>
+    <dl class="model-groups">
+      {modelGroups.map(group => <div><dt>{group.name}</dt><dd>{group.examples}</dd></div>)}
+    </dl>
+    <div class="resource-table-scroll" role="region" aria-labelledby="task-caption" tabindex="0">
+      <table class="resource-table task-table">
+        <caption id="task-caption">Suggested starting points by task; “Not first choice” can mean too limited or unnecessarily costly.</caption>
+        <thead><tr><th scope="col">Your task</th>{modelGroups.map(group => <th scope="col">{group.name}</th>)}</tr></thead>
+        <tbody>
+          {taskGuidance.map(row => <tr><th scope="row">{row.task}</th>{row.fits.map(fit => <td class:list={{ 'recommended-fit': fit === 'Start here', 'secondary-fit': fit !== 'Start here' }}>{fit}</td>)}</tr>)}
+        </tbody>
+      </table>
+    </div>
+    <p class="resource-note">These groups describe the work, not a hard boundary between models. Fable models have a <a href="#fable-data">data-retention exception</a>. Check availability and review the result, including tests and security-sensitive changes.</p>
+  </section>
+
+  <section class="resource-section" id="plans" aria-labelledby="plans-heading">
+    <div class="resource-section-heading">
+      <h2 id="plans-heading">Personal or business plan?</h2>
+      <a href={copilotSources.plans.url}>GitHub plan documentation</a>
+    </div>
+    <p class="resource-summary">Personal allowances belong to the subscriber. Business and Enterprise seats contribute credits to a shared pool at the billing entity. Compare the monthly paid plans below.</p>
+    <div class="resource-table-scroll" role="region" aria-labelledby="plan-caption" tabindex="0">
+      <table class="resource-table plan-table">
+        <caption id="plan-caption">Monthly paid plans, USD. Flex credits are variable; the totals reflect the review date.</caption>
+        <thead><tr><th scope="col">Compare</th>{copilotPlans.map(plan => <th scope="col">{plan.name}<span class="cell-detail">{plan.audience}</span></th>)}</tr></thead>
+        <tbody>
+          {planRows.map(row => <tr class:list={{ 'plan-total': row.highlight }}><th scope="row">{row.label}</th>{row.values.map(value => <td class:list={{ 'plan-number': row.numeric }}>{value}</td>)}</tr>)}
+        </tbody>
+      </table>
+    </div>
+    <div class="resource-plan-notes">
+      <p><strong>Credits reset monthly.</strong> Included credits do not roll over. Personal flex allotments can change; they are separate from base credits. With additional usage disabled, organization usage stops after the pool is exhausted.</p>
+      <p><strong>Free, Student, and annual subscriptions.</strong> Free and verified Student plans also exist, with auto model selection. Existing annual Pro and Pro+ subscriptions on legacy request billing have different rules; the table above covers monthly usage-based plans.</p>
+      <p><strong>Training and retention are different.</strong> GitHub does not train on Business or Enterprise customer data. Personal subscribers have a training opt-out. Provider retention rules, including Fable exceptions, still need a separate check.</p>
+    </div>
+    <p class="resource-source">Details: <a href={copilotSources.individual.url}>personal credits and extra usage</a>, <a href={copilotSources.business.url}>shared pools and budgets</a>, and <a href={copilotSources.privacy.url}>model hosting and data use</a>.</p>
+  </section>
+
+  <section class="resource-section resource-sources" id="sources" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">Sources &amp; updates</h2>
+    <p class="resource-summary">This is a manually maintained reference, last reviewed on <time datetime={copilotReviewDate}>{copilotReviewLabel}</time>. GitHub can change rates, promotions, model availability, and allowances. Check the linked documentation before making a purchase or setting a budget.</p>
+    <ul class="resource-source-list">{Object.values(copilotSources).map(source => <li><a href={source.url}>{source.title}</a></li>)}</ul>
+    <p class="resource-note">Inspired by <a href="https://ba4bes.com/sheets/">Barbara Forbes' Copilot sheets</a>, with independently written guidance and HTML tables in place of diagrams. This guide is not official GitHub documentation.</p>
+    <a class="resource-back" href="/resources">Back to all resources</a>
+  </section>
+</ResourceLayout>
