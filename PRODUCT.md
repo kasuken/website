@@ -18,17 +18,21 @@ training, and mentoring. Its existing implementation uses Astro and TypeScript.
 - Use editable HTML tables instead of images for the reference material.
 - Extend Resources with a researched Claude model and plan guide, keeping
   Anthropic's direct API billing separate from app subscription usage.
+- Add a matching Antigravity guide, including Gemini 4 Argon, with model
+  access, task guidance, plan quotas, and separately labeled direct API rates.
 - Preserve the existing site design and shared navigation, themes, and footer.
 - Resource content must link to official documentation and carry an explicit
   review date. Updating a build must not silently advance that date.
 
 ## Resources
 
-Resources groups the GitHub Copilot and Claude guides. The user requested the
-Claude guide as a matching extension after reviewing the first guide.
+Resources groups the GitHub Copilot, Claude, and Antigravity guides. Each uses
+the same maintainable table-based reference format. The Antigravity guide
+includes a dedicated Gemini 4 Argon section.
 
 ## Evidence on Hand
 
 The current site, `DESIGN.md`, `src/styles/global.css`, and the user-supplied
 Ba4bes reference. Commercial figures require current documentation from the
-provider being described: GitHub for Copilot, Anthropic for Claude.
+provider being described: GitHub for Copilot, Anthropic for Claude, and Google
+for Antigravity and Gemini.

@@ -1,0 +1,87 @@
+---
+import { antigravityAccessPlans, antigravityModels, antigravityReviewLabel } from '../data/antigravity';
+---
+
+<div data-antigravity-models>
+  <form class="pricing-controls" aria-label="Filter Antigravity models" hidden>
+    <div class="pricing-search">
+      <label for="antigravity-search">Find a model or provider</label>
+      <input id="antigravity-search" type="search" placeholder="Try Argon, Flash, or Claude" autocomplete="off" aria-controls="antigravity-model-body" />
+    </div>
+    <div>
+      <label for="antigravity-plan">Models available on</label>
+      <select id="antigravity-plan" aria-controls="antigravity-model-body">
+        <option value="all">All plans</option>
+        {antigravityAccessPlans.map(plan => <option value={plan.id}>{plan.label}</option>)}
+      </select>
+    </div>
+    <div>
+      <label for="antigravity-lifecycle">Model status</label>
+      <select id="antigravity-lifecycle" aria-controls="antigravity-model-body">
+        <option value="all">All listed models</option>
+        <option value="continuing">No announced removal</option>
+        <option value="retiring">Removal on 2 Nov 2026</option>
+      </select>
+    </div>
+    <button type="reset" class="resource-reset">Reset</button>
+  </form>
+  <p class="pricing-results" role="status" aria-live="polite" aria-atomic="true" data-antigravity-count hidden></p>
+  <p class="resource-table-hint" id="antigravity-scroll-hint">Scroll to compare plans. Model names stay in view; filtering a plan shows only its available models.</p>
+  <div class="resource-table-scroll pricing-scroll" role="region" aria-labelledby="antigravity-model-caption" aria-describedby="antigravity-scroll-hint" tabindex="0">
+    <table class="resource-table antigravity-model-table">
+      <caption id="antigravity-model-caption">Antigravity model access, reviewed {antigravityReviewLabel}; subject to quota and rollout</caption>
+      <thead><tr><th scope="col">Reasoning model</th>{antigravityAccessPlans.map(plan => <th scope="col">{plan.label}</th>)}</tr></thead>
+      <tbody id="antigravity-model-body">
+        {antigravityModels.map(model => (
+          <tr data-antigravity-row data-search={`${model.name} ${model.provider}`.toLowerCase()} data-plans={antigravityAccessPlans.filter(plan => model.access[plan.id] !== 'Not included').map(plan => plan.id).join(' ')} data-lifecycle={model.retiring ? 'retiring' : 'continuing'}>
+            <th scope="row">
+              <span class="model-name">{model.name}</span>
+              {model.argon && <span class="cell-detail"><a href="#gemini-4-argon">Argon specs &amp; API prices</a></span>}
+              {model.retiring && <span class="cell-detail"><a href="#antigravity-removals">Removal: 2 Nov 2026</a></span>}
+            </th>
+            {antigravityAccessPlans.map(plan => <td class:list={{ 'recommended-fit': model.access[plan.id] !== 'Not included', 'secondary-fit': model.access[plan.id] === 'Not included' }}>{model.access[plan.id]}</td>)}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="pricing-empty" data-antigravity-empty hidden>No models match these filters. Try another name, choose a different plan or status, or reset the filters.</p>
+  <noscript><p class="resource-note">All listed models are visible. Use your browser's Find command to locate a model.</p></noscript>
+</div>
+
+<script>
+  const container = document.querySelector<HTMLElement>('[data-antigravity-models]');
+  if (container) {
+    const form = container.querySelector<HTMLFormElement>('form')!;
+    const search = container.querySelector<HTMLInputElement>('#antigravity-search')!;
+    const plan = container.querySelector<HTMLSelectElement>('#antigravity-plan')!;
+    const lifecycle = container.querySelector<HTMLSelectElement>('#antigravity-lifecycle')!;
+    const count = container.querySelector<HTMLElement>('[data-antigravity-count]')!;
+    const empty = container.querySelector<HTMLElement>('[data-antigravity-empty]')!;
+    const rows = Array.from(container.querySelectorAll<HTMLTableRowElement>('[data-antigravity-row]'));
+    const update = () => {
+      const query = search.value.trim().toLowerCase();
+      let visible = 0;
+      for (const row of rows) {
+        const available = plan.value === 'all' || row.dataset.plans!.split(' ').includes(plan.value);
+        row.hidden = !(available && row.dataset.search!.includes(query) && (lifecycle.value === 'all' || row.dataset.lifecycle === lifecycle.value));
+        if (!row.hidden) visible++;
+      }
+      count.textContent = `${visible} ${visible === 1 ? 'model' : 'models'} shown · ${plan.selectedOptions[0].textContent} · ${lifecycle.selectedOptions[0].textContent}`;
+      empty.hidden = visible !== 0;
+    };
+    form.addEventListener('submit', event => event.preventDefault());
+    search.addEventListener('input', update);
+    plan.addEventListener('change', update);
+    lifecycle.addEventListener('change', update);
+    form.addEventListener('reset', () => {
+      search.value = '';
+      plan.value = 'all';
+      lifecycle.value = 'all';
+      update();
+    });
+    form.reset();
+    form.hidden = false;
+    count.hidden = false;
+  }
+</script>

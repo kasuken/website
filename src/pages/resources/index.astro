@@ -3,9 +3,10 @@ import ResourceLayout from '../../layouts/ResourceLayout.astro';
 import Icon from '../../components/Icon.astro';
 import { copilotReviewDate, copilotReviewLabel } from '../../data/copilot';
 import { claudeReviewDate, claudeReviewLabel } from '../../data/claude';
+import { antigravityReviewDate, antigravityReviewLabel } from '../../data/antigravity';
 ---
 
-<ResourceLayout title="Resources" description="Practical developer reference guides with readable tables, clear sources, and review dates. Compare Claude and GitHub Copilot models, pricing, and plans.">
+<ResourceLayout title="Resources" description="Practical reference tables for GitHub Copilot, Claude, and Google Antigravity, including Gemini 4 Argon. Compare models, API prices, and plans with dated sources.">
   <header class="resource-intro">
     <h1>Resources</h1>
     <p class="resource-lead">Reference material to keep close while you work.</p>
@@ -37,6 +38,18 @@ import { claudeReviewDate, claudeReviewLabel } from '../../data/claude';
         </nav>
       </div>
       <p class="resource-reviewed">Reviewed <time datetime={claudeReviewDate}>{claudeReviewLabel}</time></p>
+    </article>
+    <article class="resource-entry">
+      <div>
+        <h3><a href="/resources/antigravity">Antigravity guide <Icon name="arrow-right" class="resource-arrow" /></a></h3>
+        <p>Check model access and plan quotas, then compare Gemini 4 Argon's API prices, thinking levels, and token limits.</p>
+        <nav class="resource-entry-links" aria-label="Antigravity guide sections">
+          <a href="/resources/antigravity#models">Model access</a>
+          <a href="/resources/antigravity#gemini-4-argon">Gemini 4 Argon</a>
+          <a href="/resources/antigravity#plans">Plan comparison</a>
+        </nav>
+      </div>
+      <p class="resource-reviewed">Reviewed <time datetime={antigravityReviewDate}>{antigravityReviewLabel}</time></p>
     </article>
   </section>
 </ResourceLayout>

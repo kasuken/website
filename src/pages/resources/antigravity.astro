@@ -1,0 +1,130 @@
+---
+import ResourceLayout from '../../layouts/ResourceLayout.astro';
+import AntigravityModelTable from '../../components/AntigravityModelTable.astro';
+import {
+  antigravityDescription, antigravityReviewDate, antigravityReviewLabel,
+  antigravitySources as sources, argonFacts, argonPriceRows,
+  antigravityTasks, antigravityPlans,
+} from '../../data/antigravity';
+const money = (value: number) => `$${value.toFixed(2)}`;
+const planRows = [
+  { label: 'Subscription price', values: antigravityPlans.map(plan => plan.price) },
+  { label: 'Baseline refresh', values: antigravityPlans.map(plan => plan.quota) },
+  { label: 'Weekly allowance', values: antigravityPlans.map(plan => plan.allowance) },
+  { label: 'Gemini 4 Argon', values: antigravityPlans.map(plan => plan.argon) },
+  { label: 'Beyond baseline quota', values: antigravityPlans.map(plan => plan.overage) },
+];
+---
+
+<ResourceLayout title="Antigravity & Gemini 4 Argon guide" description={antigravityDescription} guide guideLabel="Antigravity">
+  <header class="resource-intro guide-intro">
+    <h1>Antigravity <span>guide</span></h1>
+    <p class="resource-lead">Model access, task choices, and plans, with a dedicated Gemini 4 Argon reference for API prices and limits.</p>
+    <p class="resource-reviewed">Reviewed against Google's documentation on <time datetime={antigravityReviewDate}>{antigravityReviewLabel}</time>. API prices are in USD.</p>
+    <nav class="resource-contents" aria-label="On this page">
+      <a href="#models">Model access</a>
+      <a href="#gemini-4-argon">Gemini 4 Argon</a>
+      <a href="#choosing-a-model">Choosing a model</a>
+      <a href="#plans">Plan comparison</a>
+      <a href="#sources">Sources &amp; updates</a>
+    </nav>
+  </header>
+
+  <section class="resource-section" id="models" aria-labelledby="antigravity-model-heading">
+    <div class="resource-section-heading">
+      <h2 id="antigravity-model-heading">Which models can I use?</h2>
+      <a href={sources.models.url}>Google's model access table</a>
+    </div>
+    <p class="resource-summary">Access depends on your plan and the Antigravity client. A paid Pro subscription unlocks Argon and Claude 5.5; a Pro trial does not.</p>
+    <AntigravityModelTable />
+    <div class="pricing-notes">
+      <ul class="resource-notes-list">
+        <li><strong>Argon client support:</strong> App, CLI, and IDE extensions. It is unavailable in the standalone Antigravity IDE.</li>
+        <li id="antigravity-removals"><strong>Scheduled removal:</strong> Claude Sonnet 4.6, Claude Opus 4.6, and GPT-OSS-120B leave Antigravity on <time datetime="2026-11-02">2 November 2026</time>.</li>
+        <li><strong>Enterprise partner models:</strong> Claude requires administrator opt-in and is billed by token consumption.</li>
+      </ul>
+    </div>
+    <p class="resource-source">Sources: <a href={sources.models.url}>model availability</a>, <a href={sources.faq.url}>paid-plan eligibility</a>, <a href={sources.enterprise.url}>Enterprise model billing</a>.</p>
+  </section>
+
+  <section class="resource-section" id="gemini-4-argon" aria-labelledby="argon-heading">
+    <div class="resource-section-heading">
+      <h2 id="argon-heading">Gemini 4 Argon, at a glance</h2>
+      <a href={sources.argon.url}>Google's model specifications</a>
+    </div>
+    <p class="resource-summary">Gemini 4 Argon is the official model name. It is available in Antigravity for paid Pro and Ultra subscribers, and through eligible Enterprise setups. Direct Gemini API usage has separate billing.</p>
+    <div class="resource-table-scroll" role="region" aria-labelledby="argon-facts-caption" tabindex="0">
+      <table class="resource-table antigravity-facts-table">
+        <caption id="argon-facts-caption">Direct Gemini API specifications; these do not define an Antigravity subscription's allowance</caption>
+        <thead><tr><th scope="col">Property</th><th scope="col">Gemini 4 Argon</th></tr></thead>
+        <tbody>{argonFacts.map(fact => <tr><th scope="row">{fact.label}</th><td>{'code' in fact && fact.code ? <code class="model-api-id">{fact.value}</code> : fact.value}</td></tr>)}</tbody>
+      </table>
+    </div>
+    <p class="resource-note antigravity-after-table">For example, 200,000 input tokens leave 848,576 tokens for thinking and output within the shared window. The default output limit remains lower unless you explicitly configure long decode.</p>
+    <p class="resource-source">Sources: <a href={sources.argon.url}>model limits and supported formats</a>, <a href={sources.migration.url}>long decode, thinking, and implicit caching</a>, <a href={sources.launch.url}>Antigravity rollout</a>.</p>
+
+    <div class="resource-section-heading antigravity-subheading" id="model-pricing">
+      <h3>What does the Argon API cost?</h3>
+      <a href={sources.pricing.url}>Google's API pricing</a>
+    </div>
+    <p class="resource-summary">These are <strong>Gemini Developer API token rates</strong>. They are not Antigravity subscription prices or a conversion table for Antigravity AI credits. Google has announced higher prices from 1 December 2026.</p>
+    <p class="resource-table-hint">Scroll to compare all rate columns.</p>
+    <div class="resource-table-scroll" role="region" aria-labelledby="argon-pricing-caption" tabindex="0">
+      <table class="resource-table pricing-table argon-pricing-table">
+        <caption id="argon-pricing-caption">Gemini 4 Argon · USD per 1 million tokens · paid API tier</caption>
+        <thead><tr><th scope="col">Price period</th><th scope="col">Mode</th><th scope="col" class="numeric">Input</th><th scope="col" class="numeric">Cached input</th><th scope="col" class="numeric output-price">Output + thinking</th></tr></thead>
+        <tbody>{argonPriceRows.map(row => <tr><th scope="row">{row.period.label}<span class="cell-detail">{row.period.detail}</span></th><td>{row.mode}</td><td class="numeric">{money(row.input)}</td><td class="numeric">{money(row.cached)}</td><td class="numeric output-price">{money(row.output)}</td></tr>)}</tbody>
+      </table>
+    </div>
+    <p class="resource-note antigravity-after-table">Argon has no free API tier. Cache-hit tokens use the cached-input rate instead of the regular input rate. Tool charges can apply separately; check Search and Maps grounding prices before estimating a complete workflow.</p>
+    <p class="resource-note">For existing API integrations, remove explicit cache creation and review output limits. Argon ignores temperature, top-p, and top-k settings. The <a href={sources.migration.url}>migration guide</a> covers the request changes.</p>
+  </section>
+
+  <section class="resource-section" id="choosing-a-model" aria-labelledby="antigravity-choice-heading">
+    <div class="resource-section-heading">
+      <h2 id="antigravity-choice-heading">Choose for the task</h2>
+      <a href={sources.migration.url}>Google's thinking-level guidance</a>
+    </div>
+    <p class="resource-summary">Start with a representative task and clear acceptance checks. These are editorial starting points, not a benchmark ranking; compare total time, token use, and the quality of the finished work.</p>
+    <div class="resource-table-scroll" role="region" aria-labelledby="antigravity-task-caption" tabindex="0">
+      <table class="resource-table antigravity-task-table">
+        <caption id="antigravity-task-caption">Task guidance; model and thinking-level choices depend on your client and plan</caption>
+        <thead><tr><th scope="col">Your task</th><th scope="col">Start with</th><th scope="col">Why / when to switch</th></tr></thead>
+        <tbody>{antigravityTasks.map(row => <tr><th scope="row">{row.task}</th><td class="recommended-fit">{row.start}</td><td>{row.reason}</td></tr>)}</tbody>
+      </table>
+    </div>
+    <p class="resource-note antigravity-after-table">Argon's API offers low, medium, and high thinking, with medium as the default. The client model picker controls the choices in Antigravity. API limits and defaults do not imply that every client exposes the same settings.</p>
+    <p class="resource-source">Sources: <a href={sources.models.url}>Antigravity model picker</a>, <a href={sources.migration.url}>Argon thinking guidance</a>. For Anthropic's direct API, see the <a href="/resources/claude">Claude guide</a>.</p>
+  </section>
+
+  <section class="resource-section" id="plans" aria-labelledby="antigravity-plan-heading">
+    <div class="resource-section-heading">
+      <h2 id="antigravity-plan-heading">Plans and usage limits</h2>
+      <a href={sources.plans.url}>Antigravity plan documentation</a>
+    </div>
+    <p class="resource-summary">Antigravity uses workload-based quotas. Google does not publish a guaranteed number of prompts per plan: a difficult agent task can consume more allowance than a short edit.</p>
+    <p class="resource-table-hint">Scroll to compare plans. Subscription prices vary by region, tax, storage tier, and offers; verify your checkout price.</p>
+    <div class="resource-table-scroll" role="region" aria-labelledby="antigravity-plan-caption" tabindex="0">
+      <table class="resource-table plan-table antigravity-plan-table">
+        <caption id="antigravity-plan-caption">Individual Antigravity access through Google AI plans; Free and Plus share the access tier shown here</caption>
+        <thead><tr><th scope="col">Plan detail</th>{antigravityPlans.map(plan => <th scope="col">{plan.name}</th>)}</tr></thead>
+        <tbody>{planRows.map(row => <tr><th scope="row">{row.label}</th>{row.values.map(value => <td>{value}</td>)}</tr>)}</tbody>
+      </table>
+    </div>
+    <p class="resource-note antigravity-after-table">Google's public plan page lists Pro at $19.99 per month in USD. Plus and Ultra have tier-dependent offers; use <a href={sources.subscriptions.url}>current Google One pricing</a> for your account. Google One's Gemini usage multipliers are not fixed Antigravity prompt allowances.</p>
+    <div class="resource-plan-notes">
+      <p><strong>Baseline and overages</strong>Paid Pro and Ultra can spend purchased or one-time promotional AI credits after baseline quota runs out. The overage setting lets you choose Never or Always. Charges follow Gemini Enterprise consumption pricing.</p>
+      <p><strong>Check usage in the client</strong>View model quota in Settings. In the CLI, use <code>/usage</code> for quotas and <code>/credits</code> for the credit panel; credit fallback is controlled in <code>/settings</code>.</p>
+      <p><strong>Enterprise access</strong>Connect through an eligible Gemini Enterprise Standard or Plus seat, or a Cloud project with consumption billing. Partner Claude models need admin opt-in and token billing; background Gemini coordination can also incur charges.</p>
+    </div>
+    <p class="resource-source">Sources: <a href={sources.plans.url}>baseline quotas and overages</a>, <a href={sources.proPrice.url}>Pro price</a>, <a href={sources.credits.url}>credit purchase eligibility</a>, <a href={sources.cli.url}>CLI controls</a>, <a href={sources.enterprise.url}>Enterprise setup and billing</a>.</p>
+  </section>
+
+  <section class="resource-section resource-sources" id="sources" aria-labelledby="antigravity-sources-heading">
+    <h2 id="antigravity-sources-heading">Sources &amp; updates</h2>
+    <p class="resource-summary">Last reviewed on <time datetime={antigravityReviewDate}>{antigravityReviewLabel}</time>. Access, quotas, retirement dates, and prices can change; check the official sources before choosing a plan or estimating spend.</p>
+    <ul class="resource-source-list">{Object.values(sources).map(source => <li><a href={source.url}>{source.title}</a></li>)}</ul>
+    <p class="resource-note">This independent reference covers Antigravity and Gemini 4 Argon's direct API. For models billed through GitHub, use the <a href="/resources/github-copilot">GitHub Copilot guide</a>.</p>
+    <a class="resource-back" href="/resources">Back to all resources</a>
+  </section>
+</ResourceLayout>

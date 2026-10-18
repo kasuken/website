@@ -110,6 +110,20 @@
 .claude-organization-table { min-width: 960px; }
 .claude-modifier-table { min-width: 650px; }
 .claude-modifier-table th:first-child { width: 185px; }
+.antigravity-model-table { min-width: 1020px; table-layout: fixed; }
+.antigravity-model-table th:first-child { width: 250px; }
+.antigravity-model-table td { font-size: .8125rem; }
+.antigravity-model-table .recommended-fit, .antigravity-task-table .recommended-fit { color: var(--accent-text); font-weight: 600; }
+.antigravity-facts-table { min-width: 650px; }
+.antigravity-facts-table th:first-child { width: 210px; }
+.argon-pricing-table { min-width: 780px; }
+.antigravity-task-table { min-width: 850px; table-layout: fixed; }
+.antigravity-task-table th:first-child { width: 230px; }
+.antigravity-task-table td:nth-child(2) { width: 225px; }
+.antigravity-plan-table { min-width: 900px; }
+.antigravity-after-table { margin-top: 1.25rem; }
+.antigravity-subheading { margin-top: 2.5rem; scroll-margin-top: 6rem; }
+.antigravity-subheading h3 { font-size: 1.5rem; }
 
 @media (max-width: 700px) {
   .resource-main { padding: 2rem 1rem 1rem; }
@@ -128,6 +142,8 @@
   .pricing-table th:first-child { min-width: 170px; width: 170px; max-width: 170px; }
   .task-table th:first-child { min-width: 170px; width: 170px; }
   .plan-table th:first-child { width: 160px; }
+  .antigravity-model-table th:first-child, .antigravity-facts-table th:first-child,
+  .antigravity-task-table th:first-child { width: 155px; }
   .model-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
   .resource-plan-notes { grid-template-columns: 1fr; gap: 0; }
   .resource-source-list { columns: 1; }
