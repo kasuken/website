@@ -122,7 +122,10 @@ const destinations = [
 
         <!-- Explore — editorial list -->
         <section>
-          <SectionHeading title="Explore" description="Four more places to start." />
+          <SectionHeading title="Explore" description="Four more places to start.">
+            <a slot="action" href="/surprise-me" aria-label="Surprise me with an article or project" class="text-sm font-semibold text-[var(--accent-text)] no-underline! hover:underline! whitespace-nowrap">Surprise me</a>
+            <a slot="action-mobile" href="/surprise-me" aria-label="Surprise me with an article or project" class="text-sm font-semibold text-[var(--accent-text)] no-underline! hover:underline!">Surprise me</a>
+          </SectionHeading>
           <div class="flex flex-col divide-y divide-[var(--border)] border-y border-[var(--border)]">
             {destinations.map((item) => (
               <a href={item.href} class="group grid grid-cols-[1fr_auto] items-center gap-6 md:gap-10 py-6 md:py-8 no-underline! hover:bg-[var(--background-secondary)] transition-colors px-2 md:px-4 -mx-2 md:-mx-4">

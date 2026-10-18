@@ -37,7 +37,7 @@ const allProjects = projects.filter(project => !project.featured);
 				</h2>
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 					{featuredProjects.map((project, index) => (
-						<div class:list={["group flex flex-col bg-[var(--background-secondary)]/40 border-2 border-[var(--accent)]/30 rounded-3xl overflow-hidden hover:border-[var(--accent)] transition-all duration-300 shadow-lg shadow-[var(--accent)]/5 hover:-translate-y-1 relative", index === 0 ? "md:col-span-2 md:flex-row" : ""]}>
+						<div id={project.id} tabindex="-1" class:list={["group flex flex-col bg-[var(--background-secondary)]/40 border-2 border-[var(--accent)]/30 rounded-3xl overflow-hidden hover:border-[var(--accent)] transition-all duration-300 shadow-lg shadow-[var(--accent)]/5 hover:-translate-y-1 relative scroll-mt-24", index === 0 ? "md:col-span-2 md:flex-row" : ""]}>
 							
 							{project.status === 'in-progress' && (
 								<div class="absolute top-4 right-4 z-10 px-3 py-1 bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 text-[10px] font-black uppercase tracking-widest rounded-full border border-yellow-500/30 backdrop-blur-md">
@@ -103,7 +103,7 @@ const allProjects = projects.filter(project => !project.featured);
 				</h2>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 					{allProjects.map(project => (
-						<div class="group flex flex-col bg-[var(--background-secondary)]/10 border border-[var(--border)] rounded-2xl p-6 hover:border-[var(--text-secondary)] transition-colors relative">
+						<div id={project.id} tabindex="-1" class="group flex flex-col bg-[var(--background-secondary)]/10 border border-[var(--border)] rounded-2xl p-6 hover:border-[var(--text-secondary)] transition-colors relative scroll-mt-24">
 							
 							{project.status === 'in-progress' && (
 								<div class="absolute -top-3 -right-3 z-10 px-2 py-1 bg-[var(--background)] text-[var(--text-secondary)] text-[9px] font-black uppercase tracking-widest rounded-full border border-[var(--border)]">
