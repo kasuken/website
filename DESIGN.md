@@ -58,12 +58,18 @@ is skipped entirely under `prefers-reduced-motion`.
 
 ### Jetpack bot
 
-`JetpackBot.astro` (mounted from the footer, so it is on every page) is a
-16×16 pixel robot rendered as crisp SVG rects. It flies on an arced path to a
-random visible heading, image, or card, lands on it, idles, and hops again.
-Its visor uses `--accent`, so it follows every theme. It sits at `z-index: 40`
-so it ducks under the sticky header. Click it for a speech bubble;
-double-click parks it for the session. It is hidden under
+`JetpackBot.astro` (mounted from the footer, so it is on every page) renders
+two 16×16 pixel robots as crisp SVG rects. The original flies on an arced
+path to a visible heading, image, or card, lands, and hops again. Its violet
+companion uses the same targeting mechanics but hovers above its destinations.
+The original visor uses `--accent`; the companion has blue jetpack plating.
+They occasionally exchange short laser bolts, aimed outside a safety radius;
+swept collision checks remove any bolt that a moving robot could intercept.
+Movement and the duel share one animation loop in `src/scripts/jetpack-bots.ts`.
+The robots sit at `z-index: 40`, below the sticky header, with non-interactive
+lasers behind them. Click either for a speech bubble; double-click parks that
+robot for the session. A keyboard-accessible Park/Resume robots button controls
+both. Motion pauses in hidden tabs, and both robots and lasers are hidden under
 `prefers-reduced-motion` and in print.
 
 ## Browser surfaces
