@@ -52,7 +52,7 @@ A fast, modern, SEO-optimized personal site — home to five SaaS products, a pu
 - **Books showcase** — published and upcoming titles with purchase links
 - **Portfolio projects** — open-source work and tools
 - **Course catalog** — training programs and workshops
-- **Resources** — GitHub Copilot, Claude, and Antigravity guides with searchable tables, task guidance, plan comparisons, and dated official sources
+- **Resources** — GitHub Copilot, Claude, Antigravity, and Codex guides with searchable tables, task guidance, plan comparisons, and dated official sources
 - **Speaking engagements** — live Sessionize integration for upcoming and past talks
 - **The Million Journey** — a public revenue tracker toward $1,000,000
 - **Real-time dashboard** — live GitHub statistics, contribution calendar and RescueTime productivity metrics
@@ -210,13 +210,15 @@ The five SaaS products in detail — what each does, the problem it solves, its 
 Articles synchronized from Dev.to, with reading time, reactions and an RSS feed.
 
 ### **Resources** (`/resources`)
-Developer reference guides for [GitHub Copilot](src/pages/resources/github-copilot.astro), [Claude](src/pages/resources/claude.astro), and [Antigravity](src/pages/resources/antigravity.astro) under `/resources`. Available from **More → Resources**, the mobile menu, and the footer. The guides use HTML tables for model comparisons, task choices, and plans.
+Developer reference guides for [GitHub Copilot](src/pages/resources/github-copilot.astro), [Claude](src/pages/resources/claude.astro), [Antigravity](src/pages/resources/antigravity.astro), and [Codex](src/pages/resources/codex.astro) under `/resources`. Available from **More → Resources**, the mobile menu, and the footer. The guides use HTML tables for model comparisons, task choices, and plans.
 
 Update the guide's rates, model notes, plan allowances, task matrix, and review date in [`src/data/copilot.ts`](src/data/copilot.ts). See [the maintenance notes](docs/copilot-guide-maintenance.md) for the source review process.
 
 Claude content lives in [`src/data/claude.ts`](src/data/claude.ts), with [research and maintenance notes](docs/claude-guide-research.md). The Claude guide separates direct API rates, cache fees, Batch/Fast pricing, and app subscriptions, including the separate API-credit benefits on eligible plans.
 
 Antigravity content lives in [`src/data/antigravity.ts`](src/data/antigravity.ts), with [research and maintenance notes](docs/antigravity-guide-research.md). Its dedicated Gemini 4 Argon section separates Developer API rates from Antigravity plan quotas and credit overages. Review the model removal and future-price dates when updating the guide.
+
+Codex content lives in [`src/data/codex.ts`](src/data/codex.ts), with [research and maintenance notes](docs/codex-guide-research.md). It keeps subscription allowances, purchased-credit rates, and API token prices separate. Independent searchable credit and API tables include model/scope, speed or processing mode, and sorting controls. The guide also covers effort choices, workspace rollout, local/cloud workflows, and CLI controls.
 
 ### 💼 **Portfolio** (`/portfolio`)
 Open-source projects and tools, with links to live demos and repositories.

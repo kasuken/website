@@ -8,6 +8,7 @@ import SectionHeading from '../components/SectionHeading.astro';
 import Button from '../components/Button.astro';
 import ProductShowcase from '../components/ProductShowcase.astro';
 import ProductMark from '../components/ProductMark.astro';
+import ResourcesNotice from '../components/ResourcesNotice.astro';
 import { products } from '../data/products.ts';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
@@ -57,9 +58,10 @@ const destinations = [
   <body class="bg-[var(--background)] text-[var(--text-primary)] antialiased">
     <Header />
     <main class="w-full max-w-6xl mx-auto px-6">
+      <ResourcesNotice />
 
       <!-- Hero Section — asymmetric editorial layout -->
-      <section class="relative pt-16 pb-16 md:pt-24 md:pb-24">
+      <section class="relative pt-12 pb-16 md:pt-16 md:pb-24">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16 items-end">
           <div class="md:col-span-8">
             <h1 class="font-display text-6xl sm:text-7xl lg:text-8xl tracking-tight leading-[0.98] text-[var(--text-primary)] mb-8 reveal reveal-2">

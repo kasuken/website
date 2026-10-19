@@ -4,9 +4,10 @@ import Icon from '../../components/Icon.astro';
 import { copilotReviewDate, copilotReviewLabel } from '../../data/copilot';
 import { claudeReviewDate, claudeReviewLabel } from '../../data/claude';
 import { antigravityReviewDate, antigravityReviewLabel } from '../../data/antigravity';
+import { codexReviewDate, codexReviewLabel } from '../../data/codex';
 ---
 
-<ResourceLayout title="Resources" description="Practical reference tables for GitHub Copilot, Claude, and Google Antigravity, including Gemini 4 Argon. Compare models, API prices, and plans with dated sources.">
+<ResourceLayout title="Resources" description="Practical reference tables for Codex, GitHub Copilot, Claude, and Google Antigravity. Compare models, credit and API prices, and plans with dated official sources.">
   <header class="resource-intro">
     <h1>Resources</h1>
     <p class="resource-lead">Reference material to keep close while you work.</p>
@@ -50,6 +51,19 @@ import { antigravityReviewDate, antigravityReviewLabel } from '../../data/antigr
         </nav>
       </div>
       <p class="resource-reviewed">Reviewed <time datetime={antigravityReviewDate}>{antigravityReviewLabel}</time></p>
+    </article>
+    <article class="resource-entry">
+      <div>
+        <h3><a href="/resources/codex">Codex guide <Icon name="arrow-right" class="resource-arrow" /></a></h3>
+        <p>Choose models and reasoning levels, compare plans and credit rates, and understand separate API pricing and local or cloud workflows.</p>
+        <nav class="resource-entry-links" aria-label="Codex guide sections">
+          <a href="/resources/codex#model-pricing">Credit rates</a>
+          <a href="/resources/codex#choosing-a-model">Reasoning &amp; speed</a>
+          <a href="/resources/codex#plans">Plan comparison</a>
+          <a href="/resources/codex#api-pricing">API pricing</a>
+        </nav>
+      </div>
+      <p class="resource-reviewed">Reviewed <time datetime={codexReviewDate}>{codexReviewLabel}</time></p>
     </article>
   </section>
 </ResourceLayout>

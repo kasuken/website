@@ -124,6 +124,26 @@
 .antigravity-after-table { margin-top: 1.25rem; }
 .antigravity-subheading { margin-top: 2.5rem; scroll-margin-top: 6rem; }
 .antigravity-subheading h3 { font-size: 1.5rem; }
+.codex-overview-table { min-width: 620px; }
+.codex-overview-table th:first-child { width: 240px; }
+.codex-credit-table { min-width: 850px; }
+.codex-pricing-table th:first-child { width: 250px; }
+.codex-task-table, .codex-workflow-table { min-width: 900px; table-layout: fixed; }
+.codex-task-table th:first-child, .codex-workflow-table th:first-child { width: 240px; }
+.codex-task-table td:nth-child(2) { width: 245px; }
+.codex-task-table .recommended-fit { color: var(--accent-text); font-weight: 600; }
+.codex-speed-table { min-width: 850px; }
+.codex-speed-table th:first-child { width: 150px; }
+.codex-plan-table { min-width: 1000px; table-layout: fixed; }
+.codex-plan-table th:first-child { width: 160px; }
+.codex-organization-table { min-width: 850px; }
+.codex-organization-table th:first-child { width: 190px; }
+.codex-command-table { min-width: 620px; }
+.codex-command-table th:first-child { width: 180px; }
+.codex-number { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.codex-after-table { margin-top: 1.25rem; }
+.codex-subheading { margin-top: 2.5rem; scroll-margin-top: 6rem; }
+.codex-subheading h3 { font-size: 1.5rem; }
 
 @media (max-width: 700px) {
   .resource-main { padding: 2rem 1rem 1rem; }
@@ -144,6 +164,9 @@
   .plan-table th:first-child { width: 160px; }
   .antigravity-model-table th:first-child, .antigravity-facts-table th:first-child,
   .antigravity-task-table th:first-child { width: 155px; }
+  .codex-overview-table th:first-child, .codex-task-table th:first-child,
+  .codex-workflow-table th:first-child, .codex-command-table th:first-child,
+  .codex-organization-table th:first-child { width: 155px; }
   .model-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
   .resource-plan-notes { grid-template-columns: 1fr; gap: 0; }
   .resource-source-list { columns: 1; }

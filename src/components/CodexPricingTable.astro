@@ -1,0 +1,94 @@
+---
+import { codexCreditRows, codexApiRows, codexModes } from '../data/codex';
+interface Props { kind: 'credits' | 'api' }
+const { kind } = Astro.props;
+const api = kind === 'api';
+const prefix = `codex-${kind}`;
+const rows = api ? codexApiRows : codexCreditRows;
+const modes = api ? ['standard', 'batch', 'flex', 'fast', 'ultrafast'] as const : ['standard', 'fast', 'ultrafast'] as const;
+const number = (value: number) => `${api ? '$' : ''}${value.toLocaleString('en-US', { minimumFractionDigits: api ? 2 : 0, maximumFractionDigits: 5 })}`;
+---
+
+<div data-codex-pricing={kind}>
+  <form class="pricing-controls" aria-label={`Filter Codex ${api ? 'API prices' : 'credit rates'}`} hidden>
+    <div class="pricing-search">
+      <label for={`${prefix}-search`}>Find a model{api && ' or API ID'}</label>
+      <input id={`${prefix}-search`} data-search type="search" placeholder="Try Sol, Luna, or Astra" autocomplete="off" aria-controls={`${prefix}-body`} />
+    </div>
+    <div>
+      <label for={`${prefix}-scope`}>{api ? 'Prompt length' : 'Model range'}</label>
+      <select id={`${prefix}-scope`} data-scope aria-controls={`${prefix}-body`}>
+        {api ? <><option value="short">Up to 272K input tokens</option><option value="long">Over 272K input tokens</option><option value="all">Both prompt bands</option></> : <><option value="current">Current recommendations</option><option value="earlier">Earlier available models</option><option value="all">All listed models</option></>}
+      </select>
+    </div>
+    <div>
+      <label for={`${prefix}-mode`}>{api ? 'API processing' : 'Codex speed'}</label>
+      <select id={`${prefix}-mode`} data-mode aria-controls={`${prefix}-body`}>
+        {modes.map(mode => <option value={mode}>{codexModes[mode]}</option>)}
+        <option value="all">All {api ? 'processing modes' : 'speeds'}</option>
+      </select>
+    </div>
+    <div>
+      <label for={`${prefix}-sort`}>Sort by</label>
+      <select id={`${prefix}-sort`} data-sort aria-controls={`${prefix}-body`}>
+        <option value="output">Output: low to high</option>
+        <option value="input">Input: low to high</option>
+        <option value="name">Model name: A to Z</option>
+      </select>
+    </div>
+    <button type="reset" class="resource-reset">Reset</button>
+  </form>
+  <p class="pricing-results" data-count role="status" aria-live="polite" aria-atomic="true" hidden></p>
+  <p class="resource-table-hint" id={`${prefix}-hint`}>Scroll to compare all columns and rows. Model names stay in view.</p>
+  <div class="resource-table-scroll pricing-scroll" role="region" aria-labelledby={`${prefix}-caption`} aria-describedby={`${prefix}-hint`} tabindex="0">
+    <table class:list={['resource-table', 'pricing-table', 'codex-pricing-table', { 'codex-credit-table': !api }]}>
+      <caption id={`${prefix}-caption`}>{api ? 'Direct OpenAI API · USD per 1 million tokens · global processing' : 'Codex credit billing · credits per 1 million tokens · purchased credits / Enterprise pay-as-you-go'}</caption>
+      <thead><tr><th scope="col">Model{api && ' / API ID'}</th><th scope="col">{api ? 'Processing / prompt band' : 'Speed'}</th><th scope="col" class="numeric">Input</th><th scope="col" class="numeric">Cached input</th>{api && <th scope="col" class="numeric">Cache write</th>}<th scope="col" class="numeric output-price">Output</th></tr></thead>
+      <tbody id={`${prefix}-body`}>
+        {rows.map(row => <tr data-codex-row data-name={row.model.name} data-search={`${row.model.name} ${row.model.id ?? ''}`.toLowerCase()} data-scope={api ? row.band : row.model.scope} data-mode={row.mode} data-input={row.rates.input} data-output={row.rates.output}>
+          <th scope="row"><span class="model-name">{row.model.name}</span>{row.model.id && <code class="cell-detail model-api-id">{row.model.id}</code>}<span class="cell-detail">{row.model.scope === 'current' ? 'Current recommendation' : 'Earlier model · available during rollout'}</span></th>
+          <td>{codexModes[row.mode]}{api && <span class="cell-detail">{row.band === 'short' ? 'Prompt ≤ 272K input tokens' : 'Prompt > 272K input tokens'}</span>}</td>
+          <td class="numeric">{number(row.rates.input)}</td><td class="numeric">{number(row.rates.cached)}</td>{api && <td class="numeric">{number(row.rates.write!)}</td>}<td class="numeric output-price">{number(row.rates.output)}</td>
+        </tr>)}
+      </tbody>
+    </table>
+  </div>
+  <p class="pricing-empty" data-empty hidden>No matching rates. Try another model, change the filters, or reset this table.</p>
+  <noscript><p class="resource-note">All {api ? 'API rates and prompt bands' : 'credit rates and speeds'} are visible. Use your browser's Find command to locate a model.</p></noscript>
+</div>
+
+<script>
+  for (const container of document.querySelectorAll<HTMLElement>('[data-codex-pricing]')) {
+    const api = container.dataset.codexPricing === 'api';
+    const form = container.querySelector<HTMLFormElement>('form')!;
+    const search = container.querySelector<HTMLInputElement>('[data-search]')!;
+    const scope = container.querySelector<HTMLSelectElement>('[data-scope]')!;
+    const mode = container.querySelector<HTMLSelectElement>('[data-mode]')!;
+    const sort = container.querySelector<HTMLSelectElement>('[data-sort]')!;
+    const count = container.querySelector<HTMLElement>('[data-count]')!;
+    const empty = container.querySelector<HTMLElement>('[data-empty]')!;
+    const body = container.querySelector<HTMLTableSectionElement>('tbody')!;
+    const rows = Array.from(body.querySelectorAll<HTMLTableRowElement>('[data-codex-row]'));
+    const update = () => {
+      const query = search.value.trim().toLowerCase();
+      rows.sort((a, b) => sort.value === 'name' ? a.dataset.name!.localeCompare(b.dataset.name!) : Number(a.dataset[sort.value]) - Number(b.dataset[sort.value]) || a.dataset.name!.localeCompare(b.dataset.name!));
+      let visible = 0;
+      const fragment = document.createDocumentFragment();
+      for (const row of rows) {
+        row.hidden = !((scope.value === 'all' || row.dataset.scope === scope.value) && (mode.value === 'all' || row.dataset.mode === mode.value) && row.dataset.search!.includes(query));
+        if (!row.hidden) visible++;
+        fragment.append(row);
+      }
+      body.append(fragment);
+      count.textContent = `${visible} ${visible === 1 ? 'rate' : 'rates'} shown · ${api ? 'USD' : 'credits'} · ${scope.selectedOptions[0].textContent} · ${mode.selectedOptions[0].textContent}`;
+      empty.hidden = visible !== 0;
+    };
+    form.addEventListener('submit', event => event.preventDefault());
+    search.addEventListener('input', update);
+    for (const select of [scope, mode, sort]) select.addEventListener('change', update);
+    form.addEventListener('reset', () => { search.value = ''; scope.value = api ? 'short' : 'current'; mode.value = 'standard'; sort.value = 'output'; update(); });
+    form.reset();
+    form.hidden = false;
+    count.hidden = false;
+  }
+</script>

@@ -1,0 +1,154 @@
+---
+import ResourceLayout from '../../layouts/ResourceLayout.astro';
+import CodexPricingTable from '../../components/CodexPricingTable.astro';
+import {
+  codexDescription, codexReviewDate, codexReviewLabel, codexSources as sources,
+  codexCurrentModels, codexTasks, codexSpeeds, codexPersonalPlans,
+  codexOrganizationPlans, codexUsageEstimates, codexWorkflows, codexCommands,
+} from '../../data/codex';
+---
+
+<ResourceLayout title="Codex models, pricing & plans guide" description={codexDescription} guide guideLabel="Codex">
+  <header class="resource-intro guide-intro">
+    <h1>Codex <span>guide</span></h1>
+    <p class="resource-lead">Choose a model, understand your plan, and compare credit rates with API costs. A practical reference for working with Codex.</p>
+    <p class="resource-reviewed">Reviewed against official OpenAI documentation on <time datetime={codexReviewDate}>{codexReviewLabel}</time>. Subscription and API prices are in USD; regional prices and taxes can differ.</p>
+    <nav class="resource-contents" aria-label="On this page">
+      <a href="#models">Models</a><a href="#model-pricing">Credit rates</a><a href="#choosing-a-model">Reasoning &amp; speed</a><a href="#plans">Plans &amp; limits</a><a href="#api-pricing">API pricing</a><a href="#workflows">Workflows</a><a href="#sources">Sources &amp; updates</a>
+    </nav>
+  </header>
+
+  <section class="resource-section" id="models" aria-labelledby="codex-model-heading">
+    <div class="resource-section-heading"><h2 id="codex-model-heading">Which model should I start with?</h2><a href={sources.models.url}>OpenAI's current Codex models</a></div>
+    <p class="resource-summary">OpenAI recommends GPT-6.1 Sol for complex coding and agent workflows, and Luna for focused, repeatable work. Evaluate Astra when the task needs deeper judgment and its higher usage is justified.</p>
+    <div class="resource-table-scroll" role="region" aria-labelledby="codex-model-caption" tabindex="0">
+      <table class="resource-table codex-overview-table">
+        <caption id="codex-model-caption">Current model starting points; availability depends on your plan, client, and workspace</caption>
+        <thead><tr><th scope="col">Model / identifier</th><th scope="col">Useful starting point for</th></tr></thead>
+        <tbody>{codexCurrentModels.map(model => <tr><th scope="row">{model.name}<code class="cell-detail model-api-id">{model.id}</code></th><td>{model.role}</td></tr>)}</tbody>
+      </table>
+    </div>
+    <div class="pricing-notes">
+      <ul class="resource-notes-list">
+        <li><strong>GPT-6.1 Sol rollout:</strong> Plus, Pro, Business, Enterprise, and Edu are included at launch. Enterprise and Edu administrators must enable it; Free and Go are excluded from this launch.</li>
+        <li><strong>Earlier models:</strong> GPT-6 Sol and the GPT-5.6 Sol, Terra, and Luna lineup remain available during rollout. The credit table can show their rates.</li>
+        <li id="codex-retirement"><strong>GPT-5.5 retired on 14 October 2026</strong> for Codex with ChatGPT sign-in. API-key sessions and the OpenAI API are unaffected by that retirement.</li>
+      </ul>
+    </div>
+    <p class="resource-note">The three current API models have a 1,050,000-token context window and 128,000-token maximum output. These are API specifications; they do not promise that a Codex client loads an entire repository or exposes the same effective context.</p>
+    <p class="resource-source">Sources: <a href={sources.models.url}>rollout and retirement</a>, <a href={sources.workspace.url}>workspace access</a>, API specifications for <a href={sources.luna.url}>Luna</a>, <a href={sources.sol.url}>Sol 6.1</a>, and <a href={sources.astra.url}>Astra</a>.</p>
+  </section>
+
+  <section class="resource-section" id="model-pricing" aria-labelledby="codex-credit-heading">
+    <div class="resource-section-heading"><h2 id="codex-credit-heading">What does Codex credit usage cost?</h2><a href={`${sources.plans.url}#token-rates`}>OpenAI's credit rate table</a></div>
+    <p class="resource-summary">These rates apply to purchased credits and eligible Enterprise pay-as-you-go usage. <strong>The unit is credits per million tokens.</strong> Your included subscription allowance follows its own limits.</p>
+    <CodexPricingTable kind="credits" />
+    <p class="resource-note codex-after-table">Fast and Ultrafast credit rows are calculated from the published 2x and 6x multipliers. Codex credit billing has no separate cache-write charge. Credit purchase prices and discounts depend on your plan or agreement; a credit is not a US dollar.</p>
+    <p class="resource-note">Legacy Enterprise agreements may use another rate card. GPT-5.6 Sol promotional pricing is documented through at least 21 November 2026. Restricted research and cyber models are outside this coding reference.</p>
+    <p class="resource-source">Sources: <a href={sources.plans.url}>credit rates and agreement exceptions</a>, <a href={sources.speed.url}>speed billing</a>. For API-key usage, jump to <a href="#api-pricing">direct API pricing</a>.</p>
+  </section>
+
+  <section class="resource-section" id="choosing-a-model" aria-labelledby="codex-choice-heading">
+    <div class="resource-section-heading"><h2 id="codex-choice-heading">Choose effort and speed for the work</h2><a href={sources.selection.url}>OpenAI's selection guidance</a></div>
+    <p class="resource-summary">Start with the default effort available to your account, then adjust after a representative task. Higher effort spends more time and tokens on reasoning. These editorial starting points adapt OpenAI's guidance to coding work.</p>
+    <div class="resource-table-scroll" role="region" aria-labelledby="codex-task-caption" tabindex="0">
+      <table class="resource-table codex-task-table">
+        <caption id="codex-task-caption">Task choices to evaluate on your own code; no benchmark ranking is implied</caption>
+        <thead><tr><th scope="col">Your task</th><th scope="col">Start with</th><th scope="col">What to check</th></tr></thead>
+        <tbody>{codexTasks.map(task => <tr><th scope="row">{task.task}</th><td class="recommended-fit">{task.start}</td><td>{task.check}</td></tr>)}</tbody>
+      </table>
+    </div>
+    <p class="resource-note codex-after-table">In the desktop model controls, Power balances the choices available to you; Advanced exposes specific settings. CLI users can use <code>/model</code>. <strong>Ultra reasoning and Ultrafast speed are separate controls.</strong> Ultra can involve subagents, whose model and tool work adds token usage.</p>
+    <div class="resource-section-heading codex-subheading" id="speed"><h3>How speed changes usage</h3><a href={sources.speed.url}>Speed modes and eligibility</a></div>
+    <div class="resource-table-scroll" role="region" aria-labelledby="codex-speed-caption" tabindex="0">
+      <table class="resource-table codex-speed-table">
+        <caption id="codex-speed-caption">Relative to Standard for the same model; included allowance and purchased credits use different multipliers</caption>
+        <thead><tr><th scope="col">Speed</th><th scope="col">Included allowance consumed</th><th scope="col">Purchased-credit rate</th><th scope="col">Access</th></tr></thead>
+        <tbody>{codexSpeeds.map(speed => <tr><th scope="row">{speed.name}</th><td class="codex-number">{speed.included}</td><td class="codex-number">{speed.credits}</td><td>{speed.access}</td></tr>)}</tbody>
+      </table>
+    </div>
+    <p class="resource-note codex-after-table">Ultrafast is off by default in Enterprise and requires an eligible agreement and administrator enablement. Purchasing credits does not unlock it on other personal tiers. API-key usage has separate API eligibility and prices.</p>
+    <p class="resource-source">Sources: <a href={sources.selection.url}>model and effort choices</a>, <a href={sources.models.url}>Power and Advanced</a>, <a href={sources.subagents.url}>subagent usage</a>, <a href={sources.speed.url}>speed multipliers and access</a>.</p>
+  </section>
+
+  <section class="resource-section" id="plans" aria-labelledby="codex-plan-heading">
+    <div class="resource-section-heading"><h2 id="codex-plan-heading">Plans and included usage</h2><a href={sources.plans.url}>Current plan documentation</a></div>
+    <p class="resource-summary">With ChatGPT sign-in, Codex and ChatGPT Work share usage. Model choice, context, tool work, and caching affect how quickly you use an allowance. Check your dashboard for the limits and reset times that apply to your account.</p>
+    <p class="resource-table-hint">Scroll to compare all columns. USD reference prices; offers and regional checkout prices can vary.</p>
+    <div class="resource-table-scroll" role="region" aria-labelledby="codex-personal-caption" tabindex="0">
+      <table class="resource-table codex-plan-table">
+        <caption id="codex-personal-caption">Individual ChatGPT plans with Codex access, reviewed {codexReviewLabel}</caption>
+        <thead><tr><th scope="col">Plan</th><th scope="col">Monthly price</th><th scope="col">Codex access</th><th scope="col">Allowance and extras</th></tr></thead>
+        <tbody>{codexPersonalPlans.map(plan => <tr><th scope="row">{plan.name}</th><td>{plan.price}</td><td>{plan.access}</td><td>{plan.limits}</td></tr>)}</tbody>
+      </table>
+    </div>
+    <div class="resource-section-heading codex-subheading"><h3>Team and organization plans</h3></div>
+    <div class="resource-table-scroll" role="region" aria-labelledby="codex-organization-caption" tabindex="0">
+      <table class="resource-table codex-organization-table">
+        <caption id="codex-organization-caption">Organization pricing and access; negotiated terms and seat types can differ</caption>
+        <thead><tr><th scope="col">Plan</th><th scope="col">Price</th><th scope="col">Usage and controls</th></tr></thead>
+        <tbody>{codexOrganizationPlans.map(plan => <tr><th scope="row">{plan.name}</th><td>{plan.price}</td><td>{plan.detail}</td></tr>)}</tbody>
+      </table>
+    </div>
+    <div class="resource-section-heading codex-subheading"><h3>How far can an allowance go?</h3></div>
+    <p class="resource-summary">OpenAI publishes these estimates for <strong>local messages per five hours on Plus and Standard Business</strong>. They are illustrative ranges, not guaranteed message counts. Cloud work shares the allowance and may consume more.</p>
+    <div class="resource-table-scroll" role="region" aria-labelledby="codex-usage-caption" tabindex="0">
+      <table class="resource-table codex-overview-table">
+        <caption id="codex-usage-caption">Published estimates; model, task, context, and speed change actual usage</caption>
+        <thead><tr><th scope="col">Model</th><th scope="col">Estimated local messages / 5 hours</th></tr></thead>
+        <tbody>{codexUsageEstimates.map(estimate => <tr><th scope="row">{estimate.model}</th><td class="codex-number">{estimate.range}</td></tr>)}</tbody>
+      </table>
+    </div>
+    <p class="resource-note codex-after-table">Pro currently has no five-hour cap; that does not mean unlimited usage. Plus and Pro can buy extra credits. Flexible Business, Enterprise, and Edu workspaces can use workspace credits. Your agreement and dashboard remain the authority.</p>
+    <p class="resource-source">Source: <a href={sources.plans.url}>plans, usage estimates, and shared limits</a>. In the CLI, <code>/status</code> shows current usage information.</p>
+  </section>
+
+  <section class="resource-section" id="api-pricing" aria-labelledby="codex-api-heading">
+    <div class="resource-section-heading"><h2 id="codex-api-heading">Direct API pricing</h2><a href={sources.api.url}>OpenAI API prices</a></div>
+    <p class="resource-summary">Signing in with an API key bills the key's API organization and project. The table below uses <strong>USD per million tokens</strong> for the three current models. Batch and Flex are API processing options, not Codex app speed buttons.</p>
+    <CodexPricingTable kind="api" />
+    <div class="pricing-notes">
+      <ul class="resource-notes-list">
+        <li><strong>Long prompts:</strong> above 272,000 input tokens, the full request uses 2x input and cache rates and 1.5x output rates. Select the relevant prompt band.</li>
+        <li><strong>Calculated rows:</strong> Batch and Flex use 0.5x Standard, Fast uses 2x, and supported Ultrafast uses 6x. The table applies those documented rules to each prompt band.</li>
+        <li><strong>Request billing:</strong> input, cached input, cache writes, and output are different categories. Tool fees and eligible regional-processing premiums can add costs; check the full price list.</li>
+      </ul>
+    </div>
+    <p class="resource-note">The API publishes Ultrafast access for Astra and Sol 6.1 independently of ChatGPT's Pro $500 requirement. Codex Cloud requires ChatGPT sign-in; API-key access does not include its hosted integrations.</p>
+    <p class="resource-source">Sources: <a href={sources.api.url}>API rates</a>, pricing rules for <a href={sources.sol.url}>Sol 6.1</a>, <a href={sources.astra.url}>Astra</a>, and <a href={sources.luna.url}>Luna</a>, <a href={sources.ultrafastApi.url}>Ultrafast API</a>, <a href={sources.auth.url}>authentication boundary</a>.</p>
+  </section>
+
+  <section class="resource-section" id="workflows" aria-labelledby="codex-workflow-heading">
+    <div class="resource-section-heading"><h2 id="codex-workflow-heading">Where to use Codex</h2><a href={sources.practice.url}>OpenAI's working practices</a></div>
+    <p class="resource-summary">Choose the execution environment for the work as well as the model. Local tools and permissions apply to local tasks; hosted work needs its own configured environment and access.</p>
+    <div class="resource-table-scroll" role="region" aria-labelledby="codex-workflow-caption" tabindex="0">
+      <table class="resource-table codex-workflow-table">
+        <caption id="codex-workflow-caption">Common coding workflows; client capabilities and sign-in options can differ</caption>
+        <thead><tr><th scope="col">Surface</th><th scope="col">Where work runs</th><th scope="col">When it fits</th></tr></thead>
+        <tbody>{codexWorkflows.map(workflow => <tr><th scope="row">{workflow.surface}</th><td>{workflow.where}</td><td>{workflow.use}</td></tr>)}</tbody>
+      </table>
+    </div>
+    <div class="resource-section-heading codex-subheading"><h3>Useful CLI controls</h3><a href={sources.cli.url}>CLI documentation</a></div>
+    <div class="resource-table-scroll" role="region" aria-labelledby="codex-command-caption" tabindex="0">
+      <table class="resource-table codex-command-table">
+        <caption id="codex-command-caption">Commands inside a Codex CLI session, plus the non-interactive shell command</caption>
+        <thead><tr><th scope="col">Command</th><th scope="col">Purpose</th></tr></thead>
+        <tbody>{codexCommands.map(command => <tr><th scope="row"><code class="model-api-id">{command.command}</code></th><td>{command.purpose}</td></tr>)}</tbody>
+      </table>
+    </div>
+    <div class="resource-plan-notes">
+      <p><strong>Give it a verifiable task</strong>State the outcome, relevant files, constraints, and checks. Ask for a plan when the change is ambiguous or spans several systems.</p>
+      <p><strong>Keep repository guidance reusable</strong>Use a concise <code>AGENTS.md</code> for build commands, conventions, and what done means. Keep the guidance current as the project changes.</p>
+      <p><strong>Review the finished work</strong>Read the diff and relevant check results before accepting it. A local <code>/review</code> uses general allowance; GitHub-triggered Codex reviews use Code Review usage.</p>
+    </div>
+    <p class="resource-source">Sources: <a href={sources.auth.url}>local and cloud sign-in</a>, <a href={sources.cli.url}>CLI controls</a>, <a href={sources.ide.url}>editor workflows</a>, <a href={sources.cloud.url}>hosted environments</a>, <a href={sources.practice.url}>task guidance and review</a>, <a href={sources.plans.url}>review usage</a>.</p>
+  </section>
+
+  <section class="resource-section resource-sources" id="sources" aria-labelledby="codex-sources-heading">
+    <h2 id="codex-sources-heading">Sources &amp; updates</h2>
+    <p class="resource-summary">Reviewed on <time datetime={codexReviewDate}>{codexReviewLabel}</time>. Check current documentation before budgeting or changing a workspace default. Rollouts, prices, limits, and promotions can change.</p>
+    <ul class="resource-source-list">{Object.values(sources).map(source => <li><a href={source.url}>{source.title}</a></li>)}</ul>
+    <p class="resource-note">Task choices are editorial guidance based on OpenAI's documentation; no comparative benchmark was run. This guide focuses on Codex and its current coding models. For GitHub-billed model usage, see the <a href="/resources/github-copilot">GitHub Copilot guide</a>.</p>
+    <a class="resource-back" href="/resources">Back to all resources</a>
+  </section>
+</ResourceLayout>

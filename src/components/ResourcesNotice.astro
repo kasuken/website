@@ -1,0 +1,39 @@
+---
+import Icon from './Icon.astro';
+---
+
+<aside class="resources-announcement" aria-label="New Resources section">
+  <a class="resources-notice" href="/resources">
+    <span class="resources-notice-copy">
+      <strong class="resources-notice-title">New: Resources for developers</strong>
+      <span class="resources-notice-description">Model, pricing, and plan guides for Codex, GitHub Copilot, Claude, and Antigravity.</span>
+    </span>
+    <span class="resources-notice-action">Explore Resources <Icon name="arrow-right" class="resources-notice-arrow" /></span>
+  </a>
+</aside>
+
+<style>
+  .resources-announcement { margin-top: 1.5rem; }
+  .resources-notice {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid color-mix(in srgb, var(--accent-text) 32%, var(--border));
+    border-radius: var(--radius-card);
+    background: color-mix(in srgb, var(--accent) 8%, var(--background));
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+  .resources-notice:hover { background: color-mix(in srgb, var(--accent) 12%, var(--background)); }
+  .resources-notice:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 4px; }
+  .resources-notice-copy { display: grid; gap: .25rem; min-width: 0; }
+  .resources-notice-title { font-family: var(--font-display); font-size: 1.125rem; line-height: 1.4; font-weight: 600; color: var(--accent-text); }
+  .resources-notice-description { font-size: .9375rem; line-height: 1.5; color: var(--text-secondary); }
+  .resources-notice-action { display: inline-flex; flex-shrink: 0; align-items: center; gap: .625rem; font-weight: 600; color: var(--accent-text); text-decoration: underline; text-underline-offset: .2em; white-space: nowrap; }
+  .resources-notice-action :global(.resources-notice-arrow) { width: 1.125rem; height: 1.125rem; }
+  @media (max-width: 700px) {
+    .resources-notice { flex-direction: column; align-items: flex-start; gap: .875rem; padding: 1.125rem; }
+  }
+</style>
