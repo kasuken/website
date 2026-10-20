@@ -79,6 +79,14 @@
 .task-table td { font-size: .8125rem; }
 .task-table .recommended-fit { color: var(--accent-text); font-weight: 600; background: color-mix(in srgb, var(--accent) 7%, var(--background)); }
 .secondary-fit { color: var(--text-secondary); }
+.copilot-routing-table { min-width: 760px; table-layout: fixed; }
+.copilot-routing-table th:first-child { width: 170px; }
+.copilot-auto-table { min-width: 650px; table-layout: fixed; }
+.copilot-auto-table th:first-child { width: 145px; }
+.copilot-pattern-table { min-width: 600px; }
+.copilot-pattern-table th:first-child { width: 145px; }
+.copilot-subheading { margin: 2.5rem 0 .75rem; font-size: 1.5rem; scroll-margin-top: 6rem; }
+.copilot-after-table { margin-top: 1.25rem; }
 .plan-table { min-width: 1100px; table-layout: fixed; }
 .plan-table th:first-child { width: 220px; }
 .plan-table td { font-size: .875rem; }
@@ -161,6 +169,8 @@
   .resource-table th, .resource-table td { padding: .75rem; }
   .pricing-table th:first-child { min-width: 170px; width: 170px; max-width: 170px; }
   .task-table th:first-child { min-width: 170px; width: 170px; }
+  .copilot-routing-table th:first-child, .copilot-auto-table th:first-child,
+  .copilot-pattern-table th:first-child { width: 130px; }
   .plan-table th:first-child { width: 160px; }
   .antigravity-model-table th:first-child, .antigravity-facts-table th:first-child,
   .antigravity-task-table th:first-child { width: 155px; }

@@ -14,6 +14,8 @@ Edit `src/data/copilot.ts`. No screenshots need to be regenerated.
 - `modelGroups` and `taskGuidance`: editorial task recommendations. These must
   remain explicitly distinguished from official GitHub rankings.
 - `copilotPlans`: monthly prices, base and flex allowances, and plan differences.
+- `copilotSelectionOptions`, `copilotAutoTiers`, and `copilotHydraPatterns`:
+  the selection, tier, and workflow tables, including editorial task examples.
 - `copilotSources`: the official documentation supporting the reference.
 - `copilotReviewDate` and `copilotReviewLabel`: advance both only after checking
   the content. The index and guide share these values.
@@ -29,11 +31,20 @@ Edit `src/data/copilot.ts`. No screenshots need to be regenerated.
    credits are variable. Business and Enterprise credits are pooled. Legacy
    annual request billing must not be described using the monthly table.
 4. Recheck model examples and task guidance after removing or adding models.
+   Compare the dated retirement announcements with the supported-model page;
+   a stale client or plan matrix must not keep a retired model in current rates.
 5. Review training and provider retention separately. A no-training commitment
    does not imply every model has zero retention.
 6. Update the explicit review date after the review, then run `npm run build`
    and `git diff --check`. In the preview, check search, all tier options,
    numeric sorting, no-match recovery, mobile table scrolling, and site themes.
+7. Keep the Auto/HydraFusion comparison tables and the short Choosing a model
+   note. Review Auto's discount separately from HydraFusion's standard per-model
+   billing. Recheck tiers, preview eligibility, and workspace caveats against the
+   linked documentation; neither option bypasses plan or administrator settings.
+
+The 20 October 2026 source review and retirement decisions are recorded in
+`docs/copilot-auto-hydrafusion-research.md`.
 
 ## Implementation
 

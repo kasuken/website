@@ -16,6 +16,8 @@ training, and mentoring. Its existing implementation uses Astro and TypeScript.
 - Add a GitHub Copilot reference page covering the concepts in
   https://ba4bes.com/sheets/: model costs, task selection, and plan comparison.
 - Use editable HTML tables instead of images for the reference material.
+- Keep the Copilot Auto/HydraFusion comparison tables and add a short note for
+  unsure readers. Keep the model reference current with dated retirements.
 - Extend Resources with a researched Claude model and plan guide, keeping
   Anthropic's direct API billing separate from app subscription usage.
 - Add a matching Antigravity guide, including Gemini 4 Argon, with model
