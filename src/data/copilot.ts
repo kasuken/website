@@ -2,6 +2,14 @@
 // content review, never from the build clock. All model rates are USD / 1M tokens.
 export const copilotReviewDate = '2026-10-20';
 export const copilotReviewLabel = '20 October 2026';
+export const copilotBillingRules = {
+  autoDiscount: 0.1,
+  autoDiscountAccess: ['all', 'premium'],
+  maxAutoDiscount: 0.3,
+  maxAutoDiscountUntil: '2026-10-28',
+  reviewedAt: '2026-10-23',
+  hydraFusion: 'Each participating model is charged at standard rates; no Auto discount.',
+};
 export const copilotDescription =
   'Compare GitHub Copilot model prices, choose a model for your task, and understand personal and business plans in searchable reference tables.';
 

@@ -4,7 +4,7 @@ import CopilotPricingTable from '../../components/CopilotPricingTable.astro';
 import {
   copilotDescription, copilotReviewDate, copilotReviewLabel, copilotSources,
   copilotPlans, modelGroups, taskGuidance,
-  copilotSelectionOptions, copilotAutoTiers, copilotHydraPatterns,
+  copilotSelectionOptions, copilotAutoTiers, copilotHydraPatterns, copilotBillingRules,
 } from '../../data/copilot';
 
 const number = (value: number) => value.toLocaleString('en-US');
@@ -147,6 +147,7 @@ const planRows = [
 
   <section class="resource-section resource-sources" id="sources" aria-labelledby="sources-heading">
     <h2 id="sources-heading">Sources &amp; updates</h2>
+    <p class="resource-source"><a href="/resources/github-copilot.json">Download the versioned JSON catalog</a>. Billing rules reviewed on <time datetime={copilotBillingRules.reviewedAt}>{copilotBillingRules.reviewedAt}</time>. Max Auto pricing has a temporary {copilotBillingRules.maxAutoDiscount * 100}% discount through <time datetime={copilotBillingRules.maxAutoDiscountUntil}>{copilotBillingRules.maxAutoDiscountUntil}</time>; afterward the standard {copilotBillingRules.autoDiscount * 100}% discount applies.</p>
     <p class="resource-summary">This is a manually maintained reference, last reviewed on <time datetime={copilotReviewDate}>{copilotReviewLabel}</time>. GitHub can change rates, promotions, model availability, and allowances. Check the linked documentation before making a purchase or setting a budget.</p>
     <ul class="resource-source-list">{Object.values(copilotSources).map(source => <li><a href={source.url}>{source.title}</a></li>)}</ul>
     <a class="resource-back" href="/resources">Back to all resources</a>
