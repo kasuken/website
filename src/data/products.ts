@@ -196,6 +196,25 @@ export const products: Product[] = [
 		],
 	},
 	{
+		slug: 'lapfolio',
+		name: 'Lapfolio',
+		tagline: 'Every session counts.',
+		summary:
+			'Lapfolio is a training management app in development for endurance athletes. It is designed to bring training calendars, structured workouts, completed activities, races, weight history and progress into one place, with optional access through external AI assistants using MCP.',
+		problem: 'Training plans, completed sessions and race goals are hard to follow when they live in separate tools.',
+		status: 'In development',
+		repo: 'https://github.com/kasuken/lapfolio',
+		features: [
+			'Planned: training calendars and structured workouts',
+			'Planned: completed activities alongside your training plan',
+			'Planned: races, goals and progress tracking',
+			'Planned: optional body-weight history',
+			'In development: access through external AI assistants using MCP',
+		],
+		stack: ['React', 'TypeScript', 'Tailwind CSS', '.NET 10', 'EF Core', 'Azure SQL'],
+		bestFor: 'Endurance athletes who want their training plans, sessions and race goals in one place.',
+	},
+	{
 		slug: 'daypulse',
 		name: 'DayPulse',
 		tagline: 'Track your wellbeing. Understand your patterns.',

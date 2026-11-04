@@ -26,6 +26,14 @@ const { slug, class: className } = Astro.props;
 	class:list={['w-full h-full', className]}
 	aria-hidden="true"
 >
+	{slug === 'lapfolio' && (
+		<>
+			{/* A training lap with a runner at the start. */}
+			<path d="M30 9H18a11 11 0 0 0-11 11v8a11 11 0 0 0 11 11h12a11 11 0 0 0 11-11v-8" fill="currentColor" fill-opacity="0.14" />
+			<path d="M30 16H19a5 5 0 0 0-5 5v6a5 5 0 0 0 5 5h10a5 5 0 0 0 5-5v-7" stroke-opacity="0.55" />
+			<circle cx="37" cy="10" r="4" fill="currentColor" stroke="none" />
+		</>
+	)}
 	{slug === 'daypulse' && (
 		<>
 			<circle cx="24" cy="24" r="18" fill="currentColor" fill-opacity="0.14" />

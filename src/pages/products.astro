@@ -17,7 +17,7 @@ const softwareJsonLd = products.map((product) => ({
 	'@type': 'SoftwareApplication',
 	name: product.name,
 	description: product.summary,
-	applicationCategory: product.slug === 'daypulse' ? 'LifestyleApplication' : 'BusinessApplication',
+	applicationCategory: product.slug === 'lapfolio' ? 'HealthApplication' : product.slug === 'daypulse' ? 'LifestyleApplication' : 'BusinessApplication',
 	url: product.site ?? product.repo,
 	author: { '@type': 'Person', name: 'Emanuele Bartolesi' },
 }));
@@ -44,7 +44,7 @@ const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 				</h1>
 				<p class="text-xl md:text-2xl text-[var(--text-secondary)] leading-relaxed max-w-[62ch] mb-10">
 					I kept hitting the same wall — notes, money, reading lists, GitHub
-					notifications, passwords, wellbeing check-ins and the people I mean to stay in touch with
+					notifications, passwords, training plans, wellbeing check-ins and the people I mean to stay in touch with
 					all pile up faster than they turn into anything useful. So I built the
 					tools I wanted. Most run on .NET&nbsp;10 and Blazor, and every line is public.
 				</p>
