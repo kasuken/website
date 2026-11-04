@@ -38,31 +38,6 @@ export interface Product {
 
 export const products: Product[] = [
 	{
-		slug: 'daypulse',
-		name: 'DayPulse',
-		tagline: 'Track your wellbeing. Understand your patterns.',
-		summary:
-			'DayPulse is a wellbeing journal for recording mood, energy, anxiety, focus, sleep, activities and notes, then exploring patterns over time. It runs in your browser without accounts or analytics, with data kept on this device and no cloud sync or backup.',
-		problem: 'It is hard to spot patterns in how you feel when each day is only a memory.',
-		status: 'In development',
-		site: 'https://www.daypulse.me',
-		repo: 'https://github.com/kasuken/DayPulse',
-		features: [
-			'Daily mood check-ins with optional wellbeing metrics, activities and notes',
-			'History to revisit, edit or delete past entries',
-			'7, 30 and 90-day insights with averages, mood trends and streaks',
-			'Choose which metrics to track and add custom activities',
-			'JSON and CSV export, plus controls to delete your data',
-			'Installable PWA with offline use after an initial online visit',
-			'Light, dark and system appearance',
-		],
-		stack: ['.NET 10', 'Blazor WebAssembly', 'MudBlazor', 'PWA', 'Azure Static Web Apps'],
-		bestFor: 'Keeping a daily wellbeing journal and spotting patterns on your own device.',
-		screenshots: [
-			{ src: '/products/daypulse/check-in.png', alt: 'DayPulse daily check-in with a mood selector and optional wellbeing scales', w: 1280, h: 1100 },
-		],
-	},
-	{
 		slug: 'brainy',
 		name: 'Brainy',
 		tagline: 'A second brain that pushes work forward instead of storing it.',
@@ -218,6 +193,31 @@ export const products: Product[] = [
 			{ src: '/products/relio/home.webp', alt: 'Relio home page — a private notebook for your relationships', w: 799, h: 544 },
 			{ src: '/products/relio/features.webp', alt: 'Relio features page covering people, interactions, reminders and difficult moments', w: 799, h: 544 },
 			{ src: '/products/relio/pricing.webp', alt: 'Relio hosting choices — use an existing instance or self-host your own', w: 799, h: 544 },
+		],
+	},
+	{
+		slug: 'daypulse',
+		name: 'DayPulse',
+		tagline: 'Track your wellbeing. Understand your patterns.',
+		summary:
+			'DayPulse is a wellbeing journal for recording mood, energy, anxiety, focus, sleep, activities and notes, then exploring patterns over time. It runs in your browser without accounts or analytics, with data kept on this device and no cloud sync or backup.',
+		problem: 'It is hard to spot patterns in how you feel when each day is only a memory.',
+		status: 'In development',
+		site: 'https://www.daypulse.me',
+		repo: 'https://github.com/kasuken/DayPulse',
+		features: [
+			'Daily mood check-ins with optional wellbeing metrics, activities and notes',
+			'History to revisit, edit or delete past entries',
+			'7, 30 and 90-day insights with averages, mood trends and streaks',
+			'Choose which metrics to track and add custom activities',
+			'JSON and CSV export, plus controls to delete your data',
+			'Installable PWA with offline use after an initial online visit',
+			'Light, dark and system appearance',
+		],
+		stack: ['.NET 10', 'Blazor WebAssembly', 'MudBlazor', 'PWA', 'Azure Static Web Apps'],
+		bestFor: 'Keeping a daily wellbeing journal and spotting patterns on your own device.',
+		screenshots: [
+			{ src: '/products/daypulse/check-in.png', alt: 'DayPulse daily check-in with a mood selector and optional wellbeing scales', w: 1280, h: 1100 },
 		],
 	},
 ];
