@@ -26,6 +26,12 @@ const { slug, class: className } = Astro.props;
 	class:list={['w-full h-full', className]}
 	aria-hidden="true"
 >
+	{slug === 'daypulse' && (
+		<>
+			<circle cx="24" cy="24" r="18" fill="currentColor" fill-opacity="0.14" />
+			<path d="M7 24h9l5-10 6 20 5-10h9" />
+		</>
+	)}
 	{slug === 'brainy' && (
 		<>
 			{/* Knowledge lattice: four nodes wired into one hub. */}

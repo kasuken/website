@@ -601,6 +601,7 @@
 [data-product="needly"]     { --p: #3b82f6; --p-ink: #1d4ed8; }
 [data-product="passwordify"] { --p: #f43f5e; --p-ink: #be123c; }
 [data-product="relio"]       { --p: #6366f1; --p-ink: #4338ca; }
+[data-product="daypulse"]    { --p: #0d9488; --p-ink: #0f766e; }
 
 [data-theme="dark"] [data-product]              { --p-solid: var(--p); --p-on: #0b0f19; }
 [data-theme="dark"] [data-product="brainy"]     { --p: #a78bfa; --p-ink: #c4b5fd; }
@@ -609,6 +610,7 @@
 [data-theme="dark"] [data-product="needly"]     { --p: #60a5fa; --p-ink: #93c5fd; }
 [data-theme="dark"] [data-product="passwordify"] { --p: #fb7185; --p-ink: #fda4af; }
 [data-theme="dark"] [data-product="relio"]       { --p: #a5b4fc; --p-ink: #c7d2fe; }
+[data-theme="dark"] [data-product="daypulse"]    { --p: #2dd4bf; --p-ink: #5eead4; }
 
 [data-theme="synthwave"] [data-product]              { --p-solid: var(--p); --p-on: #17102e; }
 [data-theme="synthwave"] [data-product="brainy"]     { --p: #b98cff; --p-ink: #d9c6ff; }
@@ -617,6 +619,7 @@
 [data-theme="synthwave"] [data-product="needly"]     { --p: #4dc4ff; --p-ink: #a9e2ff; }
 [data-theme="synthwave"] [data-product="passwordify"] { --p: #ff5cb0; --p-ink: #ff9dd4; }
 [data-theme="synthwave"] [data-product="relio"]       { --p: #8f8cff; --p-ink: #c7c4ff; }
+[data-theme="synthwave"] [data-product="daypulse"]    { --p: #2de2d0; --p-ink: #99f6e4; }
 
 @media (prefers-color-scheme: dark) {
 	:root:not([data-theme="light"]):not([data-theme="dark"]) [data-product]              { --p-solid: var(--p); --p-on: #0b0f19; }
@@ -626,6 +629,7 @@
 	:root:not([data-theme="light"]):not([data-theme="dark"]) [data-product="needly"]     { --p: #60a5fa; --p-ink: #93c5fd; }
 	:root:not([data-theme="light"]):not([data-theme="dark"]) [data-product="passwordify"] { --p: #fb7185; --p-ink: #fda4af; }
 	:root:not([data-theme="light"]):not([data-theme="dark"]) [data-product="relio"]       { --p: #a5b4fc; --p-ink: #c7d2fe; }
+	:root:not([data-theme="light"]):not([data-theme="dark"]) [data-product="daypulse"]    { --p: #2dd4bf; --p-ink: #5eead4; }
 }
 
 /* ---------------------------------------------------------------------------

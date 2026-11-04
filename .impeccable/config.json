@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "src/pages/products.astro"
+        ],
+        "createdAt": "2026-11-04T16:02:33.315Z",
+        "reason": "Codex: shot-img is inside a hidden lightbox; the open handler sets a real screenshot source before displaying it."
+      }
+    ]
+  }
+}
