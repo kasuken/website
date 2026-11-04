@@ -4,7 +4,8 @@ import CopilotPricingTable from '../../components/CopilotPricingTable.astro';
 import {
   copilotDescription, copilotReviewDate, copilotReviewLabel, copilotSources,
   copilotPlans, modelGroups, taskGuidance,
-  copilotSelectionOptions, copilotAutoTiers, copilotHydraPatterns, copilotBillingRules,
+  copilotSelectionOptions, copilotFusionEfforts, copilotFusionPatterns, copilotBillingRules,
+  copilotAccessPlans, copilotUniverseUpdates,
 } from '../../data/copilot';
 
 const number = (value: number) => value.toLocaleString('en-US');
@@ -29,8 +30,9 @@ const planRows = [
     <nav class="resource-contents" aria-label="On this page">
       <a href="#model-pricing">Model pricing</a>
       <a href="#choosing-a-model">Choosing a model</a>
-      <a href="#auto-hydrafusion">Auto &amp; HydraFusion</a>
+      <a href="#copilot-fusion">Auto &amp; Copilot Fusion</a>
       <a href="#plans">Plan comparison</a>
+      <a href="#universe-updates">Universe updates</a>
       <a href="#sources">Sources &amp; updates</a>
     </nav>
   </header>
@@ -44,8 +46,10 @@ const planRows = [
     <p class="resource-note">These are Copilot usage rates. Default and long-context tiers are separate; select a tier to see the corresponding input threshold. Paid code completions and next edit suggestions do not consume AI credits.</p>
     <CopilotPricingTable />
     <p class="resource-source">Rates: <a href={copilotSources.pricing.url}>GitHub's pricing tables</a>. Eligibility: <a href={copilotSources.models.url}>supported models and plan restrictions</a>. No separate long-context price is inferred where GitHub does not publish one.</p>
-    <p class="resource-note copilot-after-table"><a href="#auto-hydrafusion">Auto and HydraFusion have different billing rules.</a> Auto discounts eligible paid-plan model usage; HydraFusion charges for each participating model at standard rates.</p>
+    <p class="resource-note copilot-after-table"><a href="#copilot-fusion">Auto and Fusion billing</a>: Auto retains a 10% paid-plan discount on supported surfaces. Fusion has a separate, temporary 30% paid-plan discount through 30 November 2026.</p>
     <p class="resource-source">Model update: entries retired on 19 October 2026 have been removed. See <a href={copilotSources.retirements.url}>GitHub's deprecation notice</a>.</p>
+    <p class="resource-note">Plan ahead: GitHub schedules Claude Opus 4.8, Claude Opus 5, and GPT-5.6 Terra for retirement on <strong>16 November 2026</strong>. Opus 4.8 remains available to individual annual subscribers. These models are still listed at this review date; see <a href={copilotSources.upcomingRetirements.url}>the notice and suggested alternatives</a>.</p>
+    <p class="resource-note">This table covers coding/chat model token rates. Image-generation tools have separate image-token charges. Copilot code review also consumes GitHub Actions minutes alongside AI credits; check <a href={copilotSources.pricing.url}>GitHub's current billing details</a>.</p>
   </section>
 
   <section class="resource-section" id="choosing-a-model" aria-labelledby="choice-heading">
@@ -54,7 +58,7 @@ const planRows = [
       <a href={copilotSources.comparison.url}>GitHub model guidance</a>
     </div>
     <p class="resource-summary">Start with the least expensive model that handles your task reliably, then move up when the work needs more reasoning or autonomy. The matrix below is editorial guidance, not a benchmark or an official GitHub ranking.</p>
-    <p class="resource-summary"><strong>Not sure which model to choose?</strong> Select <a href={copilotSources.auto.url}>Auto</a> to let Copilot choose a model for your task. For more involved work, you can also try <a href={copilotSources.hydrafusion.url}>HydraFusion</a> (research preview), which can coordinate multiple models. Availability depends on your plan, client, and organization settings.</p>
+    <p class="resource-summary"><strong>Not sure which model to choose?</strong> Select <a href={copilotSources.fusion.url}>Copilot Fusion</a> where available and start with Standard. Where the picker still offers <a href={copilotSources.auto.url}>Auto</a>, it can choose a model for you. Fusion combines the former Auto and HydraFusion experiences; availability and effort levels depend on your plan, client, and policies.</p>
     <dl class="model-groups">
       {modelGroups.map(group => <div><dt>{group.name}</dt><dd>{group.examples}</dd></div>)}
     </dl>
@@ -70,56 +74,43 @@ const planRows = [
     <p class="resource-note">These groups describe the work, not a hard boundary between models. Fable models have a <a href="#fable-data">data-retention exception</a>. Check availability and review the result, including tests and security-sensitive changes.</p>
   </section>
 
-  <section class="resource-section" id="auto-hydrafusion" aria-labelledby="routing-heading">
-    <div class="resource-section-heading">
-      <h2 id="routing-heading">Auto &amp; HydraFusion</h2>
-      <a href={copilotSources.auto.url}>GitHub Auto documentation</a>
-    </div>
-    <p class="resource-summary">Choose a model yourself, let Auto route requests, or evaluate HydraFusion's orchestration. Auto chooses a model; HydraFusion also chooses how the task is carried out.</p>
-    <p class="resource-table-hint" id="selection-hint">Scroll to compare the options. Suggested uses are editorial starting points.</p>
+  <section class="resource-section" id="copilot-fusion" aria-labelledby="routing-heading">
+    <span id="auto-hydrafusion"></span>
+    <div class="resource-section-heading"><h2 id="routing-heading">Auto &amp; Copilot Fusion</h2><a href={copilotSources.fusion.url}>GitHub Fusion documentation</a></div>
+    <p class="resource-summary">Copilot Fusion became generally available at Universe on 28 October 2026. It combines Auto routing with Project HydraFusion's orchestration. Existing Auto, HydraFusion, and HydraFusion Max selections transition to the corresponding Fusion efforts on supported clients.</p>
+    <p class="resource-table-hint" id="selection-hint">Scroll to compare options. Task suggestions are editorial guidance.</p>
     <div class="resource-table-scroll" role="region" aria-labelledby="selection-caption" aria-describedby="selection-hint" tabindex="0">
-      <table class="resource-table copilot-routing-table">
-        <caption id="selection-caption">Manual selection, Auto, and HydraFusion compared</caption>
+      <table class="resource-table copilot-routing-table"><caption id="selection-caption">Manual selection, Fusion, and remaining Auto surfaces</caption>
         <thead><tr><th scope="col">Option</th><th scope="col">What it does</th><th scope="col">Suggested use</th></tr></thead>
         <tbody>{copilotSelectionOptions.map(option => <tr><th scope="row">{option.name}</th><td>{option.behavior}</td><td>{option.use}</td></tr>)}</tbody>
       </table>
     </div>
-    <p class="resource-source">Sources: <a href={copilotSources.auto.url}>Auto routing</a>, <a href={copilotSources.hydrafusion.url}>HydraFusion workflows</a>, and <a href={copilotSources.hydrafusionRelease.url}>HydraFusion Max</a>.</p>
-
-    <h3 class="copilot-subheading" id="auto-mode">Auto: choose the tradeoff</h3>
-    <p class="resource-summary">Auto offers three routing preferences. They use the same eligible model pool and change how Copilot weighs each request. Intelligence can still select a smaller model for a straightforward task.</p>
-    <p class="resource-table-hint" id="auto-tier-hint">Scroll to compare each tier's priority and task examples.</p>
+    <p class="resource-source">Sources: <a href={copilotSources.fusionRelease.url}>launch and migration</a>, <a href={copilotSources.auto.url}>remaining Auto surfaces</a>.</p>
+    <span id="auto-mode"></span><h3 class="copilot-subheading" id="fusion-effort">Choose a Fusion effort</h3>
+    <p class="resource-summary">Fusion is available in VS Code, Copilot CLI, the Copilot app, and JetBrains IDEs. Effort availability follows your plan and allowed model pool. Fusion Max is an effort level, separate from the Copilot Max subscription.</p>
+    <p class="resource-table-hint" id="auto-tier-hint">Scroll to compare effort levels, including the non-selectable Fast option.</p>
     <div class="resource-table-scroll" role="region" aria-labelledby="auto-tier-caption" aria-describedby="auto-tier-hint" tabindex="0">
-      <table class="resource-table copilot-auto-table">
-        <caption id="auto-tier-caption">Auto tier preferences; task examples are editorial guidance</caption>
-        <thead><tr><th scope="col">Tier</th><th scope="col">Priority</th><th scope="col">Example starting point</th></tr></thead>
-        <tbody>{copilotAutoTiers.map(tier => <tr><th scope="row">{tier.name}</th><td>{tier.priority}</td><td>{tier.use}</td></tr>)}</tbody>
+      <table class="resource-table copilot-auto-table"><caption id="auto-tier-caption">Current Fusion effort levels</caption>
+        <thead><tr><th scope="col">Effort</th><th scope="col">Priority</th><th scope="col">Starting point</th></tr></thead>
+        <tbody>{copilotFusionEfforts.map(tier => <tr><th scope="row">{tier.name}</th><td>{tier.priority}</td><td>{tier.use}</td></tr>)}</tbody>
       </table>
     </div>
     <div class="pricing-notes">
-      <p><strong>Availability.</strong> Auto is available on all Copilot plans. Tier controls are currently available in VS Code, Copilot CLI, and the GitHub Copilot app. Routing respects plan access and administrator model policies.</p>
-      <p><strong>10% paid-plan discount.</strong> Auto discounts the selected model's costs in Copilot Chat, Copilot CLI, the GitHub Copilot app, and Copilot cloud agent. For illustration, identical model and token usage normally costing 100 AI credits would cost 90 through Auto. The final cost still depends on the selected model and tokens consumed.</p>
-      <p><strong>See the selected model.</strong> Hover over the response in Copilot Chat or the Copilot app; Copilot CLI displays it in the terminal, and cloud agent shows it at the end of the response.</p>
+      <p><strong>Fusion billing.</strong> Participating cloud models use their published token rates; there is no separate orchestration fee. Paid plans receive a {copilotBillingRules.fusionDiscount * 100}% model-cost discount through <time datetime={copilotBillingRules.fusionDiscountUntil}>30 November 2026</time>. Extra passes can still increase total usage. No post-promotion discount is assumed.</p>
+      <p><strong>Auto remains on other surfaces.</strong> GitHub lists cloud, GitHub Mobile, Eclipse, Xcode, and Visual Studio experiences. Its 10% paid-plan discount applies to supported Copilot Chat and cloud-agent usage. The old Efficiency/Balance/Intelligence tier description is superseded by Fusion effort controls on migrated clients.</p>
+      <p><strong>Local routing is a separate public preview.</strong> Fusion Standard can route to supported installed local models. Windows hardware requirements apply to MAI Code; Qwen3.8 Flash Next routing in CLI supports Windows, macOS, and Linux. Follow GitHub's setup instructions and experimental settings.</p>
     </div>
-    <p class="resource-source">Source: <a href={copilotSources.auto.url}>Auto tiers, availability, and discount</a>.</p>
-
-    <h3 class="copilot-subheading" id="hydrafusion">HydraFusion: let Copilot choose the workflow</h3>
-    <p class="resource-summary">HydraFusion selects an execution pattern for each prompt. A later prompt in the same session can use a different pattern.</p>
-    <p class="resource-table-hint" id="hydra-pattern-hint">Scroll to read how each execution pattern handles a task.</p>
+    <p class="resource-source">Sources: <a href={copilotSources.fusion.url}>Fusion effort, local routing, and billing</a>; <a href={copilotSources.auto.url}>Auto availability and discount</a>.</p>
+    <span id="hydrafusion"></span><h3 class="copilot-subheading" id="fusion-patterns">Fusion execution patterns</h3>
+    <p class="resource-table-hint" id="hydra-pattern-hint">Scroll to read each pattern. Fusion chooses the pattern for the prompt.</p>
     <div class="resource-table-scroll" role="region" aria-labelledby="hydra-pattern-caption" aria-describedby="hydra-pattern-hint" tabindex="0">
-      <table class="resource-table copilot-pattern-table">
-        <caption id="hydra-pattern-caption">HydraFusion execution patterns</caption>
+      <table class="resource-table copilot-pattern-table"><caption id="hydra-pattern-caption">Single, Cascade, and Critique</caption>
         <thead><tr><th scope="col">Pattern</th><th scope="col">What happens</th></tr></thead>
-        <tbody>{copilotHydraPatterns.map(pattern => <tr><th scope="row">{pattern.name}</th><td>{pattern.behavior}</td></tr>)}</tbody>
+        <tbody>{copilotFusionPatterns.map(pattern => <tr><th scope="row">{pattern.name}</th><td>{pattern.behavior}</td></tr>)}</tbody>
       </table>
     </div>
-    <div class="pricing-notes">
-      <p><strong>Standard per-model billing.</strong> Each participating model is charged at its standard rate. There is no separate HydraFusion fee, and Auto's 10% discount does not apply. Additional passes can increase elapsed time and AI-credit consumption.</p>
-      <p><strong>Review the workspace.</strong> Discarding an intermediate draft does not automatically undo file changes it already made. Inspect the diff before committing.</p>
-      <p><strong>Research preview.</strong> Both HydraFusion options remain in research preview, with no SLA, and GitHub says they are not intended for production workloads.</p>
-    </div>
-    <p class="resource-source">Source: <a href={copilotSources.hydrafusion.url}>HydraFusion billing and limitations</a>.</p>
-    <p class="resource-summary copilot-after-table">HydraFusion and HydraFusion Max are available in VS Code, Copilot CLI, and the GitHub Copilot app. GitHub's 14 October release lists Pro, Pro+, Business, and Enterprise access, with experimental or preview features enabled and model policies respected. Check <a href={copilotSources.hydrafusionRelease.url}>the release notice</a> for plan eligibility and <a href={copilotSources.hydrafusion.url}>the setup instructions</a> for your client.</p>
+    <p class="resource-note copilot-after-table"><strong>Review the workspace.</strong> Discarded drafts can leave file edits behind. Inspect the diff before committing. Fusion does not start subagents itself, and its model pool and execution patterns can change. Hover over the effort label under a completed response to inspect the models used.</p>
+    <p class="resource-source">Source: <a href={copilotSources.fusion.url}>current Fusion behavior and limitations</a>.</p>
   </section>
 
   <section class="resource-section" id="plans" aria-labelledby="plans-heading">
@@ -139,15 +130,37 @@ const planRows = [
     </div>
     <div class="resource-plan-notes">
       <p><strong>Credits reset monthly.</strong> Included credits do not roll over. Personal flex allotments can change; they are separate from base credits. With additional usage disabled, organization usage stops after the pool is exhausted.</p>
-      <p><strong>Free, Student, and annual subscriptions.</strong> Free and verified Student plans also exist, with auto model selection. Existing annual Pro and Pro+ subscriptions on legacy request billing have different rules; the table above covers monthly usage-based plans.</p>
+      <p><strong>Free, Student, and annual subscriptions.</strong> Free and verified Student plans also exist, with automatic model selection; available Fusion efforts depend on the client and plan. Existing annual Pro and Pro+ subscriptions on legacy request billing have different rules; the table above covers monthly usage-based plans.</p>
       <p><strong>Training and retention are different.</strong> GitHub does not train on Business or Enterprise customer data. Personal subscribers have a training opt-out. Provider retention rules, including Fable exceptions, still need a separate check.</p>
     </div>
     <p class="resource-source">Details: <a href={copilotSources.individual.url}>personal credits and extra usage</a>, <a href={copilotSources.business.url}>shared pools and budgets</a>, and <a href={copilotSources.privacy.url}>model hosting and data use</a>.</p>
+    <h3 class="copilot-subheading">Enterprise access announced at Universe</h3>
+    <p class="resource-summary">Business and Enterprise subscriptions above remain available. The new access arrangements below have the feature/model eligibility of Copilot Enterprise, with usage charged from the first request.</p>
+    <p class="resource-table-hint" id="access-hint">Scroll to compare seat charges and metered access.</p>
+    <div class="resource-table-scroll" role="region" aria-labelledby="access-caption" aria-describedby="access-hint" tabindex="0">
+      <table class="resource-table copilot-routing-table"><caption id="access-caption">Copilot access: seat charges do not include AI usage</caption>
+        <thead><tr><th scope="col">Arrangement</th><th scope="col">Seat charge</th><th scope="col">Usage and rollout</th></tr></thead>
+        <tbody>{copilotAccessPlans.map(plan => <tr><th scope="row">{plan.name}</th><td>{plan.seat}</td><td>{plan.usage}</td></tr>)}</tbody>
+      </table>
+    </div>
+    <p class="resource-source">Sources: <a href={copilotSources.enterpriseAccess.url}>enterprise rollout</a> and <a href={copilotSources.business.url}>billing and budget controls</a>. A zero seat charge does not include free metered usage. Set budgets before enabling access.</p>
+  </section>
+
+  <section class="resource-section" id="universe-updates" aria-labelledby="universe-heading">
+    <div class="resource-section-heading"><h2 id="universe-heading">Universe updates and current workflows</h2><a href={copilotSources.universe.url}>GitHub Universe overview</a></div>
+    <p class="resource-summary">Selected Copilot changes announced on 28 October, plus the 3 November Air integration. Release status, client support, policy, and billing vary by feature; follow the linked announcement before enabling it.</p>
+    <p class="resource-table-hint" id="universe-hint">Scroll to compare capabilities and availability. Each row links to its official announcement.</p>
+    <div class="resource-table-scroll" role="region" aria-labelledby="universe-caption" aria-describedby="universe-hint" tabindex="0">
+      <table class="resource-table copilot-routing-table"><caption id="universe-caption">Copilot workflow changes reviewed 4 November 2026</caption>
+        <thead><tr><th scope="col">Feature</th><th scope="col">What it adds</th><th scope="col">Availability and cost notes</th></tr></thead>
+        <tbody>{copilotUniverseUpdates.map(update => <tr><th scope="row"><a href={update.url}>{update.name}</a></th><td>{update.detail}</td><td>{update.status}</td></tr>)}</tbody>
+      </table>
+    </div>
   </section>
 
   <section class="resource-section resource-sources" id="sources" aria-labelledby="sources-heading">
     <h2 id="sources-heading">Sources &amp; updates</h2>
-    <p class="resource-source"><a href="/resources/github-copilot.json">Download the versioned JSON catalog</a>. Billing rules reviewed on <time datetime={copilotBillingRules.reviewedAt}>{copilotBillingRules.reviewedAt}</time>. Max Auto pricing has a temporary {copilotBillingRules.maxAutoDiscount * 100}% discount through <time datetime={copilotBillingRules.maxAutoDiscountUntil}>{copilotBillingRules.maxAutoDiscountUntil}</time>; afterward the standard {copilotBillingRules.autoDiscount * 100}% discount applies.</p>
+    <p class="resource-source"><a href="/resources/github-copilot.json">Download the versioned JSON catalog</a> (schema 2). Billing reviewed on <time datetime={copilotBillingRules.reviewedAt}>{copilotReviewLabel}</time>; the Fusion promotion expires on <time datetime={copilotBillingRules.fusionDiscountUntil}>30 November 2026</time>.</p>
     <p class="resource-summary">This is a manually maintained reference, last reviewed on <time datetime={copilotReviewDate}>{copilotReviewLabel}</time>. GitHub can change rates, promotions, model availability, and allowances. Check the linked documentation before making a purchase or setting a budget.</p>
     <ul class="resource-source-list">{Object.values(copilotSources).map(source => <li><a href={source.url}>{source.title}</a></li>)}</ul>
     <a class="resource-back" href="/resources">Back to all resources</a>

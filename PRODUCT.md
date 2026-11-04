@@ -32,6 +32,10 @@ training, and mentoring. Its existing implementation uses Astro and TypeScript.
 
 ## Resources
 
+The Copilot guide tracks the Universe 2026 Fusion transition, effort levels,
+dated billing promotions, eligible enterprise access arrangements, and selected
+workflow releases while preserving its comparison tables and starting note.
+
 Resources groups the GitHub Copilot, Claude, Antigravity, and Codex guides. Each uses
 the same maintainable table-based reference format. The Antigravity guide
 includes a dedicated Gemini 4 Argon section.

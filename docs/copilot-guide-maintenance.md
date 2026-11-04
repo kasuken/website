@@ -6,7 +6,7 @@ independent of the Dev.to blog feed.
 
 ## Content source
 
-Edit `src/data/copilot.ts`. No screenshots need to be regenerated.
+Edit `src/data/copilot.ts`. No reference images need to be regenerated.
 
 - `copilotModels`: USD rates per one million tokens, provider, plan access,
   optional long-context rates and their input threshold, and note references.
@@ -14,8 +14,10 @@ Edit `src/data/copilot.ts`. No screenshots need to be regenerated.
 - `modelGroups` and `taskGuidance`: editorial task recommendations. These must
   remain explicitly distinguished from official GitHub rankings.
 - `copilotPlans`: monthly prices, base and flex allowances, and plan differences.
-- `copilotSelectionOptions`, `copilotAutoTiers`, and `copilotHydraPatterns`:
-  the selection, tier, and workflow tables, including editorial task examples.
+- `copilotSelectionOptions`, `copilotFusionEfforts`, and `copilotFusionPatterns`:
+  the selection, effort, and workflow tables, including editorial task examples.
+- `copilotAccessPlans` and `copilotUniverseUpdates`: enterprise access arrangements
+  and dated, sourced workflow changes with release and billing boundaries.
 - `copilotSources`: the official documentation supporting the reference.
 - `copilotReviewDate` and `copilotReviewLabel`: advance both only after checking
   the content. The index and guide share these values.
@@ -38,13 +40,20 @@ Edit `src/data/copilot.ts`. No screenshots need to be regenerated.
 6. Update the explicit review date after the review, then run `npm run build`
    and `git diff --check`. In the preview, check search, all tier options,
    numeric sorting, no-match recovery, mobile table scrolling, and site themes.
-7. Keep the Auto/HydraFusion comparison tables and the short Choosing a model
-   note. Review Auto's discount separately from HydraFusion's standard per-model
-   billing. Recheck tiers, preview eligibility, and workspace caveats against the
+7. Keep the selection, Fusion-effort, and execution-pattern tables and the short Choosing a model
+   note. Review Auto's discount separately from Fusion's dated promotion and
+   per-model billing. Recheck efforts, preview eligibility, and workspace caveats against the
    linked documentation; neither option bypasses plan or administrator settings.
 
 The 20 October 2026 source review and retirement decisions are recorded in
 `docs/copilot-auto-hydrafusion-research.md`.
+
+The current Universe review is `docs/copilot-universe-2026-research.md`.
+Keep the unsure-reader note and all comparison concepts when refreshing product
+names. Fusion's dated promotion is separate from Auto discounts; remove expired
+promotions rather than infer renewal. Preserve old anchor aliases. The JSON
+catalog is now schema 2: Fusion efforts/patterns replace the old tier/pattern
+fields; access arrangements and Universe rows share the page's data module.
 
 ## Implementation
 
@@ -67,13 +76,18 @@ identifiers: preserve existing IDs when correcting display names. Current IDs
 are derived from names; add explicit overrides before renaming existing models.
 
 Promotion `validUntil` dates are inclusive UTC days. The Gemini Argon promotion
-ends before December 1. The Max Auto discount ends after October 28; standard
-Auto discounts apply afterward. Check these dates against the official sources.
+ends before December 1. The paid Fusion discount ends after November 30;
+`billingRules.fusionDiscountUntil` must be checked before applying it. No later
+Fusion discount is assumed. Remaining Auto surfaces have separate rules. Check
+these dates against the official sources.
 
-After building, confirm the JSON response has 26 models (or the intentionally
+After building, confirm the JSON response has 27 models (or the intentionally
 updated count) and that each ID is unique. From the extension repository run
 `npm run sync-model-catalog -- --website ../website`, then its compile and catalog
-tests. Deploying the website publishes the endpoint; extension releases ship a
+tests. Update consumers for schema 2 before syncing: renamed Fusion fields and
+removed expired billing fields are incompatible changes. The extension repository
+has not been changed or validated as part of this website refresh.
+Deploying the website publishes the endpoint; extension releases ship a
 validated offline snapshot and do not require the website at build time.
 
 `src/components/CopilotPricingTable.astro` renders the rates as semantic HTML
