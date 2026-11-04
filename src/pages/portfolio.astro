@@ -4,7 +4,6 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { projects } from '../data/projects';
-import GitHubActivityCalendar from '../components/GitHubActivityCalendar.astro';
 
 const featuredProjects = projects.filter(project => project.featured);
 const allProjects = projects.filter(project => !project.featured);
@@ -33,7 +32,7 @@ const allProjects = projects.filter(project => !project.featured);
 			<!-- Featured Projects -->
 			<section class="mb-24">
 				<h2 class="text-3xl font-black tracking-tight text-[var(--text-primary)] mb-8 flex items-center gap-3">
-					Featured projects
+					Featured project
 				</h2>
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 					{featuredProjects.map((project, index) => (
@@ -47,13 +46,15 @@ const allProjects = projects.filter(project => !project.featured);
 
 							{project.imageUrl && (
 								<div class:list={[
-									"w-full overflow-hidden border-[var(--border)] relative bg-[var(--background-tertiary)]",
-									index === 0 ? "md:w-1/2 aspect-video md:aspect-auto border-b md:border-b-0 md:border-r" : "aspect-video border-b"
+								"w-full overflow-hidden border-[var(--border)] relative bg-[var(--background-tertiary)] flex items-center justify-center",
+									index === 0 ? "md:w-1/2 border-b md:border-b-0 md:border-r" : "aspect-video border-b"
 								]}>
 									<img 
 										src={project.imageUrl} 
-										alt={project.title} 
-										class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+										alt={project.imageAlt ?? project.title}
+										width={project.imageWidth}
+										height={project.imageHeight}
+										class="w-full h-auto max-h-[32rem] object-contain"
 										loading="lazy"
 									/>
 									<div class="absolute inset-0 bg-gradient-to-t from-[var(--background-secondary)]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -65,7 +66,7 @@ const allProjects = projects.filter(project => !project.featured);
 									{project.title}
 								</h3>
 								
-								<p class="text-[var(--text-secondary)] mb-6 text-sm sm:text-base leading-relaxed line-clamp-3">
+								<p class="text-[var(--text-secondary)] mb-6 text-sm sm:text-base leading-relaxed">
 									{project.description}
 								</p>
 
@@ -84,9 +85,9 @@ const allProjects = projects.filter(project => !project.featured);
 											Code
 										</a>
 									)}
-									{project.liveUrl && (
-										<a href={project.liveUrl} target="_blank" rel="noopener noreferrer" class="flex-1 text-center py-2.5 px-4 font-bold text-sm text-[var(--background)] bg-[var(--text-primary)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)]! rounded-xl transition-colors flex items-center justify-center gap-2">
-											Live demo <Icon name="arrow-up-right" class="w-4 h-4" />
+									{(project.marketplaceUrl || project.liveUrl) && (
+										<a href={project.marketplaceUrl ?? project.liveUrl} aria-label={project.marketplaceUrl ? `Install ${project.title} from the Visual Studio Marketplace` : `View ${project.title} live demo`} target="_blank" rel="noopener noreferrer" class="flex-1 text-center py-2.5 px-4 font-bold text-sm text-[var(--background)] bg-[var(--text-primary)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)]! rounded-xl transition-colors flex items-center justify-center gap-2">
+										{project.marketplaceUrl ? 'Install extension' : 'Live demo'} <Icon name="arrow-up-right" class="w-4 h-4" />
 										</a>
 									)}
 								</div>
@@ -99,9 +100,9 @@ const allProjects = projects.filter(project => !project.featured);
 			<!-- Other Projects -->
 			<section>
 				<h2 class="text-3xl font-black tracking-tight text-[var(--text-primary)] mb-8">
-					More Work
+					VS Code extensions
 				</h2>
-				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 					{allProjects.map(project => (
 						<div id={project.id} tabindex="-1" class="group flex flex-col bg-[var(--background-secondary)]/10 border border-[var(--border)] rounded-2xl p-6 hover:border-[var(--text-secondary)] transition-colors relative scroll-mt-24">
 							
@@ -115,8 +116,10 @@ const allProjects = projects.filter(project => !project.featured);
 								<div class="aspect-video w-full overflow-hidden border border-[var(--border)] rounded-xl relative bg-[var(--background-tertiary)] mb-4 shrink-0">
 									<img 
 										src={project.imageUrl} 
-										alt={project.title} 
-										class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+										alt={project.imageAlt ?? project.title}
+										width={project.imageWidth}
+										height={project.imageHeight}
+										class="w-full h-full object-contain"
 										loading="lazy"
 									/>
 								</div>
@@ -126,7 +129,7 @@ const allProjects = projects.filter(project => !project.featured);
 								{project.title}
 							</h3>
 							
-							<p class="text-sm text-[var(--text-secondary)] mb-4 line-clamp-2">
+							<p class="text-sm text-[var(--text-secondary)] mb-4 leading-relaxed">
 								{project.description}
 							</p>
 							
@@ -137,9 +140,9 @@ const allProjects = projects.filter(project => !project.featured);
 										Code
 									</a>
 								)}
-								{project.liveUrl && (
-									<a href={project.liveUrl} target="_blank" rel="noopener noreferrer" class="text-sm font-bold text-[var(--accent-text)] hover:text-purple-500 transition-colors flex items-center gap-1.5">
-										Visit <Icon name="arrow-up-right" class="w-4 h-4" />
+								{(project.marketplaceUrl || project.liveUrl) && (
+									<a href={project.marketplaceUrl ?? project.liveUrl} aria-label={project.marketplaceUrl ? `Install ${project.title} from the Visual Studio Marketplace` : `Visit ${project.title}`} target="_blank" rel="noopener noreferrer" class="text-sm font-bold text-[var(--accent-text)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-1.5">
+									{project.marketplaceUrl ? 'Install extension' : 'Visit'} <Icon name="arrow-up-right" class="w-4 h-4" />
 									</a>
 								)}
 							</div>
