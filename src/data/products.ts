@@ -86,7 +86,7 @@ export const products: Product[] = [
 			'Reports for cashflow, net worth, and budget vs actual',
 			'CSV import with column mapping, plus CSV export',
 		],
-		stack: ['.NET 10', 'Blazor Server', 'MudBlazor', 'EF Core', 'PostgreSQL', 'Docker'],
+		stack: ['.NET 10', 'Blazor Server', 'MudBlazor', 'EF Core', 'SQL Server', 'Docker'],
 		bestFor: 'Owning your financial data on your own infrastructure.',
 	},
 	{
