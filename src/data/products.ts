@@ -74,6 +74,7 @@ export const products: Product[] = [
 			'A self-hosted personal finance app for tracking accounts and transactions, running a monthly envelope budget, and reconciling against statements. No bank sync, no telemetry, no financial advice — by design.',
 		problem: 'Every budgeting app wants your bank credentials and sells the data behind them.',
 		status: 'Coming soon',
+		site: 'https://www.moneybrain.app',
 		repo: 'https://github.com/kasuken/MoneyBrain',
 		features: [
 			'Accounts and balances for assets, liabilities, and manual adjustments',
