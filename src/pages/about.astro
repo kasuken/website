@@ -3,6 +3,15 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import StatCard from '../components/StatCard.astro';
+import { products } from '../data/products.ts';
+
+const inShort = [
+	{ label: 'Work', value: 'GitHub Technical Lead' },
+	{ label: 'Build', value: `${products.length} SaaS products, in the open`, href: '/products' },
+	{ label: 'Speak', value: 'Azure, GitHub, DevOps, .NET, AI', href: '/speaking' },
+	{ label: 'Write', value: 'dev.to/kasuken', href: '/blog' },
+	{ label: 'Based', value: 'Zurich, Switzerland' },
+];
 ---
 
 <!doctype html>
@@ -78,6 +87,23 @@ import StatCard from '../components/StatCard.astro';
 					<StatCard value="4×" label="GitHub Star" />
 					<StatCard value="2023" label="GitHub Star of the Year" />
 					<StatCard value="2+" label="Books & Courses" />
+
+					<div class="pt-6">
+						<h2 class="font-display text-2xl text-[var(--text-primary)] mb-4">In short</h2>
+						<dl class="m-0 border-t border-[var(--border)] divide-y divide-[var(--border)]">
+							{inShort.map((item) => (
+								<div class="grid grid-cols-[4.5rem_1fr] items-baseline gap-3 py-3">
+									<dt class="text-[var(--text-secondary)]">{item.label}</dt>
+									<dd class="m-0 font-semibold text-[var(--text-primary)]">
+										{item.href ? <a href={item.href} class="text-[var(--text-primary)]! hover:text-[var(--accent-text)]!">{item.value}</a> : item.value}
+									</dd>
+								</div>
+							))}
+						</dl>
+						<a href="/press-kit" class="inline-flex items-center gap-1.5 mt-5 text-sm font-semibold text-[var(--accent-text)] no-underline! hover:underline!">
+							Press kit: bios and photos <span aria-hidden="true">→</span>
+						</a>
+					</div>
 				</div>
 			</div>
 			
