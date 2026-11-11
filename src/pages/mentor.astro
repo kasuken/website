@@ -8,29 +8,47 @@ import SectionHeading from '../components/SectionHeading.astro';
 
 const expertiseAreas = [
 	{
-		title: 'Web Development',
-		description: 'Modern .NET applications, React frontends, and TypeScript development',
-		tags: ['.NET', 'React', 'TypeScript', 'Next.js'],
+		title: 'Ship a .NET product',
+		description: 'Architecture and code reviews on your own project, from the first commit to a production release on Azure.',
+		tags: ['.NET', 'Blazor', 'Azure', 'Architecture'],
 		icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6" aria-hidden="true"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>`,
 	},
 	{
-		title: 'Cloud Architecture',
-		description: 'Azure solutions, scalable architectures, and serverless applications',
-		tags: ['Azure', 'Microservices', 'Serverless', 'Architecture'],
+		title: 'Put AI to work in your code',
+		description: 'A Copilot and agent workflow you trust, and LLM features that hold up once real users arrive.',
+		tags: ['Copilot', 'Agents', 'Semantic Kernel', 'LLMs'],
 		icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6" aria-hidden="true"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>`,
 	},
 	{
-		title: 'AI Integration',
-		description: 'Integrating AI into modern applications, Semantic Kernel, and Prompt Engineering',
-		tags: ['OpenAI', 'Semantic Kernel', 'Copilot', 'LLMs'],
+		title: 'Get the next role',
+		description: 'Resume reviews, interview preparation, and building the case for a promotion or a move.',
+		tags: ['Resume', 'Interviews', 'Promotion', 'Leadership'],
 		icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6" aria-hidden="true"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z"></path><line x1="9" y1="21" x2="15" y2="21"></line></svg>`,
 	},
 	{
-		title: 'Career Growth',
-		description: 'Resume reviews, interview preparation, and developer relations strategies',
-		tags: ['DevRel', 'Public Speaking', 'Personal Branding', 'Leadership'],
+		title: 'Become visible',
+		description: 'Your first talk, a writing habit, and the community work that programs like MVP and GitHub Stars look for.',
+		tags: ['Public Speaking', 'Writing', 'DevRel', 'Community'],
 		icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>`,
 	},
+];
+
+// Terms as listed on the public MentorCruise profile. They are set there,
+// so check the profile and update TERMS_CHECKED whenever these change.
+const TERMS_CHECKED = 'November 2026';
+const terms = [
+	{ label: 'Calls', value: '4 × 45 minutes a month' },
+	{ label: 'Between calls', value: 'Unlimited Q&A by chat, answered within 24 hours' },
+	{ label: 'Price', value: '$260 a month' },
+	{ label: 'Trial', value: 'First 7 days free' },
+	{ label: 'Commitment', value: 'Month to month, cancel anytime' },
+	{ label: 'Where', value: 'MentorCruise' },
+];
+
+const steps = [
+	{ title: 'Apply with your goals', description: 'Tell me what you want to work on, so I know before our first call.' },
+	{ title: 'Start the trial week', description: 'I review your application and reply within a few days.' },
+	{ title: 'Leave the first week with a plan', description: 'Concrete next steps and a rhythm for the calls that follow.' },
 ];
 ---
 
@@ -67,9 +85,42 @@ const expertiseAreas = [
 				<StatCard value="4.9" label="Average Rating" />
 			</section>
 
-			<!-- Areas of Expertise -->
+			<!-- How it works -->
 			<section class="mb-24">
-				<SectionHeading title="Areas of expertise" />
+				<SectionHeading title="How it works" description="Ongoing mentoring, not one-off calls: a small number of regular sessions and chat in between." />
+
+				<div class="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16">
+					<div class="md:col-span-7">
+						<dl class="m-0 border-t border-[var(--border)] divide-y divide-[var(--border)]">
+							{terms.map((term) => (
+								<div class="grid grid-cols-[8rem_1fr] sm:grid-cols-[10rem_1fr] items-baseline gap-4 py-4">
+									<dt class="text-[var(--text-secondary)]">{term.label}</dt>
+									<dd class="m-0 font-semibold text-[var(--text-primary)]">{term.value}</dd>
+								</div>
+							))}
+						</dl>
+						<p class="text-sm text-[var(--text-secondary)] mt-4 mb-0">
+							Terms as listed on MentorCruise, checked {TERMS_CHECKED}. The profile there is always the current version.
+						</p>
+					</div>
+
+					<ol class="md:col-span-5 list-none p-0 m-0 flex flex-col gap-6">
+						{steps.map((step, index) => (
+							<li class="flex gap-4">
+								<span class="font-display text-2xl font-semibold text-[var(--accent-text)] leading-none tabular w-6 shrink-0" aria-hidden="true">{index + 1}</span>
+								<div>
+									<h3 class="font-display text-xl text-[var(--text-primary)] mb-1">{step.title}</h3>
+									<p class="text-[var(--text-secondary)] leading-relaxed mb-0">{step.description}</p>
+								</div>
+							</li>
+						))}
+					</ol>
+				</div>
+			</section>
+
+			<!-- What we can work on -->
+			<section class="mb-24">
+				<SectionHeading title="What we can work on" />
 				
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
 					{expertiseAreas.map((area) => (
@@ -112,6 +163,18 @@ const expertiseAreas = [
 						</li>
 					</ul>
 				</div>
+			</section>
+
+			<!-- Closing -->
+			<section class="bg-[var(--background-secondary)] rounded-[var(--radius-card)] border border-[var(--border)] p-8 md:p-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
+				<div>
+					<h2 class="font-display text-3xl md:text-4xl tracking-tight text-[var(--text-primary)] mb-2">Start with the free week</h2>
+					<p class="text-[var(--text-secondary)] mb-0">Seven days to find out if it is useful, before anything is charged.</p>
+				</div>
+				<Button href="https://mentors.to/emanuelebartolesi" target="_blank" rel="noopener noreferrer" class="flex-shrink-0">
+					Apply on MentorCruise
+					<span aria-hidden="true">→</span>
+				</Button>
 			</section>
 
 		</main>
