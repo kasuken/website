@@ -1,0 +1,166 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+
+// Third person, ready to paste into a programme. Keep the three lengths in
+// step: a fact that changes (MVP count, Star count) changes in all of them.
+const bios = [
+	{
+		id: 'short',
+		label: 'Short',
+		text: 'Emanuele Bartolesi is a GitHub Technical Lead, a twelve-time Microsoft MVP, and a four-time GitHub Star, named GitHub Star of the Year in 2023. He builds products on .NET and Azure and writes about what he learns along the way.',
+	},
+	{
+		id: 'medium',
+		label: 'Medium',
+		text: 'Emanuele Bartolesi is a GitHub Technical Lead with more than 20 years in software as a developer, consultant, trainer, and speaker. He is a twelve-time Microsoft MVP and a four-time GitHub Star, and was named GitHub Star of the Year in 2023. Based in Zurich, he speaks at conferences and meetups about Azure, GitHub, DevOps, .NET, and AI. He wrote a book on Minimal APIs in ASP.NET Core and teaches "Learning GitHub" on LinkedIn Learning.',
+	},
+	{
+		id: 'long',
+		label: 'Long',
+		text: 'Emanuele Bartolesi is a GitHub Technical Lead with more than 20 years in software as a developer, consultant, trainer, and speaker. He has designed and delivered systems for e-commerce, banking, insurance, and healthcare, working mostly with .NET, front-end technologies, and Microsoft Azure. He is a twelve-time Microsoft MVP and a four-time GitHub Star, and was named GitHub Star of the Year in 2023. Based in Zurich, he is active in local and international communities and speaks at conferences and meetups about Azure, GitHub, DevOps, .NET, and AI. He wrote a book on Minimal APIs in ASP.NET Core and teaches "Learning GitHub" on LinkedIn Learning. Outside client work he builds his own SaaS products in the open, writes on dev.to, live-codes on Twitch, and mentors other developers.',
+	},
+].map((bio) => ({ ...bio, words: bio.text.split(/\s+/).length }));
+
+const facts = [
+	{ label: 'Name', value: 'Emanuele Bartolesi' },
+	{ label: 'Title', value: 'GitHub Technical Lead' },
+	{ label: 'Based in', value: 'Zurich, Switzerland' },
+	{ label: 'Recognition', value: 'Microsoft MVP (12×) · GitHub Star (4×) · GitHub Star of the Year 2023' },
+	{ label: 'Languages', value: 'English and Italian' },
+];
+
+const links = [
+	{ label: 'emanuelebartolesi.com', href: 'https://www.emanuelebartolesi.com' },
+	{ label: 'LinkedIn', href: 'https://linkedin.com/in/bartolesiemanuele' },
+	{ label: 'GitHub @kasuken', href: 'https://github.com/kasuken' },
+	{ label: 'X @kasuken', href: 'https://x.com/kasuken' },
+	{ label: 'dev.to/kasuken', href: 'https://dev.to/kasuken' },
+	{ label: 'Sessionize', href: 'https://sessionize.com/emanuelebartolesi/' },
+];
+
+const photos = [
+	{
+		src: '/img/eleu.webp',
+		file: 'emanuele-bartolesi-on-stage.webp',
+		alt: 'Emanuele Bartolesi speaking on stage, wearing a cap and a headset microphone',
+		caption: 'On stage',
+		size: '720 × 720 · WebP',
+	},
+	{
+		src: '/img/2757486.png',
+		file: 'emanuele-bartolesi-portrait.png',
+		alt: 'Portrait of Emanuele Bartolesi in a blue T-shirt and a cap',
+		caption: 'Portrait',
+		size: '400 × 400 · PNG',
+	},
+];
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Press kit: bios and photos" description="Speaker bios in three lengths, photos, and links for Emanuele Bartolesi, ready to use in an event programme." />
+	</head>
+	<body class="bg-[var(--background)] text-[var(--text-primary)] antialiased min-h-screen flex flex-col selection:bg-[var(--accent)] selection:text-[var(--background)]">
+		<Header />
+		<main class="flex-grow w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+
+			<section class="max-w-3xl mb-16 md:mb-20">
+				<h1 class="font-display text-5xl md:text-7xl tracking-tight text-[var(--text-primary)] mb-6 reveal reveal-2">
+					Press <em class="italic text-[var(--accent-text)]">kit</em>
+				</h1>
+				<p class="text-xl md:text-2xl text-[var(--text-secondary)] leading-relaxed max-w-[50ch] mb-0 reveal reveal-3">
+					Bios, photos, and links for your programme, website, and announcements. Use whatever you need; there is no need to ask first.
+				</p>
+			</section>
+
+			<!-- Bios -->
+			<section class="mb-24">
+				<SectionHeading title="Bio" description="Three lengths, written in the third person." />
+				<div class="flex flex-col gap-6">
+					{bios.map((bio) => (
+						<article class="bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-card)] p-6 md:p-8">
+							<div class="flex items-baseline justify-between gap-4 mb-4">
+								<h3 class="font-display text-2xl text-[var(--text-primary)] mb-0!">{bio.label}</h3>
+								<span class="text-sm text-[var(--text-secondary)] tabular">{bio.words} words</span>
+							</div>
+							<p id={`bio-${bio.id}`} class="text-[var(--text-secondary)] leading-relaxed max-w-[68ch] mb-6">{bio.text}</p>
+							<button type="button" class="btn-secondary" data-copy={`bio-${bio.id}`}>Copy bio</button>
+						</article>
+					))}
+				</div>
+			</section>
+
+			<!-- Name and links -->
+			<section class="mb-24">
+				<SectionHeading title="Name and links" />
+				<dl class="m-0 border-t border-[var(--border)] divide-y divide-[var(--border)]">
+					{facts.map((fact) => (
+						<div class="grid grid-cols-1 sm:grid-cols-[10rem_1fr] sm:items-baseline gap-1 sm:gap-4 py-4">
+							<dt class="text-[var(--text-secondary)]">{fact.label}</dt>
+							<dd class="m-0 font-semibold text-[var(--text-primary)]">{fact.value}</dd>
+						</div>
+					))}
+					<div class="grid grid-cols-1 sm:grid-cols-[10rem_1fr] sm:items-baseline gap-1 sm:gap-4 py-4">
+						<dt class="text-[var(--text-secondary)]">Links</dt>
+						<dd class="m-0">
+							<ul class="list-none p-0 m-0 flex flex-wrap gap-x-6 gap-y-2">
+								{links.map((link) => (
+									<li>
+										<a href={link.href} target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--accent-text)] no-underline! hover:underline!">{link.label}</a>
+									</li>
+								))}
+							</ul>
+						</dd>
+					</div>
+				</dl>
+			</section>
+
+			<!-- Photos -->
+			<section>
+				<SectionHeading title="Photos" description="Square crops. A larger portrait is on the Sessionize profile linked above." />
+				<ul class="grid grid-cols-1 sm:grid-cols-2 gap-6 list-none p-0 m-0 max-w-3xl">
+					{photos.map((photo) => (
+						<li class="flex flex-col bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-card)] overflow-hidden">
+							<img src={photo.src} alt={photo.alt} width="720" height="720" loading="lazy" class="w-full aspect-square object-cover" />
+							<div class="flex items-center justify-between gap-4 p-5">
+								<div>
+									<p class="font-semibold text-[var(--text-primary)] mb-0">{photo.caption}</p>
+									<p class="text-sm text-[var(--text-secondary)] tabular mb-0">{photo.size}</p>
+								</div>
+								<a href={photo.src} download={photo.file} class="btn-secondary shrink-0">
+									Download
+									<span class="sr-only">: {photo.caption}</span>
+								</a>
+							</div>
+						</li>
+					))}
+				</ul>
+			</section>
+
+		</main>
+		<Footer />
+
+		<script is:inline>
+			// Copy buttons. The bio text is already on the page and selectable, so
+			// a browser without clipboard access loses nothing but the shortcut.
+			(function () {
+				document.addEventListener('click', function (event) {
+					var button = event.target instanceof Element && event.target.closest('[data-copy]');
+					if (!button || !navigator.clipboard) return;
+					var source = document.getElementById(button.getAttribute('data-copy'));
+					if (!source) return;
+					navigator.clipboard.writeText(source.textContent.trim()).then(function () {
+						var label = button.textContent;
+						button.textContent = 'Copied';
+						setTimeout(function () { button.textContent = label; }, 1800);
+					});
+				});
+			})();
+		</script>
+	</body>
+</html>
