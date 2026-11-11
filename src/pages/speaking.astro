@@ -90,6 +90,44 @@ data?.sessions?.forEach(s => {
 
 const technologies = Array.from(techSet).sort((a, b) => a.localeCompare(b));
 
+// Sessionize stores one language per session, and several sessions with an
+// Italian abstract are filed there as English. The pill describes the text a
+// visitor is about to read, so it is taken from the abstract itself.
+const IT_WORDS = /\b(che|con|per|della|delle|degli|dei|una|gli|sono|questo|questa|come|nel|nella|alla|anche|di|il|le)\b/gi;
+const EN_WORDS = /\b(the|and|with|for|you|your|this|that|will|are|how|from|of|to)\b/gi;
+const abstractLanguage = (s: SessionizeSession) => {
+  if (!['en', 'it'].includes(s.languageCode)) return s.language;
+  const text = `${s.title} ${s.description ?? ''}`;
+  const italian = text.match(IT_WORDS)?.length ?? 0;
+  const english = text.match(EN_WORDS)?.length ?? 0;
+  return italian > english ? 'Italian' : 'English';
+};
+
+// The feed is the full back catalogue, newest first, and repeats a talk once
+// per submission. Show each title once, lead with the most recent, and keep
+// the rest one click away.
+const FEATURED_SESSIONS = 8;
+const seenTitles = new Set<string>();
+const uniqueSessions = (data?.sessions ?? []).filter(s => {
+  const key = s.title.trim().toLowerCase();
+  if (seenTitles.has(key)) return false;
+  seenTitles.add(key);
+  return true;
+});
+const featuredSessions = uniqueSessions.slice(0, FEATURED_SESSIONS);
+const olderSessions = uniqueSessions.slice(FEATURED_SESSIONS);
+
+// Figures come from the feed, so they move with it and are labelled as such.
+// An event without a location is an online one.
+const countries = new Set(
+  _events.filter(e => e.location).map(e => e.location.split(',').pop()!.trim())
+);
+const stats = [
+  { value: _events.length, label: 'Events on Sessionize' },
+  { value: countries.size, label: 'Countries, in person' },
+  { value: uniqueSessions.length, label: 'Talks in the catalogue' },
+];
+
 const fmtDate = (iso: string) => {
   const d = new Date(iso);
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -121,19 +159,30 @@ const fmtDate = (iso: string) => {
 						Want me to speak at your event?
 					</h2>
 					<p class="text-[var(--text-secondary)] max-w-[56ch] mb-6">
-						Reach out via my social channels or LinkedIn — or browse the full
-						catalogue of talks on my Sessionize profile.
+						Send me the event, the date, and the audience on LinkedIn. The full
+						catalogue of talks is on my Sessionize profile.
 					</p>
-					<a
-						href="https://sessionize.com/emanuelebartolesi/"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="inline-flex items-center gap-2 px-6 py-3 rounded-[var(--radius-pill)] text-sm font-semibold no-underline! bg-[var(--accent)] text-[var(--on-accent)]! hover:brightness-110 hover:-translate-y-px transition-[filter,transform] duration-200"
-					>
-						View speaker profile
-						<Icon name="arrow-up-right" class="w-4 h-4" />
-					</a>
+					<div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+						<a href="https://linkedin.com/in/bartolesiemanuele" target="_blank" rel="noopener noreferrer" class="btn-primary">
+							Invite me on LinkedIn
+							<Icon name="arrow-up-right" class="w-4 h-4" />
+						</a>
+						<a href="https://sessionize.com/emanuelebartolesi/" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+							View speaker profile
+							<Icon name="arrow-up-right" class="w-4 h-4" />
+						</a>
+					</div>
 				</div>
+				{data && _events.length > 0 && (
+					<dl class="grid grid-cols-3 gap-6 m-0 mt-10 pt-8 border-t border-[var(--border)]">
+						{stats.map(stat => (
+							<div class="flex flex-col-reverse gap-1">
+								<dt class="text-sm text-[var(--text-secondary)]">{stat.label}</dt>
+								<dd class="m-0 font-display font-semibold text-4xl md:text-5xl tracking-tight tabular text-[var(--text-primary)]">{stat.value}</dd>
+							</div>
+						))}
+					</dl>
+				)}
 			</section>
 
 			{fetchError ? (
@@ -168,7 +217,12 @@ const fmtDate = (iso: string) => {
 						{upcomingEvents.length === 0 ? (
 							<div class="rounded-[var(--radius-card)] border border-dashed border-[var(--border)] p-12 text-center">
 								<Icon name="calendar" class="w-8 h-8 mx-auto mb-3 text-[var(--text-light)]" />
-								<p class="text-[var(--text-secondary)] mb-0">No upcoming events listed right now.</p>
+								<p class="font-display text-xl text-[var(--text-primary)] mb-2">Nothing on the calendar yet</p>
+								<p class="text-[var(--text-secondary)] mb-6 max-w-[46ch] mx-auto">Which means the dates are open. If you are putting a programme together, this is a good moment to ask.</p>
+								<a href="https://linkedin.com/in/bartolesiemanuele" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+									Invite me to your event
+									<Icon name="arrow-up-right" class="w-4 h-4" />
+								</a>
 							</div>
 						) : (
 							<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -291,12 +345,12 @@ const fmtDate = (iso: string) => {
 									<Icon name="slides" class="w-5 h-5" />
 								</span>
 								<div>
-									<h2 id="sessions-heading" class="font-display text-3xl text-[var(--text-primary)] mb-0!">Available sessions</h2>
-									<p class="text-[var(--text-secondary)] mb-0!">Talks ready for conferences, meetups, and corporate events</p>
+									<h2 id="sessions-heading" class="font-display text-3xl text-[var(--text-primary)] mb-0!">Recent sessions</h2>
+									<p class="text-[var(--text-secondary)] mb-0!">The talks I have submitted most recently; any of them can be adapted to your audience</p>
 								</div>
 							</div>
 							<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-								{data.sessions.map(s => (
+								{featuredSessions.map(s => (
 									<article class="group flex flex-col rounded-[var(--radius-card)] bg-[var(--background-secondary)] border border-[var(--border)] p-6 hover:border-[var(--accent)] hover:-translate-y-[3px] hover:shadow-md transition-all duration-200">
 										<div class="flex items-start justify-between gap-4 mb-4">
 											<h3 class="font-display text-xl leading-snug text-[var(--text-primary)] mb-0! group-hover:text-[var(--accent-text)] transition-colors">
@@ -304,7 +358,7 @@ const fmtDate = (iso: string) => {
 											</h3>
 											<span class="inline-flex items-center gap-1.5 shrink-0 px-2.5 py-1 rounded-[var(--radius-pill)] border border-[var(--border)] text-xs font-medium text-[var(--text-secondary)]">
 												<Icon name="globe" class="w-3.5 h-3.5" />
-												{s.language}
+												{abstractLanguage(s)}
 											</span>
 										</div>
 
@@ -323,6 +377,21 @@ const fmtDate = (iso: string) => {
 									</article>
 								))}
 							</div>
+							{olderSessions.length > 0 && (
+								<details class="mt-8 rounded-[var(--radius-card)] border border-[var(--border)]">
+									<summary class="cursor-pointer px-6 py-4 font-semibold text-[var(--text-primary)]">
+										{olderSessions.length} earlier sessions
+									</summary>
+									<ul class="list-none m-0 px-6 pb-6 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm">
+										{olderSessions.map(s => (
+											<li class="flex items-baseline justify-between gap-4 border-t border-[var(--border)] pt-2">
+												<a href={s.sessionUrl} target="_blank" rel="noopener noreferrer" class="text-[var(--text-secondary)] no-underline! hover:text-[var(--accent-text)] transition-colors">{s.title}</a>
+												<span class="shrink-0 text-xs text-[var(--text-light)]">{abstractLanguage(s)}</span>
+											</li>
+										))}
+									</ul>
+								</details>
+							)}
 						</section>
 					)}
 				</div>
