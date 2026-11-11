@@ -1,0 +1,236 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { OFFICE_HOURS_CAL_LINK } from '../consts';
+
+const calUrl = `https://cal.com/${OFFICE_HOURS_CAL_LINK}`;
+
+// `title` is also sent to Cal.com as the `topic` answer, so the booking
+// arrives already labelled. The event type needs a booking question whose
+// identifier is `topic`.
+const topics = [
+	{
+		title: 'AI coding workflows',
+		description: 'GitHub Copilot, agents, and choosing a model or plan that fits how you work.',
+		bring: 'the task where the AI keeps letting you down',
+	},
+	{
+		title: 'Shipping a side product',
+		description: 'Getting from an idea to a release, and from a release to first users.',
+		bring: 'where the product is today and what is stopping the next step',
+	},
+	{
+		title: 'MVP and GitHub Star',
+		description: 'How community contribution adds up, and what the programs look for.',
+		bring: 'what you have contributed in the last twelve months',
+	},
+	{
+		title: 'Your first talk',
+		description: 'Finding a topic, writing an abstract that gets picked, getting on stage.',
+		bring: 'the idea you keep putting off',
+	},
+	{
+		title: 'Technical writing',
+		description: 'Starting a blog, finding a rhythm, and getting posts read.',
+		bring: 'a draft or an outline, even a rough one',
+	},
+];
+
+const topicUrl = (title: string) => `${calUrl}?topic=${encodeURIComponent(title)}`;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Office hours: a free 15-minute call" description="Book a free, one-off 15-minute video call with Emanuele Bartolesi about AI coding workflows, shipping products, community programs, speaking, or technical writing." />
+	</head>
+	<body class="bg-[var(--background)] text-[var(--text-primary)] antialiased min-h-screen flex flex-col selection:bg-[var(--accent)] selection:text-[var(--background)]">
+		<Header />
+		<main class="flex-grow w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+
+			<!-- Hero -->
+			<section class="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16 items-center mb-20 md:mb-28">
+				<div class="md:col-span-7">
+					<h1 class="font-display text-5xl md:text-7xl tracking-tight text-[var(--text-primary)] mb-6 reveal reveal-2">
+						Fifteen minutes, <em class="italic text-[var(--accent-text)]">free</em>.
+					</h1>
+					<p class="text-xl md:text-2xl text-[var(--text-secondary)] mb-10 leading-relaxed max-w-[42ch] reveal reveal-3">
+						A one-off video call. Bring one clear question and I'll tell you what I would do, from 20+ years of building, speaking, and writing.
+					</p>
+					<div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 reveal reveal-4">
+						<Button href="#book">Pick a time</Button>
+						<Button href="#topics" variant="secondary">What we can talk about</Button>
+					</div>
+				</div>
+
+				<div class="md:col-span-5 reveal reveal-3">
+					<div class="bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-card)] p-8">
+						<p class="font-display font-semibold text-[var(--text-primary)] leading-none mb-6">
+							<span class="text-8xl tracking-tight">15</span>
+							<span class="text-2xl ml-1">min</span>
+						</p>
+						<dl class="m-0 border-t border-[var(--border)] divide-y divide-[var(--border)]">
+							<div class="flex items-baseline justify-between gap-4 py-3">
+								<dt class="text-[var(--text-secondary)]">Format</dt>
+								<dd class="m-0 font-semibold">Video call</dd>
+							</div>
+							<div class="flex items-baseline justify-between gap-4 py-3">
+								<dt class="text-[var(--text-secondary)]">Price</dt>
+								<dd class="m-0 font-semibold">Free</dd>
+							</div>
+							<div class="flex items-baseline justify-between gap-4 pt-3">
+								<dt class="text-[var(--text-secondary)]">How often</dt>
+								<dd class="m-0 font-semibold">Once per person</dd>
+							</div>
+						</dl>
+					</div>
+				</div>
+			</section>
+
+			<!-- Topics -->
+			<section id="topics" class="mb-24 scroll-mt-24">
+				<SectionHeading title="What we can talk about" description="Pick the one closest to your question. Each comes with one thing to prepare, so the fifteen minutes go to the answer." />
+
+				<ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 list-none p-0 m-0">
+					{topics.map((topic) => (
+						<li class="flex flex-col bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-card)] p-6 hover:border-[var(--accent)] hover:shadow-md transition-all duration-200">
+							<h3 class="font-display text-2xl text-[var(--text-primary)] mb-2">{topic.title}</h3>
+							<p class="text-[var(--text-secondary)] leading-relaxed mb-5">{topic.description}</p>
+							<p class="text-sm text-[var(--text-secondary)] border-t border-[var(--border)] pt-4 mb-5 mt-auto">
+								<strong class="text-[var(--text-primary)]">Bring:</strong> {topic.bring}
+							</p>
+							<a
+								href={topicUrl(topic.title)}
+								target="_blank"
+								rel="noopener noreferrer"
+								data-book-topic={topic.title}
+								class="inline-flex items-center gap-1.5 self-start text-sm font-semibold text-[var(--accent-text)] no-underline! hover:underline!"
+							>
+								Book this<span class="sr-only">: {topic.title}</span>
+								<Icon name="arrow-right" class="w-4 h-4" />
+							</a>
+						</li>
+					))}
+				</ul>
+			</section>
+
+			<!-- Scope + booking -->
+			<section class="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16 mb-24">
+				<div class="md:col-span-4">
+					<h2 class="font-display text-2xl text-[var(--text-primary)] mb-4">What this isn't</h2>
+					<p class="text-[var(--text-secondary)] leading-relaxed mb-8">
+						Not a code review, a CV review, or a mock interview. Those need more than fifteen minutes to be useful, and nobody gains from a rushed one. It isn't an introduction service either.
+					</p>
+					<h2 class="font-display text-2xl text-[var(--text-primary)] mb-4">Want something longer?</h2>
+					<p class="text-[var(--text-secondary)] leading-relaxed mb-4">
+						Reviews, interview preparation, and ongoing guidance are what mentoring sessions are for.
+					</p>
+					<a href="/mentor" class="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--accent-text)] no-underline! hover:underline!">
+						See mentoring
+						<Icon name="arrow-right" class="w-4 h-4" />
+					</a>
+				</div>
+
+				<div id="book" class="md:col-span-8 scroll-mt-24">
+					<div class="bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-card)] overflow-hidden">
+						<div id="book-intro" class="p-8 md:p-12">
+							<h2 class="font-display text-3xl text-[var(--text-primary)] mb-3">Pick a time</h2>
+							<p class="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-[52ch]">
+								Booking runs on Cal.com, a separate service. The calendar loads here only when you ask for it.
+							</p>
+							<div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+								<button type="button" class="btn-primary" data-book-load hidden>Show the calendar</button>
+								<a href={calUrl} target="_blank" rel="noopener noreferrer" class="btn-secondary" data-book-external>
+									Open on Cal.com
+									<Icon name="arrow-up-right" class="w-4 h-4" />
+								</a>
+							</div>
+						</div>
+						<div id="book-embed" class="w-full" hidden></div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Closing -->
+			<section class="bg-[var(--background-secondary)] rounded-[var(--radius-card)] border border-[var(--border)] p-8 md:p-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
+				<h2 class="font-display text-3xl md:text-4xl tracking-tight text-[var(--text-primary)] mb-0!">
+					Someone did this for me <em class="italic text-[var(--accent-text)]">once</em>.
+				</h2>
+				<Button href="#book" class="flex-shrink-0">Pick a time</Button>
+			</section>
+
+		</main>
+		<Footer />
+
+		<script is:inline define:vars={{ calLink: OFFICE_HOURS_CAL_LINK }}>
+			// The Cal.com embed is third-party, so it loads only on an explicit
+			// click. Without JavaScript every booking control is a plain link to
+			// Cal.com, which is why the in-page button starts hidden.
+			(function () {
+				var intro = document.getElementById('book-intro');
+				var embed = document.getElementById('book-embed');
+				var loadButton = document.querySelector('[data-book-load]');
+				if (!intro || !embed || !loadButton) return;
+
+				loadButton.hidden = false;
+
+				function showCalendar(topic) {
+					// Cal.com's loader: queues calls until embed.js has arrived.
+					(function (C, A, L) {
+						var p = function (a, ar) { a.q.push(ar); };
+						var d = C.document;
+						C.Cal = C.Cal || function () {
+							var cal = C.Cal;
+							var ar = arguments;
+							if (!cal.loaded) {
+								cal.ns = {};
+								cal.q = cal.q || [];
+								d.head.appendChild(d.createElement('script')).src = A;
+								cal.loaded = true;
+							}
+							if (ar[0] === L) {
+								var api = function () { p(api, arguments); };
+								var namespace = ar[1];
+								api.q = api.q || [];
+								if (typeof namespace === 'string') {
+									cal.ns[namespace] = cal.ns[namespace] || api;
+									p(cal.ns[namespace], ar);
+									p(cal, ['initNamespace', namespace]);
+								} else p(cal, ar);
+								return;
+							}
+							p(cal, ar);
+						};
+					})(window, 'https://app.cal.com/embed/embed.js', 'init');
+
+					if (!window.__officeHoursCalReady) {
+						window.Cal('init', { origin: 'https://cal.com' });
+						window.__officeHoursCalReady = true;
+					}
+
+					var config = { layout: 'month_view' };
+					if (topic) config.topic = topic;
+
+					embed.innerHTML = '';
+					embed.hidden = false;
+					intro.hidden = true;
+					window.Cal('inline', { elementOrSelector: '#book-embed', calLink: calLink, config: config });
+					document.getElementById('book').scrollIntoView({ block: 'start' });
+				}
+
+				loadButton.addEventListener('click', function () { showCalendar(''); });
+
+				document.addEventListener('click', function (event) {
+					var link = event.target instanceof Element && event.target.closest('[data-book-topic]');
+					if (!link || event.ctrlKey || event.metaKey || event.shiftKey) return;
+					event.preventDefault();
+					showCalendar(link.getAttribute('data-book-topic'));
+				});
+			})();
+		</script>
+	</body>
+</html>
