@@ -3,6 +3,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import ProductMark from '../components/ProductMark.astro';
+import ScreenshotLightbox from '../components/ScreenshotLightbox.astro';
 import { products } from '../data/products.ts';
 import { SITE_TITLE } from '../consts';
 
@@ -90,7 +91,7 @@ const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 										id={`${product.slug}-name`}
 										class="font-display text-4xl md:text-5xl mb-0! text-[var(--text-primary)]"
 									>
-										{product.name}
+										<a href={`/products/${product.slug}`} class="no-underline! text-[var(--text-primary)]! hover:text-[var(--p-ink)]! transition-colors">{product.name}</a>
 									</h2>
 									<span class="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--text-secondary)] border border-[var(--border)] rounded-[var(--radius-pill)] px-2.5 py-1">
 										<span
@@ -134,6 +135,13 @@ const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 								</ul>
 
 								<div class="flex flex-wrap items-center gap-3">
+									<a
+										href={`/products/${product.slug}`}
+										class="inline-flex items-center gap-2 px-6 py-3 rounded-[var(--radius-pill)] text-sm font-semibold no-underline! text-[var(--text-primary)]! border border-[var(--border)] hover:border-[var(--p)] hover:text-[var(--p-ink)]! transition-colors"
+									>
+										{product.name} page
+										<span set:html={arrow} />
+									</a>
 									{product.site && (
 										<a
 											href={product.site}
@@ -240,7 +248,7 @@ const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 							{products.map((product) => (
 								<tr data-product={product.slug} class="group hover:bg-[var(--p-tint)] transition-colors">
 									<th scope="row" class="align-middle py-5 pr-6 font-normal">
-										<a href={`#${product.slug}`} class="inline-flex items-center gap-3 no-underline! text-[var(--text-primary)]! hover:text-[var(--p-ink)]! transition-colors">
+										<a href={`/products/${product.slug}`} class="inline-flex items-center gap-3 no-underline! text-[var(--text-primary)]! hover:text-[var(--p-ink)]! transition-colors">
 											<span class="w-8 h-8 shrink-0 p-1.5 rounded-[var(--radius-sm)] bg-[var(--p-tint)] text-[var(--p)] border border-[var(--p-edge)]">
 												<ProductMark slug={product.slug} />
 											</span>
@@ -292,46 +300,7 @@ const check = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 			</section>
 		</main>
 
-		<!-- Screenshot lightbox -->
-		<div id="shot-lightbox" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/85 backdrop-blur-sm p-4" role="dialog" aria-modal="true" aria-label="Screenshot preview">
-			<button id="shot-close" type="button" aria-label="Close preview" class="absolute top-5 right-5 w-11 h-11 flex items-center justify-center rounded-[var(--radius-pill)] bg-white/10 text-white hover:bg-white/20 transition-colors">
-				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
-			</button>
-			<figure class="max-w-6xl max-h-full flex flex-col items-center gap-4 m-0">
-				<img id="shot-img" src="" alt="" class="max-w-full max-h-[80vh] rounded-[var(--radius-card)] shadow-2xl object-contain" />
-				<figcaption id="shot-caption" class="text-sm text-white/70 text-center max-w-2xl mb-0"></figcaption>
-			</figure>
-		</div>
-
-		<script is:inline>
-			document.addEventListener("DOMContentLoaded", function () {
-				const box = document.getElementById("shot-lightbox");
-				const img = document.getElementById("shot-img");
-				const cap = document.getElementById("shot-caption");
-				const closeBtn = document.getElementById("shot-close");
-				if (!box || !img || !cap) return;
-				const open = (src, alt) => {
-					img.setAttribute("src", src);
-					img.setAttribute("alt", alt);
-					cap.textContent = alt;
-					box.classList.remove("hidden");
-					box.classList.add("flex");
-					document.body.style.overflow = "hidden";
-				};
-				const close = () => {
-					box.classList.add("hidden");
-					box.classList.remove("flex");
-					img.setAttribute("src", "");
-					document.body.style.overflow = "";
-				};
-				document.querySelectorAll(".product-shot").forEach((el) => {
-					el.addEventListener("click", () => open(el.getAttribute("data-src"), el.getAttribute("data-alt") || ""));
-				});
-				closeBtn && closeBtn.addEventListener("click", close);
-				box.addEventListener("click", (e) => { if (e.target === box) close(); });
-				document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !box.classList.contains("hidden")) close(); });
-			});
-		</script>
+		<ScreenshotLightbox />
 
 		<script is:inline>
 			// Reliable jump to a #product anchor when arriving from another page. The

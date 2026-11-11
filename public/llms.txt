@@ -7,6 +7,14 @@ Speaking invitations and general messages: https://www.emanuelebartolesi.com/con
 ## Products and work
 
 - [Products](https://www.emanuelebartolesi.com/products): the SaaS products he is building, with status, stack, and source links
+- [Brainy](https://www.emanuelebartolesi.com/products/brainy): a second brain that turns notes into finished work
+- [MoneyBrain](https://www.emanuelebartolesi.com/products/moneybrain): self-hosted personal finance
+- [LearnStack](https://www.emanuelebartolesi.com/products/learnstack): a learning queue that ends in published work
+- [Needly](https://www.emanuelebartolesi.com/products/needly): an action inbox for GitHub
+- [Passwordify](https://www.emanuelebartolesi.com/products/passwordify): privacy-first password tools and an API
+- [Relio](https://www.emanuelebartolesi.com/products/relio): a private notebook for the people in your life
+- [Lapfolio](https://www.emanuelebartolesi.com/products/lapfolio): training plans, sessions, and race goals in one place
+- [DayPulse](https://www.emanuelebartolesi.com/products/daypulse): wellbeing check-ins and patterns
 - [Portfolio](https://www.emanuelebartolesi.com/portfolio): VS Code extensions and open-source projects
 - [The Million Journey](https://www.emanuelebartolesi.com/millionjourney): public progress towards one million in revenue
 

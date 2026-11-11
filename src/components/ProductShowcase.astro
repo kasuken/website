@@ -61,7 +61,7 @@ const arrow = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 					<div class="min-w-0">
 						<div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
 							<h3 class="font-display text-2xl md:text-3xl mb-0! group-hover:text-[var(--p-ink)] transition-colors">
-								<a href={`/products#${product.slug}`} class="no-underline! text-[var(--text-primary)]! group-hover:text-[var(--p-ink)]! transition-colors">
+								<a href={`/products/${product.slug}`} class="no-underline! text-[var(--text-primary)]! group-hover:text-[var(--p-ink)]! transition-colors">
 									{product.name}
 								</a>
 							</h3>
@@ -93,7 +93,7 @@ const arrow = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 
 					<div class="col-start-2 md:col-start-3 flex flex-wrap items-center gap-3 md:self-center">
 						<a
-							href={`/products#${product.slug}`}
+							href={`/products/${product.slug}`}
 							class="inline-flex items-center gap-2 px-4 py-2 rounded-[var(--radius-pill)] text-sm font-semibold no-underline! text-[var(--text-primary)]! border border-[var(--border)] hover:border-[var(--p)] hover:text-[var(--p-ink)]! transition-colors"
 						>
 							Details
