@@ -1,0 +1,45 @@
+# Emanuele Bartolesi
+
+> Emanuele Bartolesi is a GitHub Technical Lead, a twelve-time Microsoft MVP, and a four-time GitHub Star (GitHub Star of the Year 2023), based in Zurich, Switzerland. He builds SaaS products on .NET and Azure, writes about software and AI-assisted development, speaks at conferences, and mentors developers.
+
+Speaking invitations and general messages: https://www.emanuelebartolesi.com/contact
+
+## Products and work
+
+- [Products](https://www.emanuelebartolesi.com/products): the SaaS products he is building, with status, stack, and source links
+- [Portfolio](https://www.emanuelebartolesi.com/portfolio): VS Code extensions and open-source projects
+- [The Million Journey](https://www.emanuelebartolesi.com/millionjourney): public progress towards one million in revenue
+
+## Writing and resources
+
+- [Writing](https://www.emanuelebartolesi.com/blog): articles on .NET, GitHub, AI coding tools, and building products
+- [Resources](https://www.emanuelebartolesi.com/resources): model, pricing, and plan guides for AI coding tools
+- [GitHub Copilot guide](https://www.emanuelebartolesi.com/resources/github-copilot)
+- [Claude guide](https://www.emanuelebartolesi.com/resources/claude)
+- [Codex guide](https://www.emanuelebartolesi.com/resources/codex)
+- [Antigravity guide](https://www.emanuelebartolesi.com/resources/antigravity)
+- [Newsletter](https://www.emanuelebartolesi.com/newsletter)
+- [RSS feed](https://www.emanuelebartolesi.com/rss.xml)
+
+## Speaking
+
+- [Speaking](https://www.emanuelebartolesi.com/speaking): upcoming and past events, and recent sessions
+- [Press kit](https://www.emanuelebartolesi.com/press-kit): bios in three lengths, photos, and links
+- [Contact](https://www.emanuelebartolesi.com/contact): how to invite him to an event
+
+## Work together
+
+- [Office hours](https://www.emanuelebartolesi.com/office-hours): a free, one-off 15-minute call
+- [Mentoring](https://www.emanuelebartolesi.com/mentor): ongoing 1:1 mentoring, terms and what it covers
+- [Courses](https://www.emanuelebartolesi.com/courses): training courses
+
+## About
+
+- [About](https://www.emanuelebartolesi.com/about): background and recognition
+- [Uses](https://www.emanuelebartolesi.com/uses): hardware and software he works with
+- [AI Manifesto](https://www.emanuelebartolesi.com/ai): how he uses AI in his work
+
+## Optional
+
+- [Activities](https://www.emanuelebartolesi.com/activities): live GitHub and productivity dashboard
+- [Live](https://www.emanuelebartolesi.com/live): Twitch live-coding schedule

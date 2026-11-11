@@ -12,7 +12,7 @@ import ThemeToggle from './ThemeToggle.astro';
 			</a>
 		</div>
 		
-		<button class="md:hidden p-2 -mr-2 text-[var(--text-secondary)] hover:bg-[var(--background-secondary)] rounded-[var(--radius-sm)] transition-colors mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+		<button class="lg:hidden p-2 -mr-2 text-[var(--text-secondary)] hover:bg-[var(--background-secondary)] rounded-[var(--radius-sm)] transition-colors mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
 			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6" aria-hidden="true">
 				<line x1="3" y1="12" x2="21" y2="12"></line>
 				<line x1="3" y1="6" x2="21" y2="6"></line>
@@ -20,7 +20,7 @@ import ThemeToggle from './ThemeToggle.astro';
 			</svg>
 		</button>
 		
-		<div class="hidden md:flex flex-1 items-center justify-center">
+		<div class="hidden lg:flex flex-1 items-center justify-center">
 			<div class="flex items-center gap-1">
 				<HeaderLink href="/products">Products</HeaderLink>
 				<HeaderLink href="/blog">Writing</HeaderLink>
@@ -35,19 +35,18 @@ import ThemeToggle from './ThemeToggle.astro';
 					<div class="absolute left-1/2 -translate-x-1/2 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-150">
 						<div class="flex flex-col min-w-44 bg-[var(--background)] border border-[var(--border)] rounded-[var(--radius-card)] shadow-lg p-2">
 							<a href="/resources" class="px-4 py-2 rounded-[var(--radius-sm)] text-sm font-medium text-[var(--text-secondary)] no-underline! hover:text-[var(--text-primary)] hover:bg-[var(--background-secondary)] transition-colors">Resources</a>
-							<a href="/activities" class="px-4 py-2 rounded-[var(--radius-sm)] text-sm font-medium text-[var(--text-secondary)] no-underline! hover:text-[var(--text-primary)] hover:bg-[var(--background-secondary)] transition-colors">Activities</a>
 							<a href="/courses" class="px-4 py-2 rounded-[var(--radius-sm)] text-sm font-medium text-[var(--text-secondary)] no-underline! hover:text-[var(--text-primary)] hover:bg-[var(--background-secondary)] transition-colors">Courses</a>
-							<a href="/live" class="px-4 py-2 rounded-[var(--radius-sm)] text-sm font-medium text-[var(--text-secondary)] no-underline! hover:text-[var(--text-primary)] hover:bg-[var(--background-secondary)] transition-colors">Live</a>
+							<a href="/office-hours" class="px-4 py-2 rounded-[var(--radius-sm)] text-sm font-medium text-[var(--text-secondary)] no-underline! hover:text-[var(--text-primary)] hover:bg-[var(--background-secondary)] transition-colors">Office hours</a>
 							<a href="/uses" class="px-4 py-2 rounded-[var(--radius-sm)] text-sm font-medium text-[var(--text-secondary)] no-underline! hover:text-[var(--text-primary)] hover:bg-[var(--background-secondary)] transition-colors">Uses</a>
 							<a href="/newsletter" class="px-4 py-2 rounded-[var(--radius-sm)] text-sm font-medium text-[var(--text-secondary)] no-underline! hover:text-[var(--text-primary)] hover:bg-[var(--background-secondary)] transition-colors">Newsletter</a>
-							<a href="/ai" class="px-4 py-2 rounded-[var(--radius-sm)] text-sm font-medium text-[var(--text-secondary)] no-underline! hover:text-[var(--text-primary)] hover:bg-[var(--background-secondary)] transition-colors">AI Manifesto</a>
+							<a href="/contact" class="px-4 py-2 rounded-[var(--radius-sm)] text-sm font-medium text-[var(--text-secondary)] no-underline! hover:text-[var(--text-primary)] hover:bg-[var(--background-secondary)] transition-colors">Contact</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		
-		<div class="hidden md:flex flex-shrink-0 items-center gap-3">
+		<div class="hidden lg:flex flex-shrink-0 items-center gap-3">
 			<a href="/mentor" class="inline-flex items-center px-5 py-2 rounded-[var(--radius-pill)] bg-[var(--accent)] text-[var(--on-accent)]! text-sm font-semibold no-underline! hover:bg-[var(--accent-dark)] transition-colors">
 				Book Mentoring
 			</a>
@@ -59,7 +58,7 @@ import ThemeToggle from './ThemeToggle.astro';
 	</nav>
 	
 	<!-- Mobile Menu -->
-	<div class="mobile-menu hidden md:hidden border-t border-[var(--border)] bg-[var(--background)] px-4 py-4 space-y-2 flex flex-col items-center">
+	<div class="mobile-menu hidden lg:hidden border-t border-[var(--border)] bg-[var(--background)] px-4 py-4 space-y-2 flex flex-col items-center">
 		<HeaderLink href="/" class="w-full text-center">Home</HeaderLink>
 		<HeaderLink href="/products" class="w-full text-center">Products</HeaderLink>
 		<HeaderLink href="/blog" class="w-full text-center">Writing</HeaderLink>
@@ -67,12 +66,11 @@ import ThemeToggle from './ThemeToggle.astro';
 		<HeaderLink href="/speaking" class="w-full text-center">Speaking</HeaderLink>
 		<HeaderLink href="/about" class="w-full text-center">About</HeaderLink>
 		<HeaderLink href="/resources" class="w-full text-center">Resources</HeaderLink>
-		<HeaderLink href="/activities" class="w-full text-center">Activities</HeaderLink>
 		<HeaderLink href="/courses" class="w-full text-center">Courses</HeaderLink>
-		<HeaderLink href="/live" class="w-full text-center">Live</HeaderLink>
+		<HeaderLink href="/office-hours" class="w-full text-center">Office hours</HeaderLink>
 		<HeaderLink href="/uses" class="w-full text-center">Uses</HeaderLink>
 		<HeaderLink href="/newsletter" class="w-full text-center">Newsletter</HeaderLink>
-		<HeaderLink href="/ai" class="w-full text-center">AI Manifesto</HeaderLink>
+		<HeaderLink href="/contact" class="w-full text-center">Contact</HeaderLink>
 		<a href="/mentor" class="w-full inline-flex items-center justify-center px-5 py-2.5 rounded-[var(--radius-pill)] bg-[var(--accent)] text-[var(--on-accent)]! text-sm font-semibold no-underline! hover:bg-[var(--accent-dark)] transition-colors">
 			Book Mentoring
 		</a>

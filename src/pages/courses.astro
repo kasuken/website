@@ -7,7 +7,6 @@ import { SITE_DESCRIPTION } from '../consts';
 import { 
   courses, 
   getFeaturedCourses, 
-  courseCategories, 
   getCourseStats 
 } from '../data/courses';
 
@@ -55,20 +54,6 @@ const stats = getCourseStats();
 					</div>
 				</div>
 			</section>
-
-			<!-- Categories Filter Area (Visual Only) -->
-			<div class="flex flex-wrap justify-center gap-2 mb-12">
-				{courseCategories.map((category: any) => (
-					<div class:list={[
-						"px-4 py-2 rounded-full text-sm transition-colors cursor-pointer",
-						category.key === 'all' 
-							? "bg-[var(--text-primary)] text-[var(--background)] font-bold shadow-md"
-							: "bg-[var(--background-secondary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border)] font-medium"
-					]}>
-						{category.label}
-					</div>
-				))}
-			</div>
 
 			<!-- Featured Courses -->
 			{featuredCourses.length > 0 && (
