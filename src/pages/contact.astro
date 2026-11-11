@@ -1,0 +1,229 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Icon from '../components/Icon.astro';
+import { CONTACT_FORM_ENDPOINT } from '../consts';
+
+// Until a form endpoint is configured the page still works: it shows the
+// direct channels and leaves the form out rather than rendering one that
+// cannot send.
+const hasForm = CONTACT_FORM_ENDPOINT.length > 0;
+
+const reasons = [
+	'A talk at a conference or meetup',
+	'A workshop or team training',
+	'A podcast, livestream, or interview',
+	'Something else',
+];
+
+const facts = [
+	{ label: 'Based in', value: 'Zurich, Switzerland' },
+	{ label: 'Languages', value: 'English and Italian' },
+	{ label: 'Formats', value: 'In person and online' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title="Contact and speaking invitations" description="Invite Emanuele Bartolesi to speak at your conference, meetup, or team event, or send a message about anything else." />
+	</head>
+	<body class="bg-[var(--background)] text-[var(--text-primary)] antialiased min-h-screen flex flex-col selection:bg-[var(--accent)] selection:text-[var(--background)]">
+		<Header />
+		<main class="flex-grow w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+
+			<section class="max-w-3xl mb-16 md:mb-20">
+				<h1 class="font-display text-5xl md:text-7xl tracking-tight text-[var(--text-primary)] mb-6 reveal reveal-2">
+					Get in <em class="italic text-[var(--accent-text)]">touch</em>
+				</h1>
+				<p class="text-xl md:text-2xl text-[var(--text-secondary)] leading-relaxed max-w-[52ch] mb-0 reveal reveal-3">
+					Planning an event and want me on the programme? Tell me what it is, when, and who is in the room. Anything else is welcome too.
+				</p>
+			</section>
+
+			<section class="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16">
+				<div class="md:col-span-7">
+					{hasForm ? (
+						<form id="contact-form" action={CONTACT_FORM_ENDPOINT} method="POST" class="contact-form">
+							<div class="field">
+								<label for="reason">What is it about?</label>
+								<select id="reason" name="reason">
+									{reasons.map((reason) => <option>{reason}</option>)}
+								</select>
+							</div>
+							<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+								<div class="field">
+									<label for="name">Your name</label>
+									<input id="name" name="name" type="text" autocomplete="name" required />
+								</div>
+								<div class="field">
+									<label for="email">Email</label>
+									<input id="email" name="email" type="email" autocomplete="email" required />
+								</div>
+							</div>
+							<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+								<div class="field">
+									<label for="event">Event and location <span class="optional">optional</span></label>
+									<input id="event" name="event" type="text" />
+								</div>
+								<div class="field">
+									<label for="when">When <span class="optional">optional</span></label>
+									<input id="when" name="when" type="text" placeholder="A date or a rough month" />
+								</div>
+							</div>
+							<div class="field">
+								<label for="message">Message</label>
+								<textarea id="message" name="message" rows="6" required></textarea>
+							</div>
+							<!-- Honeypot: hidden from people, filled in by bots. -->
+							<input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+							<div class="flex flex-col sm:flex-row sm:items-center gap-4">
+								<button type="submit" class="btn-primary shrink-0 whitespace-nowrap">Send message</button>
+								<p class="text-sm text-[var(--text-secondary)] mb-0">
+									Sent through a form service; I use your details only to reply.
+								</p>
+							</div>
+							<p id="contact-status" role="status" class="text-sm font-semibold mb-0" hidden></p>
+						</form>
+					) : (
+						<div class="bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-card)] p-8 md:p-12">
+							<h2 class="font-display text-3xl text-[var(--text-primary)] mb-3">Message me on LinkedIn</h2>
+							<p class="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-[48ch]">
+								It is where I answer fastest. For an event, include its name, the date, and the audience.
+							</p>
+							<a href="https://linkedin.com/in/bartolesiemanuele" target="_blank" rel="noopener noreferrer" class="btn-primary">
+								Open LinkedIn
+								<Icon name="arrow-up-right" class="w-4 h-4" />
+							</a>
+						</div>
+					)}
+				</div>
+
+				<aside class="md:col-span-5">
+					<h2 class="font-display text-2xl text-[var(--text-primary)] mb-4">Good to know</h2>
+					<dl class="m-0 border-t border-[var(--border)] divide-y divide-[var(--border)] mb-10">
+						{facts.map((fact) => (
+							<div class="flex items-baseline justify-between gap-4 py-3">
+								<dt class="text-[var(--text-secondary)]">{fact.label}</dt>
+								<dd class="m-0 font-semibold text-right">{fact.value}</dd>
+							</div>
+						))}
+					</dl>
+
+					<h2 class="font-display text-2xl text-[var(--text-primary)] mb-4">Other ways in</h2>
+					<ul class="list-none p-0 m-0 flex flex-col gap-3">
+						<li>
+							<a href="https://sessionize.com/emanuelebartolesi/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 font-semibold text-[var(--accent-text)] no-underline! hover:underline!">
+								Talk catalogue on Sessionize
+								<Icon name="arrow-up-right" class="w-4 h-4" />
+							</a>
+						</li>
+						{hasForm && (
+							<li>
+								<a href="https://linkedin.com/in/bartolesiemanuele" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 font-semibold text-[var(--accent-text)] no-underline! hover:underline!">
+									LinkedIn
+									<Icon name="arrow-up-right" class="w-4 h-4" />
+								</a>
+							</li>
+						)}
+						<li>
+							<a href="/mentor" class="inline-flex items-center gap-1.5 font-semibold text-[var(--accent-text)] no-underline! hover:underline!">
+								Mentoring
+								<Icon name="arrow-right" class="w-4 h-4" />
+							</a>
+						</li>
+					</ul>
+				</aside>
+			</section>
+
+		</main>
+		<Footer />
+
+		{hasForm && (
+			<script is:inline>
+				// Send in place so the visitor stays on the page. If the request
+				// cannot be made at all, fall back to a normal form post.
+				(function () {
+					var form = document.getElementById('contact-form');
+					var status = document.getElementById('contact-status');
+					if (!form || !status || !window.fetch) return;
+
+					form.addEventListener('submit', function (event) {
+						event.preventDefault();
+						var button = form.querySelector('button[type="submit"]');
+						button.disabled = true;
+						status.hidden = false;
+						status.textContent = 'Sending…';
+
+						fetch(form.action, {
+							method: 'POST',
+							body: new FormData(form),
+							headers: { Accept: 'application/json' },
+						})
+							.then(function (response) {
+								if (!response.ok) throw new Error('HTTP ' + response.status);
+								form.reset();
+								status.textContent = 'Sent. I will reply by email.';
+							})
+							.catch(function () {
+								status.textContent = 'That did not go through. Please try again, or message me on LinkedIn.';
+							})
+							.finally(function () {
+								button.disabled = false;
+							});
+					});
+				})();
+			</script>
+		)}
+
+		<style>
+			.contact-form {
+				display: flex;
+				flex-direction: column;
+				gap: 1.5rem;
+			}
+			.field {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+			}
+			.field label {
+				font-size: var(--text-sm);
+				font-weight: 600;
+				color: var(--text-primary);
+			}
+			.field .optional {
+				font-weight: 400;
+				color: var(--text-secondary);
+			}
+			.field input,
+			.field select,
+			.field textarea {
+				width: 100%;
+				padding: 0.75rem 1rem;
+				font: inherit;
+				color: var(--text-primary);
+				background: var(--background-secondary);
+				border: 1px solid var(--border);
+				border-radius: var(--radius-md);
+				transition: border-color var(--motion-duration) var(--ease-out);
+			}
+			.field textarea {
+				resize: vertical;
+			}
+			.field input::placeholder {
+				color: var(--text-light);
+			}
+			.field input:hover,
+			.field select:hover,
+			.field textarea:hover,
+			.field input:focus,
+			.field select:focus,
+			.field textarea:focus {
+				border-color: var(--accent);
+			}
+		</style>
+	</body>
+</html>
