@@ -119,12 +119,14 @@ const topicUrl = (title: string) => `${calUrl}?topic=${encodeURIComponent(title)
 			</section>
 
 			<!-- Scope + booking -->
-			<section class="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16 mb-24">
-				<div class="md:col-span-4">
+			<section class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 mb-16">
+				<div>
 					<h2 class="font-display text-2xl text-[var(--text-primary)] mb-4">What this isn't</h2>
-					<p class="text-[var(--text-secondary)] leading-relaxed mb-8">
+					<p class="text-[var(--text-secondary)] leading-relaxed mb-0">
 						Not a code review, a CV review, or a mock interview. Those need more than fifteen minutes to be useful, and nobody gains from a rushed one. It isn't an introduction service either.
 					</p>
+				</div>
+				<div>
 					<h2 class="font-display text-2xl text-[var(--text-primary)] mb-4">Want something longer?</h2>
 					<p class="text-[var(--text-secondary)] leading-relaxed mb-4">
 						Reviews, interview preparation, and ongoing guidance are what mentoring sessions are for.
@@ -134,13 +136,15 @@ const topicUrl = (title: string) => `${calUrl}?topic=${encodeURIComponent(title)
 						<Icon name="arrow-right" class="w-4 h-4" />
 					</a>
 				</div>
+			</section>
 
-				<div id="book" class="md:col-span-8 scroll-mt-24">
+			<section id="book" class="mb-24 scroll-mt-24">
+				<div>
 					<div class="bg-[var(--background-secondary)] border border-[var(--border)] rounded-[var(--radius-card)] overflow-hidden">
 						<div id="book-intro" class="p-8 md:p-12">
 							<h2 class="font-display text-3xl text-[var(--text-primary)] mb-3">Pick a time</h2>
 							<p class="text-[var(--text-secondary)] leading-relaxed mb-8 max-w-[52ch]">
-								Booking runs on Cal.com, a separate service. The calendar loads here only when you ask for it.
+								Booking runs on Cal.com, a separate service, so nothing from it loads until you ask.
 							</p>
 							<div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
 								<button type="button" class="btn-primary" data-book-load hidden>Show the calendar</button>
@@ -176,7 +180,11 @@ const topicUrl = (title: string) => `${calUrl}?topic=${encodeURIComponent(title)
 				var loadButton = document.querySelector('[data-book-load]');
 				if (!intro || !embed || !loadButton) return;
 
-				loadButton.hidden = false;
+				// In a narrow frame Cal.com stacks the calendar and every time slot
+				// into a column a couple of thousand pixels tall, so small screens
+				// keep the plain links and book on Cal.com itself.
+				var roomy = window.matchMedia('(min-width: 900px)');
+				loadButton.hidden = !roomy.matches;
 
 				function showCalendar(topic) {
 					// Cal.com's loader: queues calls until embed.js has arrived.
@@ -226,7 +234,7 @@ const topicUrl = (title: string) => `${calUrl}?topic=${encodeURIComponent(title)
 
 				document.addEventListener('click', function (event) {
 					var link = event.target instanceof Element && event.target.closest('[data-book-topic]');
-					if (!link || event.ctrlKey || event.metaKey || event.shiftKey) return;
+					if (!link || !roomy.matches || event.ctrlKey || event.metaKey || event.shiftKey) return;
 					event.preventDefault();
 					showCalendar(link.getAttribute('data-book-topic'));
 				});
