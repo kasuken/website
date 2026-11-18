@@ -67,7 +67,7 @@ const organizationRows = [
         <tbody>
           <tr><th scope="row">Prompt caching</th><td>A 5-minute write is 1.25× base input; a 1-hour write is 2×. Read discounts vary by model, so compare the explicit cache columns.</td></tr>
           <tr><th scope="row">Batch API</th><td>Asynchronous processing receives a 50% token-price discount. Prompt-caching discounts stack; Batch is separate from Fast mode.</td></tr>
-          <tr><th scope="row">Fast mode</th><td>Opus 5.5, Opus 5, and Opus 4.8 have premium rates. Opus 5 and 4.8 fast mode remain in research preview. Eligibility and dedicated limits apply.</td></tr>
+          <tr><th scope="row">Fast mode</th><td>Fable 5.2, restricted Mythos 5.2, and supported Opus models have premium rates. Fable 5.2 and Mythos 5.2 use 2× Standard. Opus 5 fast mode is research preview; Opus 4.8 fast mode is deprecated. Fast cannot combine with Batch.</td></tr>
           <tr><th scope="row">Long prompts</th><td>For 4.6-and-later models, full context uses standard per-token prices except Haiku 5.5's higher band. A larger prompt still costs more because it contains more tokens.</td></tr>
           <tr><th scope="row">US-only inference</th><td>Supported 4.6-and-later models use a 1.1× multiplier across token categories. The table shows global rates.</td></tr>
           <tr><th scope="row">Thinking and tools</th><td>Reasoning and tool interactions consume tokens; server tools and managed-agent infrastructure can add charges. Token prices alone are not a complete agent-session estimate.</td></tr>
@@ -100,7 +100,7 @@ const organizationRows = [
       <h2 id="claude-plans-heading">Which Claude plan fits?</h2>
       <a href={claudeSources.plans.url}>Claude plan documentation</a>
     </div>
-    <p class="resource-summary">Choose a subscription for using Claude and Claude Code, or API billing for an application you build. Eligible Max and Team plans also offer separately claimed API credits. These balances and usage limits are different.</p>
+    <p class="resource-summary">Choose a subscription for using Claude and Claude Code, or API billing for an application you build. Eligible Max, Ultra, and Team plans also offer separately claimed API credits. These balances and usage limits are different.</p>
 
     <h3 class="claude-subheading">Personal plans</h3>
     <div class="resource-table-scroll" role="region" aria-labelledby="claude-personal-caption" tabindex="0">
@@ -110,7 +110,7 @@ const organizationRows = [
         <tbody>{personalRows.map(row => <tr><th scope="row">{row.label}</th>{row.values.map(value => <td class:list={{ 'plan-number': row.numeric }}>{value}</td>)}</tr>)}</tbody>
       </table>
     </div>
-    <p class="resource-note">Pro and Max have shared session and weekly limits across Claude and Claude Code. Fable has separate access rules and limits. Once included usage is exhausted, paid usage credits or another billing route can add cost; check the account's current settings.</p>
+    <p class="resource-note">The current personal plans are Free, Pro, Max, and Ultra. Max provides 5× Pro usage per five-hour window and per week. Ultra provides 10× Pro weekly usage, with no five-hour limit for verified accounts. Claude and Claude Code share usage; Fable has its own allowance. These are usage multipliers, not guaranteed message counts.</p>
 
     <h3 class="claude-subheading">Team and Enterprise</h3>
     <div class="resource-table-scroll" role="region" aria-labelledby="claude-business-caption" tabindex="0">
@@ -123,11 +123,11 @@ const organizationRows = [
     <p class="resource-note">The Enterprise price above is the published self-serve offer. Sales-assisted terms can differ. Team API credits are capped at <strong>$500 per month for the whole plan</strong>, not $500 per seat.</p>
 
     <div class="resource-plan-notes">
-      <p><strong>Claim API credits separately.</strong> Eligible new Max and Team subscribers can claim after seven days by linking a Console organization. Credits expire each cycle without rollover. Free, Pro, and Enterprise do not qualify for this program.</p>
+      <p><strong>Claim API credits separately.</strong> Eligible new Max, Ultra, and Team subscribers can claim after seven days by linking a Console organization. Credits expire each cycle without rollover. Free, Pro, and Enterprise do not qualify for this program.</p>
       <p><strong>Keep the billing routes clear.</strong> Included API credits cover Claude Platform applications and agents. They do not cover Claude Code, extra usage in Claude apps, or partner clouds. API-key authentication in Claude Code uses API billing instead of subscription usage.</p>
       <p><strong>Training is separate from retention.</strong> Commercial inputs and outputs are not used for training by default; voluntary feedback and permission are exceptions. Personal accounts have model-improvement choices, with feedback and safety-review exceptions. Fable and Mythos retention still needs a separate check.</p>
     </div>
-    <p class="resource-source">Details: <a href={claudeSources.personal.url}>personal tier prices</a>, <a href={claudeSources.credits.url}>API-credit rules</a>, <a href={claudeSources.code.url}>Claude Code limits and billing</a>, <a href={claudeSources.commercialPrivacy.url}>commercial data use</a>, and <a href={claudeSources.consumerPrivacy.url}>consumer data use</a>.</p>
+    <p class="resource-source">Details: <a href={claudeSources.plans.url}>personal tier prices</a>, <a href={claudeSources.credits.url}>API-credit rules</a>, <a href={claudeSources.code.url}>Claude Code limits and billing</a>, <a href={claudeSources.commercialPrivacy.url}>commercial data use</a>, and <a href={claudeSources.consumerPrivacy.url}>consumer data use</a>.</p>
   </section>
 
   <section class="resource-section resource-sources" id="sources" aria-labelledby="claude-sources-heading">

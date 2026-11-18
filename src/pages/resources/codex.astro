@@ -20,7 +20,7 @@ import {
 
   <section class="resource-section" id="models" aria-labelledby="codex-model-heading">
     <div class="resource-section-heading"><h2 id="codex-model-heading">Which model should I start with?</h2><a href={sources.models.url}>OpenAI's current Codex models</a></div>
-    <p class="resource-summary">OpenAI recommends GPT-6.1 Sol for complex coding and agent workflows, and Luna for focused, repeatable work. Evaluate Astra when the task needs deeper judgment and its higher usage is justified.</p>
+    <p class="resource-summary">OpenAI recommends GPT-6.2 Sol for everyday coding and GPT-6.2 Astra for the hardest projects. Terra 6.1 fits visual reasoning and computer use; Luna fits focused, repeatable work. Start with the lightest option that meets your acceptance checks.</p>
     <div class="resource-table-scroll" role="region" aria-labelledby="codex-model-caption" tabindex="0">
       <table class="resource-table codex-overview-table">
         <caption id="codex-model-caption">Current model starting points; availability depends on your plan, client, and workspace</caption>
@@ -30,20 +30,21 @@ import {
     </div>
     <div class="pricing-notes">
       <ul class="resource-notes-list">
-        <li><strong>GPT-6.1 Sol rollout:</strong> Plus, Pro, Business, Enterprise, and Edu are included at launch. Enterprise and Edu administrators must enable it; Free and Go are excluded from this launch.</li>
-        <li><strong>Earlier models:</strong> GPT-6 Sol and the GPT-5.6 Sol, Terra, and Luna lineup remain available during rollout. The credit table can show their rates.</li>
+        <li><strong>17 November GPT-6.2 launch:</strong> Plus, Pro, Business, Enterprise, and Edu can use Astra and Sol in the Codex app and CLI. Enterprise and Edu models are off by default until enabled. This does not promise identical model availability in Cloud or the IDE extension.</li>
+        <li><strong>Terra 6.1:</strong> available on the same paid plan families; CLI access needs version 0.159.0 or later. Free and Go retain their separately documented Luna rollout.</li>
+        <li><strong>Earlier models:</strong> GPT-6 Astra, GPT-6.1 Sol, GPT-6 Sol, and the GPT-5.6 lineup remain in the published credit rate table. Model access still depends on your client and account.</li>
         <li id="codex-retirement"><strong>GPT-5.5 retired on 14 October 2026</strong> for Codex with ChatGPT sign-in. API-key sessions and the OpenAI API are unaffected by that retirement.</li>
       </ul>
     </div>
-    <p class="resource-note">The three current API models have a 1,050,000-token context window and 128,000-token maximum output. These are API specifications; they do not promise that a Codex client loads an entire repository or exposes the same effective context.</p>
-    <p class="resource-source">Sources: <a href={sources.models.url}>rollout and retirement</a>, <a href={sources.workspace.url}>workspace access</a>, API specifications for <a href={sources.luna.url}>Luna</a>, <a href={sources.sol.url}>Sol 6.1</a>, and <a href={sources.astra.url}>Astra</a>.</p>
+    <p class="resource-note">The four recommended API models have a 1,050,000-token context window and 128,000-token maximum output. Codex defaults differ: GPT-6.2 Astra starts at 272K context and Sol at 500K. A published API maximum does not mean a client loads an entire repository or uses that full window by default.</p>
+    <p class="resource-source">Sources: <a href={sources.release62.url}>GPT-6.2 launch</a>, <a href={sources.models.url}>models and retirement</a>, <a href={sources.workspace.url}>workspace access</a>, API specifications for <a href={sources.luna.url}>Luna</a>, <a href={sources.terra.url}>Terra</a>, <a href={sources.sol62.url}>Sol 6.2</a>, and <a href={sources.astra62.url}>Astra 6.2</a>.</p>
   </section>
 
   <section class="resource-section" id="model-pricing" aria-labelledby="codex-credit-heading">
     <div class="resource-section-heading"><h2 id="codex-credit-heading">What does Codex credit usage cost?</h2><a href={`${sources.plans.url}#token-rates`}>OpenAI's credit rate table</a></div>
     <p class="resource-summary">These rates apply to purchased credits and eligible Enterprise pay-as-you-go usage. <strong>The unit is credits per million tokens.</strong> Your included subscription allowance follows its own limits.</p>
     <CodexPricingTable kind="credits" />
-    <p class="resource-note codex-after-table">Fast and Ultrafast credit rows are calculated from the published 2x and 6x multipliers. Codex credit billing has no separate cache-write charge. Credit purchase prices and discounts depend on your plan or agreement; a credit is not a US dollar.</p>
+    <p class="resource-note codex-after-table">Fast credit rows use 2× Standard. GPT-6.2 Ultrafast rows use the current 3× promotion through <time datetime="2027-02-28">28 February 2027</time>, then 6× from 1 March (Pacific time). Earlier supported models use 6×. Included subscription allowances have different multipliers below. Codex credits have no separate cache-write charge; a credit is not a US dollar.</p>
     <p class="resource-note">Legacy Enterprise agreements may use another rate card. GPT-5.6 Sol promotional pricing is documented through at least 21 November 2026. Restricted research and cyber models are outside this coding reference.</p>
     <p class="resource-source">Sources: <a href={sources.plans.url}>credit rates and agreement exceptions</a>, <a href={sources.speed.url}>speed billing</a>. For API-key usage, jump to <a href="#api-pricing">direct API pricing</a>.</p>
   </section>
@@ -67,7 +68,7 @@ import {
         <tbody>{codexSpeeds.map(speed => <tr><th scope="row">{speed.name}</th><td class="codex-number">{speed.included}</td><td class="codex-number">{speed.credits}</td><td>{speed.access}</td></tr>)}</tbody>
       </table>
     </div>
-    <p class="resource-note codex-after-table">Ultrafast is off by default in Enterprise and requires an eligible agreement and administrator enablement. Purchasing credits does not unlock it on other personal tiers. API-key usage has separate API eligibility and prices.</p>
+    <p class="resource-note codex-after-table">GPT-6.2 Sol Ultrafast is available on Pro $200 and $500; GPT-6.2 Astra requires Pro $500. Eligible Enterprise and Edu workspaces need model access plus a separate Ultrafast permission, off by default. Purchasing credits alone does not unlock a speed tier. Included GPT-6.2 Ultrafast usage stays at 6× during the credit promotion.</p>
     <p class="resource-source">Sources: <a href={sources.selection.url}>model and effort choices</a>, <a href={sources.models.url}>Power and Advanced</a>, <a href={sources.subagents.url}>subagent usage</a>, <a href={sources.speed.url}>speed multipliers and access</a>.</p>
   </section>
 
@@ -105,17 +106,18 @@ import {
 
   <section class="resource-section" id="api-pricing" aria-labelledby="codex-api-heading">
     <div class="resource-section-heading"><h2 id="codex-api-heading">Direct API pricing</h2><a href={sources.api.url}>OpenAI API prices</a></div>
-    <p class="resource-summary">Signing in with an API key bills the key's API organization and project. The table below uses <strong>USD per million tokens</strong> for the three current models. Batch and Flex are API processing options, not Codex app speed buttons.</p>
+    <p class="resource-summary">Signing in with an API key bills the key's API organization and project. The table below uses <strong>USD per million tokens</strong> for the four current recommendations. Batch and Flex are API processing options, not Codex app speed buttons.</p>
     <CodexPricingTable kind="api" />
     <div class="pricing-notes">
       <ul class="resource-notes-list">
         <li><strong>Long prompts:</strong> above 272,000 input tokens, the full request uses 2x input and cache rates and 1.5x output rates. Select the relevant prompt band.</li>
-        <li><strong>Calculated rows:</strong> Batch and Flex use 0.5x Standard, Fast uses 2x, and supported Ultrafast uses 6x. The table applies those documented rules to each prompt band.</li>
+        <li><strong>Calculated rows:</strong> Batch uses 0.5× Standard and Fast uses 2×. Flex is shown only for Luna and Terra, where rates are published. GPT-6.2 Ultrafast uses 3× through 28 February 2027, then 6× from 1 March (Pacific time); it is an API promotion as well as a separate Codex credit promotion.</li>
+        <li><strong>Cache retention:</strong> the cache-write column uses 30-minute retention. Published 12-hour cache writes cost twice the corresponding 30-minute rate. The cached-input column is a different token category.</li>
         <li><strong>Request billing:</strong> input, cached input, cache writes, and output are different categories. Tool fees and eligible regional-processing premiums can add costs; check the full price list.</li>
       </ul>
     </div>
-    <p class="resource-note">The API publishes Ultrafast access for Astra and Sol 6.1 independently of ChatGPT's Pro $500 requirement. Codex Cloud requires ChatGPT sign-in; API-key access does not include its hosted integrations.</p>
-    <p class="resource-source">Sources: <a href={sources.api.url}>API rates</a>, pricing rules for <a href={sources.sol.url}>Sol 6.1</a>, <a href={sources.astra.url}>Astra</a>, and <a href={sources.luna.url}>Luna</a>, <a href={sources.ultrafastApi.url}>Ultrafast API</a>, <a href={sources.auth.url}>authentication boundary</a>.</p>
+    <p class="resource-note">API model and speed access follows the API account's eligibility, separately from ChatGPT subscription tiers. Codex Cloud requires ChatGPT sign-in; API-key access does not include its hosted integrations. Eligible discounted background-completion windows are another API option outside this table.</p>
+    <p class="resource-source">Sources: <a href={sources.api.url}>API rates and processing options</a>, specifications for <a href={sources.sol62.url}>Sol 6.2</a>, <a href={sources.astra62.url}>Astra 6.2</a>, <a href={sources.terra.url}>Terra</a>, and <a href={sources.luna.url}>Luna</a>, <a href={sources.ultrafastApi.url}>Ultrafast API</a>, <a href={sources.auth.url}>authentication boundary</a>.</p>
   </section>
 
   <section class="resource-section" id="workflows" aria-labelledby="codex-workflow-heading">

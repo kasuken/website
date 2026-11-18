@@ -1,5 +1,8 @@
 # Antigravity and Gemini 4 Argon: research and maintenance
 
+Latest review: [18 November 2026](resources-november-2026-research.md#antigravity).
+The original review below is retained as historical evidence.
+
 Reviewed 18 October 2026. Route: `/resources/antigravity`. Editable facts:
 `src/data/antigravity.ts`. The page covers Antigravity access and subscriptions,
 plus a separately labeled Gemini Developer API price reference for Argon.

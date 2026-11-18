@@ -15,14 +15,6 @@ import { antigravityAccessPlans, antigravityModels, antigravityReviewLabel } fro
         {antigravityAccessPlans.map(plan => <option value={plan.id}>{plan.label}</option>)}
       </select>
     </div>
-    <div>
-      <label for="antigravity-lifecycle">Model status</label>
-      <select id="antigravity-lifecycle" aria-controls="antigravity-model-body">
-        <option value="all">All listed models</option>
-        <option value="continuing">No announced removal</option>
-        <option value="retiring">Removal on 2 Nov 2026</option>
-      </select>
-    </div>
     <button type="reset" class="resource-reset">Reset</button>
   </form>
   <p class="pricing-results" role="status" aria-live="polite" aria-atomic="true" data-antigravity-count hidden></p>
@@ -33,11 +25,10 @@ import { antigravityAccessPlans, antigravityModels, antigravityReviewLabel } fro
       <thead><tr><th scope="col">Reasoning model</th>{antigravityAccessPlans.map(plan => <th scope="col">{plan.label}</th>)}</tr></thead>
       <tbody id="antigravity-model-body">
         {antigravityModels.map(model => (
-          <tr data-antigravity-row data-search={`${model.name} ${model.provider}`.toLowerCase()} data-plans={antigravityAccessPlans.filter(plan => model.access[plan.id] !== 'Not included').map(plan => plan.id).join(' ')} data-lifecycle={model.retiring ? 'retiring' : 'continuing'}>
+          <tr data-antigravity-row data-search={`${model.name} ${model.provider}`.toLowerCase()} data-plans={antigravityAccessPlans.filter(plan => model.access[plan.id] !== 'Not included').map(plan => plan.id).join(' ')}>
             <th scope="row">
               <span class="model-name">{model.name}</span>
               {model.argon && <span class="cell-detail"><a href="#gemini-4-argon">Argon specs &amp; API prices</a></span>}
-              {model.retiring && <span class="cell-detail"><a href="#antigravity-removals">Removal: 2 Nov 2026</a></span>}
             </th>
             {antigravityAccessPlans.map(plan => <td class:list={{ 'recommended-fit': model.access[plan.id] !== 'Not included', 'secondary-fit': model.access[plan.id] === 'Not included' }}>{model.access[plan.id]}</td>)}
           </tr>
@@ -45,7 +36,7 @@ import { antigravityAccessPlans, antigravityModels, antigravityReviewLabel } fro
       </tbody>
     </table>
   </div>
-  <p class="pricing-empty" data-antigravity-empty hidden>No models match these filters. Try another name, choose a different plan or status, or reset the filters.</p>
+  <p class="pricing-empty" data-antigravity-empty hidden>No models match these filters. Try another name, choose a different plan, or reset the filters.</p>
   <noscript><p class="resource-note">All listed models are visible. Use your browser's Find command to locate a model.</p></noscript>
 </div>
 
@@ -55,7 +46,6 @@ import { antigravityAccessPlans, antigravityModels, antigravityReviewLabel } fro
     const form = container.querySelector<HTMLFormElement>('form')!;
     const search = container.querySelector<HTMLInputElement>('#antigravity-search')!;
     const plan = container.querySelector<HTMLSelectElement>('#antigravity-plan')!;
-    const lifecycle = container.querySelector<HTMLSelectElement>('#antigravity-lifecycle')!;
     const count = container.querySelector<HTMLElement>('[data-antigravity-count]')!;
     const empty = container.querySelector<HTMLElement>('[data-antigravity-empty]')!;
     const rows = Array.from(container.querySelectorAll<HTMLTableRowElement>('[data-antigravity-row]'));
@@ -64,20 +54,18 @@ import { antigravityAccessPlans, antigravityModels, antigravityReviewLabel } fro
       let visible = 0;
       for (const row of rows) {
         const available = plan.value === 'all' || row.dataset.plans!.split(' ').includes(plan.value);
-        row.hidden = !(available && row.dataset.search!.includes(query) && (lifecycle.value === 'all' || row.dataset.lifecycle === lifecycle.value));
+        row.hidden = !(available && row.dataset.search!.includes(query));
         if (!row.hidden) visible++;
       }
-      count.textContent = `${visible} ${visible === 1 ? 'model' : 'models'} shown · ${plan.selectedOptions[0].textContent} · ${lifecycle.selectedOptions[0].textContent}`;
+      count.textContent = `${visible} ${visible === 1 ? 'model' : 'models'} shown · ${plan.selectedOptions[0].textContent}`;
       empty.hidden = visible !== 0;
     };
     form.addEventListener('submit', event => event.preventDefault());
     search.addEventListener('input', update);
     plan.addEventListener('change', update);
-    lifecycle.addEventListener('change', update);
     form.addEventListener('reset', () => {
       search.value = '';
       plan.value = 'all';
-      lifecycle.value = 'all';
       update();
     });
     form.reset();

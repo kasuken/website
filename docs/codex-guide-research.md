@@ -1,5 +1,8 @@
 # Codex guide: research and maintenance
 
+Latest review: [18 November 2026](resources-november-2026-research.md#codex).
+The original review below is retained as historical evidence.
+
 Reviewed 19 October 2026. Route: `/resources/codex`. Editable facts and rates:
 `src/data/codex.ts`. The guide follows the existing Resources table format.
 This review used current official OpenAI documentation, not bundled model

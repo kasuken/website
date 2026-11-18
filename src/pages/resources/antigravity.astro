@@ -4,9 +4,9 @@ import AntigravityModelTable from '../../components/AntigravityModelTable.astro'
 import {
   antigravityDescription, antigravityReviewDate, antigravityReviewLabel,
   antigravitySources as sources, argonFacts, argonPriceRows,
-  antigravityTasks, antigravityPlans,
+  antigravityTasks, antigravityPlans, hydrogenApiStandard,
 } from '../../data/antigravity';
-const money = (value: number) => `$${value.toFixed(2)}`;
+const money = (value: number) => `$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 })}`;
 const planRows = [
   { label: 'Subscription price', values: antigravityPlans.map(plan => plan.price) },
   { label: 'Baseline refresh', values: antigravityPlans.map(plan => plan.quota) },
@@ -19,7 +19,7 @@ const planRows = [
 <ResourceLayout title="Antigravity & Gemini 4 Argon guide" description={antigravityDescription} guide guideLabel="Antigravity">
   <header class="resource-intro guide-intro">
     <h1>Antigravity <span>guide</span></h1>
-    <p class="resource-lead">Model access, task choices, and plans, with a dedicated Gemini 4 Argon reference for API prices and limits.</p>
+    <p class="resource-lead">Model access, Orchestrator, task choices, and plans, with a dedicated Gemini 4 Argon reference for API prices and limits.</p>
     <p class="resource-reviewed">Reviewed against Google's documentation on <time datetime={antigravityReviewDate}>{antigravityReviewLabel}</time>. API prices are in USD.</p>
     <nav class="resource-contents" aria-label="On this page">
       <a href="#models">Model access</a>
@@ -35,12 +35,13 @@ const planRows = [
       <h2 id="antigravity-model-heading">Which models can I use?</h2>
       <a href={sources.models.url}>Google's model access table</a>
     </div>
-    <p class="resource-summary">Access depends on your plan and the Antigravity client. A paid Pro subscription unlocks Argon and Claude 5.5; a Pro trial does not.</p>
+    <p class="resource-summary">Access depends on your plan and client. Carbon requires Ultra or Enterprise. Paid Pro also includes Argon, Hydrogen, and Claude 5.5. Argon and Orchestrator (Argon) additionally support trials tied to eligible premium devices; ordinary Pro trials do not unlock them.</p>
     <AntigravityModelTable />
     <div class="pricing-notes">
       <ul class="resource-notes-list">
         <li><strong>Argon client support:</strong> App, CLI, and IDE extensions. It is unavailable in the standalone Antigravity IDE.</li>
-        <li id="antigravity-removals"><strong>Scheduled removal:</strong> Claude Sonnet 4.6, Claude Opus 4.6, and GPT-OSS-120B leave Antigravity on <time datetime="2026-11-02">2 November 2026</time>.</li>
+        <li id="antigravity-removals"><strong>18 November removal:</strong> Google's current schedule removes Claude Sonnet 4.6, Claude Opus 4.6, and GPT-OSS-120B on <time datetime="2026-11-18">18 November 2026</time>. They are excluded from this current-model table; this does not describe their availability through other providers.</li>
+        <li><strong>Orchestrator:</strong> Carbon or Argon plans and reviews while Hydrogen implements and verifies. It hands control between models in one conversation, with fixed effort; it is separate from parallel subagents. Orchestrator (Carbon) needs Ultra; the Argon variant also supports eligible Pro access. Neither is listed for Enterprise. Use the App or CLI.</li>
         <li><strong>Enterprise partner models:</strong> Claude requires administrator opt-in and is billed by token consumption.</li>
       </ul>
     </div>
@@ -52,7 +53,7 @@ const planRows = [
       <h2 id="argon-heading">Gemini 4 Argon, at a glance</h2>
       <a href={sources.argon.url}>Google's model specifications</a>
     </div>
-    <p class="resource-summary">Gemini 4 Argon is the official model name. It is available in Antigravity for paid Pro and Ultra subscribers, and through eligible Enterprise setups. Direct Gemini API usage has separate billing.</p>
+    <p class="resource-summary">Gemini 4 Argon is available in Antigravity for paid Pro, eligible premium-device Pro trials, Ultra, and eligible Enterprise setups. It is the efficient frontier option alongside Carbon and the faster Hydrogen. Direct Gemini API usage has separate billing.</p>
     <div class="resource-table-scroll" role="region" aria-labelledby="argon-facts-caption" tabindex="0">
       <table class="resource-table antigravity-facts-table">
         <caption id="argon-facts-caption">Direct Gemini API specifications; these do not define an Antigravity subscription's allowance</caption>
@@ -77,6 +78,7 @@ const planRows = [
       </table>
     </div>
     <p class="resource-note antigravity-after-table">Argon has no free API tier. Cache-hit tokens use the cached-input rate instead of the regular input rate. Tool charges can apply separately; check Search and Maps grounding prices before estimating a complete workflow.</p>
+    <p class="resource-note"><a href={sources.carbon.url}>Carbon</a> uses the same dated paid API rates shown above. <a href={sources.hydrogen.url}>Hydrogen</a> paid Standard rates are {money(hydrogenApiStandard.input)} input, {money(hydrogenApiStandard.cached)} cached input, and {money(hydrogenApiStandard.output)} output per million tokens. Its API free tier does not grant Hydrogen access on Antigravity Free / Plus. See <a href={sources.pricing.url}>Google's prices</a> for other processing modes.</p>
     <p class="resource-note">For existing API integrations, remove explicit cache creation and review output limits. Argon ignores temperature, top-p, and top-k settings. The <a href={sources.migration.url}>migration guide</a> covers the request changes.</p>
   </section>
 
@@ -93,7 +95,7 @@ const planRows = [
         <tbody>{antigravityTasks.map(row => <tr><th scope="row">{row.task}</th><td class="recommended-fit">{row.start}</td><td>{row.reason}</td></tr>)}</tbody>
       </table>
     </div>
-    <p class="resource-note antigravity-after-table">Argon's API offers low, medium, and high thinking, with medium as the default. The client model picker controls the choices in Antigravity. API limits and defaults do not imply that every client exposes the same settings.</p>
+    <p class="resource-note antigravity-after-table">Argon's API offers low, medium, and high thinking, with medium as the default. Antigravity's picker can use different defaults. Hydrogen defaults to High and adds Extra, called <code>xhigh</code> in the CLI. Orchestrator has no adjustable thinking level. API defaults do not imply identical client settings.</p>
     <p class="resource-source">Sources: <a href={sources.models.url}>Antigravity model picker</a>, <a href={sources.migration.url}>Argon thinking guidance</a>. For Anthropic's direct API, see the <a href="/resources/claude">Claude guide</a>.</p>
   </section>
 

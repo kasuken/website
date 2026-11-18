@@ -1,5 +1,8 @@
 # Claude guide: research and maintenance
 
+Latest review: [18 November 2026](resources-november-2026-research.md#claude).
+The original review below is retained as historical evidence.
+
 Reviewed 18 October 2026. Route: `/resources/claude`. Editable content:
 `src/data/claude.ts`. This guide covers Anthropic's direct API and Claude plans;
 GitHub Copilot, Bedrock, Google Cloud, and other partner billing are separate.
