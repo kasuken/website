@@ -95,6 +95,22 @@ export const projects: Project[] = [
     imageAlt: 'AI Quota sidebar and dashboard showing provider allowances and reset times with clearly labeled sample accounts.',
     imageWidth: 1200,
     imageHeight: 900
+  },
+  {
+    id: 'vscode-repoboard',
+    title: 'Repo Board',
+    description: 'Discover your local Git repositories and manage them on one board in VS Code. See uncommitted changes and commits to pull or push, switch projects quickly, and fetch or pull across repositories.',
+    technologies: ['VS Code Extension', 'Git'],
+    githubUrl: 'https://github.com/kasuken/vscode-repoboard',
+    marketplaceUrl: 'https://marketplace.visualstudio.com/items?itemName=emanuelebartolesi.vscode-repoboard',
+    featured: false,
+    category: 'vscode',
+    status: 'completed',
+    // Source: https://github.com/kasuken/vscode-repoboard/blob/main/images/attention.png
+    imageUrl: '/portfolio/repoboard.webp',
+    imageAlt: 'Repo Board in VS Code showing repositories with uncommitted changes, branch names, and ahead or behind counts.',
+    imageWidth: 2160,
+    imageHeight: 1350
   }
 ];
 
