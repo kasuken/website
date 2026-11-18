@@ -7,6 +7,13 @@ import {
 
 export const prerender = true;
 
+const promotionEndDates: Record<string, string> = {
+  'flash-promo': '2026-12-31',
+  'argon-promo': '2026-11-30',
+  'carbon-promo': '2026-11-30',
+  'mai-promo': '2027-05-16',
+};
+
 export function GET() {
   return new Response(JSON.stringify({
     schemaVersion: 2,
@@ -19,8 +26,7 @@ export function GET() {
     models: copilotModels.map((model) => ({
       ...model,
       id: model.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, ''),
-      ...(model.note === 'flash-promo' ? { validUntil: '2026-12-31' } : {}),
-      ...(model.note === 'argon-promo' ? { validUntil: '2026-11-30' } : {}),
+      ...(model.note && promotionEndDates[model.note] ? { validUntil: promotionEndDates[model.note] } : {}),
     })),
     access: modelAccess,
     notes: modelNotes,

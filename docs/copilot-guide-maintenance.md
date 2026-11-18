@@ -48,7 +48,8 @@ Edit `src/data/copilot.ts`. No reference images need to be regenerated.
 The 20 October 2026 source review and retirement decisions are recorded in
 `docs/copilot-auto-hydrafusion-research.md`.
 
-The current Universe review is `docs/copilot-universe-2026-research.md`.
+The Universe review is `docs/copilot-universe-2026-research.md`; the current
+18 November review is `docs/copilot-november-2026-research.md`.
 Keep the unsure-reader note and all comparison concepts when refreshing product
 names. Fusion's dated promotion is separate from Auto discounts; remove expired
 promotions rather than infer renewal. Preserve old anchor aliases. The JSON
@@ -75,13 +76,14 @@ neither should advance without an actual source review. Model IDs are public
 identifiers: preserve existing IDs when correcting display names. Current IDs
 are derived from names; add explicit overrides before renaming existing models.
 
-Promotion `validUntil` dates are inclusive UTC days. The Gemini Argon promotion
-ends before December 1. The paid Fusion discount ends after November 30;
+Promotion `validUntil` dates are inclusive UTC days. Gemini Argon and Carbon
+promotions end before December 1. MAI Code 2 and Flash promotions end before
+May 17, 2027, so their catalog expiry is May 16. The paid Fusion discount ends after November 30;
 `billingRules.fusionDiscountUntil` must be checked before applying it. No later
 Fusion discount is assumed. Remaining Auto surfaces have separate rules. Check
 these dates against the official sources.
 
-After building, confirm the JSON response has 27 models (or the intentionally
+After building, confirm the JSON response has 32 models (or the intentionally
 updated count) and that each ID is unique. From the extension repository run
 `npm run sync-model-catalog -- --website ../website`, then its compile and catalog
 tests. Update consumers for schema 2 before syncing: renamed Fusion fields and
@@ -89,6 +91,13 @@ removed expired billing fields are incompatible changes. The extension repositor
 has not been changed or validated as part of this website refresh.
 Deploying the website publishes the endpoint; extension releases ship a
 validated offline snapshot and do not require the website at build time.
+
+The 18 November refresh retains schema 2, existing model IDs and section anchors.
+`universeUpdates` now also contains Ignite/current workflow rows; its historical
+field name is retained for consumers. Opus 5 and GPT-5.6 Terra are no longer
+picker choices. Keep base Opus 4.8's annual exception separate from the fast-mode
+entry. Announced December retirements remain listed until their effective dates;
+recheck the Haiku annual exception and Opus runtime refusal fallback separately.
 
 `src/components/CopilotPricingTable.astro` renders the rates as semantic HTML
 before adding client-side filters. Without JavaScript, every rate remains

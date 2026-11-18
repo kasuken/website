@@ -32,7 +32,7 @@ const planRows = [
       <a href="#choosing-a-model">Choosing a model</a>
       <a href="#copilot-fusion">Auto &amp; Copilot Fusion</a>
       <a href="#plans">Plan comparison</a>
-      <a href="#universe-updates">Universe updates</a>
+      <a href="#universe-updates">Latest updates</a>
       <a href="#sources">Sources &amp; updates</a>
     </nav>
   </header>
@@ -47,8 +47,8 @@ const planRows = [
     <CopilotPricingTable />
     <p class="resource-source">Rates: <a href={copilotSources.pricing.url}>GitHub's pricing tables</a>. Eligibility: <a href={copilotSources.models.url}>supported models and plan restrictions</a>. No separate long-context price is inferred where GitHub does not publish one.</p>
     <p class="resource-note copilot-after-table"><a href="#copilot-fusion">Auto and Fusion billing</a>: Auto retains a 10% paid-plan discount on supported surfaces. Fusion has a separate, temporary 30% paid-plan discount through 30 November 2026.</p>
-    <p class="resource-source">Model update: entries retired on 19 October 2026 have been removed. See <a href={copilotSources.retirements.url}>GitHub's deprecation notice</a>.</p>
-    <p class="resource-note">Plan ahead: GitHub schedules Claude Opus 4.8, Claude Opus 5, and GPT-5.6 Terra for retirement on <strong>16 November 2026</strong>. Opus 4.8 remains available to individual annual subscribers. These models are still listed at this review date; see <a href={copilotSources.upcomingRetirements.url}>the notice and suggested alternatives</a>.</p>
+    <p class="resource-source">Model update: GPT-5.6 Terra and Claude Opus 5 were removed from selection on <strong>16 November 2026</strong>. Base Opus 4.8 remains only for eligible annual subscribers; its fast-mode variant is listed separately. Opus 5 can still serve as an authorized runtime refusal fallback, not a picker choice. See <a href={copilotSources.novemberRetirements.url}>the November retirement notice</a> and <a href={copilotSources.retirements.url}>earlier retirements</a>.</p>
+    <p class="resource-note">Plan ahead: Fable 5, Haiku 4.5, Gemini 3.8 Flash, Gemini 4 Argon, Grok 4.6, and Kimi K3 are scheduled to retire on <strong>14 December 2026</strong>; Haiku 4.5 has an individual annual-plan exception. MAI-Code-1.1-Flash follows on <strong>18 December</strong>. They remain in this snapshot. See <a href={copilotSources.upcomingRetirements.url}>the December notice</a> and <a href={copilotSources.maiRetirement.url}>the MAI notice</a>.</p>
     <p class="resource-note">This table covers coding/chat model token rates. Image-generation tools have separate image-token charges. Copilot code review also consumes GitHub Actions minutes alongside AI credits; check <a href={copilotSources.pricing.url}>GitHub's current billing details</a>.</p>
   </section>
 
@@ -87,7 +87,7 @@ const planRows = [
     </div>
     <p class="resource-source">Sources: <a href={copilotSources.fusionRelease.url}>launch and migration</a>, <a href={copilotSources.auto.url}>remaining Auto surfaces</a>.</p>
     <span id="auto-mode"></span><h3 class="copilot-subheading" id="fusion-effort">Choose a Fusion effort</h3>
-    <p class="resource-summary">Fusion is available in VS Code, Copilot CLI, the Copilot app, and JetBrains IDEs. Effort availability follows your plan and allowed model pool. Fusion Max is an effort level, separate from the Copilot Max subscription.</p>
+    <p class="resource-summary">Fusion is available in VS Code, Copilot CLI, the Copilot app, and JetBrains IDEs. The <a href={copilotSources.fusionUpdate.url}>17 November rollout</a> adds GitHub.com, Visual Studio, and GitHub Mobile beta apps; production mobile support is still forthcoming. Use the latest client and check your picker. Fusion Max is an effort level, separate from the Copilot Max subscription.</p>
     <p class="resource-table-hint" id="auto-tier-hint">Scroll to compare effort levels, including the non-selectable Fast option.</p>
     <div class="resource-table-scroll" role="region" aria-labelledby="auto-tier-caption" aria-describedby="auto-tier-hint" tabindex="0">
       <table class="resource-table copilot-auto-table"><caption id="auto-tier-caption">Current Fusion effort levels</caption>
@@ -97,10 +97,11 @@ const planRows = [
     </div>
     <div class="pricing-notes">
       <p><strong>Fusion billing.</strong> Participating cloud models use their published token rates; there is no separate orchestration fee. Paid plans receive a {copilotBillingRules.fusionDiscount * 100}% model-cost discount through <time datetime={copilotBillingRules.fusionDiscountUntil}>30 November 2026</time>. Extra passes can still increase total usage. No post-promotion discount is assumed.</p>
-      <p><strong>Auto remains on other surfaces.</strong> GitHub lists cloud, GitHub Mobile, Eclipse, Xcode, and Visual Studio experiences. Its 10% paid-plan discount applies to supported Copilot Chat and cloud-agent usage. The old Efficiency/Balance/Intelligence tier description is superseded by Fusion effort controls on migrated clients.</p>
+      <p><strong>Effort eligibility and model pools.</strong> Standard is available across all plans; High and Max require Pro+, Max, Business, or Enterprise, with allowed models enabled. The 17 November update adds Sonnet 5.5 to Fusion Max, GPT-6.1 Terra to High, and MAI Code 2 to Standard. Pools can change.</p>
+      <p><strong>Auto remains during the rollout.</strong> Choose Auto where your client still offers it, including remaining cloud, mobile, and IDE experiences. Its 10% paid-plan discount applies to supported Copilot Chat and cloud-agent usage. Older Auto availability lists can overlap the new Fusion rollout; the picker shows which experience you have.</p>
       <p><strong>Local routing is a separate public preview.</strong> Fusion Standard can route to supported installed local models. Windows hardware requirements apply to MAI Code; Qwen3.8 Flash Next routing in CLI supports Windows, macOS, and Linux. Follow GitHub's setup instructions and experimental settings.</p>
     </div>
-    <p class="resource-source">Sources: <a href={copilotSources.fusion.url}>Fusion effort, local routing, and billing</a>; <a href={copilotSources.auto.url}>Auto availability and discount</a>.</p>
+    <p class="resource-source">Sources: <a href={copilotSources.fusion.url}>Fusion effort, local routing, and billing</a>; <a href={copilotSources.fusionUpdate.url}>17 November client and model rollout</a>; <a href={copilotSources.auto.url}>Auto availability and discount</a>.</p>
     <span id="hydrafusion"></span><h3 class="copilot-subheading" id="fusion-patterns">Fusion execution patterns</h3>
     <p class="resource-table-hint" id="hydra-pattern-hint">Scroll to read each pattern. Fusion chooses the pattern for the prompt.</p>
     <div class="resource-table-scroll" role="region" aria-labelledby="hydra-pattern-caption" aria-describedby="hydra-pattern-hint" tabindex="0">
@@ -134,6 +135,7 @@ const planRows = [
       <p><strong>Training and retention are different.</strong> GitHub does not train on Business or Enterprise customer data. Personal subscribers have a training opt-out. Provider retention rules, including Fable exceptions, still need a separate check.</p>
     </div>
     <p class="resource-source">Details: <a href={copilotSources.individual.url}>personal credits and extra usage</a>, <a href={copilotSources.business.url}>shared pools and budgets</a>, and <a href={copilotSources.privacy.url}>model hosting and data use</a>.</p>
+    <p class="resource-note">Included credits reset at <strong>00:00 UTC on the first day of each calendar month</strong>, separately from your subscription billing date. Additional usage is enabled by default for Business and Enterprise; administrators who want to stop at the included pool must disable the AI credits paid usage policy.</p>
     <h3 class="copilot-subheading">Enterprise access announced at Universe</h3>
     <p class="resource-summary">Business and Enterprise subscriptions above remain available. The new access arrangements below have the feature/model eligibility of Copilot Enterprise, with usage charged from the first request.</p>
     <p class="resource-table-hint" id="access-hint">Scroll to compare seat charges and metered access.</p>
@@ -147,11 +149,12 @@ const planRows = [
   </section>
 
   <section class="resource-section" id="universe-updates" aria-labelledby="universe-heading">
-    <div class="resource-section-heading"><h2 id="universe-heading">Universe updates and current workflows</h2><a href={copilotSources.universe.url}>GitHub Universe overview</a></div>
-    <p class="resource-summary">Selected Copilot changes announced on 28 October, plus the 3 November Air integration. Release status, client support, policy, and billing vary by feature; follow the linked announcement before enabling it.</p>
+    <div class="resource-section-heading"><h2 id="universe-heading">Latest Copilot updates and workflows</h2><a href={copilotSources.changelog.url}>GitHub Copilot changelog</a></div>
+    <p class="resource-summary">Selected changes through the 17 November Ignite releases, alongside the Universe workflows. Release status, client support, policy, and billing vary by feature; follow the linked announcement before enabling it.</p>
+    <p class="resource-note">Code review effort is separate from Fusion effort. Adaptive chooses Lite, Balanced, or Max within the configured maximum. Reviews consume AI credits plus GitHub Actions minutes. Copilot approvals remain a separate, opt-in <a href="https://github.blog/changelog/2026-10-28-copilot-code-review-merge-with-confidence-with-max-and-approvals/">generally available capability</a>.</p>
     <p class="resource-table-hint" id="universe-hint">Scroll to compare capabilities and availability. Each row links to its official announcement.</p>
     <div class="resource-table-scroll" role="region" aria-labelledby="universe-caption" aria-describedby="universe-hint" tabindex="0">
-      <table class="resource-table copilot-routing-table"><caption id="universe-caption">Copilot workflow changes reviewed 4 November 2026</caption>
+      <table class="resource-table copilot-routing-table"><caption id="universe-caption">Copilot workflow changes reviewed {copilotReviewLabel}</caption>
         <thead><tr><th scope="col">Feature</th><th scope="col">What it adds</th><th scope="col">Availability and cost notes</th></tr></thead>
         <tbody>{copilotUniverseUpdates.map(update => <tr><th scope="row"><a href={update.url}>{update.name}</a></th><td>{update.detail}</td><td>{update.status}</td></tr>)}</tbody>
       </table>
